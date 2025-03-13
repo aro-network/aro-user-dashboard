@@ -22,8 +22,6 @@ import SvgOnline from "./devices/online.svg";
 import Svgoffline from "./devices/offline.svg";
 import Svgdisk from "./devices/disk.svg";
 import SvgXHomeBox from "./devices/homeBox.svg";
-import PngX86 from "./devices/x86Servers.png";
-
 import SvgShare from "./share.svg";
 
 export const SVGS = {
@@ -51,6 +49,5 @@ export const SVGS = {
   SvgOnline,
   Svgoffline,
   Svgdisk,
-  PngX86,
   SvgXHomeBox,
 };

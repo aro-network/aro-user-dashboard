@@ -2,7 +2,7 @@ import { cn } from "@nextui-org/react";
 import Link, { LinkProps } from "next/link";
 import { PropsWithChildren } from "react";
 
-export function MLink(p: Partial<LinkProps> & PropsWithChildren & React.RefAttributes<HTMLAnchorElement> & { className?: string; isDisable?: boolean, target?: string }) {
+export function MLink(p: Partial<LinkProps> & PropsWithChildren & React.RefAttributes<HTMLAnchorElement> & OtherTypes.MLinkProps) {
   const { children, target = '_self', className, onClick, isDisable, href = "javascript:void(0);", ...props } = p;
 
   return (

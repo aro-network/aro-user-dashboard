@@ -7,13 +7,7 @@ export function STable({
   empty,
   loadingContent,
   isLoading,
-}: {
-  head: ReactNode[];
-  data: ReactNode[][];
-  empty?: ReactNode;
-  loadingContent?: ReactNode;
-  isLoading?: boolean;
-}) {
+}: OtherTypes.STableProps) {
   return (
     <Table removeWrapper className={cn("overflow-auto pb-3")} disabledBehavior="selection">
       <TableHeader hidden className="p-0 ">

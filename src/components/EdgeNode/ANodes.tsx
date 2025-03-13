@@ -3,10 +3,10 @@ import { Btn } from "../btns"
 import { useToggle } from "react-use";
 import { useCallback, useState } from "react";
 import ANodeInfo from "./components/ANodeInfo";
-import ACommonNodes, { CommonProps } from "./components/ACommonNodes";
+import ACommonNodes from "./components/ACommonNodes";
 import AAddNewNodes from "./components/AAddNewNodes";
 
-export const allNodes: CommonProps['data'] = [
+export const allNodes: EdgeNodeMode.CommonProps['data'] = [
   { deviceName: 'Home Node 001', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
   { deviceName: 'Home Node 002', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
   { deviceName: 'Home Node 003', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },

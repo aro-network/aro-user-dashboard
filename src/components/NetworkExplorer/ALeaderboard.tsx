@@ -6,7 +6,6 @@ const ALeaderboard = () => {
   const leaderboardList = [
     [1, 'AWJDIVVBOFNZ', 'X86', 'ABC', '475 $REACH'],
     [2, 'AWJDIVVBOFNZ', 'X86', 'ABC', '475 $REACH'],
-
   ]
 
   return <>

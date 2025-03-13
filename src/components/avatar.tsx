@@ -2,7 +2,7 @@ import { cn } from "@nextui-org/react";
 import Avatar from "boring-avatars";
 import { upperCase } from "lodash";
 
-export function MAvatar({ name, className, size, showFirst }: { name?: string; className?: string; size?: number; showFirst?: boolean }) {
+export function MAvatar({ name, className, size, showFirst }: OtherTypes.MAvatarProps) {
   return (
     <div className={cn("relative flex", className)} style={{ fontSize: Math.floor((size || 24) * 0.4) }}>
       <Avatar name={name} size={size} variant="marble" />

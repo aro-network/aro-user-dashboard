@@ -8,6 +8,7 @@ type AConfirmInfoProps = {
   onClose: () => void
   onConfirm?: () => void
 }
+
 export const AConfirmInfo: FC<AConfirmInfoProps> = ({ isOpen, onClose }) => {
   return <TitModal isOpen={isOpen} className=" p-5 " >
     <div className="flex flex-col justify-center items-center self-stretch gap-5 flex-grow-0 flex-shrink-0 relative ">

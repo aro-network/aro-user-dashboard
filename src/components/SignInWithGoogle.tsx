@@ -14,7 +14,7 @@ import { Spinner } from "@nextui-org/react";
 import { MLink } from "./links";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google", isDisabled }: { defReferralCode?: string; btn?: string; isDisabled?: boolean }) {
+export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google", isDisabled }: OtherTypes.SignInWithGoogleProps) {
   const ac = useAuthContext();
   const [referralCode, setReferralCode] = useState("");
   const [showInputReferral, toggleShowInputReferral] = useToggle(false);

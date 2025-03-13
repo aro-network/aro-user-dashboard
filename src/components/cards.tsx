@@ -4,7 +4,7 @@ import { Card, cn } from "@nextui-org/react";
 import _ from "lodash";
 import React, { PropsWithChildren, ReactNode } from "react";
 
-export function IconCard({ icon, className, iconSize = 24, tit, content }: { icon: React.FC; className?: string; iconSize?: number; tit: ReactNode; content: ReactNode }) {
+export function IconCard({ icon, className, iconSize = 24, tit, content }: OtherTypes.IconCardProps) {
   const Micon = icon;
   const sizeRem = pxToRem(iconSize);
   const leftSizeRem = pxToRem(120 - iconSize);
@@ -36,32 +36,9 @@ export function IconCard({ icon, className, iconSize = 24, tit, content }: { ico
   );
 }
 
-export function InnerIconCard({ icon, className, iconSize = 30, children }: PropsWithChildren & { icon: React.FC; className?: string; iconSize?: number }) {
-  const Micon = icon;
-  const sizeRem = pxToRem(iconSize);
-  const leftSizeRem = pxToRem(120 - iconSize);
-  const pl = pxToRem((30 - iconSize) / 2);
-  return (
-    <Card className={cn("bg-[#F5F5F514] bg-no-repeat rounded-3xl flex flex-row p-[1.875rem] relative", className)}>
-      <SVGS.SvgBgIconCard className="absolute left-0 top-0 text-[6.6rem] z-0" />
-      <div
-        className="shrink-0"
-        style={{
-          height: sizeRem,
-          width: leftSizeRem,
-          fontSize: sizeRem,
-          paddingLeft: pl,
-          paddingTop: pl,
-        }}
-      >
-        <Micon />
-      </div>
-      {children}
-    </Card>
-  );
-}
 
-export function TitCard(p: PropsWithChildren & { tit?: string | ReactNode; right?: ReactNode; className?: string }) {
+
+export function TitCard(p: PropsWithChildren & OtherTypes.TitCardProps) {
   return (
     <Card className={cn("bg-gray-1 bg-no-repeat rounded-3xl flex p-6 gap-5", p.className)}>
       {p.tit && (
@@ -77,7 +54,7 @@ export function TitCard(p: PropsWithChildren & { tit?: string | ReactNode; right
 
 const shadowSize = 1.1
 
-export function BgCard(p: PropsWithChildren & { className?: string, wrapClassName?: string }) {
+export function BgCard(p: PropsWithChildren & OtherTypes.BGProps) {
 
   return <div className={cn("relative overflow-visible flip_item", p.wrapClassName)}>
     <div style={{ backgroundSize: '100% 100%', width: `calc(100% + ${shadowSize * 2}rem)`, height: `calc(100% + ${shadowSize * 2}rem)`, left: `-${shadowSize}rem`, top: `-${shadowSize}rem` }} className="bg-s1 bg-no-repeat animate-pulse absolute z-0" />

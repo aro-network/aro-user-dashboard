@@ -4,72 +4,42 @@ import { MAvatar } from "./avatar";
 import React, { FC, ReactNode, useEffect, useState } from "react";
 import { Button, cn, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SVGS } from "@/svg";
-import ANodes from "./EdgeNode/ANodes";
-import AStats from "./EdgeNode/AStats";
-import AReawars from "./EdgeNode/ARewards";
-import AOverview from "./EdgeNode/AOverview";
-import AEnReachID from "./EnReachID/AEnReachID";
 import { FiCopy, FiLogOut, FiUser } from "react-icons/fi";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { useDisconnect } from "wagmi";
 import { formatStr } from "@/lib/utils";
 import { useCopy } from "@/hooks/useCopy";
 import { Btn } from "./btns";
-import AFunds from "./EnReachID/AFunds";
-import AEdgeNode from "./NetworkExplorer/AEdgeNode";
-import ALeaderboard from "./NetworkExplorer/ALeaderboard";
 import { useToggle } from "react-use";
 import { ConfirmDialog } from "./dialogimpls";
+import { ANodes, AOverview, ARewards, AStats } from "./EdgeNode";
+import { AEnReachID, AFunds } from "./EnReachID";
+import { AEdgeNode, ALeaderboard } from "./NetworkExplorer";
 
-
-type ModesType = { label: string, default: string, name: string, children: { name: string, icon: ReactNode, content: ReactNode, tab: string }[] }
-
-type TabItem = {
-  name: string;
-  icon: ReactNode;
-  content: ReactNode;
-  tab: string;
-};
-type MenusProps = {
-  menus?: ReactNode;
-}
-type ModeType = {
-  label: string;
-  name: string;
-  default: string;
-  children: TabItem[];
-};
-
-const Modes: ModesType[] = [
+const Modes: Dashboard.ModesType[] = [
 
   {
     label: 'Edge Node',
     name: 'edgeNode',
-    default: 'overview',
     children: [
       {
         name: "Overview",
-        icon: <AOverview />,
         content: <AOverview />,
         tab: 'overview'
       },
       {
         name: "Nodes",
-        icon: <ANodes />,
         content: <ANodes />,
         tab: 'nodes'
       },
       {
         name: "Stats",
-        icon: <AStats />,
         content: <AStats />,
         tab: 'stats'
       },
       {
         name: "Rewards",
-        icon: <AReawars />,
-        content: <AReawars />,
+        content: <ARewards />,
         tab: 'rewards'
       }
     ],
@@ -77,17 +47,14 @@ const Modes: ModesType[] = [
   {
     label: 'Enreach ID',
     name: 'enreachId',
-    default: 'enreachId',
     children: [
       {
         name: "EnReach ID",
-        icon: <AOverview />,
         content: <AEnReachID />,
         tab: 'enreachId'
       },
       {
         name: "Funds",
-        icon: <ANodes />,
         content: <AFunds />,
         tab: 'funds'
       },
@@ -96,29 +63,24 @@ const Modes: ModesType[] = [
   {
     label: 'Network Explorer',
     name: 'networkExplorer',
-    default: 'edgeNode',
     children: [
       {
         name: "Edge Node",
-        icon: SVGS.SvgOverview,
         content: <AEdgeNode />,
         tab: 'edgeNode'
       },
       {
         name: "Leaderboard",
-        icon: SVGS.SvgNodes,
         content: <ALeaderboard />,
         tab: 'leaderboard'
       },
       {
         name: "Keeper Node",
-        icon: SVGS.SvgNodes,
         content: <ANodes />,
         tab: 'keeperNode'
       },
       {
         name: "Incentives",
-        icon: SVGS.SvgNodes,
         content: <ANodes />,
         tab: 'incentives'
       },
@@ -126,11 +88,11 @@ const Modes: ModesType[] = [
   },
 ]
 
-const ADashboard: FC<MenusProps> = () => {
+const ADashboard: FC<Dashboard.MenusProps> = () => {
 
   const ac = useAuthContext();
   const [currentTab, setCurrentTab] = useState<typeof Modes[0]['children'][0]>(Modes[0].children[0]);
-  const [selectedTab, setSelectedTab] = useState<ModesType>(Modes[0]);
+  const [selectedTab, setSelectedTab] = useState<Dashboard.ModesType>(Modes[0]);
   const user = ac.queryUserInfo?.data;
   const r = useRouter();
   const searchParams = useSearchParams();
@@ -159,13 +121,13 @@ const ADashboard: FC<MenusProps> = () => {
     }
   }, [searchParams]);
 
-  const handleModeChange = (mode: ModeType) => {
+  const handleModeChange = (mode: Dashboard.ModeType) => {
     setSelectedTab(mode);
     setCurrentTab(mode.children[0]);
     updateURL(mode.name, mode.children[0].tab);
   };
 
-  const handleTabChange = (tab: TabItem) => {
+  const handleTabChange = (tab: Dashboard.TabItem) => {
     setCurrentTab(tab);
     updateURL(selectedTab.name, tab.tab);
   };
@@ -310,7 +272,6 @@ const ADashboard: FC<MenusProps> = () => {
                 }
               )}
               onClick={() => {
-                console.log('mmmmmm', m);
                 handleTabChange(m)
               }}
             >

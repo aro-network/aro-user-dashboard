@@ -10,7 +10,7 @@ import { OptionType } from "dayjs";
 import { fmtBerry } from "../fmtData";
 import numbro from "numbro";
 import { Btn } from "../btns";
-import ACommonNodes, { nodeType } from "./components/ACommonNodes";
+import ACommonNodes from "./components/ACommonNodes";
 import { allNodes } from "./ANodes";
 import { SVGS } from "@/svg";
 import _ from 'lodash'
@@ -26,7 +26,7 @@ const allRewards = [
 
 ]
 
-const AReawars = () => {
+const ARewards = () => {
   const r = useRouter()
   const [rewardType, setRewardType] = useState<OptionType>(options[0]);
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
@@ -34,7 +34,7 @@ const AReawars = () => {
     queryKey: ["TrendingChart"],
     queryFn: () => backendApi.trendingRewards(),
   });
-  const [isShowNodeInfo, setNodeInfo] = useState<nodeType[] | null>(
+  const [isShowNodeInfo, setNodeInfo] = useState<EdgeNodeMode.NodeType[] | null>(
     null
   );
 
@@ -247,4 +247,4 @@ const AReawars = () => {
 
 }
 
-export default AReawars
+export default ARewards

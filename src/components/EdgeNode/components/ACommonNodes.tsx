@@ -1,15 +1,9 @@
 import { SVGS } from "@/svg"
 import { cn } from "@nextui-org/react"
-import { FC, ReactNode } from "react"
+import { FC } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
-export type nodeType = { deviceName: string, icon: React.ElementType, mode: string, when: string, experience: ReactNode, status: 'online' | 'offline' }
-export type CommonProps = {
-  data?: nodeType[] | null
-  onOpenModal: (node: nodeType) => void,
-  className?: string
-}
 
-const ACommonNodes: FC<CommonProps> = ({ data, onOpenModal, className }) => {
+const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, className }) => {
   return <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] w-full gap-5 `, className)}>
     {Array.isArray(data) && data.map((node, index) => {
       return <div key={`nodes_${index}`} onClick={() => onOpenModal(node)} className="bg-[#6D6D6D66] rounded-[1.25rem] flex items-center gap-[1.0625rem] px-4 py-5">

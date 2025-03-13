@@ -31,7 +31,7 @@ const AAddNewNodes = () => {
     }
   }
 
-  const onSubmit = (v) => {
+  const onSubmit = (v: any) => {
     console.log('vvvvv', v);
   }
 

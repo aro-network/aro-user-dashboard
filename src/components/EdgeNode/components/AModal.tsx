@@ -5,20 +5,13 @@ import { FC } from "react"
 import { useForm } from "react-hook-form";
 
 
-type AModalProps = {
-  isOpen: boolean;
-  onCloseModal: () => void;
-  onSubmit: (data: any) => void;
-
-}
-
 const egionList = [
   { label: 'China Region1', key: 'region1' },
   { label: 'China Region2', key: 'region2' },
   { label: 'China Region3', key: 'region3' },
 ]
 
-const AModal: FC<AModalProps> = ({ isOpen, onCloseModal, onSubmit }) => {
+const AModal: FC<EdgeNodeMode.AModalProps> = ({ isOpen, onCloseModal, onSubmit }) => {
   const {
     register,
     reset,

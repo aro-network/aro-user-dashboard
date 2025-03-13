@@ -2,7 +2,7 @@ import { Tooltip } from "@nextui-org/react";
 import { ReactNode } from "react";
 import { IoIosHelpCircle } from "react-icons/io";
 
-export function HelpTip({ content, children }: { content: ReactNode; children?: ReactNode }) {
+export function HelpTip({ content, children }: OtherTypes.TipsProps) {
   const contentClassname = "bg-[#585858] border border-solid border-white/10 min-h-9 min-w-[4.5rem] text-xs text-white/60"
   return (
     <Tooltip

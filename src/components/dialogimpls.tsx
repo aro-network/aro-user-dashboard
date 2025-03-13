@@ -1,6 +1,5 @@
 import { Btn } from "./btns";
 import { TitModal } from "./dialogs";
-import { ReactNode } from "react";
 
 
 export function ConfirmDialog({
@@ -14,17 +13,7 @@ export function ConfirmDialog({
   isOpen,
   className,
 
-}: {
-  confirmText?: string | ReactNode;
-  cancelText?: string | ReactNode;
-  onCancel?: () => void;
-  onConfirm?: () => void;
-  tit: string;
-  msg: ReactNode;
-  isOpen: boolean;
-  className?: string;
-  cancelColor?: "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined
-}) {
+}: OtherTypes.ConfirmDialogProps) {
   return (
     <TitModal className={className} isOpen={isOpen} tit={tit} onClose={onCancel}>
       <div className="flex flex-col gap-6 w-full">

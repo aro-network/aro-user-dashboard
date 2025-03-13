@@ -1,8 +1,7 @@
 import { Spinner } from "@nextui-org/react";
-import { Btn, IconBtn } from "../btns";
+import { Btn } from "../btns";
 import { TitCard } from "../cards";
 import { STable } from "../tables";
-import { HelpTip } from "../tips";
 
 const AFunds = () => {
 

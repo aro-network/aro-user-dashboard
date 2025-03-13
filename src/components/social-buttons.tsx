@@ -1,6 +1,5 @@
 import React from 'react'
 import { FaTelegramPlane } from 'react-icons/fa';
-
 import { FaDiscord, FaXTwitter } from 'react-icons/fa6'
 
 const socialLinks = [
