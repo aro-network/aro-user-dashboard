@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  overflow: hidden;
+}
+body {
+  overflow: auto;
+  background: #222222;
+  background-size: cover;
+  color: white;
+  font-size: 16px; /* width 1512 */
+}
+
+.App {
+  height: 100%;
+  max-height: max-content;
+  min-height: 100%;
+}
+@media (min-width: 1663px) {
+  html {
+    font-size: 17.6px;
+  }
+}
+@media (min-width: 1814px) {
+  html {
+    font-size: 19.2px;
+  }
+}
+@media (min-width: 1965px) {
+  html {
+    font-size: 20.8px;
+  }
+}
+@media (min-width: 2116px) {
+  html {
+    font-size: 22.4px;
+  }
+}
+@media (min-width: 2267px) {
+  html {
+    font-size: 24px;
+  }
+}
+@media (min-width: 2418px) {
+  html {
+    font-size: 25.6px;
+  }
+}
+@media (min-width: 2569px) {
+  html {
+    font-size: 27.2px;
+  }
+}
+
+.font-HelveticaNeue {
+  transform: translateY(0.1em);
+}
+
+.bg-i1 {
+  background: url("/bg.svg") center no-repeat;
+  background-size: cover;
+}
+
+.fi {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+::-webkit-scrollbar {
+  border-radius: 100px;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+.fix-v-center {
+  transform: translateY(-10%);
+}
+
+.fix-v-center-inflex {
+  transform: translateY(-5%);
+}
+
+
+.hoverItem:hover {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 1500ms;
+    --tw-scale-x: 1.1;
+    --tw-scale-y: 1.1;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+
+.loader {
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF33
+}
+
+#chartdiv {
+  width: calc(70vh);
+  height: 85vh;
+  overflow-y: hidden;
+}
+
+@media (max-width: 1001px) {
+  #chartdiv {
+    width: 400px;
+    height: 350px;
+  }
+}
