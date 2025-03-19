@@ -20,7 +20,7 @@ const ANodes = () => {
   const [isShowNodeInfo, setShowNodeInfo] = useState(false);
 
   const handleToggleNodeInfo = useCallback(() => {
-    setShowNodeInfo(false);
+    setShowNodeInfo(true);
     setOpenAddNode(false);
 
   }, []);

@@ -1,20 +1,14 @@
 import backendApi from "@/lib/api";
 import { getInjectEnReachAI } from "@/lib/ext";
 import { Opt } from "@/lib/type";
-import { LoginResult, User } from "@/types/user";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { LoginResult } from "@/types/user";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 
-interface AuthContextProps {
-  user?: Opt<LoginResult>;
-  setUser: (u?: Opt<LoginResult>) => void;
-  login: (credentials: { email: string; password: string }) => Promise<void>;
-  logout: () => void;
-  queryUserInfo?: UseQueryResult<User | undefined>;
-}
 
-export const AuthContext = createContext<AuthContextProps>({
+
+export const AuthContext = createContext<OtherTypes.AuthContextProps>({
   login: async () => { },
   setUser: () => { },
   logout: () => { },

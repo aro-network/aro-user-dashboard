@@ -68,4 +68,11 @@ declare namespace OtherTypes {
     content: React.ReactNode;
     children?: React.ReactNode;
   };
+  interface AuthContextProps {
+    user?: Opt<LoginResult>;
+    setUser: (u?: Opt<LoginResult>) => void;
+    login: (credentials: { email: string; password: string }) => Promise<void>;
+    logout: () => void;
+    queryUserInfo?: UseQueryResult<User | undefined>;
+  }
 }

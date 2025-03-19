@@ -63,10 +63,6 @@ body {
   transform: translateY(0.1em);
 }
 
-.bg-i1 {
-  background: url("/bg.svg") center no-repeat;
-  background-size: cover;
-}
 
 .fi {
   background-size: contain;
@@ -127,3 +123,16 @@ body {
     height: 350px;
   }
 }
+
+.input-wrapper{
+  background-color: #404040;
+}
+
+div[data-slot="input-wrapper"] {
+  background-color: #404040;
+}
+
+button[data-slot="trigger"] {
+  background-color: #404040;
+}
+
