@@ -208,6 +208,7 @@ const ARewards = () => {
 
   return (
     <div>
+      232
       {/* <div className=" flex justify-between mb-5 h-[2.125rem] items-center">
         <div className="text-[#FFFFFF] text-xs font-medium w-full">
           <div className="flex justify-between w-full items-center">
