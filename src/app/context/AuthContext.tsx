@@ -58,30 +58,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     wrapSetUser();
   };
-  useEffect(() => {
-    let e: NodeJS.Timeout;
-    if (user && user.token) {
-      e = setInterval(() => {
-        const injectedEnReachAI = getInjectEnReachAI();
-        if (!injectedEnReachAI) {
-          console.warn(`Extension not installed`);
-          return;
-        }
-        injectedEnReachAI
-          .request({
-            name: "getStat",
-          })
-          .then((stat: { logined: boolean; userLogout: boolean }) => {
-            if (!stat.logined) {
-              console.info("sync logout from ext");
-              logout();
-            }
-          })
-          .catch(console.error);
-      }, 1000);
-    }
-    return () => clearInterval(e);
-  }, [user]);
+
 
   const login = async (credentials: { email: string; password: string }) => {
     try {
@@ -93,7 +70,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       throw err;
     }
   };
-  backendApi.setAuth(user?.token);
   const queryUserInfo = useQuery({
     queryKey: ["QueryUserInfo", user?.token],
     enabled: Boolean(user?.token),

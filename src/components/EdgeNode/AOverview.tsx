@@ -16,7 +16,8 @@ import numbro from "numbro";
 import { HelpTip } from "../tips";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
-
+import { AnimatePresence } from "motion/react"
+import * as motion from "motion/react-client"
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 type OptionType = (typeof options)[number];
 export function DupleSplit() {
@@ -62,23 +63,29 @@ export function DupleInfo({
 }
 
 const AOverview = () => {
-  const [rewardType, setRewardType] = useState<OptionType>(options[0]);
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
   const r = useRouter()
 
   const ac = useAuthContext();
   const user = ac.queryUserInfo?.data;
   const connectedNodes = user?.node.connected || 0;
-  const { data: trendingRewards, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["TrendingChart"],
-    queryFn: () => backendApi.trendingRewards(),
+    enabled: true,
+    queryFn: async () => {
+      const [node, rewards, trending] = await Promise.all([backendApi.getCurrentEdgeNode(), backendApi.getCurrentEdgeNodeRewards(), backendApi.getCurrentEdgeNodeRewardsTrending()])
+      return { node, rewards, trending }
+    }
   });
+
+  console.log('datasdatasdatas', data?.trending);
+
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
-    const datas = trendingRewards || [];
-    const xData = datas.map((item) => fmtDate(item.date * 1000, "MMMD"));
-    const yData = datas.map((item) => _.toNumber(rewardType === "Total Rewards" ? item.totalPoint : rewardType === "Network Rewards" ? item.networkPoint : item.referralPoint));
+    const datas = data?.trending || [];
+    const xData = datas.map((item: { date: number; }) => fmtDate(item.date * 1000, "MMMD"));
+    const yData = datas.map((item: { rewards: any; }) => _.toNumber(item.rewards));
     console.info("width:", width);
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
@@ -168,9 +175,14 @@ const AOverview = () => {
       ],
       darkMode: true,
     };
-  }, [width, trendingRewards, rewardType]);
+  }, [width, data?.trending]);
+
+
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  ">
+
+
       <IconCard
         className="flip_item"
         icon={SVGS.SvgNodes}
@@ -185,15 +197,13 @@ const AOverview = () => {
         }
         content={
           <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
-            <DupleInfo tit={`${user?.node.offline || 0}`} sub="Total Nodes" />
-
+            <DupleInfo tit={`${data?.node.total ?? 0}`} sub="Total Nodes" />
             <DupleSplit />
             <DupleInfo
-              tit={`${connectedNodes}`}
-              subClassName="text-green-400 opacity-100"
+              tit={`${data?.node?.online ?? '0'}`}
               sub={
                 <>
-                  <IoIosCheckmarkCircle /> Online
+                  {data?.node.online ? <div className="text-green-400 opacity-100"><IoIosCheckmarkCircle /> Online</div> : <><SVGS.Svgoffline /> Detected</>}
                 </>
               }
             />
@@ -216,7 +226,7 @@ const AOverview = () => {
         content={
           <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
             <DupleInfo
-              tit={`${connectedNodes}`}
+              tit={`${data?.rewards.total}`}
               sub={
                 <>
                   Total
@@ -224,7 +234,7 @@ const AOverview = () => {
               }
             />
             <DupleSplit />
-            <DupleInfo tit={`${user?.node.offline || 0}`} sub="Today" />
+            <DupleInfo tit={`${data?.rewards.today || 0}`} sub="Today" />
           </div>
         }
       />
@@ -233,6 +243,7 @@ const AOverview = () => {
         className={cn("col-span-1 h-full   lg:col-span-2  gap-4",)}
       >
         <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
+
           <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={chartOpt} />
         </div>
       </TitCard>

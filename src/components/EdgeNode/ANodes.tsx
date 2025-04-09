@@ -5,7 +5,8 @@ import { useCallback, useState } from "react";
 import ANodeInfo from "./components/ANodeInfo";
 import ACommonNodes from "./components/ACommonNodes";
 import AAddNewNodes from "./components/AAddNewNodes";
-
+import backendApi from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 export const allNodes: EdgeNodeMode.CommonProps['data'] = [
   { deviceName: 'Home Node 001', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
   { deviceName: 'Home Node 002', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
@@ -32,6 +33,17 @@ const ANodes = () => {
       : "All Nodes";
 
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["NodeList"],
+    enabled: true,
+    queryFn: () => backendApi.getNodeList()
+
+  });
+
+  console.log('dadadadada', data);
+
+
+
   return (
     <>
       <div className=" flex justify-between mb-5 h-[2.125rem] items-center">
@@ -47,6 +59,7 @@ const ANodes = () => {
         </div>
         {!isShowNodeInfo && !isOpen && <Btn className="h-[2.125rem]" onClick={() => setOpenAddNode(!isOpen)} >Add New Node</Btn>}
       </div>
+
 
       {!isShowNodeInfo && !isOpen ?
         <ACommonNodes data={allNodes} onOpenModal={handleToggleNodeInfo} />
