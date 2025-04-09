@@ -1,10 +1,9 @@
-import { NodeItem } from "@/types/node";
-import { TrendingReward } from "@/types/trending";
 import { LoginResult, SingUpResult, User, UserReward } from "@/types/user";
 import axios from "axios";
 import { ENV } from "./env";
 import _ from "lodash";
 import { fmtBoost } from "@/components/fmtData";
+import { toast } from "sonner";
 
 const API_MAP: { [k in typeof ENV]: string } = {
   beta: "https://dev-api.enreach.network/api",
@@ -13,6 +12,8 @@ const API_MAP: { [k in typeof ENV]: string } = {
 };
 
 export const BASE_API = API_MAP[ENV];
+
+const prefixUrl = "/edgeNode/node/";
 
 const Api = axios.create({
   baseURL: BASE_API,
@@ -26,29 +27,71 @@ export type RES<T> = {
   data: T;
 };
 
-const backendApi = {
-  setAuth: (auth?: string) => {
-    if (auth) {
-      Api.defaults.headers.common["Authorization"] = auth.startsWith("Bearer")
-        ? auth
-        : `Bearer ${auth}`;
-    } else {
-      delete Api.defaults.headers.common["Authorization"];
+Api.interceptors.request.use(
+  (config) => {
+    const result = localStorage.getItem("last-login-user");
+    const { token = "" } = JSON.parse(result ?? "{}");
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
   },
+  (error) => Promise.reject(error)
+);
+
+Api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const { status, data } = error.response;
+
+    switch (status) {
+      case 400:
+        toast.error(data.message || "请求错误");
+        break;
+      case 401:
+        toast.warning("登录过期，请重新登录");
+        window.location.href = "/login";
+        break;
+      case 403:
+        toast.error("没有权限访问");
+        break;
+      case 500:
+        toast.error("服务器错误，请稍后再试");
+        break;
+      default:
+        toast.error(data.message || "请求失败");
+    }
+
+    return Promise.reject(error.response.data);
+  }
+);
+
+const backendApi = {
   loginApi: async (data: { email: string; password: string }) => {
     const response = await Api.post<RES<LoginResult>>("/user/signIn", data);
-    backendApi.setAuth(response.data.data.token);
+    console.log("responseresponse", response);
     return response.data.data;
   },
+
   loginByGoogleApi: async (data: { accessToken: string }) => {
     const response = await Api.post<RES<LoginResult>>(
       "/user/google/signIn",
       data
     );
-    backendApi.setAuth(response.data.data.token);
     return response.data.data;
   },
+  verifyRegisterCode: async (uid: string, code: string) => {
+    const response = await Api.post<RES<LoginResult>>(
+      `/user/verify/${uid}/${code}`
+    );
+    return response.data.data;
+  },
+  resendRegisterVerifyCode: async (uid: string) => {
+    await Api.post<RES<undefined>>(`/user/verify/${uid}/resend`);
+    return true;
+  },
+
   loginSetReferralApi: async (data: {
     accessToken: string;
     referralCode?: string;
@@ -57,9 +100,9 @@ const backendApi = {
       "/user/referral/by",
       data
     );
-    backendApi.setAuth(response.data.data.token);
     return response.data.data;
   },
+
   registerApi: async (data: {
     email: string;
     password: string;
@@ -78,16 +121,6 @@ const backendApi = {
     return response.data.data;
   },
 
-  resendRegisterVerifyCode: async (uid: string) => {
-    await Api.post<RES<undefined>>(`/user/verify/${uid}/resend`);
-    return true;
-  },
-  verifyRegisterCode: async (uid: string, code: string) => {
-    const response = await Api.post<RES<LoginResult>>(
-      `/user/verify/${uid}/${code}`
-    );
-    return response.data.data;
-  },
   userInfo: async () => {
     const response = await Api.get<RES<User>>("/user/profile");
     const p = response.data.data.point;
@@ -104,6 +137,7 @@ const backendApi = {
     await Api.post<RES<undefined>>("/user/password/reset/send", { email });
     return true;
   },
+
   resetPassword: async (data: {
     email: string;
     password: string;
@@ -112,6 +146,7 @@ const backendApi = {
     await Api.post<RES<undefined>>("/user/password/reset", data);
     return true;
   },
+
   userUpdate: async (data: {
     username?: string;
     disconnect?: { x?: boolean; tg?: boolean; discord?: boolean };
@@ -125,18 +160,6 @@ const backendApi = {
     return response.data.data;
   },
 
-  nodeList: async () => {
-    const response = await Api.get<RES<NodeItem[]>>("/node/list");
-    return response.data.data;
-  },
-
-  trendingRewards: async (type: "week" | "month" = "month") => {
-    const response = await Api.get<RES<TrendingReward[]>>("/trending/rewards", {
-      params: { type },
-    });
-    return response.data.data;
-  },
-
   getAccessToken: async () => {
     const response = await Api.get<RES<{ accessToken: string }>>(
       "/user/accessToken"
@@ -144,12 +167,46 @@ const backendApi = {
     return response.data.data.accessToken;
   },
 
-  getIP: async () => {
-    const ip = await axios.get<{
-      ipString: string;
-      ipType: string;
-    }>("https://api.bigdatacloud.net/data/client-ip");
-    return ip.data;
+  getCurrentEdgeNode: async () => {
+    const response = await Api.get(`${prefixUrl}stat`);
+    return response.data.data;
+  },
+
+  getCurrentEdgeNodeRewards: async () => {
+    const response = await Api.get(`${prefixUrl}rewards`);
+    return response.data.data;
+  },
+
+  getCurrentEdgeNodeRewardsTrending: async () => {
+    const response = await Api.get(`${prefixUrl}rewards/trending`);
+    return response.data.data;
+  },
+
+  getDeviceStatusInfo: async (nodeId: string) => {
+    const response = await Api.get(`${prefixUrl}${nodeId}/stat`);
+    return response.data.data;
+  },
+
+  getRegions: async () => {
+    const response = await Api.get(`edgeNode/regions`);
+    return response.data.data;
+  },
+
+  bindingConfig: async (
+    nodeId: string,
+    nodeName: string,
+    regionCode: string
+  ) => {
+    const response = await Api.post(`${prefixUrl}${nodeId}/bind`, {
+      nodeName,
+      regionCode,
+    });
+    return response.data.data;
+  },
+
+  getNodeList: async () => {
+    const response = await Api.get(`${prefixUrl}list`);
+    return response.data.data;
   },
 };
 
