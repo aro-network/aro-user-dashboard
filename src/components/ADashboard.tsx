@@ -270,7 +270,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             const selected = m.name === currentTab.name;
 
             return (
-              <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+              <button
                 key={m.name}
                 className={cn(" flex justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-[.375rem] rounded-[1.875rem] cursor-pointer select-none",
                   {
@@ -283,7 +283,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 }}
               >
                 <div className="text-sm font-medium text-left whitespace-nowrap hidden lg:block">{m.name}</div>
-              </motion.button>
+              </button>
             );
           })}
         </div>
