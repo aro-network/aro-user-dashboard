@@ -57,48 +57,7 @@ const AEnReachID = () => {
             <Btn className="h-[2.125rem]">Unbond</Btn>
           </div>
         </div>
-        <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5  flex items-center gap-[3.75rem] ">
-          <div className=" ">
-            <div className=" font-semibold text-sm ">
-              Account Auth Token
-            </div>
-            <label className="font-normal text-xs  leading-3 text-[#FFFFFF99]">
-              This Auth Token is required in the binding process of new X86 Server Nodes. Press “Get Auth Token” to generate.
-            </label>
-          </div>
-          <div className="flex">
-            <Btn onClick={() => setOpenAddNode()} className="h-[2.125rem]">Get Auth Token</Btn>
-            <TitModal isOpen={isOpen} className=" p-5 " >
-              <div className="flex flex-col justify-center items-center self-stretch gap-5 ">
-                <label className=" font-semibold text-base text-left w-full">Get Auth Token</label>
-                <div className="flex gap-[.625rem] flex-col w-full">
-                  <div className="text-sm flex justify-between">
-                    <div >Your Auth Token</div>
-                    <div className="text-[#FFFFFF80]">5H73uVr7ZY......mEAzZb1wbn</div>
-                  </div>
-                  <div className="text-sm flex justify-between">
-                    <div >Expire on</div>
-                    <div className="text-[#FFFFFF80]">2025-02-05 12:00:01</div>
-                  </div>
-                </div>
-                <div className="w-full flex justify-between gap-[.625rem]">
-                  <Btn className="w-full" onClick={() => setSeOpenAddNode()}>
-                    Generate New Auth Token
-                  </Btn>
-                  <Btn className="w-full" onClick={() => setOpenAddNode(false)}>
-                    Ok
-                  </Btn>
-                </div>
-                <div className="flex  gap-[.625rem]">
-                  <BsExclamationCircle className="text-[#FF6A6C] text-sm" />
-                  <label className="text-xs text-[#FF6A6C]">Please keep the Auth Token private. In case of a token leak, you can generate a new one here.</label>
-                </div>
-              </div>
-            </TitModal>
-            <AGenerateModal isOpen={isSeOpen} onConfirm={() => setOpenTip()} onClose={() => setSeOpenAddNode(false)} />
-            <AConfirmInfo isOpen={isTipOpen} onClose={() => setOpenTip(false)} />
-          </div>
-        </div>
+
       </div>
       <div className="flex justify-end w-full gap-6 ">
         <label className="text-[#999999] text-xs underline underline-offset-1 ">Term of Use</label>

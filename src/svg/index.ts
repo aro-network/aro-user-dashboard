@@ -22,6 +22,7 @@ import SvgOnline from "./devices/online.svg";
 import Svgoffline from "./devices/offline.svg";
 import Svgdisk from "./devices/disk.svg";
 import SvgXHomeBox from "./devices/homeBox.svg";
+
 import SvgShare from "./share.svg";
 
 export const SVGS = {

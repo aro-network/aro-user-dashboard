@@ -203,7 +203,7 @@ const AOverview = () => {
               tit={`${data?.node?.online ?? '0'}`}
               sub={
                 <>
-                  {data?.node.online ? <div className="text-green-400 opacity-100"><IoIosCheckmarkCircle /> Online</div> : <><SVGS.Svgoffline /> Detected</>}
+                  {data?.node.online ? <div className="text-green-400 opacity-100"><IoIosCheckmarkCircle /> Online</div> : <><SVGS.Svgoffline /> Offline</>}
                 </>
               }
             />

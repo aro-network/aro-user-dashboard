@@ -3,15 +3,18 @@ declare namespace EdgeNodeMode {
     data?: NodeType[] | null;
     onOpenModal: (node: NodeType) => void;
     className?: string;
+    isLoading: boolean;
   };
 
   type NodeType = {
     deviceName: string;
-    icon: React.FC;
+    icon: React.ReactNode;
     mode: string;
     when: string;
     experience: React.ReactNode;
-    status: "online" | "offline";
+    status: string | boolean;
+    nodeId?: string;
+    [key: string]: any;
   };
 
   type AModalProps = {

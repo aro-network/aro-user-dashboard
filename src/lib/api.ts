@@ -43,7 +43,9 @@ Api.interceptors.request.use(
 Api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const { status, data } = error.response;
+    console.log("asdasas", error);
+
+    const { status = 0, data } = error.response;
 
     switch (status) {
       case 400:
@@ -178,12 +180,16 @@ const backendApi = {
   },
 
   getCurrentEdgeNodeRewardsTrending: async () => {
-    const response = await Api.get(`${prefixUrl}rewards/trending`);
+    const response = await Api.get<RES<Nodes.TrendingList[]>>(
+      `${prefixUrl}rewards/trending`
+    );
     return response.data.data;
   },
 
-  getDeviceStatusInfo: async (nodeId: string) => {
-    const response = await Api.get(`${prefixUrl}${nodeId}/stat`);
+  getDeviceStatusInfo: async (nodeId: string, deviceType?: "box" | "x86") => {
+    const response = await Api.get<RES<Nodes.DevicesInfo>>(
+      `${prefixUrl}${nodeId}/stat/?deviceType=${deviceType}`
+    );
     return response.data.data;
   },
 
@@ -201,11 +207,29 @@ const backendApi = {
       nodeName,
       regionCode,
     });
-    return response.data.data;
+    console.log("responseresponse", response);
+
+    return response.data;
   },
 
   getNodeList: async () => {
-    const response = await Api.get(`${prefixUrl}list`);
+    const response = await Api.get<RES<Nodes.NodeInfoList[]>>(
+      `${prefixUrl}list`
+    );
+    return response.data.data;
+  },
+
+  getNodeInfoByNodeId: async (nodeId?: string) => {
+    const response = await Api.get<RES<Nodes.NodeInfoList>>(
+      `${prefixUrl}${nodeId}/details`
+    );
+    return response.data.data;
+  },
+
+  unbingDevice: async (nodeId?: string) => {
+    const response = await Api.post<RES<Nodes.NodeInfoList[]>>(
+      `${prefixUrl}${nodeId}/unbind`
+    );
     return response.data.data;
   },
 };
