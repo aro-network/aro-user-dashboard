@@ -187,9 +187,10 @@ const backendApi = {
   },
 
   getDeviceStatusInfo: async (nodeId: string, deviceType?: "box" | "x86") => {
-    const response = await Api.get<RES<Nodes.DevicesInfo>>(
-      `${prefixUrl}${nodeId}/stat/?deviceType=${deviceType}`
-    );
+    const url = deviceType
+      ? `${prefixUrl}${nodeId}/stat/?deviceType=${deviceType}`
+      : `${prefixUrl}${nodeId}/stat`;
+    const response = await Api.get<RES<Nodes.DevicesInfo>>(url);
     return response.data.data;
   },
 

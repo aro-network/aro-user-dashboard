@@ -1,14 +1,10 @@
 import { Btn } from "@/components/btns"
-import { useCopy } from "@/hooks/useCopy"
 import backendApi from "@/lib/api"
 import { SVGS } from "@/svg"
 import { cn, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { throttle } from "lodash"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { FC, ReactNode, Ref, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react"
-import { useForm } from "react-hook-form"
+import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
 import { addType } from "../ANodes"
 
@@ -55,7 +51,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   useImperativeHandle(
     addRef,
     () => ({
-      switchTo: () => setChooseedType(''),
+      switchTo: () => { setChooseedType(''); setSerialNum(''); setStepIndex(0); setX86StepIndex(0) },
     }),
     []
   );
@@ -173,7 +169,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Make sure your box is powered on and connected to the internet (with internet cable).
               Find the serial number (8-digit numbers) on your box and fill in:
             </div>
-            <Input className=" mt-5" value={serialNum} onChange={(e) => setSerialNum(e.target.value)} />
+            <Input maxLength={30} className=" mt-5" value={serialNum} onChange={(e) => setSerialNum(e.target.value)} />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
               <Btn onClick={onContinue} className="w-full rounded-lg" >
                 Continue
@@ -220,7 +216,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Step 3: Configure your Edge Node
             </div>
             <div className="text-xs mt-5 ">Set a name for your Edge Node</div>
-            <Input placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.trim() }) }} className="mt-[.3125rem]" />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.trim() }) }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
@@ -304,6 +300,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.
             </div>
             <Input
+              maxLength={30}
               errorMessage="Please enter"
               // isInvalid={!serialNum}
               className=" mt-5 rounded-lg" value={serialNum} onChange={(e) => setSerialNum(e.target.value.trim())} />
@@ -355,7 +352,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="text-xs mt-5 ">Set a name for your Edge Node</div>
-            <Input placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.trim() }) }} className="mt-[.3125rem]" />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.trim() }) }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
