@@ -83,9 +83,73 @@ const AOverview = () => {
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
-    const datas = data?.trending || [];
+    const datas = data?.trending || [
+      {
+        "date": 1743379200,
+        "rewards": "0",
+      },
+      {
+        "date": 1743465600,
+        "rewards": "0",
+      },
+      {
+        "date": 1743552000,
+        "rewards": "0",
+      },
+      {
+        "date": 1743638400,
+        "rewards": "0",
+      },
+      {
+        "date": 1743724800,
+        "rewards": "0",
+      },
+      {
+        "date": 1743811200,
+        "rewards": "0",
+      },
+      {
+        "date": 1743897600,
+        "rewards": "0",
+      },
+      {
+        "date": 1743984000,
+        "rewards": "0"
+      },
+      {
+        "date": 1744070400,
+        "rewards": "0",
+      },
+      {
+        "date": 1744156800,
+        "rewards": "0",
+      },
+      {
+        "date": 1744243200,
+        "rewards": "0",
+      },
+      {
+        "date": 1744329600,
+        "rewards": "0",
+      },
+      {
+        "date": 1744416000,
+        "rewards": "0",
+      },
+      {
+        "date": 1744502400,
+        "rewards": "0",
+      },
+      {
+        "date": 1744588800,
+        "rewards": "0",
+      }
+    ];
     const xData = datas.map((item: { date: number; }) => fmtDate(item.date * 1000, "MMMD"));
-    const yData = datas.map((item: { rewards: any; }) => _.toNumber(item.rewards));
+
+    const yData = datas.map((item: { rewards: string; }) => _.toNumber(item.rewards));
+    console.log('xData', xData, yData);
+
     console.info("width:", width);
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
@@ -180,74 +244,78 @@ const AOverview = () => {
 
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  ">
+    <div className=" ">
+      <div className="text-[#FFFFFF] text-base font-medium w-full my-[.625rem]  h-[2.125rem]">
+        Overview
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  ">
 
 
-      <IconCard
-        className="flip_item"
-        icon={SVGS.SvgNodes}
-        iconSize={24}
-        tit={
-          <div className="flex justify-between items-center w-full">
-            <span className="text-xl font-Alexandria">My Nodes</span>
-            <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=edgeNode&tab=nodes')}>
-              <GoArrowUpRight />
-            </button>
-          </div>
-        }
-        content={
-          <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
-            <DupleInfo tit={`${data?.node.total ?? 0}`} sub="Total Nodes" />
-            <DupleSplit />
-            <DupleInfo
-              tit={`${data?.node?.online ?? '0'}`}
-              sub={
-                <>
-                  {data?.node.online ? <div className="text-green-400 opacity-100"><IoIosCheckmarkCircle /> Online</div> : <><SVGS.Svgoffline /> Offline</>}
-                </>
-              }
-            />
-          </div>
-        }
-      />
-      <IconCard
-        className="flip_item"
-        icon={SVGS.SvgNodes}
-        iconSize={24}
+        <IconCard
+          className="flip_item"
+          icon={SVGS.SvgNodes}
+          iconSize={24}
+          tit={
+            <div className="flex justify-between items-center w-full">
+              <span className="text-xl font-Alexandria">My Nodes</span>
+              <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=edgeNode&tab=nodes')}>
+                <GoArrowUpRight />
+              </button>
+            </div>
+          }
+          content={
+            <div className="flex flex-1 items-center gap-[5%] min-w-[12.5rem]">
+              <DupleInfo tit={`${data?.node.total ?? 0}`} sub="Total Nodes" />
+              <DupleSplit />
+              <DupleInfo
+                tit={`${data?.node?.online ?? '0'}`}
+                sub={
+                  <>
+                    <div className="text-green-400 opacity-100 flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
+                  </>
+                }
+              />
+            </div>
+          }
+        />
+        <IconCard
+          className="flip_item"
+          icon={SVGS.SvgNodes}
+          iconSize={24}
 
-        tit={
-          <div className="flex justify-between items-center w-full">
-            <span className="text-xl font-Alexandria">Rewards - All Nodes</span>
-            <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=edgeNode&tab=rewards')}>
-              <GoArrowUpRight />
-            </button>
-          </div>
-        }
-        content={
-          <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
-            <DupleInfo
-              tit={`${data?.rewards.total}`}
-              sub={
-                <>
-                  Total
-                </>
-              }
-            />
-            <DupleSplit />
-            <DupleInfo tit={`${data?.rewards.today || 0}`} sub="Today" />
-          </div>
-        }
-      />
-      <TitCard
-        tit="Trending"
-        className={cn("col-span-1 h-full   lg:col-span-2  gap-4",)}
-      >
-        <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
+          tit={
+            <div className="flex justify-between items-center w-full">
+              <span className="text-xl font-Alexandria">Rewards - All Nodes</span>
 
-          <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={chartOpt} />
-        </div>
-      </TitCard>
+            </div>
+          }
+          content={
+            <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
+              <DupleInfo
+                tit={`${data?.rewards.total || 0}`}
+                sub={
+                  <>
+                    Total
+                  </>
+                }
+              />
+              <DupleSplit />
+              <DupleInfo tit={`${data?.rewards.today || 0}`} sub="Today" />
+            </div>
+          }
+        />
+        <TitCard
+          tit="Trending"
+          className={cn("col-span-1 h-full   lg:col-span-2  gap-4",)}
+        >
+          <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
+
+            <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={chartOpt} />
+          </div>
+        </TitCard>
+      </div>
     </div>
+
   )
 
 }

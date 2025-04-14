@@ -1,3 +1,4 @@
+import { HelpTip } from "@/components/tips"
 import { SVGS } from "@/svg"
 import { cn, Skeleton } from "@nextui-org/react"
 import { FC } from "react"
@@ -19,7 +20,9 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
           <div className="flex flex-col gap-14 justify-between pb-[.625rem] w-[60%] h-full ">
             <div className="flex flex-col">
               <div className="flex items-center gap-[10px] ">
-                <label className="text-[#FFFFFF] text-lg leading-10">{node.deviceName} </label>
+                <HelpTip content={node.deviceName}>
+                  <label className="text-[#FFFFFF] text-lg leading-10 truncate">{node.deviceName} </label>
+                </HelpTip>
                 <div className="flex items-center gap-1">
                   {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-xs" /> : <SVGS.Svgoffline />}
                   <label

@@ -9,8 +9,8 @@ import { IoIosCheckmarkCircle } from "react-icons/io"
 import { addType } from "../ANodes"
 
 const devicrsType = [
-  { icon: SVGS.SvgXHomeBox, name: 'Home Box' },
-  { icon: () => <img src='/x86Servers.png' alt="X86 Servers" />, name: 'X86 Servers', },
+  { icon: () => <img src='/box.png' alt="box" className="w-[90%] h-[90%]" />, name: 'Home Box' },
+  { icon: () => <img src='/x86.png' alt="X86 Servers" className="w-[90%] h-[90%]" />, name: 'X86 Servers', },
 ]
 
 const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
@@ -33,6 +33,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   const onStepNext = (over?: boolean) => {
+    console.log('deviceInfodeviceInfo', deviceInfo);
+
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setStepIndex(0)
       setSerialNum('')
@@ -51,7 +53,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   useImperativeHandle(
     addRef,
     () => ({
-      switchTo: () => { setChooseedType(''); setSerialNum(''); setStepIndex(0); setX86StepIndex(0) },
+      switchTo: () => { setBindInfo({ deviceName: '', regions: new Set() }); setChooseedType(''); setSerialNum(''); setStepIndex(0); setX86StepIndex(0) },
     }),
     []
   );
@@ -66,17 +68,25 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
 
-  const throttledDevice = throttle(async () => {
-    const info = await backendApi.getDeviceStatusInfo(serialNum, 'box')
-    setDeviceInfo(info)
-    if (stepIndex < homeBoxStep.length - 1) {
-      setStepIndex(stepIndex + 1)
-    }
-  }, 3000, { trailing: false })
+  const { data: info, isFetching, refetch } = useQuery({
+    queryKey: ["DeviceStatusInfo", serialNum],
+    enabled: false,
+    queryFn: () => backendApi.getDeviceStatusInfo(serialNum, 'box')
 
-  const onContinue = () => {
+  });
+
+
+  const onContinue = async () => {
     if (!serialNum) return
-    throttledDevice()
+    const { data } = await refetch()
+    console.log('datadataadasonContinue', data);
+
+    if (data) {
+      setDeviceInfo(data)
+      if (stepIndex < homeBoxStep.length - 1) {
+        setStepIndex(stepIndex + 1)
+      }
+    }
   }
 
 
@@ -96,10 +106,23 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }, 3000, { trailing: false })
 
 
-  const onBindingConfig = throttle(async (type?: string) => {
 
-    if (!bindInfo.deviceName && !Array.from(bindInfo.regions)[0]) return
-    await backendApi.bindingConfig(serialNum, bindInfo.deviceName, Array.from(bindInfo.regions)[0])
+  const bind = useQuery({
+    queryKey: ["DeviceBind", bindInfo.deviceName],
+    enabled: false,
+    queryFn: () => backendApi.bindingConfig(serialNum, bindInfo.deviceName, Array.from(bindInfo.regions)[0])
+
+  });
+
+
+  const onBindingConfig = async (type?: string) => {
+    console.log('bindInfobindInfo', bindInfo, !bindInfo.deviceName && !Array.from(bindInfo.regions)[0].length);
+
+
+    if (!bindInfo.deviceName && !Array.from(bindInfo.regions)[0].length) return
+    const { data } = await bind.refetch()
+    console.log('onBindingConfigadsa', data);
+    if (!data) return
 
     if (type) {
       onStepNext()
@@ -107,7 +130,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     }
     onX86StepNext()
     console.log('result3333', stepX86Index, x86Step.length - 1, Array.from(bindInfo.regions)[0]);
-  }, 3000, { trailing: false })
+  }
 
 
   const onX86StepNext = (over?: boolean) => {
@@ -161,7 +184,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full flex-col items-center">
-          <div className="w-[32.5rem]">
+          <div className="w-[37.5rem]">
             <div className="flex w-full font-normal text-lg leading-5 justify-center">
               Step 1: Connect your device
             </div>
@@ -169,9 +192,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Make sure your box is powered on and connected to the internet (with internet cable).
               Find the serial number (8-digit numbers) on your box and fill in:
             </div>
-            <Input maxLength={30} className=" mt-5" value={serialNum} onChange={(e) => setSerialNum(e.target.value)} />
+            <Input maxLength={30} className=" mt-5 rounded-lg" value={serialNum}
+              onChange={(e) => {
+                setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
+              }}
+
+            />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn onClick={onContinue} className="w-full rounded-lg" >
+              <Btn isLoading={isFetching} onClick={onContinue} className="w-full rounded-lg" >
                 Continue
               </Btn>
               <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button>
@@ -182,7 +210,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[32.5rem] ">
+          <div className="w-[37.5rem] ">
             <div className="flex w-full  font-normal text-lg leading-5 justify-center">
               Step 2: Bind Device to your account
             </div>
@@ -211,12 +239,12 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[32.5rem] ">
-            <div className="flex w-full font-normal text-lg leading-5">
+          <div className="w-[37.5rem] ">
+            <div className="flex w-full font-normal text-lg leading-5 justify-center">
               Step 3: Configure your Edge Node
             </div>
             <div className="text-xs mt-5 ">Set a name for your Edge Node</div>
-            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.trim() }) }} className="mt-[.3125rem]" />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
@@ -236,7 +264,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onClick={() => onBindingConfig('box')} className="w-full rounded-lg" >
+              <Btn isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg" >
                 Bind
               </Btn>
             </div>
@@ -246,7 +274,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[32.5rem] flex flex-col gap-5 ">
+          <div className="w-[37.5rem] flex flex-col gap-5 ">
             <div className="flex w-full justify-center font-normal text-lg leading-5">
               Congratulations!
             </div>
@@ -255,8 +283,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn onClick={() => onStepNext(true)} type="submit" className="w-full" >
-                ok
+              <Btn onClick={() => onStepNext(true)} type="submit" className="w-full rounded-lg" >
+                OK
               </Btn>
             </div>
           </div>
@@ -269,7 +297,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full flex-col items-center">
-          <div className="w-[32.5rem]">
+          <div className="w-[37.5rem]">
             <div className="flex w-full font-normal justify-center text-sm leading-5">
               To add a new X86 Server Node, please refer to the guidance below.
             </div>
@@ -290,7 +318,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full flex-col items-center">
-          <div className="w-[32.5rem]">
+          <div className="w-[37.5rem]">
             <div className="flex w-full font-normal text-lg leading-5 justify-center">
               Step 1: Connect your device
             </div>
@@ -300,12 +328,15 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.
             </div>
             <Input
+
               maxLength={30}
               errorMessage="Please enter"
               // isInvalid={!serialNum}
-              className=" mt-5 rounded-lg" value={serialNum} onChange={(e) => setSerialNum(e.target.value.trim())} />
+              className=" mt-5 rounded-lg" value={serialNum} onChange={(e) => {
+                setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
+              }} />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn onClick={onX86Continue} className="w-full rounded-lg" >
+              <Btn isLoading={isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
                 Continue
               </Btn>
               {/* <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button> */}
@@ -317,12 +348,12 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[32.5rem]">
+          <div className="w-[37.5rem]">
             <div className="flex w-full  font-normal text-lg leading-5 justify-center">
               Step 2: Bind Device to your account
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
-              <div className="w-[45%]">
+              <div className="w-[50%]">
                 {/* <SVGS.SvgXHomeBox /> */}
                 {chooseedType.startsWith('X86') ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
               </div>
@@ -336,7 +367,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {deviceInfo?.bindState === 'N/A' ? 'Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.' : 'This device has been already binded to an EnReach Account. Please unbind device to create a new binding.'}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onClick={() => onX86StepNext()} className="w-full " >
+              <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg " >
                 Continue
               </Btn>
             </div>
@@ -346,13 +377,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[32.5rem] ">
+          <div className="w-[37.5rem] ">
             <div className="flex w-full font-normal text-lg leading-5 justify-center">
               Step 3: Configure your Edge Node
             </div>
 
             <div className="text-xs mt-5 ">Set a name for your Edge Node</div>
-            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.trim() }) }} className="mt-[.3125rem]" />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
@@ -372,7 +403,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onClick={() => onBindingConfig()} className="w-full" >
+              <Btn isLoading={bind.isFetching} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
                 Bind
               </Btn>
             </div>
@@ -382,7 +413,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[32.5rem] flex flex-col gap-5 ">
+          <div className="w-[37.5rem] flex flex-col gap-5 ">
             <div className="flex w-full justify-center font-normal text-lg leading-5">
               Congratulations!
             </div>
@@ -391,8 +422,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full" onClick={() => onX86StepNext(true)} >
-                ok
+              <Btn type="submit" className="w-full rounded-lg" onClick={() => onX86StepNext(true)} >
+                OK
               </Btn>
             </div>
           </div>
@@ -403,25 +434,27 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   return <div className="w-full ">
-    <div className=" flex justify-center flex-col items-center ">
+    <div className=" flex justify-center flex-col items-center  w-[37.5rem] m-auto ">
       {chooseedType.startsWith('X86')
         ? <div>  <X86 stepIndex={stepX86Index} x86Step={x86Step} /></div>
         : chooseedType.startsWith('Home') ?
           <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
 
-          <><label className="font-normal text-lg leading-5">Please choose which type of Edge Node you want to add:</label><div className="flex justify-between gap-10 mt-10">
-            {devicrsType.map((item, index) => {
-              const IconComponent = item.icon;
-              return <div onClick={() => {
-                onSelectedType(item.name)
-                setChooseedType(item.name)
-              }} key={`device_${index}`} className=" hover:border-[#4281FF] cursor-pointer border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-4">
-                <IconComponent />
-                <div className="text-lg py-5 w-full justify-center flex">{item.name}</div>
-              </div>
-            })}
+          <div className="w-full text-center flex flex-col items-center ">
+            <label className="font-normal text-lg leading-5">Please choose which type of Edge Node you want to add:</label>
+            <div className="flex  gap-10 mt-10 w-full justify-center m-auto px-[3.75rem]">
+              {devicrsType.map((item, index) => {
+                const IconComponent = item.icon;
+                return <div onClick={() => {
+                  onSelectedType(item.name)
+                  setChooseedType(item.name)
+                }} key={`device_${index}`} className=" hover:border-[#4281FF] text-center cursor-pointer w-full border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-4 flex items-center justify-center flex-col">
+                  <IconComponent />
+                  <div className="text-lg py-5 w-full justify-center flex">{item.name}</div>
+                </div>
+              })}
+            </div>
           </div>
-          </>
       }
 
     </div>

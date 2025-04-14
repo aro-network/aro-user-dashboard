@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query"
 import { throttle } from "lodash"
 import { FC, ReactNode, useEffect, useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
-import { toast } from "sonner"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => (
@@ -16,7 +15,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
 
   const { data, isFetching } = useQuery({
-    queryKey: ["NodeList"],
+    queryKey: ["DeviceUnbindStatus"],
     enabled: true,
     queryFn: () => backendApi.getDeviceStatusInfo(nodeId)
 
@@ -52,14 +51,19 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     </div>
   }
 
-  const throttledUnbindingConfig = throttle(async (nodeId: string) => {
-    await backendApi.unbingDevice(nodeId)
-    onDeviceStep()
-  }, 3000, { trailing: false })
+  const getStatus = useQuery({
+    queryKey: ["NodeList"],
+    enabled: false,
+    queryFn: () => backendApi.unbingDevice(nodeId)
+  });
 
-  const onUnbindingConfig = () => {
-    if (data?.online === false) return toast.warning('Please keep the device online and then unbind！')
-    throttledUnbindingConfig(nodeId)
+
+  const onUnbindingConfig = async () => {
+    const { data } = await getStatus.refetch()
+    if (data) {
+
+      onDeviceStep()
+    }
   }
 
   const onDeviceStep = () => {
@@ -80,7 +84,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[32.5rem]">
+          <div className="w-[37.5rem]">
             <div className=" py-5 my-5 pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
                 {/* <SVGS.SvgXHomeBox /> */}
@@ -88,10 +92,10 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               </div>
               {foundDeviceList()}
             </div>
-            <div className="text-[#FFFFFF80] text-sm  text-center">Please make sure you want to unbind this device before continue. You cannot undo this action. </div>
+            <div className="text-[#FFFFFF80] text-sm  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onClick={onUnbindingConfig} className="w-full " >
-                Confirm Unbind
+              <Btn isLoading={getStatus.isFetching} onClick={onUnbindingConfig} className="w-full rounded-lg " >
+                Confirm Delete
               </Btn>
             </div>
           </div>
@@ -100,17 +104,17 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[23.75rem] flex flex-col gap-5 ">
+          <div className="w-[37.5rem] flex flex-col gap-5 ">
             <div className="flex w-full justify-center font-normal text-lg leading-5">
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {data?.nodeType}) unbind successful.
+              Edge Node (Device Type: {data?.nodeType}) delete successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full" onClick={onDeviceStep} >
-                ok
+              <Btn type="submit" className="w-full rounded-lg" onClick={onDeviceStep} >
+                OK
               </Btn>
             </div>
           </div>
