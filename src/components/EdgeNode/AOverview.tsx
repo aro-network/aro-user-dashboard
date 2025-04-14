@@ -277,7 +277,7 @@ const AOverview = () => {
                 tit={`${data?.node?.online ?? '0'}`}
                 sub={
                   <>
-                    <div className="text-green-400 opacity-100 flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
+                    <div className="text-green-400  flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
                   </>
                 }
               />

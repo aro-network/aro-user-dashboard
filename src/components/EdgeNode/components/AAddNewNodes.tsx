@@ -86,20 +86,29 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
 
-  const onX86Continue = throttle(async () => {
-    if (!serialNum) return
-    try {
-      const info = await backendApi.getDeviceStatusInfo(serialNum, 'x86')
-      console.log('info', info);
-      setDeviceInfo(info)
 
+  const x86Status = useQuery({
+    queryKey: ["DeviceStatusInfo", serialNum],
+    enabled: false,
+    queryFn: () => backendApi.getDeviceStatusInfo(serialNum, 'x86')
+
+  });
+
+
+  const onX86Continue = async () => {
+    if (!serialNum) return
+    const { data } = await x86Status.refetch()
+    console.log('datadatadata', data);
+
+    if (data?.nodeUUID) {
+      setDeviceInfo(data)
       if (stepX86Index < x86Step.length - 1) {
         setX86StepIndex(stepX86Index + 1)
       }
-    } catch (err) {
-      console.log('errr', err);
     }
-  }, 3000, { trailing: false })
+  }
+
+
 
 
 
@@ -339,7 +348,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                 setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
               }} />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum} isLoading={isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum} isLoading={x86Status.isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
                 Continue
               </Btn>
               {/* <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button> */}
