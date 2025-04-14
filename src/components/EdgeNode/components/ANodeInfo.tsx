@@ -178,7 +178,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
           </div>
           <div className="flex w-full gap-7">
             <div className="">
-              <img src={`./${data?.nodeType}.png`} className="w-full h-full" alt={`${data?.nodeType}`} />
+              <img src={`../${data?.nodeType}.png`} className="w-full h-full" alt={`${data?.nodeType}`} />
             </div>
             <div className="flex flex-col justify-between ">
               <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">

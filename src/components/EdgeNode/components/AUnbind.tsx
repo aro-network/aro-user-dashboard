@@ -1,4 +1,5 @@
 import { Btn } from "@/components/btns"
+import { ConfirmDialog } from "@/components/dialogimpls"
 import backendApi from "@/lib/api"
 import { covertText } from "@/lib/utils"
 import { SVGS } from "@/svg"
@@ -13,6 +14,7 @@ const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: 
 );
 const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack }) => {
   const [stepIndex, setStepIndex] = useState(0)
+  const [isConfirm, setIsConfirm] = useState(false)
 
 
   const { data, isFetching } = useQuery({
@@ -62,7 +64,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const onUnbindingConfig = async () => {
     const { data } = await getStatus.refetch()
     if (data) {
-
+      setIsConfirm(!isConfirm)
       onDeviceStep()
     }
   }
@@ -95,7 +97,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
             </div>
             <div className="text-[#FFFFFF80] text-sm  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isLoading={getStatus.isFetching} onClick={onUnbindingConfig} className="w-full rounded-lg " >
+              <Btn onClick={() => setIsConfirm(true)} className="w-full rounded-lg " >
                 Confirm Delete
               </Btn>
             </div>
@@ -125,6 +127,18 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
   return <>
     <DeviceStep stepIndex={stepIndex} deviceStep={unbing} />
+    <ConfirmDialog
+      tit="Delete this device"
+      msg={
+        <>
+          Are you sure you want to delete this device?
+        </>
+      }
+      isLoading={getStatus.isFetching}
+      isOpen={isConfirm}
+      onCancel={() => setIsConfirm(!isConfirm)}
+      onConfirm={onUnbindingConfig}
+    />
   </>
 
 

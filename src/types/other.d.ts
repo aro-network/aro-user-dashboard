@@ -34,6 +34,7 @@ declare namespace OtherTypes {
     msg: React.ReactNode;
     isOpen: boolean;
     className?: string;
+    isLoading?: boolean;
     cancelColor?:
       | "default"
       | "primary"

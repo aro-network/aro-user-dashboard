@@ -10,8 +10,8 @@ import { addType } from "../ANodes"
 import { covertText } from "@/lib/utils"
 
 const devicrsType = [
-  { icon: () => <img src='/box.png' alt="box" className="w-[90%] h-[90%]" />, name: 'Home Box' },
-  { icon: () => <img src='/x86.png' alt="X86 Servers" className="w-[90%] h-[90%]" />, name: 'X86 Servers', },
+  { icon: () => <img src='../box.png' alt="box" className="w-[90%] h-[90%]" />, name: 'Home Box' },
+  { icon: () => <img src='../x86.png' alt="X86 Servers" className="w-[90%] h-[90%]" />, name: 'X86 Servers', },
 ]
 
 const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
