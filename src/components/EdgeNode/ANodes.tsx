@@ -77,9 +77,11 @@ const ANodes = () => {
   return (
     <>
       <div className=" flex justify-between mb-5 h-[2.125rem] items-center">
-        <div className="text-[#FFFFFF] text-base font-medium">
+        <div className="text-[#FFFFFF] text-xs font-medium">
           {!isShowNodeInfo.open && !isOpen && !unbindInfo ? (
-            title
+            <span className="text-base">
+              {title}
+            </span>
           ) : (
             <>
               <button
@@ -126,6 +128,8 @@ const ANodes = () => {
             setShowNodeInfo({ open: false, list: undefined });
             setOpenAddNode(false);
             refetch()
+            setSelectedType('')
+
           }
 
         } /> : (!isShowNodeInfo.open && !isOpen ?
@@ -138,6 +142,7 @@ const ANodes = () => {
                 setShowNodeInfo({ open: false, list: undefined });
                 setOpenAddNode(!isOpen)
                 refetch()
+                setSelectedType('')
 
               }} />
             : <ANodeInfo

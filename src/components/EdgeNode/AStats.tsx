@@ -254,7 +254,7 @@ const AStats = () => {
   return (
     <>
       <div className=" flex justify-between mb-5 h-[2.125rem] items-center">
-        <div className="text-[#FFFFFF] text-xs font-medium w-full">
+        <div className="text-[#FFFFFF] text-base font-medium w-full">
           {!isShowNodeInfo ? 'All Nodes' :
             <div className="flex justify-between w-full">
               <div>

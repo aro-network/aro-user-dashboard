@@ -1,3 +1,4 @@
+import { IoGiftOutline } from "react-icons/io5";
 import { SVGS } from "@/svg"
 import { IconCard, TitCard } from "../cards"
 import { useAuthContext } from "@/app/context/AuthContext";
@@ -18,6 +19,7 @@ import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "motion/react"
 import * as motion from "motion/react-client"
+import { FaGift } from "react-icons/fa6";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 type OptionType = (typeof options)[number];
 export function DupleSplit() {
@@ -252,15 +254,19 @@ const AOverview = () => {
 
 
         <IconCard
-          className="flip_item"
+          className="flip_item bg-[#6D6D6D66]"
           icon={SVGS.SvgNodes}
           iconSize={24}
           tit={
             <div className="flex justify-between items-center w-full">
               <span className="text-xl font-Alexandria">My Nodes</span>
-              <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=edgeNode&tab=nodes')}>
-                <GoArrowUpRight />
-              </button>
+              <HelpTip content='Go to Nodes'>
+                <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=edgeNode&tab=nodes')}>
+
+                  <GoArrowUpRight />
+                </button>
+              </HelpTip>
+
             </div>
           }
           content={
@@ -279,8 +285,8 @@ const AOverview = () => {
           }
         />
         <IconCard
-          className="flip_item"
-          icon={SVGS.SvgNodes}
+          className="flip_item bg-[#6D6D6D66]"
+          icon={() => <FaGift />}
           iconSize={24}
 
           tit={
@@ -306,7 +312,7 @@ const AOverview = () => {
         />
         <TitCard
           tit="Trending"
-          className={cn("col-span-1 h-full   lg:col-span-2  gap-4",)}
+          className={cn("col-span-1 h-full bg-[#6D6D6D66]   lg:col-span-2  gap-4",)}
         >
           <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
 

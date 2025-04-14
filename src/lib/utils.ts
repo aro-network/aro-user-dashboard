@@ -88,3 +88,8 @@ export const formatStr = (address: string) => {
 
   return `${prefix}${ellipsis}${suffix}`;
 };
+
+export const covertText = (type: "box" | "x86") => {
+  const list = { box: "Home Box", x86: "X86 Servers" };
+  return list[type] || "-";
+};

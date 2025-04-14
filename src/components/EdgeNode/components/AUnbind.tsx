@@ -1,5 +1,6 @@
 import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
+import { covertText } from "@/lib/utils"
 import { SVGS } from "@/svg"
 import { useQuery } from "@tanstack/react-query"
 import { throttle } from "lodash"
@@ -25,7 +26,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const foundDeviceList = () => {
     const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = data || {}
     const list = [
-      { name: 'Device Type:', value: nodeType },
+      { name: 'Device Type:', value: covertText(nodeType as "box" | "x86") },
       { name: 'Serial Number:', value: nodeUUID },
       {
         name: 'Network Status:', value: <div className="flex items-center">
@@ -109,7 +110,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {data?.nodeType}) delete successful.
+              Edge Node (Device Type: {covertText(data?.nodeType as "x86" | "box")}) delete successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">

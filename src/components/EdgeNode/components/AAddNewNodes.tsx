@@ -1,12 +1,13 @@
 import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
 import { SVGS } from "@/svg"
-import { cn, Input, Select, SelectItem } from "@nextui-org/react"
+import { cn, Input, InputSlots, Select, SelectItem, SlotsToClasses } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { throttle } from "lodash"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
 import { addType } from "../ANodes"
+import { covertText } from "@/lib/utils"
 
 const devicrsType = [
   { icon: () => <img src='/box.png' alt="box" className="w-[90%] h-[90%]" />, name: 'Home Box' },
@@ -33,8 +34,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   const onStepNext = (over?: boolean) => {
-    console.log('deviceInfodeviceInfo', deviceInfo);
-
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setStepIndex(0)
       setSerialNum('')
@@ -62,9 +61,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     queryKey: ["Regions"],
     queryFn: () => backendApi.getRegions(),
   });
-
-
-  console.log('datadata', data);
 
 
 
@@ -149,12 +145,12 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const foundDeviceList = () => {
     const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
     const list = [
-      { name: 'Device Type:', value: nodeType },
+      { name: 'Device Type:', value: covertText(nodeType as 'box' | 'x86') },
       { name: 'Serial Number:', value: nodeUUID },
       {
         name: 'Network Status:', value: <div className="flex items-center">
           {online ? <IoIosCheckmarkCircle className="text-green-400" /> : <SVGS.Svgoffline />}
-          <label className={`ml-1 ${online && 'text-green-400'} `}>{online ? 'Online' : 'Offline'}</label>
+          <label className={`ml-1 ${online ? 'text-green-400' : 'text-[red]'} `}>{online ? 'Online' : 'Offline'}</label>
         </div>
       },
       { name: 'Device IP:', value: ip },
@@ -180,6 +176,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
 
+
+
   const homeBoxStep = [
     {
       content:
@@ -190,16 +188,19 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
               Make sure your box is powered on and connected to the internet (with internet cable).
-              Find the serial number (8-digit numbers) on your box and fill in:
+              Find the serial number (19-digit numbers) on your box and fill in:
             </div>
-            <Input maxLength={30} className=" mt-5 rounded-lg" value={serialNum}
+            <Input
+              maxLength={30}
+              className=" mt-5 rounded-lg"
+              value={serialNum}
               onChange={(e) => {
                 setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
               }}
 
             />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isLoading={isFetching} onClick={onContinue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum} isLoading={isFetching} onClick={onContinue} className="w-full rounded-lg" >
                 Continue
               </Btn>
               <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button>
@@ -214,7 +215,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="flex w-full  font-normal text-lg leading-5 justify-center">
               Step 2: Bind Device to your account
             </div>
-            <div className=" py-5 my-5 pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
+            <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
                 {/* <SVGS.SvgXHomeBox /> */}
                 {chooseedType.startsWith('X86') ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
@@ -248,6 +249,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
+
               items={data}
               onSelectionChange={(keys) => {
                 setBindInfo({ ...bindInfo, regions: new Set(keys as Set<string>) });
@@ -264,7 +266,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg" >
+              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg" >
                 Bind
               </Btn>
             </div>
@@ -279,7 +281,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: Box) binding successful.
+              Edge Node (Device Type: Home Box) binding successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -328,15 +330,16 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.
             </div>
             <Input
-
               maxLength={30}
               errorMessage="Please enter"
               // isInvalid={!serialNum}
-              className=" mt-5 rounded-lg" value={serialNum} onChange={(e) => {
+              className=" mt-5 rounded-lg"
+              value={serialNum}
+              onChange={(e) => {
                 setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
               }} />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isLoading={isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum} isLoading={isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
                 Continue
               </Btn>
               {/* <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button> */}
@@ -352,7 +355,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="flex w-full  font-normal text-lg leading-5 justify-center">
               Step 2: Bind Device to your account
             </div>
-            <div className=" py-5 my-5 pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
+            <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[50%]">
                 {/* <SVGS.SvgXHomeBox /> */}
                 {chooseedType.startsWith('X86') ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
@@ -403,7 +406,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isLoading={bind.isFetching} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
+              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
                 Bind
               </Btn>
             </div>
@@ -441,7 +444,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
           <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
 
           <div className="w-full text-center flex flex-col items-center ">
-            <label className="font-normal text-lg leading-5">Please choose which type of Edge Node you want to add:</label>
+            <label className="font-normal text-lg leading-5 ">Please choose which type of Edge Node you want to add:</label>
             <div className="flex  gap-10 mt-10 w-full justify-center m-auto px-[3.75rem]">
               {devicrsType.map((item, index) => {
                 const IconComponent = item.icon;

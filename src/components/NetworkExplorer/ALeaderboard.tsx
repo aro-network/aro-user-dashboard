@@ -11,7 +11,7 @@ const ALeaderboard = () => {
   return <>
     <TitCard
       tit="Leaderboard"
-      className="flip_item w-full mt-[1.875rem]"
+      className="flip_item w-full mt-[1.875rem] bg-[#6D6D6D66]"
     >
       <STable
         isLoading={false}

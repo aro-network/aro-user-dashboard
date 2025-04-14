@@ -146,148 +146,148 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
   return (
     <div className=" sticky top-0">
-      <div className=" sticky top-0 z-[100000]">
+      {/* <div className=" sticky top-0 z-[100000]"> */}
 
-        <div className=" flex h-[3.75rem] flex-row w-full justify-between items-center py-5 bg-[#404040]  px-[50px]  ">
-          <div className="flex items-center  gap-5 smd:flex-col">
-            <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+      <div className=" flex h-[3.75rem] flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px]  ">
+        <div className="flex items-center  gap-5 smd:flex-col">
+          <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
 
-            <Dropdown >
-              <DropdownTrigger>
-                <Button className="rounded-[.625rem] cursor-default h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
-                  {selectedTab.label}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="selected tab"
-                selectedKeys={[selectedTab.name]}
-                selectionMode="single"
-                variant="flat"
-              >
-                {Modes.map((mode) => {
-                  return <DropdownItem key={mode.name} onClick={() => handleModeChange(mode)}>{mode.label}</DropdownItem>
-                }
-                )}
-              </DropdownMenu>
-            </Dropdown>
+          <Dropdown >
+            <DropdownTrigger>
+              <Button className="rounded-[.625rem]  cursor-pointer h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
+                {selectedTab.label}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label="selected tab"
+              selectedKeys={[selectedTab.name]}
+              selectionMode="single"
+              variant="flat"
+            >
+              {Modes.map((mode) => {
+                return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => handleModeChange(mode)}>{mode.label}</DropdownItem>
+              }
+              )}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        <div className="flex gap-[1.875rem] items-center">
+          <SocialButtons />
+          <div className=" font-normal text-xs leading-[.9rem] text-[#999999] h-8 flex flex-col items-center lg:flex-row gap-[.625rem]">
+            <a href="https://enreach.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">WebSite</a>
+            <a href="https://docs.enreach.network/berry-season-1" target="_blank" className="underline-offset-4 h-8 hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999]">Guide</a>
           </div>
-          <div className="flex gap-[1.875rem] items-center">
-            <SocialButtons />
-            <div className=" font-normal text-xs leading-[.9rem] text-[#999999] h-8 flex flex-col items-center lg:flex-row gap-[.625rem]">
-              <a href="https://enreach.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">WebSite</a>
-              <a href="https://docs.enreach.network/berry-season-1" target="_blank" className="underline-offset-4 h-8 hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999]">Guide</a>
-            </div>
 
-            <Dropdown className="bg-[#585858] w-[20.625rem]" placement="bottom-end">
-              <DropdownTrigger>
-                <div className="w-8">
-                  <MAvatar name={user?.email} />
+          <Dropdown className="bg-[#585858] w-[20.625rem]" placement="bottom-end">
+            <DropdownTrigger>
+              <div className="w-8 cursor-pointer">
+                <MAvatar name={user?.email} />
+              </div>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem className=" gap-2 data-[hover=true]:bg-[#585858] ">
+                <div className="flex items-center gap-[.625rem] cursor-default">
+                  <div className="w-8 ">
+                    <MAvatar name={user?.email} />
+                  </div>
+                  <div>
+                    <label>{username}</label>
+                    <p className="font-semibold text-[#FFFFFF99]">{user?.email}</p>
+                  </div>
                 </div>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem className=" gap-2 ">
-                  <div className="flex items-center gap-[.625rem]">
-                    <div className="w-8 ">
-                      <MAvatar name={user?.email} />
-                    </div>
-                    <div>
-                      <label>{username}</label>
-                      <p className="font-semibold text-[#FFFFFF99]">{user?.email}</p>
+              </DropdownItem>
+              <DropdownItem
+                isReadOnly
+                className="flex flex-col  justify-start w-full py-5 "
+                startContent={
+                  isConnected &&
+                  <div className="flex flex-col w-full justify-center"
+                  >
+                    <label className="font-medium text-sm">
+                      Wallet Connected
+                    </label>
+
+                    <div className="flex items-center mt-[.625rem]">
+                      <label className="font-normal text-xs text-[#FFFFFF99]">
+                        {formatStr(address!)}
+                      </label>
+
+                      <button className="ml-[10px]" onClick={() => copy(address!)}>
+                        <FiCopy />
+                      </button>
+                      <Btn className=" h-5 ml-5" onClick={() => ud.disconnect()}>Disconnect</Btn>
                     </div>
                   </div>
-                </DropdownItem>
-                <DropdownItem
-                  isReadOnly
-                  className="flex flex-col  justify-start w-full py-5 "
-                  startContent={
-                    isConnected &&
-                    <div className="flex flex-col w-full justify-center"
-                    >
-                      <label className="font-medium text-sm">
-                        Wallet connected
-                      </label>
-
-                      <div className="flex items-center mt-[.625rem]">
-                        <label className="font-normal text-xs text-[#FFFFFF99]">
-                          {formatStr(address!)}
-                        </label>
-
-                        <button className="ml-[10px]" onClick={() => copy(address!)}>
-                          <FiCopy />
-                        </button>
-                        <Btn className=" h-5 ml-5" onClick={() => ud.disconnect()}>Disconnect</Btn>
-                      </div>
+                }
+                endContent={
+                  !isConnected &&
+                  <div className="flex justify-start w-full flex-col gap-2">
+                    <label className="font-medium text-sm">
+                      Wallet Connected
+                    </label>
+                    <div>
+                      <Btn className="h-5" onClick={() => open()}>Connect Your Wallet</Btn>
                     </div>
-                  }
-                  endContent={
-                    !isConnected &&
-                    <div className="flex justify-start w-full flex-col gap-2">
-                      <label className="font-medium text-sm">
-                        Wallet connected
-                      </label>
-                      <div>
-                        <Btn className="h-5" onClick={() => open()}>Connect your wallet</Btn>
-                      </div>
-                    </div>
-                  }
-                >
-                </DropdownItem>
-                <DropdownItem>
-                  <button onClick={() => r.push('?mode=enreachId&tab=enreachId')} className="flex gap-[.625rem] items-center">
-                    <FiUser />
-                    <label className="font-medium text-sm  text-[#FFFFFF99]">My EnReach ID</label>
-                  </button>
-                </DropdownItem>
-                <DropdownItem>
-                  <button onClick={() => toggleShowConfirmLogout()} className="flex gap-[.625rem] mt-[.625rem] items-center">
-                    <FiLogOut />
-                    <label className="font-medium text-sm  text-[#FFFFFF99]">Sign out account</label>
-                  </button>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        </div>
-
-
-        <ConfirmDialog
-          tit="Log Out"
-          msg={
-            <>
-              You are going to log out your account.
-              <br />
-              Are you sure?
-            </>
-          }
-          isOpen={showConfirmLogout}
-          onCancel={toggleShowConfirmLogout}
-          onConfirm={ac.logout}
-        />
-
-        <div className=" flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040] bg-[#222222]">
-          {selectedTab.children.map((m) => {
-            const selected = m.name === currentTab.name;
-
-            return (
-              <button
-                key={m.name}
-                className={cn(" flex justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-[.375rem] rounded-[1.875rem] cursor-pointer select-none",
-                  {
-                    "bg-[#404040] text-white ": selected,
-                    "text-white/50 hover:bg-default": !selected,
-                  }
-                )}
-                onClick={() => {
-                  handleTabChange(m)
-                }}
+                  </div>
+                }
               >
-                <div className="text-sm font-medium text-left whitespace-nowrap hidden lg:block">{m.name}</div>
-              </button>
-            );
-          })}
+              </DropdownItem>
+              <DropdownItem>
+                <button onClick={() => r.push('?mode=enreachId&tab=enreachId')} className="flex gap-[.625rem] items-center">
+                  <FiUser />
+                  <label className="font-medium text-sm  text-[#FFFFFF99]">My EnReach ID</label>
+                </button>
+              </DropdownItem>
+              <DropdownItem>
+                <button onClick={() => toggleShowConfirmLogout()} className="flex gap-[.625rem]  items-center">
+                  <FiLogOut />
+                  <label className="font-medium text-sm  text-[#FFFFFF99]">Sign Out Account</label>
+                </button>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </div>
+
+
+      <ConfirmDialog
+        tit="Log Out"
+        msg={
+          <>
+            You are going to log out your account.
+            <br />
+            Are you sure?
+          </>
+        }
+        isOpen={showConfirmLogout}
+        onCancel={toggleShowConfirmLogout}
+        onConfirm={ac.logout}
+      />
+
+      <div className=" flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040]">
+        {selectedTab.children.map((m) => {
+          const selected = m.name === currentTab.name;
+
+          return (
+            <button
+              key={m.name}
+              className={cn(" flex justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-[.375rem] rounded-[1.875rem] cursor-pointer select-none",
+                {
+                  "bg-[#373737] text-white ": selected,
+                  "text-white/50 hover:bg-default": !selected,
+                }
+              )}
+              onClick={() => {
+                handleTabChange(m)
+              }}
+            >
+              <div className="text-sm font-medium text-left whitespace-nowrap hidden lg:block">{m.name}</div>
+            </button>
+          );
+        })}
+      </div>
+      {/* </div> */}
 
       <div className="h-full overflow-auto nodes">
         <AnimatePresence mode="wait">

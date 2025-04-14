@@ -9,7 +9,7 @@ import { FC, useMemo } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { fmtDate } from "@/lib/utils";
+import { covertText, fmtDate } from "@/lib/utils";
 import numbro from "numbro";
 import { I18NProvider } from "next/dist/server/future/helpers/i18n-provider";
 import _ from "lodash";
@@ -170,7 +170,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
   return <>
     {!isFetching ? <div className=" mx-auto w-full text-white mb-5">
       <div className="flex w-full gap-5">
-        <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5   mb-6 bg-[#404040]">
+        <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5   mb-6 bg-[#6D6D6D66]">
           <div className="font-semibold text-base leading-10 flex justify-between items-center">
             <span>
               Node Info
@@ -207,7 +207,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
                   Node Type:
                 </span>
                 <div className="text-[#FFFFFF80]">
-                  {data?.nodeType || '-'}
+                  {covertText(data?.nodeType as "x86" | "box")}
                 </div>
               </div>
             </div>
@@ -215,10 +215,11 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
         </div>
 
 
-        <div className="flex rounded-[1.25rem] w-full p-5   mb-6 bg-[#404040]">
+        <div className="flex rounded-[1.25rem] w-full p-5   mb-6 bg-[#6D6D6D66]">
           <div className="ml-4 flex flex-col gap-[1.5625rem]  justify-between w-full py-[.625rem] ">
             <div className="flex w-full justify-between">
-              <span>Rewards</span>
+
+              <span className="font-semibold text-base leading-10 ">Rewards</span>
               <Btn className="h-5">Go to Claim Page</Btn>
             </div>
             <div className="flex justify-between">
@@ -269,7 +270,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
 
       <TitCard
         tit="Rewards History"
-        className={cn("col-span-1 h-full   lg:col-span-2  gap-4",)}
+        className={cn("col-span-1 h-full bg-[#6D6D6D66]   lg:col-span-2  gap-4",)}
         right={
           <div>
             <DateRangePicker pageBehavior="single" visibleMonths={2} />
@@ -284,7 +285,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
 
       <div className="flex justify-between w-full gap-5">
 
-        <div className=" my-5 p-5 bg-[#404040] rounded-[1.25rem] w-full   ">
+        <div className=" my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full   ">
           <span className=" text-base font-semibold">
             Basics
           </span>
@@ -304,7 +305,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
           </div>
         </div>
 
-        <div className="my-5 p-5 bg-[#404040] rounded-[1.25rem] w-full">
+        <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
           <span className=" text-base font-semibold">
             Network Info
           </span>
@@ -342,7 +343,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
         </div>
 
 
-        <div className="my-5 p-5 bg-[#404040] rounded-[1.25rem] w-full">
+        <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
           <span className=" text-base font-semibold">
             Device States
           </span>

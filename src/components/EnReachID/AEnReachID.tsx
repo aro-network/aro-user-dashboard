@@ -24,7 +24,7 @@ const AEnReachID = () => {
 
   return <div className="w-full justify-center flex ">
 
-    <div className="flex items-center gap-[.625rem] bg-[#404040] p-5 rounded-3xl flex-col w-[37.875rem]">
+    <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] p-5 rounded-3xl flex-col w-[37.875rem]">
 
       <div className="flex items-center justify-start w-full gap-5 mb-5 ">
         <div className="w-[3.75rem] ">
@@ -53,8 +53,8 @@ const AEnReachID = () => {
             </label>
           </div>
           <div className="flex justify-between gap-[.625rem] items-center">
-            <Btn className="h-[2.125rem]">Bond</Btn>
-            <Btn className="h-[2.125rem]">Unbond</Btn>
+            <Btn className="h-[2.125rem]">Bind</Btn>
+            <Btn className="h-[2.125rem]">Unbind</Btn>
           </div>
         </div>
 

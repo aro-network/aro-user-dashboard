@@ -12,7 +12,7 @@ html {
 }
 body {
   overflow: auto;
-  background: #222222;
+  /* background: #222222; */
   background-size: cover;
   color: white;
   font-size: 16px; /* width 1512 */
@@ -136,3 +136,9 @@ button[data-slot="trigger"] {
   background-color: #404040;
 }
 
+
+
+.dropdown-item-custom[data-hover='true'],
+.dropdown-item-custom[data-focus='true'] {
+  background-color: #FFFFFF1A !important;
+}

@@ -47,6 +47,8 @@ Api.interceptors.response.use(
 
     const { status = 0, data } = error.response;
 
+    console.log("statusstatusstatus", status);
+
     switch (status) {
       case 400:
         toast.error(data.message || "请求错误");
