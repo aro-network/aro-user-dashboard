@@ -10,7 +10,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
   return <div>
     {(!data || !data.length) && !isLoading && <div className=" text-lg w-full text-center  flex justify-center ">Oops! Nothing here yet. Please click Add New Node!</div>}
 
-    <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] w-full gap-5 `, className)}>
+    <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] w-full gap-5 mt-5 `, className)}>
 
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
         return <div key={`nodes_${index}`} onClick={() => onOpenModal(node)} className="bg-[#6D6D6D66] cursor-pointer hover:bg-[#6D6D6DCC] rounded-[1.25rem] flex items-center gap-[1.0625rem] px-4 py-5">

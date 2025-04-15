@@ -1,9 +1,8 @@
 import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
 import { SVGS } from "@/svg"
-import { cn, Input, InputSlots, Select, SelectItem, SlotsToClasses } from "@nextui-org/react"
+import { cn, Input, Select, SelectItem, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
-import { throttle } from "lodash"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
 import { addType } from "../ANodes"
@@ -75,7 +74,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const onContinue = async () => {
     if (!serialNum) return
     const { data } = await refetch()
-    console.log('datadataadasonContinue', data);
 
     if (data) {
       setDeviceInfo(data)
@@ -445,8 +443,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
 
-  return <div className="w-full ">
-    <div className=" flex justify-center flex-col items-center  w-[37.5rem] m-auto ">
+  return <div className="w-full mt-[4.5625rem] ">
+    <div className=" flex justify-center flex-col items-center  w-[37.5rem] m-auto">
       {chooseedType.startsWith('X86')
         ? <div>  <X86 stepIndex={stepX86Index} x86Step={x86Step} /></div>
         : chooseedType.startsWith('Home') ?

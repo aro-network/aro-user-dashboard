@@ -31,8 +31,6 @@ const ANodes = () => {
 
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
-    console.log('handleToggleNodeInfoeeee', e);
-
     setShowNodeInfo({ open: true, list: e });
     setOpenAddNode(false);
 
@@ -70,13 +68,10 @@ const ANodes = () => {
 
   });
 
-  console.log('unbindInfounbindInfo', unbindInfo, title);
-
-
 
   return (
     <>
-      <div className=" flex justify-between mb-5 h-[2.125rem] items-center">
+      <div className=" flex justify-between  items-center">
         <div className="text-[#FFFFFF] text-xs font-medium">
           {!isShowNodeInfo.open && !isOpen && !unbindInfo ? (
             <span className="text-base">

@@ -4,8 +4,7 @@ import backendApi from "@/lib/api"
 import { covertText } from "@/lib/utils"
 import { SVGS } from "@/svg"
 import { useQuery } from "@tanstack/react-query"
-import { throttle } from "lodash"
-import { FC, ReactNode, useEffect, useState } from "react"
+import { FC, ReactNode, useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
 
 
@@ -70,25 +69,19 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   }
 
   const onDeviceStep = () => {
-    if (stepIndex < unbing.length - 1) {
+    if (stepIndex < unbind.length - 1) {
       setStepIndex(stepIndex + 1)
     } else {
       onBack()
     }
   }
 
-
-  console.log('FFFFFF80FFFFFF80', data);
-
-
-
-
-  const unbing = [
+  const unbind = [
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem]">
-            <div className=" py-5 my-5 pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
+            <div className=" py-5 mt-[4.5625rem] pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
                 {/* <SVGS.SvgXHomeBox /> */}
                 {data?.nodeType === 'x86' ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
@@ -125,8 +118,8 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     }
   ]
 
-  return <>
-    <DeviceStep stepIndex={stepIndex} deviceStep={unbing} />
+  return <div className="">
+    <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
     <ConfirmDialog
       tit="Delete this device"
       msg={
@@ -139,7 +132,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       onCancel={() => setIsConfirm(!isConfirm)}
       onConfirm={onUnbindingConfig}
     />
-  </>
+  </div>
 
 
 }

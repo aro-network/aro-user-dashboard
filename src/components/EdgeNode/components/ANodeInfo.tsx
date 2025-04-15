@@ -168,7 +168,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
 
 
   return <>
-    {!isFetching ? <div className=" mx-auto w-full text-white mb-5">
+    {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5">
       <div className="flex w-full gap-5">
         <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5   mb-6 bg-[#6D6D6D66]">
           <div className="font-semibold text-base leading-10 flex justify-between items-center">
@@ -270,10 +270,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
 
       <TitCard
         tit="Rewards History"
-        className={cn("col-span-1 h-full bg-[#6D6D6D66]   lg:col-span-2  gap-4",)}
+        className={cn("col-span-1 h-full bg-[#6D6D6D66] w-full  lg:col-span-2  gap-4",)}
         right={
           <div>
-            <DateRangePicker pageBehavior="single" visibleMonths={2} />
+            <DateRangePicker className="max-w-xs" label="Stay duration" />
           </div>
         }
       >
