@@ -49,7 +49,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
         </div>
       })}
       {isLoading &&
-        <Skeleton className="rounded-2xl"><div className="h-[15.3125rem] rounded-3xl"></div></Skeleton>
+        <Skeleton className="rounded-2xl"><div className="h-[15.3125rem] rounded-3xl" /></Skeleton>
       }
     </div>
   </div>
