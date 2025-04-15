@@ -21,12 +21,12 @@ export function ConfirmDialog({
         <div className="text-center text-sm whitespace-pre-wrap font-AlbertSans">{msg}</div>
         <div className="grid grid-cols-2 gap-2.5">
           {confirmText &&
-            <Btn className="h-10" color="default" isLoading={isLoading} onClick={onConfirm}>
+            <Btn className="h-[1.875rem]" color="default" isLoading={isLoading} onClick={onConfirm}>
               {confirmText}
             </Btn>
           }
           {cancelText &&
-            <Btn className="h-10" color={cancelColor} onClick={onCancel}>
+            <Btn className="h-[1.875rem]" color={cancelColor} onClick={onCancel}>
               {cancelText}
             </Btn>
           }

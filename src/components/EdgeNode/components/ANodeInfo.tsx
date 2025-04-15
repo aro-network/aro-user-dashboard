@@ -273,7 +273,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
         className={cn("col-span-1 h-full bg-[#6D6D6D66] w-full  lg:col-span-2  gap-4",)}
         right={
           <div>
-            <DateRangePicker className="max-w-xs" label="Stay duration" />
+            <DateRangePicker className="w-full" classNames={{ 'popoverContent': 'w-full', 'calendarContent': 'w-full' }} label="Stay duration" />
           </div>
         }
       >

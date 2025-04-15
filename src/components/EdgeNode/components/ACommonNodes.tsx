@@ -8,7 +8,6 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
 
 
   return <div>
-    {(!data || !data.length) && !isLoading && <div className=" text-lg w-full text-center  flex justify-center ">Oops! Nothing here yet. Please click Add New Node!</div>}
 
     <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] w-full gap-5 mt-5 `, className)}>
 

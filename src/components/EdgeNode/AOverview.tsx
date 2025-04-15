@@ -247,7 +247,7 @@ const AOverview = () => {
 
   return (
     <div className=" ">
-      <div className="text-[#FFFFFF] text-base font-medium w-full my-[.625rem]  h-[2.125rem]">
+      <div className="text-[#FFFFFF] text-base font-medium w-full my-[.625rem] ">
         Overview
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  ">
@@ -260,9 +260,8 @@ const AOverview = () => {
           tit={
             <div className="flex justify-between items-center w-full">
               <span className="text-xl font-Alexandria">My Nodes</span>
-              <HelpTip content='Go to Nodes'>
+              <HelpTip content='Go to Nodes Detail'>
                 <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=edgeNode&tab=nodes')}>
-
                   <GoArrowUpRight />
                 </button>
               </HelpTip>

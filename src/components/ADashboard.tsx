@@ -104,6 +104,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const [showConfirmLogout, toggleShowConfirmLogout] = useToggle(false);
   const { address, isConnected, } = useAppKitAccount()
   const username = user?.email?.split('@')[0] || ''
+  const [refreshKey, setRefreshKey] = useState(0);
+
 
 
   useEffect(() => {
@@ -132,6 +134,9 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const handleTabChange = (tab: Dashboard.TabItem) => {
     setCurrentTab(tab);
     updateURL(selectedTab.name, tab.tab);
+    if (tab.name === currentTab.name) {
+      setRefreshKey((prev) => prev + 1);
+    }
   };
 
   const updateURL = (mode: string, tab: string) => {
@@ -146,8 +151,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
   return (
     <div className=" sticky top-0">
-      {/* <div className=" sticky top-0 z-[100000]"> */}
-
       <div className=" flex h-[3.75rem] flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px]  ">
         <div className="flex items-center  gap-5 smd:flex-col">
           <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
@@ -249,8 +252,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           </Dropdown>
         </div>
       </div>
-
-
       <ConfirmDialog
         tit="Log Out"
         msg={
@@ -287,13 +288,12 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           );
         })}
       </div>
-      {/* </div> */}
 
       <div className="h-full overflow-auto nodes">
         <AnimatePresence mode="wait">
           <motion.div
             className=" pt-5  px-[6.5rem] flex flex-col w-full "
-            key={currentTab ? currentTab.name : "empty"}
+            key={currentTab.name + refreshKey}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}

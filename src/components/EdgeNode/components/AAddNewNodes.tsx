@@ -7,10 +7,12 @@ import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
 import { addType } from "../ANodes"
 import { covertText } from "@/lib/utils"
+import { ConfirmDialog } from "@/components/dialogimpls"
+import { toast } from "sonner"
 
 const devicrsType = [
   { icon: () => <img src='../box.png' alt="box" className="w-[90%] h-[90%]" />, name: 'Home Box' },
-  { icon: () => <img src='../x86.png' alt="X86 Servers" className="w-[90%] h-[90%]" />, name: 'X86 Servers', },
+  { icon: () => <img src='../x86.png' alt="X86 Server" className="w-[90%] h-[90%]" />, name: 'X86 Server', },
 ]
 
 const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
@@ -30,7 +32,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const [serialNum, setSerialNum] = useState('')
   const [deviceInfo, setDeviceInfo] = useState<Nodes.DevicesInfo>()
   const [bindInfo, setBindInfo] = useState<{ deviceName: string, regions: Set<string> }>({ deviceName: '', regions: new Set() })
-
+  const [isConfirmInfo, setIsConfirmInfo] = useState<{ open: boolean, type?: string }>({ open: false, type: undefined })
 
   const onStepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
@@ -64,7 +66,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   const { data: info, isFetching, refetch } = useQuery({
-    queryKey: ["DeviceStatusInfo", serialNum],
+    queryKey: ["DeviceStatusInfo"],
     enabled: false,
     queryFn: () => backendApi.getDeviceStatusInfo(serialNum, 'box')
 
@@ -75,18 +77,21 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     if (!serialNum) return
     const { data } = await refetch()
 
-    if (data) {
+    if (data?.online) {
+      console.log('datadata', data);
+
       setDeviceInfo(data)
       if (stepIndex < homeBoxStep.length - 1) {
         setStepIndex(stepIndex + 1)
       }
     }
+
   }
 
 
 
   const x86Status = useQuery({
-    queryKey: ["DeviceStatusInfo", serialNum],
+    queryKey: ["X86DeviceStatusInfo", serialNum],
     enabled: false,
     queryFn: () => backendApi.getDeviceStatusInfo(serialNum, 'x86')
 
@@ -98,7 +103,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     const { data } = await x86Status.refetch()
     console.log('datadatadata', data);
 
-    if (data?.nodeUUID) {
+    if (data?.online) {
       setDeviceInfo(data)
       if (stepX86Index < x86Step.length - 1) {
         setX86StepIndex(stepX86Index + 1)
@@ -119,20 +124,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   const onBindingConfig = async (type?: string) => {
+    setIsConfirmInfo({ open: true, type })
     console.log('bindInfobindInfo', bindInfo, !bindInfo.deviceName && !Array.from(bindInfo.regions)[0].length);
 
-
-    if (!bindInfo.deviceName && !Array.from(bindInfo.regions)[0].length) return
-    const { data } = await bind.refetch()
-    console.log('onBindingConfigadsa', data);
-    if (!data) return
-
-    if (type) {
-      onStepNext()
-      return
-    }
-    onX86StepNext()
-    console.log('result3333', stepX86Index, x86Step.length - 1, Array.from(bindInfo.regions)[0]);
   }
 
 
@@ -152,27 +146,27 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const foundDeviceList = () => {
     const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
     const list = [
-      { name: 'Device Type:', value: covertText(nodeType as 'box' | 'x86') },
-      { name: 'Serial Number:', value: nodeUUID },
+      { name: 'Device Type', value: covertText(nodeType as 'box' | 'x86') },
+      { name: 'Serial Number', value: nodeUUID },
       {
-        name: 'Network Status:', value: <div className="flex items-center">
+        name: 'Network Status', value: <div className="flex items-center">
           {online ? <IoIosCheckmarkCircle className="text-green-400" /> : <SVGS.Svgoffline />}
           <label className={`ml-1 ${online ? 'text-green-400' : 'text-[red]'} `}>{online ? 'Online' : 'Offline'}</label>
         </div>
       },
-      { name: 'Device IP:', value: ip },
-      { name: 'Current Binding:', value: bindState },
+      { name: 'Device IP', value: ip },
+      { name: 'Current Binding', value: bindState },
 
     ]
     return <div className="w-full device">
       <div className="text-lg">Device found:</div>
       <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4  ">
-        {list.map((item, index) => {
+        {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>
             <span className={cn('text-[#FFFFFF80] text-sm  text-center', {
-              "text-[#FFC639]": item.name === 'Current Binding:' && deviceInfo?.bindState === 'N/A',
-              "text-[#FF6A6C]": item.name === 'Current Binding:' && deviceInfo?.bindState === 'Detected',
+              "text-[#FFC639]": item.name === 'Current Binding' && deviceInfo?.bindState === 'N/A',
+              "text-[#FF6A6C]": item.name === 'Current Binding' && deviceInfo?.bindState === 'Detected',
             }
             )}> {item.value}</span>
           </div>
@@ -300,6 +294,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         </div >,
     }
   ]
+
+
 
 
   const x86Step = [
@@ -442,6 +438,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   ]
 
 
+  console.log('chasdasdas', chooseedType);
+
+
 
   return <div className="w-full mt-[4.5625rem] ">
     <div className=" flex justify-center flex-col items-center  w-[37.5rem] m-auto">
@@ -466,6 +465,33 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
           </div>
       }
+      <ConfirmDialog
+        tit="Bind this device"
+        msg={
+          <>
+            Please make sure you have selected the right region. You'll need to unbind and re-bind your Edge Node if you want to change region.
+
+          </>
+        }
+        isLoading={bind.isFetching}
+        isOpen={isConfirmInfo.open}
+        onCancel={() => setIsConfirmInfo({ open: false, type: undefined })}
+        onConfirm={async () => {
+          const { data } = await bind.refetch()
+          console.log('onBindingConfigadsa', data);
+          if (!data) return
+
+          if (isConfirmInfo.type) {
+            onStepNext()
+
+          } else {
+
+            onX86StepNext()
+          }
+
+          setIsConfirmInfo({ open: false, type: undefined })
+        }}
+      />
 
     </div>
   </div>

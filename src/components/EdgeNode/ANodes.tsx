@@ -127,8 +127,14 @@ const ANodes = () => {
 
           }
 
-        } /> : (!isShowNodeInfo.open && !isOpen ?
-          <ACommonNodes isLoading={isFetching} data={data} onOpenModal={handleToggleNodeInfo} />
+        } /> : (!isShowNodeInfo.open && !isOpen ? (
+          (!data || !data.length) && !isFetching ?
+            <div className="w-full flex justify-center items-center h-[70vh] ">
+              <Btn className="h-[2.125rem] w-[6.75rem] flex justify-center" onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn>
+            </div>
+            :
+            <ACommonNodes isLoading={isFetching} data={data} onOpenModal={handleToggleNodeInfo} />
+        )
           : isOpen ?
             <AAddNewNodes
               addRef={addRef}
