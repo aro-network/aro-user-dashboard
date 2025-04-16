@@ -10,12 +10,12 @@ import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 export const allNodes: EdgeNodeMode.CommonProps['data'] = [
-  { deviceName: 'Home Node 001', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
-  { deviceName: 'Home Node 002', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
-  { deviceName: 'Home Node 003', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
-  { deviceName: 'Home Node 004', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
-  { deviceName: 'Home Node 005', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
-  { deviceName: 'Home Node 006', icon: SVGS.SvgDevice, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
+  { deviceName: 'Home Node 001', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
+  { deviceName: 'Home Node 002', icon: <img src={`./box.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
+  { deviceName: 'Home Node 003', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
+  { deviceName: 'Home Node 004', icon: <img src={`./box.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
+  { deviceName: 'Home Node 005', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
+  { deviceName: 'Home Node 006', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
 ]
 
 
@@ -28,8 +28,6 @@ const ANodes = () => {
   const [selectedType, setSelectedType] = useState('')
   const addRef = useRef<addType>(null)
 
-
-
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
     setShowNodeInfo({ open: true, list: e });
     setOpenAddNode(false);
@@ -41,7 +39,6 @@ const ANodes = () => {
     : isOpen
       ? "Add New Node"
       : unbindInfo ? 'Delete' : "All Nodes";
-
 
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeList"],
@@ -61,13 +58,9 @@ const ANodes = () => {
           nodeId: item.nodeUUID
         }
       })
-
-
       return list
     }
-
   });
-
 
   return (
     <>
@@ -153,10 +146,6 @@ const ANodes = () => {
 
               }} />
             : <ANodeInfo
-              // onSwitchToUnbind={() => {
-              //   setShowNodeInfo({ open: false, list: undefined });
-              //   setOpenAddNode(false);
-              // }}
               selectList={isShowNodeInfo.list} />
       )
       }

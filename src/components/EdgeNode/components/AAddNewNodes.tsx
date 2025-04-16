@@ -1,6 +1,6 @@
 import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
-import { cn, Image, Input, Select, SelectItem, add } from "@nextui-org/react"
+import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
@@ -21,8 +21,6 @@ const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: {
 const X86 = ({ stepIndex, x86Step }: { stepIndex: number, x86Step: { content: ReactNode }[] }) => (
   <div>{x86Step[stepIndex].content}</div>
 );
-
-
 
 const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<addType> }> = ({ onBack, onSelectedType, addRef }) => {
   const [chooseedType, setChooseedType] = useState('')
