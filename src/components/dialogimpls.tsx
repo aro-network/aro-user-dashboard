@@ -6,6 +6,7 @@ export function ConfirmDialog({
   confirmText = 'Confirm',
   cancelText = 'Cancel',
   cancelColor = 'primary',
+  confirmColor = 'default',
   onCancel,
   onConfirm,
   tit,
@@ -21,7 +22,7 @@ export function ConfirmDialog({
         <div className="text-center text-sm whitespace-pre-wrap font-AlbertSans">{msg}</div>
         <div className="grid grid-cols-2 gap-2.5">
           {confirmText &&
-            <Btn className="h-[1.875rem]" color="default" isLoading={isLoading} onClick={onConfirm}>
+            <Btn className="h-[1.875rem]" color={confirmColor} isLoading={isLoading} onClick={onConfirm}>
               {confirmText}
             </Btn>
           }

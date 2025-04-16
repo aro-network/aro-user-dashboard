@@ -2,7 +2,7 @@ import { Btn } from "@/components/btns";
 import { TitCard } from "@/components/cards";
 import backendApi from "@/lib/api";
 import { SVGS } from "@/svg";
-import { CircularProgress, cn, DateRangePicker, Skeleton } from "@nextui-org/react";
+import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
 import { FC, useMemo } from "react";
@@ -11,7 +11,6 @@ import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
 import { covertText, fmtDate } from "@/lib/utils";
 import numbro from "numbro";
-import { I18NProvider } from "next/dist/server/future/helpers/i18n-provider";
 import _ from "lodash";
 
 const nodeData = {
@@ -41,17 +40,13 @@ const nodeData = {
   totalRom: 997,
 };
 
-const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?: string) => void }> = ({ selectList, onSwitchToUnbind }) => {
-
+const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
 
   const { data, isFetching } = useQuery({
-    queryKey: ["NodeList"],
+    queryKey: ["NodeDetailList", selectList?.nodeId],
     enabled: true,
-    queryFn: async () => {
-      const data = await backendApi.getNodeInfoByNodeId(selectList?.nodeId)
-      return data
-    }
-
+    queryFn: () => backendApi.getNodeInfoByNodeId(selectList?.nodeId),
+    refetchOnWindowFocus: false,
   });
 
 
@@ -164,7 +159,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
     };
   }, [width, result.data?.trending]);
 
-  console.log('setUnbingInfosetUnbingInfosetUnbingInfo', data);
+  console.log('2221adas', data);
 
 
   return <>

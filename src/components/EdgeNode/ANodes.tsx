@@ -56,7 +56,7 @@ const ANodes = () => {
           icon: <img src={`./${item.nodeType}.png`} alt={`${item.nodeType}`} style={{ height: '100%', width: '100%' }} />,
           mode: item.nodeUUID,
           when: 'Today',
-          experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">{item.rewards}</label><label>$Berry</label></>,
+          experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">{item.rewards}</label><label>$BERRY</label></>,
           status: item.online,
           nodeId: item.nodeUUID
         }
@@ -105,7 +105,7 @@ const ANodes = () => {
             </>
           )}
         </div>
-        {!isShowNodeInfo.open && !isOpen ? <Btn className="h-[2.125rem]" onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn> :
+        {!isShowNodeInfo.open && !isOpen ? <Btn className="h-[2.125rem]  rounded-lg" onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn> :
           !isOpen && !unbindInfo && <div className="flex gap-[.625rem] font-medium text-xs leading-3">
             <Btn className="h-[1.875rem] rounded-lg">Go to Web Console</Btn>
             <Btn onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeId)} className="bg-[#F5F5F51A] h-[1.875rem] rounded-lg ">Delete</Btn>
@@ -129,8 +129,14 @@ const ANodes = () => {
 
         } /> : (!isShowNodeInfo.open && !isOpen ? (
           (!data || !data.length) && !isFetching ?
-            <div className="w-full flex justify-center items-center h-[70vh] ">
-              <Btn className="h-[2.125rem] w-[6.75rem] flex justify-center" onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn>
+            <div className="w-full flex justify-center items-center mt-[6.5625rem]  ">
+              <div className="w-[37.5rem] m-auto text-center gap-5 flex flex-col">
+                <div className=" text-lg ">Add Your Edge Node</div>
+                <div className="text-sm text-[#FFFFFF80]">
+                  EnReach supports hardware and software solutions on multiple platforms for running an Edge Node. Find which node type is best for you in this guide.
+                </div>
+                <Btn className="h-[2.125rem] w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto" onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn>
+              </div>
             </div>
             :
             <ACommonNodes isLoading={isFetching} data={data} onOpenModal={handleToggleNodeInfo} />
@@ -147,10 +153,10 @@ const ANodes = () => {
 
               }} />
             : <ANodeInfo
-              onSwitchToUnbind={() => {
-                setShowNodeInfo({ open: false, list: undefined });
-                setOpenAddNode(false);
-              }}
+              // onSwitchToUnbind={() => {
+              //   setShowNodeInfo({ open: false, list: undefined });
+              //   setOpenAddNode(false);
+              // }}
               selectList={isShowNodeInfo.list} />
       )
       }

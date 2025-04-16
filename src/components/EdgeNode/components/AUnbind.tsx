@@ -58,7 +58,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   }
 
   const getStatus = useQuery({
-    queryKey: ["NodeList"],
+    queryKey: ["NodeStatuList"],
     enabled: false,
     queryFn: () => backendApi.unbingDevice(nodeId)
   });
@@ -66,11 +66,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
   const onUnbindingConfig = async () => {
     setIsConfirm(!isConfirm)
-    const { data } = await getStatus.refetch()
-    if (data) {
-
-      onDeviceStep()
-    }
+    await getStatus.refetch()
+    console.log('adsadaonUnbindingConfig', data);
+    onDeviceStep()
   }
 
   const onDeviceStep = () => {
@@ -137,7 +135,8 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
         </>
       }
       confirmText={'Yes'}
-
+      confirmColor='primary'
+      cancelColor="default"
       isOpen={isConfirm}
       onCancel={() => setIsConfirm(!isConfirm)}
       onConfirm={onUnbindingConfig}

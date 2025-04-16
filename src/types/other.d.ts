@@ -35,6 +35,15 @@ declare namespace OtherTypes {
     isOpen: boolean;
     className?: string;
     isLoading?: boolean;
+    confirmColor?:
+      | "default"
+      | "primary"
+      | "secondary"
+      | "success"
+      | "warning"
+      | "danger"
+      | undefined;
+
     cancelColor?:
       | "default"
       | "primary"

@@ -1,6 +1,5 @@
 import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
-import { SVGS } from "@/svg"
 import { cn, Image, Input, Select, SelectItem, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
@@ -440,11 +439,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     }
   ]
 
-
-  console.log('chasdasdas', chooseedType);
-
-
-
   return <div className="w-full mt-[4.5625rem] ">
     <div className=" flex justify-center flex-col items-center  w-[37.5rem] m-auto">
       {chooseedType.startsWith('X86')
@@ -473,25 +467,20 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         msg={
           <>
             Please make sure you have selected the right region. You'll need to unbind and re-bind your Edge Node if you want to change region.
-
           </>
         }
-
         isOpen={isConfirmInfo.open}
+        confirmColor='primary'
+        cancelColor="default"
         onCancel={() => setIsConfirmInfo({ open: false, type: undefined })}
         onConfirm={async () => {
-
-
           setIsConfirmInfo({ open: false, type: undefined })
           const { data } = await bind.refetch()
           console.log('onBindingConfigadsa', data);
           if (!data) return
-
           if (isConfirmInfo.type) {
             onStepNext()
-
           } else {
-
             onX86StepNext()
           }
         }}
