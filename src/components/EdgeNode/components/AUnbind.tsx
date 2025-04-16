@@ -66,7 +66,6 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const onUnbindingConfig = async () => {
     setIsConfirm(!isConfirm)
     await getStatus.refetch()
-    console.log('adsadaonUnbindingConfig', data);
     onDeviceStep()
   }
 
@@ -85,12 +84,11 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           <div className="w-[37.5rem]">
             <div className=" py-5 mt-[4.5625rem] pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
-                {/* <SVGS.SvgXHomeBox /> */}
                 {data?.nodeType === 'x86' ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
               </div>
               {foundDeviceList()}
             </div>
-            <div className="text-[#FFFFFF80] text-sm  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
+            <div className="text-[#FFFFFF80] text-sm mt-[.625rem]  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
               <Btn isLoading={getStatus.isFetching} onClick={() => setIsConfirm(true)} className="w-full rounded-lg " >
                 Confirm Delete

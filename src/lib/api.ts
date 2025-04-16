@@ -45,7 +45,7 @@ Api.interceptors.response.use(
   (error) => {
     console.log("asdasas", error);
 
-    const { status = 0, data } = error.response;
+    const { status = 0, data } = error.response || {};
 
     console.log("statusstatusstatus", status);
 

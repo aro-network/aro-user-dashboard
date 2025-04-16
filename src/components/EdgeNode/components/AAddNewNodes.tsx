@@ -159,7 +159,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
     ]
     return <div className="w-full device">
-      <div className="text-lg">Device found:</div>
+      <div className="text-lg font-Alexandria">Device found:</div>
       <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4  ">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
@@ -184,7 +184,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem]">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center">
+            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria ">
               Step 1: Connect your device
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
@@ -213,7 +213,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] ">
-            <div className="flex w-full  font-normal text-lg leading-5 justify-center">
+            <div className="flex w-full  font-normal text-lg leading-5 justify-center font-Alexandria">
               Step 2: Bind Device to your account
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
@@ -242,13 +242,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] ">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center">
+            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria">
               Step 3: Configure your Edge Node
             </div>
-            <div className="text-xs mt-5 ">Set a name for your Edge Node</div>
+            <div className="text-xs mt-5 font-Alexandria">Set a name for your Edge Node</div>
             <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
-            <div className="text-xs mt-[.9375rem]">Select Service Region</div>
+            <div className="text-xs mt-[.9375rem] font-Alexandria">Select Service Region</div>
             <Select
 
               items={data}
@@ -278,7 +278,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] flex flex-col gap-5 ">
-            <div className="flex w-full justify-center font-normal text-lg leading-5">
+            <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
               Congratulations!
             </div>
             <div className="text-center text-sm ">
@@ -324,7 +324,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem]">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center">
+            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria">
               Step 1: Connect your device
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
@@ -384,7 +384,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] ">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center">
+            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria">
               Step 3: Configure your Edge Node
             </div>
 
@@ -420,7 +420,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] flex flex-col gap-5 ">
-            <div className="flex w-full justify-center font-normal text-lg leading-5">
+            <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
               Congratulations!
             </div>
             <div className="text-center text-sm ">
