@@ -2,11 +2,10 @@ import { Btn } from "@/components/btns"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import backendApi from "@/lib/api"
 import { covertText } from "@/lib/utils"
-import { SVGS } from "@/svg"
-import { CircularProgress, cn, Spinner } from "@nextui-org/react"
+import { CircularProgress, cn, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, useState } from "react"
-import { IoIosCheckmarkCircle } from "react-icons/io"
+import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => (
@@ -28,16 +27,16 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const foundDeviceList = () => {
     const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = data || {}
     const list = [
-      { name: 'Device Type:', value: covertText(nodeType as "box" | "x86") },
-      { name: 'Serial Number:', value: nodeUUID },
+      { name: 'Device Type', value: covertText(nodeType as "box" | "x86") },
+      { name: 'Serial Number', value: nodeUUID },
       {
-        name: 'Network Status:', value: <div className="flex items-center">
-          {online ? <IoIosCheckmarkCircle className="text-green-400" /> : <SVGS.Svgoffline />}
-          <label className={`ml-1 ${online && 'text-green-400'} `}>{online ? 'Online' : 'Offline'}</label>
+        name: 'Network Status', value: <div className="flex items-center">
+          {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-xs" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-xs" />}
+          <label className={`ml-1 text-xs ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
         </div>
       },
-      { name: 'Device IP:', value: ip },
-      { name: ' Current Binding:', value: bindState },
+      { name: 'Device IP', value: ip },
+      { name: 'Current Binding', value: bindState },
 
     ]
     return <div className="w-full device">
@@ -47,7 +46,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>
             <span className={cn('text-[#FFFFFF80] text-sm  text-center', {
-              "text-[#FF6A6C]": item.name === 'Current Binding' && bindState === 'Detected',
+              "text-[#FF6A6C]": item.name === 'Current Binding'
             }
             )}> {item.value}</span>
           </div>

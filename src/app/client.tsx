@@ -7,7 +7,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useThemeState } from "@/components/theme-mode";
-
+import { IoIosCloseCircle } from "react-icons/io";
+import { CiWarning } from "react-icons/ci";
 const client = new QueryClient({
   defaultOptions: {
     queries: {
@@ -47,13 +48,28 @@ export function PageLayout({ children }: { children: ReactNode }) {
   }
   return (
     <>
-      <Toaster position="top-right" offset={100} theme="light" style={
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        { '--width': '15rem' }
-      } toastOptions={{
-        classNames: { 'toast': "rounded-xl bg-[#585858] border border-solid border-white/10 text-white/60 text-xs px-4 py-2" }
-      }} />
+      <Toaster
+        richColors
+        position="top-right"
+        offset={100}
+        theme="light"
+        style={
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          { '--width': '15rem' }
+        }
+        toastOptions={{
+          classNames: {
+            toast: "rounded-xl bg-[#585858] border border-solid border-white/10 text-white/60 text-xs px-4 py-2",
+            error: '!bg-[#FFD4D7] flex !items-start !pt-3',
+            warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5',
+          }
+        }}
+        icons={{
+          error: <IoIosCloseCircle className="text-[#FF6A6C] text-xl" />,
+          warning: <CiWarning className="text-[#FFF] text-sm  " />
+        }}
+      />
       <Providers>{children}</Providers>
     </>
   );

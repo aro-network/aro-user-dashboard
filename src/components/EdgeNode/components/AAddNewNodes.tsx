@@ -1,6 +1,6 @@
 import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
-import { cn, Image, Input, Select, SelectItem, } from "@nextui-org/react"
+import { cn, Image, Input, Select, SelectItem, add } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
@@ -65,7 +65,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   const { data: info, isFetching, refetch } = useQuery({
-    queryKey: ["DeviceStatusInfo"],
+    queryKey: ["DeviceStatusInfo", serialNum],
     enabled: false,
     queryFn: () => backendApi.getDeviceStatusInfo(serialNum, 'box')
 
@@ -75,9 +75,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const onContinue = async () => {
     if (!serialNum) return
     const { data } = await refetch()
-
     if (data?.online) {
-
       setDeviceInfo(data)
       if (stepIndex < homeBoxStep.length - 1) {
         setStepIndex(stepIndex + 1)
@@ -109,7 +107,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setX86StepIndex(stepX86Index + 1)
       }
     } else if (data?.online === false) {
-      toast.error('Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.')
+      toast.error('Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.',)
     }
   }
 
@@ -153,7 +151,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       {
         name: 'Network Status', value: <div className="flex items-center">
           {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-xs" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-xs" />}
-          <label className={`ml-1 text-xs ${online ? 'text-green-400' : 'text-[FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
+          <label className={`ml-1 text-xs ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
         </div>
       },
       { name: 'Device IP', value: ip },
@@ -232,7 +230,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             )}>
               {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the binding process will fail. ' : 'This device has been already binded to an EnReach Account. Please unbind device to create a new binding.'}
             </div>
-            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
+            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
               <Btn onClick={() => onStepNext()} className="w-full rounded-lg" >
                 Continue
               </Btn>
@@ -268,7 +266,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Please select the right region for your Edge Node. You cannot change this setting after registration.
             </div>
 
-            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
+            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
               <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg" >
                 Bind
               </Btn>
@@ -314,7 +312,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="mt-5 text-[#FFFFFF80] text-sm text-center">
               Make sure you have followed the guidance and complete initial network configurations on your X86 Node CLI before continue.
             </div>
-            <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
+            <div className="flex justify-center items-center mt-[.75rem]  flex-col  gap-[.625rem]">
               <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg" >
                 Continue
               </Btn>
@@ -343,7 +341,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               onChange={(e) => {
                 setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
               }} />
-            <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
+            <div className="flex justify-center items-center mt-[.75rem] flex-col  gap-[.625rem]">
               <Btn isDisabled={!serialNum} isLoading={x86Status.isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
                 Continue
               </Btn>
@@ -410,7 +408,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Please select the right region for your Edge Node. You cannot change this setting after registration.
             </div>
 
-            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
+            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
               <Btn isLoading={bind.isFetching} isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
                 Bind
               </Btn>
