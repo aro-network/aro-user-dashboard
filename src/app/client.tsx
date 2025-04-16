@@ -61,13 +61,13 @@ export function PageLayout({ children }: { children: ReactNode }) {
         toastOptions={{
           classNames: {
             toast: "rounded-xl bg-[#585858] border border-solid border-white/10 text-white/60 text-xs px-4 py-2",
-            error: '!bg-[#FFD4D7] flex !items-start !pt-3',
-            warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5',
+            error: '!bg-[#FFD4D7] flex !items-start !pt-3 text-xs',
+            warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5 ',
           }
         }}
         icons={{
           error: <IoIosCloseCircle className="text-[#FF3A3D] text-sm" />,
-          warning: <CiWarning className="text-[#FFF] text-sm  " />
+          warning: <CiWarning className="text-[#FFF] text-sm" />
         }}
       />
       <Providers>{children}</Providers>
