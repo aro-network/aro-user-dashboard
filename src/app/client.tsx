@@ -66,7 +66,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
           }
         }}
         icons={{
-          error: <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />,
+          error: <IoIosCloseCircle className="text-[#FF3A3D] text-sm" />,
           warning: <CiWarning className="text-[#FFF] text-sm  " />
         }}
       />
