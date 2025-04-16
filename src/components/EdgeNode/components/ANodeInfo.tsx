@@ -369,7 +369,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType, onSwitchToUnbind: (e?:
       </div>
     </div>
       :
-      <div className="flex justify-center w-full items-center h-full">
+      <div className="flex justify-center pt-[4.5625rem]  w-full items-center h-full">
         <CircularProgress label="Loading..." />
       </div>
     }

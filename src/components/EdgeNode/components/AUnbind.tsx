@@ -3,6 +3,7 @@ import { ConfirmDialog } from "@/components/dialogimpls"
 import backendApi from "@/lib/api"
 import { covertText } from "@/lib/utils"
 import { SVGS } from "@/svg"
+import { CircularProgress, cn, Spinner } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, useState } from "react"
 import { IoIosCheckmarkCircle } from "react-icons/io"
@@ -45,7 +46,10 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>
-            <span className="text-[#FFFFFF80]  "> {item.value}</span>
+            <span className={cn('text-[#FFFFFF80] text-sm  text-center', {
+              "text-[#FF6A6C]": item.name === 'Current Binding' && bindState === 'Detected',
+            }
+            )}> {item.value}</span>
           </div>
         })}
 
@@ -61,9 +65,10 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
 
   const onUnbindingConfig = async () => {
+    setIsConfirm(!isConfirm)
     const { data } = await getStatus.refetch()
     if (data) {
-      setIsConfirm(!isConfirm)
+
       onDeviceStep()
     }
   }
@@ -90,7 +95,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
             </div>
             <div className="text-[#FFFFFF80] text-sm  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onClick={() => setIsConfirm(true)} className="w-full rounded-lg " >
+              <Btn isLoading={getStatus.isFetching} onClick={() => setIsConfirm(true)} className="w-full rounded-lg " >
                 Confirm Delete
               </Btn>
             </div>
@@ -119,16 +124,20 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   ]
 
   return <div className="">
-    <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
+    {isFetching ? <div className="flex justify-center w-full pt-[4.5625rem] items-center h-full">
+      <CircularProgress label="Loading..." />
+    </div> :
+      <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
+    }
     <ConfirmDialog
       tit="Delete this device"
       msg={
         <>
           Are you sure you really want to delete Edge Node?
-
         </>
       }
-      isLoading={getStatus.isFetching}
+      confirmText={'Yes'}
+
       isOpen={isConfirm}
       onCancel={() => setIsConfirm(!isConfirm)}
       onConfirm={onUnbindingConfig}

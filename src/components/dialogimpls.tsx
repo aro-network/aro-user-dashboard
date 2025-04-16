@@ -26,7 +26,7 @@ export function ConfirmDialog({
             </Btn>
           }
           {cancelText &&
-            <Btn className="h-[1.875rem]" color={cancelColor} onClick={onCancel}>
+            <Btn className="h-[1.875rem]" isLoading={isLoading} color={cancelColor} onClick={onCancel}>
               {cancelText}
             </Btn>
           }

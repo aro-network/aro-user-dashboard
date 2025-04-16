@@ -39,6 +39,12 @@ export function PageLayout({ children }: { children: ReactNode }) {
     }
   }, [init]);
   if (!init) return null;
+
+  if (process.env.NODE_ENV === "production") {
+    console.log = function () { };
+    console.error = function () { };
+    console.warn = function () { };
+  }
   return (
     <>
       <Toaster position="top-right" offset={100} theme="light" style={

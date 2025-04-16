@@ -1,18 +1,18 @@
 import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
 import { SVGS } from "@/svg"
-import { cn, Input, Select, SelectItem, } from "@nextui-org/react"
+import { cn, Image, Input, Select, SelectItem, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
-import { IoIosCheckmarkCircle } from "react-icons/io"
+import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 import { addType } from "../ANodes"
 import { covertText } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
 
 const devicrsType = [
-  { icon: () => <img src='../box.png' alt="box" className="w-[90%] h-[90%]" />, name: 'Home Box' },
-  { icon: () => <img src='../x86.png' alt="X86 Server" className="w-[90%] h-[90%]" />, name: 'X86 Server', },
+  { icon: () => <Image src='../box.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="box" />, name: 'Home Box' },
+  { icon: () => <Image src='../x86.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="X86 Server" />, name: 'X86 Server', },
 ]
 
 const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
@@ -78,12 +78,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     const { data } = await refetch()
 
     if (data?.online) {
-      console.log('datadata', data);
 
       setDeviceInfo(data)
       if (stepIndex < homeBoxStep.length - 1) {
         setStepIndex(stepIndex + 1)
       }
+    } else if (data?.online === false) {
+      toast.error('Sorry, we cannot find your Box. Please make sure your Box is powered on and have internet access.')
     }
 
   }
@@ -108,6 +109,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       if (stepX86Index < x86Step.length - 1) {
         setX86StepIndex(stepX86Index + 1)
       }
+    } else if (data?.online === false) {
+      toast.error('Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.')
     }
   }
 
@@ -150,8 +153,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       { name: 'Serial Number', value: nodeUUID },
       {
         name: 'Network Status', value: <div className="flex items-center">
-          {online ? <IoIosCheckmarkCircle className="text-green-400" /> : <SVGS.Svgoffline />}
-          <label className={`ml-1 ${online ? 'text-green-400' : 'text-[red]'} `}>{online ? 'Online' : 'Offline'}</label>
+          {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-xs" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-xs" />}
+          <label className={`ml-1 text-xs ${online ? 'text-green-400' : 'text-[FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
         </div>
       },
       { name: 'Device IP', value: ip },
@@ -409,7 +412,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
+              <Btn isLoading={bind.isFetching} isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
                 Bind
               </Btn>
             </div>
@@ -473,10 +476,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
           </>
         }
-        isLoading={bind.isFetching}
+
         isOpen={isConfirmInfo.open}
         onCancel={() => setIsConfirmInfo({ open: false, type: undefined })}
         onConfirm={async () => {
+
+
+          setIsConfirmInfo({ open: false, type: undefined })
           const { data } = await bind.refetch()
           console.log('onBindingConfigadsa', data);
           if (!data) return
@@ -488,8 +494,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
             onX86StepNext()
           }
-
-          setIsConfirmInfo({ open: false, type: undefined })
         }}
       />
 

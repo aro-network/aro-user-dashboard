@@ -40,7 +40,7 @@ const ANodes = () => {
     ? "Node Details"
     : isOpen
       ? "Add New Node"
-      : unbindInfo ? 'Unbind' : "All Nodes";
+      : unbindInfo ? 'Delete' : "All Nodes";
 
 
   const { data, isFetching, refetch } = useQuery({
@@ -154,8 +154,6 @@ const ANodes = () => {
               selectList={isShowNodeInfo.list} />
       )
       }
-
-
     </>
   )
 }
