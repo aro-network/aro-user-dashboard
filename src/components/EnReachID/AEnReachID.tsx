@@ -46,10 +46,10 @@ const AEnReachID = () => {
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 flex items-center justify-between ">
           <div>
             <div className=" font-semibold text-sm ">
-              {formatStr(address!)} Address
+              Address
             </div>
             <label className="font-normal text-xs text-[#FFFFFF99]">
-              5H73uVr7ZYmRVucpxuNAmEoEphTwqGhB6vmEAzZb1wbn
+              {address}
             </label>
           </div>
           <div className="flex justify-between gap-[.625rem] items-center">

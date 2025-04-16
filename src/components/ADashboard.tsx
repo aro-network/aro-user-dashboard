@@ -236,13 +236,13 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               <DropdownItem>
                 <button onClick={() => r.push('?mode=enreachId&tab=enreachId')} className="flex gap-[.625rem] items-center">
                   <FiUser />
-                  <label className="font-medium text-sm  text-[#FFFFFF99]">My EnReach ID</label>
+                  <label className="font-medium text-sm  text-[#FFFFFF99] cursor-pointer">My EnReach ID</label>
                 </button>
               </DropdownItem>
               <DropdownItem>
                 <button onClick={() => toggleShowConfirmLogout()} className="flex gap-[.625rem]  items-center">
                   <FiLogOut />
-                  <label className="font-medium text-sm  text-[#FFFFFF99]">Sign Out Account</label>
+                  <label className="font-medium text-sm  text-[#FFFFFF99] cursor-pointer">Sign Out Account</label>
                 </button>
               </DropdownItem>
             </DropdownMenu>
