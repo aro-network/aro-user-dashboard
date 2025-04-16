@@ -91,7 +91,6 @@ const Modes: Dashboard.ModesType[] = [
 ]
 
 const ADashboard: FC<Dashboard.MenusProps> = () => {
-
   const ac = useAuthContext();
   const [currentTab, setCurrentTab] = useState<typeof Modes[0]['children'][0]>(Modes[0].children[0]);
   const [selectedTab, setSelectedTab] = useState<Dashboard.ModesType>(Modes[0]);
@@ -105,8 +104,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { address, isConnected, } = useAppKitAccount()
   const username = user?.email?.split('@')[0] || ''
   const [refreshKey, setRefreshKey] = useState(0);
-
-
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const modeFromURL = searchParams.get("mode");
@@ -147,33 +145,32 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
 
-
-
   return (
     <div className=" sticky top-0">
       <div className=" flex h-[3.75rem] flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px]  ">
         <div className="flex items-center  gap-5 smd:flex-col">
           <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
-
-          <Dropdown >
-            <DropdownTrigger>
-              <Button className="rounded-[.625rem]  cursor-pointer h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
-                {selectedTab.label}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              disallowEmptySelection
-              aria-label="selected tab"
-              selectedKeys={[selectedTab.name]}
-              selectionMode="single"
-              variant="flat"
-            >
-              {Modes.map((mode) => {
-                return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => handleModeChange(mode)}>{mode.label}</DropdownItem>
-              }
-              )}
-            </DropdownMenu>
-          </Dropdown>
+          <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+            <Dropdown isOpen={isOpen}>
+              <DropdownTrigger  >
+                <Button className="rounded-[.625rem]  cursor-pointer h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
+                  {selectedTab.label}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="selected tab"
+                selectedKeys={[selectedTab.name]}
+                selectionMode="single"
+                variant="flat"
+              >
+                {Modes.map((mode) => {
+                  return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => handleModeChange(mode)}>{mode.label}</DropdownItem>
+                }
+                )}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
         </div>
         <div className="flex gap-[1.875rem] items-center">
           <SocialButtons />
