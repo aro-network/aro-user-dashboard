@@ -215,7 +215,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             <div className="flex w-full justify-between">
 
               <span className="font-semibold text-base leading-10 ">Rewards</span>
-              <Btn className="h-5">Go to Claim Page</Btn>
+              <Btn className="h-5 font-normal">Go to Claim Page</Btn>
             </div>
             <div className="flex justify-between">
               <div className="text-sm font-semibold flex flex-col justify-between gap-[.625rem] ">

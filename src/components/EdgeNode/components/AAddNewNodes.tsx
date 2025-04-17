@@ -9,9 +9,16 @@ import { covertText } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
 
-const devicrsType = [
-  { icon: () => <Image src='../box.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="box" />, name: 'Home Box' },
-  { icon: () => <Image src='../x86.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="X86 Server" />, name: 'X86 Server', },
+type DeviceType = {
+  icon: () => JSX.Element,
+  name: string,
+  value?: 'box' | 'x86'
+
+}
+
+const deviceList: DeviceType[] = [
+  { icon: () => <Image src='../box.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="box" />, name: 'Home Box', value: 'box' },
+  { icon: () => <Image src='../x86.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="X86 Server" />, name: 'X86 Server', value: 'x86' },
 ]
 
 const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
@@ -23,7 +30,7 @@ const X86 = ({ stepIndex, x86Step }: { stepIndex: number, x86Step: { content: Re
 );
 
 const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<addType> }> = ({ onBack, onSelectedType, addRef }) => {
-  const [chooseedType, setChooseedType] = useState('')
+  const [chooseedType, setChooseedType] = useState<Omit<DeviceType, 'icon' | 'name'>>()
   const [stepIndex, setStepIndex] = useState(0)
   const [stepX86Index, setX86StepIndex] = useState(0)
   const [serialNum, setSerialNum] = useState('')
@@ -50,7 +57,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   useImperativeHandle(
     addRef,
     () => ({
-      switchTo: () => { setBindInfo({ deviceName: '', regions: new Set() }); setChooseedType(''); setSerialNum(''); setStepIndex(0); setX86StepIndex(0) },
+      switchTo: () => {
+        setBindInfo({ deviceName: '', regions: new Set() });
+        setChooseedType(undefined);
+        setSerialNum('');
+        setStepIndex(0);
+        setX86StepIndex(0)
+      },
     }),
     []
   );
@@ -105,7 +118,16 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setX86StepIndex(stepX86Index + 1)
       }
     } else if (data?.online === false) {
-      toast.error('Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.',)
+      toast.error(
+        <div className="  flex  w-full gap-5">
+          <div>
+            <IoIosCloseCircle className="text-[#FF3A3D] text-sm" />
+          </div>
+          <span>
+            Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.
+          </span>
+        </div>
+      )
     }
   }
 
@@ -116,7 +138,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const bind = useQuery({
     queryKey: ["DeviceBind", bindInfo.deviceName],
     enabled: false,
-    queryFn: () => backendApi.bindingConfig(serialNum, bindInfo.deviceName, Array.from(bindInfo.regions)[0])
+    queryFn: () => backendApi.bindingConfig(serialNum, bindInfo.deviceName, Array.from(bindInfo.regions)[0], chooseedType?.value)
 
   });
 
@@ -216,8 +238,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
-                {/* <SVGS.SvgXHomeBox /> */}
-                {chooseedType.startsWith('X86') ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
+                <img src={`./${chooseedType?.value}.png`} alt="x86" style={{ height: '100%', width: '100%' }} />
               </div>
               {foundDeviceList()}
             </div>
@@ -226,7 +247,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the binding process will fail. ' : 'This device has been already binded to an EnReach Account. Please unbind device to create a new binding.'}
+              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the binding process will fail. ' : 'This device has been already binded to an EnReach Account. Please delete device to create a new binding.'}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
               <Btn onClick={() => onStepNext()} className="w-full rounded-lg" >
@@ -358,8 +379,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[50%]">
-                {/* <SVGS.SvgXHomeBox /> */}
-                {chooseedType.startsWith('X86') ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
+                <img src={`./${chooseedType?.value}.png`} alt={`${chooseedType?.value}`} style={{ height: '100%', width: '100%' }} />
               </div>
               {foundDeviceList()}
             </div>
@@ -368,7 +388,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.' : 'This device has been already binded to an EnReach Account. Please unbind device to create a new binding.'}
+              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.' : 'This device has been already binded to an EnReach Account. Please delete device to create a new binding.'}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
               <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg " >
@@ -435,21 +455,25 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     }
   ]
 
+
+  console.log('bindingConfigbindingConfig', chooseedType);
+
+
   return <div className="w-full mt-[4.5625rem] ">
     <div className=" flex justify-center flex-col items-center  w-[37.5rem] m-auto">
-      {chooseedType.startsWith('X86')
+      {chooseedType?.value === 'x86'
         ? <div>  <X86 stepIndex={stepX86Index} x86Step={x86Step} /></div>
-        : chooseedType.startsWith('Home') ?
+        : chooseedType?.value === 'box' ?
           <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
 
           <div className="w-full text-center flex flex-col items-center ">
             <label className="font-normal text-lg leading-5 ">Please choose which type of Edge Node you want to add:</label>
             <div className="flex  gap-10 mt-10 w-full justify-center m-auto px-[3.75rem]">
-              {devicrsType.map((item, index) => {
+              {deviceList.map((item, index) => {
                 const IconComponent = item.icon;
                 return <div onClick={() => {
                   onSelectedType(item.name)
-                  setChooseedType(item.name)
+                  setChooseedType(item)
                 }} key={`device_${index}`} className=" hover:border-[#4281FF] text-center cursor-pointer w-full border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-4 flex items-center justify-center flex-col">
                   <IconComponent />
                   <div className="text-lg py-5 w-full justify-center flex">{item.name}</div>
@@ -462,7 +486,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         tit="Bind this device"
         msg={
           <>
-            Please make sure you have selected the right region. You'll need to unbind and re-bind your Edge Node if you want to change region.
+            Please make sure you have selected the right region. You'll need to delete and re-bind your Edge Node if you want to change region.
           </>
         }
         isOpen={isConfirmInfo.open}

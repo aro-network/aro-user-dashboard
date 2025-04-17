@@ -47,8 +47,6 @@ Api.interceptors.response.use(
 
     const { status = 0, data } = error.response || {};
 
-    console.log("statusstatusstatus", status);
-
     switch (status) {
       case 400:
         toast.error(data.message || "请求错误");
@@ -204,13 +202,16 @@ const backendApi = {
   bindingConfig: async (
     nodeId: string,
     nodeName: string,
-    regionCode: string
+    regionCode: string,
+    deviceType?: "box" | "x86"
   ) => {
-    const response = await Api.post(`${prefixUrl}${nodeId}/bind`, {
-      nodeName,
-      regionCode,
-    });
-    console.log("responseresponse", response);
+    const response = await Api.post(
+      `${prefixUrl}${nodeId}/bind?deviceType=${deviceType}`,
+      {
+        nodeName,
+        regionCode,
+      }
+    );
 
     return response.data;
   },
