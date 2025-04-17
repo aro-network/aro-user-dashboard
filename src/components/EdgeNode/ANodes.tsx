@@ -9,15 +9,6 @@ import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
-export const allNodes: EdgeNodeMode.CommonProps['data'] = [
-  { deviceName: 'Home Node 001', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
-  { deviceName: 'Home Node 002', icon: <img src={`./box.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
-  { deviceName: 'Home Node 003', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
-  { deviceName: 'Home Node 004', icon: <img src={`./box.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
-  { deviceName: 'Home Node 005', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'offline' },
-  { deviceName: 'Home Node 006', icon: <img src={`./x86.png`} alt={`x86`} style={{ height: '100%', width: '100%' }} />, mode: 'H8SMNNOP5', when: 'Today', experience: < ><label className="text-[#4281FF]">+3.7</label><label>$REACH</label></>, status: 'online' },
-]
-
 
 export type addType = { switchTo: () => void; }
 
@@ -103,12 +94,8 @@ const ANodes = () => {
             <Btn className="h-[1.875rem] rounded-lg">Go to Web Console</Btn>
             <Btn onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeId)} className="bg-[#F5F5F51A] h-[1.875rem] rounded-lg ">Delete</Btn>
           </div>
-
         }
-
       </div>
-
-
       {unbindInfo ? <AUnbind nodeId={unbindInfo}
         onBack={
           () => {

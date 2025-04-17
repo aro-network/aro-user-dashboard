@@ -5,7 +5,8 @@ import { useDebounceMeasureWidth } from "./AOverview";
 import { SVGS } from "@/svg";
 import { useState } from "react";
 import ACommonNodes from "./components/ACommonNodes";
-import { allNodes } from "./ANodes";
+import { useQuery } from "@tanstack/react-query";
+import backendApi from "@/lib/api";
 
 const AStats = () => {
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
@@ -251,6 +252,29 @@ const AStats = () => {
 
   const value = status ? '今日' : '昨日'
 
+
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["NodeList"],
+    enabled: true,
+    queryFn: async ({ pageParam: pageNum }) => {
+      const pageSize = 10
+      const pageParams = { pageSize, pageNum }
+      const data = await backendApi.getNodeList()
+      const list = data.map((item) => {
+        return {
+          deviceName: item.nodeName,
+          icon: <img src={`./${item.nodeType}.png`} alt={`${item.nodeType}`} style={{ height: '100%', width: '100%' }} />,
+          mode: item.nodeUUID,
+          when: 'Today',
+          experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">{item.rewards}</label><label>$BERRY</label></>,
+          status: item.online,
+          nodeId: item.nodeUUID
+        }
+      })
+      return list
+    }
+  });
+
   return (
     <>
       <div className=" flex justify-between mb-5 h-[2.125rem] items-center">
@@ -282,7 +306,7 @@ const AStats = () => {
         </div>
 
       </div>
-      {!isShowNodeInfo ? <ACommonNodes isLoading={false} data={[]} onOpenModal={() => setShowNodeInfo(!isShowNodeInfo)} /> :
+      {!isShowNodeInfo ? <ACommonNodes isLoading={isFetching} data={data} onOpenModal={() => { }} /> :
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full pb-10  ">
           <TitCard
             tit={`${value}在线情况`}

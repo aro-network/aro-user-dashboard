@@ -12,7 +12,7 @@ import { useCopy } from "@/hooks/useCopy";
 import { Btn } from "./btns";
 import { useToggle } from "react-use";
 import { ConfirmDialog } from "./dialogimpls";
-import { ANodes, AOverview, ARewards, AStats } from "./EdgeNode";
+import { ANodes, AOverview, AStats } from "./EdgeNode";
 import { AEnReachID, AFunds } from "./EnReachID";
 import { AEdgeNode, ALeaderboard } from "./NetworkExplorer";
 import { AnimatePresence } from "motion/react"
@@ -39,11 +39,7 @@ const Modes: Dashboard.ModesType[] = [
         content: <AStats />,
         tab: 'stats'
       },
-      // {
-      //   name: "Rewards",
-      //   content: <ARewards />,
-      //   tab: 'rewards'
-      // }
+
     ],
   },
   {

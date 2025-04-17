@@ -4,12 +4,8 @@ import { FC } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 
 const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, className, isLoading }) => {
-
-
   return <div>
-
     <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] w-full gap-5 mt-5 `, className)}>
-
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
         return <div
           key={`nodes_${index}`}
@@ -27,7 +23,6 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
                 <div className="flex items-center gap-1 ">
                   {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-xs" />}
                   <label
-
                     className={cn(' text-sm ', {
                       "text-[#34D399]": node.status,
                       "text-[#FF6A6C]": !node.status
