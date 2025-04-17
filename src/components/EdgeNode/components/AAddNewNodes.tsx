@@ -170,8 +170,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       { name: 'Serial Number', value: nodeUUID },
       {
         name: 'Network Status', value: <div className="flex items-center">
-          {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-xs" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-xs" />}
-          <label className={`ml-1 text-xs ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
+          {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
+          <label className={`ml-1 text-sm ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
         </div>
       },
       { name: 'Device IP', value: ip },

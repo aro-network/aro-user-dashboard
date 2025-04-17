@@ -43,26 +43,33 @@ Api.interceptors.request.use(
 Api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log("asdasas", error);
+    const {
+      status = 0,
+      data: { message = "Network Error" },
+    } = error.response || {};
 
-    const { status = 0, data } = error.response || {};
+    console.log("asdasas", status, message);
 
     switch (status) {
       case 400:
-        toast.error(data.message || "请求错误");
+        toast.error(message || "Bad Request", { id: "error-toast" });
         break;
       case 401:
-        toast.warning("登录过期，请重新登录");
+        toast.warning("Session expired, please log in again", {
+          id: "error-toast",
+        });
         window.location.href = "/login";
         break;
       case 403:
-        toast.error("没有权限访问");
+        toast.error("Access denied", { id: "error-toast" });
         break;
       case 500:
-        toast.error("服务器错误，请稍后再试");
+        toast.error("Server error, please try again later", {
+          id: "error-toast",
+        });
         break;
       default:
-        toast.error(data.message || "请求失败");
+        toast.error(message || "Request failed", { id: "error-toast" });
     }
 
     return Promise.reject(error.response.data);

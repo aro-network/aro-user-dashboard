@@ -163,8 +163,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
 
   return <>
-    {!isFetching && data?.nodeUUID ? <div className=" mx-auto w-full mt-5 text-white mb-5">
-      <div className="flex w-full gap-5">
+    {!isFetching && data?.nodeUUID ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
+      <div className="flex w-full gap-5 smd:flex-wrap">
         <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5   mb-6 bg-[#6D6D6D66]">
           <div className="font-semibold text-base leading-10 flex justify-between items-center">
             <span>

@@ -19,7 +19,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const { data, isFetching } = useQuery({
     queryKey: ["DeviceUnbindStatus"],
     enabled: true,
-    queryFn: () => backendApi.getDeviceStatusInfo(nodeId)
+    queryFn: () => backendApi.getDeviceStatusInfo(nodeId),
+    refetchOnWindowFocus: false,
+
 
   });
 
@@ -31,8 +33,8 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       { name: 'Serial Number', value: nodeUUID },
       {
         name: 'Network Status', value: <div className="flex items-center">
-          {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-xs" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-xs" />}
-          <label className={`ml-1 text-xs ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
+          {online ? <IoIosCheckmarkCircle className="text-[#34D399] " /> : <IoIosCloseCircle className="text-[#FF6A6C]" />}
+          <label className={`ml-1  ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
         </div>
       },
       { name: 'Device IP', value: ip },

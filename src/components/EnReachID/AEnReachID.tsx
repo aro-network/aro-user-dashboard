@@ -49,12 +49,12 @@ const AEnReachID = () => {
               Address
             </div>
             <label className="font-normal text-xs text-[#FFFFFF99]">
-              {address}
+              -
             </label>
           </div>
           <div className="flex justify-between gap-[.625rem] items-center">
             <Btn className="h-[2.125rem]">Bind</Btn>
-            <Btn className="h-[2.125rem]">Unbind</Btn>
+            <Btn disabled={true} className="h-[2.125rem]">Unbind</Btn>
           </div>
         </div>
 

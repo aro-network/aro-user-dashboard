@@ -175,14 +175,14 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             <a href="https://docs.enreach.network/berry-season-1" target="_blank" className="underline-offset-4 h-8 hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999]">Guide</a>
           </div>
 
-          <Dropdown className="bg-[#585858] w-[20.625rem]" placement="bottom-end">
+          <Dropdown className="bg-[#585858] w-[20.625rem] py-[.625rem]" placement="bottom-end">
             <DropdownTrigger>
               <div className="w-8 cursor-pointer">
                 <MAvatar name={user?.email} />
               </div>
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem className=" gap-2 data-[hover=true]:bg-[#585858] ">
+              <DropdownItem isReadOnly className=" gap-2 data-[hover=true]:bg-[#585858] ">
                 <div className="flex items-center gap-[.625rem] cursor-default">
                   <div className="w-8 ">
                     <MAvatar name={user?.email} />
@@ -195,16 +195,16 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               </DropdownItem>
               <DropdownItem
                 isReadOnly
-                className="flex flex-col  justify-start w-full py-5 "
+                className="flex flex-col  justify-start w-full  "
                 startContent={
                   isConnected &&
                   <div className="flex flex-col w-full justify-center"
                   >
-                    <label className="font-medium text-sm">
+                    <label className="font-medium text-sm  border-t  border-[#FFFFFF1A] pt-5">
                       Wallet Connected
                     </label>
 
-                    <div className="flex items-center mt-[.625rem]">
+                    <div className="flex items-center mt-[.625rem] border-b pb-5 border-[#FFFFFF1A]">
                       <label className="font-normal text-xs text-[#FFFFFF99]">
                         {formatStr(address!)}
                       </label>
@@ -218,7 +218,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 }
                 endContent={
                   !isConnected &&
-                  <div className="flex justify-start w-full flex-col gap-2">
+                  <div className="flex justify-start w-full flex-col gap-2 py-5 border-t border-b border-[#FFFFFF1A]">
                     <label className="font-medium text-sm">
                       Wallet Connected
                     </label>
@@ -230,15 +230,17 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               >
               </DropdownItem>
               <DropdownItem>
+                {/* <div className="w-full   border-t border-[#FFFFFF1A] pt-5 bg-fuchsia-600" /> */}
+
                 <button onClick={() => r.push('?mode=enreachId&tab=enreachId')} className="flex gap-[.625rem] items-center">
-                  <FiUser />
-                  <label className="font-medium text-sm  text-[#FFFFFF99] cursor-pointer">My EnReach ID</label>
+                  <FiUser className="text-[#FFFFFF99]" />
+                  <label className="font-medium text-base text-[#FFFFFF99]   cursor-pointer">My EnReach ID</label>
                 </button>
               </DropdownItem>
               <DropdownItem>
                 <button onClick={() => toggleShowConfirmLogout()} className="flex gap-[.625rem]  items-center">
-                  <FiLogOut />
-                  <label className="font-medium text-sm  text-[#FFFFFF99] cursor-pointer">Sign Out Account</label>
+                  <FiLogOut className="text-[#FFFFFF99]" />
+                  <label className="font-medium text-base   text-[#FFFFFF99] cursor-pointer">Sign Out Account</label>
                 </button>
               </DropdownItem>
             </DropdownMenu>
