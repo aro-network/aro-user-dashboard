@@ -18,26 +18,26 @@ const nodeData = {
   totalReach: 290,
   todayReach: 2.1,
   yesterdayReach: 4.6,
-  nodeName: "Home Node 001",
-  nodeId: "H8SMNNOP5",
-  nodeType: "Box",
-  createDate: "2025-01-01",
-  activationCode: "F8V01g6d6g",
-  device: "Box ABC",
-  region: "China 2",
-  externalIp: "116.****.241",
-  ipRegion: "华东上海电信",
-  internalIp: "192.168.50.220",
-  macAddress: "2c:c4:4f:a1:90:f5",
-  natType: "对称型",
-  upnp: "不适用",
-  delay: "---",
-  cpuCores: 4,
-  cpuUsage: 4,
-  ramUsage: 300,
-  totalRam: 1024,
-  romUsage: 1,
-  totalRom: 997,
+  nodeName: "-",
+  nodeId: "-",
+  nodeType: "-",
+  createDate: "-",
+  activationCode: "-",
+  device: "-",
+  region: "-",
+  externalIp: "-",
+  ipRegion: "-",
+  internalIp: "-",
+  macAddress: "-",
+  natType: "-",
+  upnp: "-",
+  delay: "-",
+  cpuCores: '-',
+  cpuUsage: '-',
+  ramUsage: '-',
+  totalRam: '-',
+  romUsage: '-',
+  totalRom: '-',
 };
 
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
@@ -290,13 +290,26 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <span className="text-[#FFFFFF80]">{nodeData.createDate}</span>
             </div>
             <div className="flex justify-between">
-              <span >Device</span>
+              <span >Serial Number</span>
               <span className="text-[#FFFFFF80]">{nodeData.device}</span>
             </div>
             <div className="flex justify-between">
-              <span >Region</span>
+              <span >Device</span>
               <span className="text-[#FFFFFF80]">{nodeData.region}</span>
             </div>
+            <div className="flex justify-between">
+              <span >Registered Region</span>
+              <span className="text-[#FFFFFF80]">{nodeData.region}</span>
+            </div>
+            <div className="flex justify-between">
+              <span > Reputation Rate</span>
+              <span className="text-[#FFFFFF80]">{nodeData.region}</span>
+            </div>
+            <div className="flex justify-between">
+              <span >  Cheating Rate</span>
+              <span className="text-[#FFFFFF80]">{nodeData.region}</span>
+            </div>
+
           </div>
         </div>
 
@@ -307,15 +320,15 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           <div className="flex flex-col gap-[10px] mt-5 text-sm">
 
             <div className="flex justify-between">
-              <span >外网 IP</span>
+              <span >Public IP</span>
               <span className="text-[#FFFFFF80]">{nodeData.externalIp}</span>
             </div>
             <div className="flex justify-between">
-              <span >IP归属</span>
+              <span >IP Location</span>
               <span className="text-[#FFFFFF80]">{nodeData.ipRegion}</span>
             </div>
             <div className="flex justify-between">
-              <span >内外 IP</span>
+              <span >Local IP</span>
               <span className="text-[#FFFFFF80]">{nodeData.internalIp}</span>
             </div>
             <div className="flex justify-between">
@@ -327,7 +340,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <span className="text-[#FFFFFF80]">{nodeData.natType}</span>
             </div>
             <div className="flex justify-between">
-              <span >UPNP</span>
+              <span >Packet Loss Rate</span>
               <span className="text-[#FFFFFF80]">{nodeData.upnp}</span>
             </div>
             <div className="flex justify-between">
@@ -353,11 +366,11 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             </div>
             <div className="flex justify-between">
               <span >RAM</span>
-              <span className="text-[#FFFFFF80]">{nodeData.ramUsage}MB/{nodeData.totalRam}MB</span>
+              <span className="text-[#FFFFFF80]">{nodeData.ramUsage}</span>
             </div>
             <div className="flex justify-between">
               <span >ROM</span>
-              <span className="text-[#FFFFFF80]">{nodeData.romUsage}GB/{nodeData.totalRom}GB</span>
+              <span className="text-[#FFFFFF80]">{nodeData.romUsage}</span>
             </div>
           </div>
         </div>

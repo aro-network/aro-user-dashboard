@@ -78,12 +78,12 @@ const Modes: Dashboard.ModesType[] = [
       },
       {
         name: "Keeper Node",
-        content: <ANodes />,
+        content: '',
         tab: 'keeperNode'
       },
       {
         name: "Incentives",
-        content: <ANodes />,
+        content: '',
         tab: 'incentives'
       },
     ]
@@ -165,7 +165,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 variant="flat"
               >
                 {Modes.map((mode) => {
-                  return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => handleModeChange(mode)}>{mode.label}</DropdownItem>
+                  return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => { handleModeChange(mode); setIsOpen(false) }}>{mode.label}</DropdownItem>
                 }
                 )}
               </DropdownMenu>

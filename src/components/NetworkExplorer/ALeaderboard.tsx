@@ -16,7 +16,7 @@ const ALeaderboard = () => {
       <STable
         isLoading={false}
         loadingContent={<Spinner />}
-        empty="You currently have no running nodes. Click 'Add New Node' button, download and set up your node ready for the Season 1!"
+        empty="No Data"
         head={[
           "#",
           "Edge Node ID",
@@ -25,7 +25,7 @@ const ALeaderboard = () => {
           'Rewards Today'
 
         ]}
-        data={leaderboardList}
+        data={[]}
       />
       {/* {pageChunks.length > 1 && (
         <div className="flex items-center">

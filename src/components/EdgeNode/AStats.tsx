@@ -282,7 +282,7 @@ const AStats = () => {
         </div>
 
       </div>
-      {!isShowNodeInfo ? <ACommonNodes isLoading={false} data={allNodes} onOpenModal={() => setShowNodeInfo(!isShowNodeInfo)} /> :
+      {!isShowNodeInfo ? <ACommonNodes isLoading={false} data={[]} onOpenModal={() => setShowNodeInfo(!isShowNodeInfo)} /> :
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full pb-10  ">
           <TitCard
             tit={`${value}在线情况`}
