@@ -43,33 +43,38 @@ Api.interceptors.request.use(
 Api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const {
-      status = 0,
-      data: { message = "Network Error" },
-    } = error.response || {};
+    const status = error.response?.status || 0;
+    const message =
+      error.response?.data?.message || error.message || "Network Error";
 
-    console.log("asdasas", status, message);
+    console.log("errrrr", error);
 
-    switch (status) {
-      case 400:
-        toast.error(message || "Bad Request", { id: "error-toast" });
-        break;
-      case 401:
-        toast.warning("Session expired, please log in again", {
-          id: "error-toast",
-        });
-        window.location.href = "/login";
-        break;
-      case 403:
-        toast.error("Access denied", { id: "error-toast" });
-        break;
-      case 500:
-        toast.error("Server error, please try again later", {
-          id: "error-toast",
-        });
-        break;
-      default:
-        toast.error(message || "Request failed", { id: "error-toast" });
+    if (!error.response) {
+      toast.error("Network connection failed, please check your internet", {
+        id: "error-toast",
+      });
+    } else {
+      switch (status) {
+        case 400:
+          toast.error(message || "Bad Request", { id: "error-toast" });
+          break;
+        case 401:
+          toast.warning("Session expired, please log in again", {
+            id: "error-toast",
+          });
+          window.location.href = "/login";
+          break;
+        case 403:
+          toast.error("Access denied", { id: "error-toast" });
+          break;
+        case 500:
+          toast.error("Server error, please try again later", {
+            id: "error-toast",
+          });
+          break;
+        default:
+          toast.error(message || "Request failed", { id: "error-toast" });
+      }
     }
 
     return Promise.reject(error.response.data);
@@ -193,7 +198,7 @@ const backendApi = {
     return response.data.data;
   },
 
-  getDeviceStatusInfo: async (nodeId: string, deviceType?: "box" | "x86") => {
+  getDeviceStatusInfo: async (nodeId?: string, deviceType?: "box" | "x86") => {
     const url = deviceType
       ? `${prefixUrl}${nodeId}/stat/?deviceType=${deviceType}`
       : `${prefixUrl}${nodeId}/stat`;
@@ -207,7 +212,7 @@ const backendApi = {
   },
 
   bindingConfig: async (
-    nodeId: string,
+    nodeId?: string,
     nodeName: string,
     regionCode: string,
     deviceType?: "box" | "x86"

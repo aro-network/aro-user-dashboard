@@ -10,14 +10,13 @@ import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 
-export type addType = { switchTo: () => void; }
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
   const [isShowNodeInfo, setShowNodeInfo] = useState<{ open: boolean, list?: EdgeNodeMode.NodeType }>({ open: false, list: undefined });
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>('');
   const [selectedType, setSelectedType] = useState('')
-  const addRef = useRef<addType>(null)
+  const addRef = useRef<Nodes.AddType>(null)
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
     setShowNodeInfo({ open: true, list: e });
@@ -44,7 +43,9 @@ const ANodes = () => {
           icon: <img src={`./${item.nodeType}.png`} alt={`${item.nodeType}`} style={{ height: '100%', width: '100%' }} />,
           mode: item.nodeUUID,
           when: 'Today',
-          experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">+{item.rewards}</label><label className="ml-[.375rem]">$BERRY</label></>,
+          experience: <>
+            <label className="text-[#4281FF] text-2xl font-semibold leading-6">+{item.rewards}</label>
+            <label className="ml-[.375rem]">$BERRY</label></>,
           status: item.online,
           nodeId: item.nodeUUID
         }
@@ -89,10 +90,15 @@ const ANodes = () => {
             </>
           )}
         </div>
-        {!isShowNodeInfo.open && !isOpen ? <Btn className="h-[2.125rem]  rounded-lg" onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn> :
+        {!isShowNodeInfo.open && !isOpen ?
+          <Btn
+            className="h-[2.125rem]  rounded-lg"
+            onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn> :
           !isOpen && !unbindInfo && <div className="flex gap-[.625rem] font-medium text-xs leading-3">
             <Btn className="h-[1.875rem] rounded-lg">Go to Web Console</Btn>
-            <Btn onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeId)} className="bg-[#F5F5F51A] h-[1.875rem] rounded-lg ">Delete</Btn>
+            <Btn
+              onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeId)}
+              className="bg-[#F5F5F51A] h-[1.875rem] rounded-lg ">Delete</Btn>
           </div>
         }
       </div>
@@ -104,9 +110,7 @@ const ANodes = () => {
             setOpenAddNode(false);
             refetch()
             setSelectedType('')
-
           }
-
         } /> : (!isShowNodeInfo.open && !isOpen ? (
           (!data || !data.length) && !isFetching ?
             <div className="w-full flex justify-center items-center mt-[6.5625rem]  ">
@@ -115,7 +119,9 @@ const ANodes = () => {
                 <div className="text-sm text-[#FFFFFF80]">
                   EnReach supports hardware and software solutions on multiple platforms for running an Edge Node. Find which node type is best for you in this guide.
                 </div>
-                <Btn className="h-[2.125rem] w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto" onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn>
+                <Btn
+                  className="h-[2.125rem] w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                  onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn>
               </div>
             </div>
             :
@@ -130,7 +136,6 @@ const ANodes = () => {
                 setOpenAddNode(!isOpen)
                 refetch()
                 setSelectedType('')
-
               }} />
             : <ANodeInfo
               selectList={isShowNodeInfo.list} />

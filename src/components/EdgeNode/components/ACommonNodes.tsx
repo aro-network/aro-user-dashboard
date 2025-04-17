@@ -18,10 +18,10 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
             <div className="flex flex-col">
               <div className="flex items-center  gap-[10px] ">
                 <HelpTip content={node.deviceName}>
-                  <label className="text-[#FFFFFF] text-lg leading-10 truncate">{node.deviceName} </label>
+                  <label className="text-[#FFFFFF] text-lg  truncate">{node.deviceName} </label>
                 </HelpTip>
                 <div className="flex items-center gap-1 ">
-                  {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-xs" />}
+                  {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
                   <label
                     className={cn(' text-sm ', {
                       "text-[#34D399]": node.status,

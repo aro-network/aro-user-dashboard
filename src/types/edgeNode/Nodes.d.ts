@@ -13,11 +13,22 @@ declare namespace Nodes {
     nodeType: "x86" | "box";
     rewards: string;
     totalRewards: string;
-    nodeName: "string";
+    nodeName: string;
+    nodeID: string;
   }
 
   interface TrendingList {
     date: number;
     rewards: string;
   }
+
+  type DeviceType = {
+    icon: () => JSX.Element;
+    name: string;
+    value?: "box" | "x86";
+  };
+
+  type AddType = {
+    switchTo: () => void;
+  };
 }

@@ -4,19 +4,12 @@ import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
-import { addType } from "../ANodes"
 import { covertText } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
 
-type DeviceType = {
-  icon: () => JSX.Element,
-  name: string,
-  value?: 'box' | 'x86'
 
-}
-
-const deviceList: DeviceType[] = [
+const deviceList: Nodes.DeviceType[] = [
   { icon: () => <Image src='../box.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="box" />, name: 'Home Box', value: 'box' },
   { icon: () => <Image src='../x86.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="X86 Server" />, name: 'X86 Server', value: 'x86' },
 ]
@@ -29,11 +22,11 @@ const X86 = ({ stepIndex, x86Step }: { stepIndex: number, x86Step: { content: Re
   <div>{x86Step[stepIndex].content}</div>
 );
 
-const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<addType> }> = ({ onBack, onSelectedType, addRef }) => {
-  const [chooseedType, setChooseedType] = useState<Omit<DeviceType, 'icon' | 'name'>>()
+const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<Nodes.AddType> }> = ({ onBack, onSelectedType, addRef }) => {
+  const [chooseedType, setChooseedType] = useState<Omit<Nodes.DeviceType, 'icon' | 'name'>>()
   const [stepIndex, setStepIndex] = useState(0)
   const [stepX86Index, setX86StepIndex] = useState(0)
-  const [serialNum, setSerialNum] = useState('')
+  const [serialNum, setSerialNum] = useState<{ type?: 'x86' | 'box', num?: string }>()
   const [deviceInfo, setDeviceInfo] = useState<Nodes.DevicesInfo>()
   const [bindInfo, setBindInfo] = useState<{ deviceName: string, regions: Set<string> }>({ deviceName: '', regions: new Set() })
   const [isConfirmInfo, setIsConfirmInfo] = useState<{ open: boolean, type?: string }>({ open: false, type: undefined })
@@ -41,18 +34,17 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const onStepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setStepIndex(0)
-      setSerialNum('')
+      setSerialNum({})
       return
     }
     if (stepIndex < homeBoxStep.length - 1) {
       setStepIndex(stepIndex + 1)
     } else {
       onBack()
-      setSerialNum('')
+      setSerialNum({})
 
     }
   }
-
 
   useImperativeHandle(
     addRef,
@@ -60,7 +52,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       switchTo: () => {
         setBindInfo({ deviceName: '', regions: new Set() });
         setChooseedType(undefined);
-        setSerialNum('');
+        setSerialNum({})
         setStepIndex(0);
         setX86StepIndex(0)
       },
@@ -68,24 +60,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     []
   );
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["Regions"],
     queryFn: () => backendApi.getRegions(),
   });
 
-
-
-  const { data: info, isFetching, refetch } = useQuery({
-    queryKey: ["DeviceStatusInfo", serialNum],
-    enabled: false,
-    queryFn: () => backendApi.getDeviceStatusInfo(serialNum, 'box')
-
-  });
-
-
   const onContinue = async () => {
-    if (!serialNum) return
-    const { data } = await refetch()
+    if (!serialNum?.num) return
+    const { data } = await allStatus.refetch()
     if (data?.online) {
       setDeviceInfo(data)
       if (stepIndex < homeBoxStep.length - 1) {
@@ -94,23 +76,17 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     } else if (data?.online === false) {
       toast.error('Sorry, we cannot find your Box. Please make sure your Box is powered on and have internet access.')
     }
-
   }
 
-
-
-  const x86Status = useQuery({
-    queryKey: ["X86DeviceStatusInfo", serialNum],
+  const allStatus = useQuery({
+    queryKey: ["allDeviceStatusInfo", serialNum],
     enabled: false,
-    queryFn: () => backendApi.getDeviceStatusInfo(serialNum, 'x86')
-
+    queryFn: () => backendApi.getDeviceStatusInfo(serialNum?.num, serialNum?.type)
   });
-
 
   const onX86Continue = async () => {
     if (!serialNum) return
-    const { data } = await x86Status.refetch()
-    console.log('datadatadata', data);
+    const { data } = await allStatus.refetch()
 
     if (data?.online) {
       setDeviceInfo(data)
@@ -118,42 +94,27 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setX86StepIndex(stepX86Index + 1)
       }
     } else if (data?.online === false) {
-      toast.error(
-        <div className="  flex  w-full gap-5">
-          <div>
-            <IoIosCloseCircle className="text-[#FF3A3D] text-sm" />
-          </div>
-          <span>
-            Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.
-          </span>
-        </div>
-      )
+      toast.error('Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.')
     }
   }
-
-
-
-
 
   const bind = useQuery({
     queryKey: ["DeviceBind", bindInfo.deviceName],
     enabled: false,
-    queryFn: () => backendApi.bindingConfig(serialNum, bindInfo.deviceName, Array.from(bindInfo.regions)[0], chooseedType?.value)
+    queryFn: () => backendApi.bindingConfig(serialNum?.num, bindInfo.deviceName, Array.from(bindInfo.regions)[0], chooseedType?.value)
 
   });
 
 
   const onBindingConfig = async (type?: string) => {
     setIsConfirmInfo({ open: true, type })
-    console.log('bindInfobindInfo', bindInfo, !bindInfo.deviceName && !Array.from(bindInfo.regions)[0].length);
-
   }
 
 
   const onX86StepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setX86StepIndex(1)
-      setSerialNum('')
+      setSerialNum({})
       return
     }
     if (stepX86Index < x86Step.length - 1) {
@@ -196,9 +157,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     </div>
   }
 
-
-
-
   const homeBoxStep = [
     {
       content:
@@ -214,14 +172,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <Input
               maxLength={30}
               className=" mt-5 rounded-lg"
-              value={serialNum}
+              value={serialNum?.num}
               onChange={(e) => {
-                setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
+                setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'box' })
               }}
 
             />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum} isLoading={isFetching} onClick={onContinue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onContinue} className="w-full rounded-lg" >
                 Continue
               </Btn>
               <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button>
@@ -354,17 +312,15 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <Input
               maxLength={30}
               errorMessage="Please enter"
-              // isInvalid={!serialNum}
               className=" mt-5 rounded-lg"
-              value={serialNum}
+              value={serialNum?.num}
               onChange={(e) => {
-                setSerialNum(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))
+                setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'x86' })
               }} />
             <div className="flex justify-center items-center mt-[.75rem] flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum} isLoading={x86Status.isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
                 Continue
               </Btn>
-              {/* <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button> */}
             </div>
           </div>
         </div>,
@@ -454,9 +410,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         </div >,
     }
   ]
-
-
-  console.log('bindingConfigbindingConfig', chooseedType);
 
 
   return <div className="w-full mt-[4.5625rem] ">
