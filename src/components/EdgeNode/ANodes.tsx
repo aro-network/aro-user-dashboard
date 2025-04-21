@@ -92,7 +92,7 @@ const ANodes = () => {
         </div>
         {!isShowNodeInfo.open && !isOpen ?
           <Btn
-            className="h-[2.125rem]  rounded-lg"
+            className="h-[1.875rem]  rounded-lg"
             onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn> :
           !isOpen && !unbindInfo && <div className="flex gap-[.625rem] font-medium text-xs leading-3">
             <Btn className="h-[1.875rem] rounded-lg">Go to Web Console</Btn>
@@ -120,7 +120,7 @@ const ANodes = () => {
                   EnReach supports hardware and software solutions on multiple platforms for running an Edge Node. Find which node type is best for you in this guide.
                 </div>
                 <Btn
-                  className="h-[2.125rem] w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                  className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
                   onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn>
               </div>
             </div>
