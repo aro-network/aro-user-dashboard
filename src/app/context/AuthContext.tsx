@@ -1,5 +1,4 @@
 import backendApi from "@/lib/api";
-import { getInjectEnReachAI } from "@/lib/ext";
 import { Opt } from "@/lib/type";
 import { LoginResult } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
@@ -42,15 +41,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       refIsLogout.current = true;
       setUser(null);
       localStorage.removeItem(storageKey);
-      getInjectEnReachAI()?.request({ name: "clearAccessToken" }).catch(console.error);
       r.push("/signin");
     } else {
       refIsLogout.current = false;
       setUser(u);
       localStorage.setItem(storageKey, JSON.stringify(u));
-      if (u.token) {
-        getInjectEnReachAI()?.request({ name: "setAccessToken", body: u.token }).catch(console.error);
-      }
       r.push(redirect ? redirect : "/");
     }
   };

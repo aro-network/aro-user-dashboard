@@ -48,7 +48,7 @@ Api.interceptors.response.use(
       error.response?.data?.message || error.message || "Network Error";
 
     if (!error.response) {
-      toast.error("Network connection failed, please check your internet", {
+      toast.error("Network issue", {
         id: "error-toast",
       });
     } else {

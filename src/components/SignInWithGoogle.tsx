@@ -5,7 +5,6 @@ import { InputSplitCode } from "./inputs";
 import { useMutation } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
-import { handlerError } from "@/lib/utils";
 import { useToggle } from "react-use";
 import { validateReferralCode } from "@/lib/validates";
 import backendApi from "@/lib/api";
