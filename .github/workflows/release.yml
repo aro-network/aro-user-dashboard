@@ -63,7 +63,7 @@ jobs:
           deploy_key: ${{ secrets.DK_STAGING }}
           publish_dir: ./out
           external_repository: EnReachNetwork/enreach-dashboard-staging
-          cname: staging-dashborad.enreach.network
+          cname: staging.dashboard.enreach.netowrk
   prod:
     if: contains(github.event.head_commit.message, '[prod]') || contains(github.event.head_commit.message, '[all]')
     runs-on: ubuntu-latest
