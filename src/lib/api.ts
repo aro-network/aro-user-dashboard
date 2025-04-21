@@ -213,8 +213,8 @@ const backendApi = {
 
   bindingConfig: async (
     nodeId?: string,
-    nodeName: string,
-    regionCode: string,
+    nodeName?: string,
+    regionCode?: string,
     deviceType?: "box" | "x86"
   ) => {
     const response = await Api.post(

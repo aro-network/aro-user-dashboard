@@ -23,7 +23,7 @@ declare namespace Nodes {
   }
 
   type DeviceType = {
-    icon: () => JSX.Element;
+    iconName: "Software" | "Hardware";
     name: string;
     value?: "box" | "x86";
   };

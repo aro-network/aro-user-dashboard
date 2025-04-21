@@ -9,6 +9,7 @@ import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
+// import ANewNodes from "./components/ANewNodes";
 
 
 const ANodes = () => {
@@ -33,6 +34,7 @@ const ANodes = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeList"],
     enabled: true,
+    refetchOnWindowFocus: false,
     queryFn: async ({ pageParam: pageNum }) => {
       const pageSize = 10
       const pageParams = { pageSize, pageNum }

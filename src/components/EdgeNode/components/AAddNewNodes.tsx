@@ -10,8 +10,8 @@ import { toast } from "sonner"
 
 
 const deviceList: Nodes.DeviceType[] = [
-  { icon: () => <Image src='../box.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="box" />, name: 'Home Box', value: 'box' },
-  { icon: () => <Image src='../x86.png' classNames={{ 'wrapper': 'w-[90%] h-[100%]' }} width={'100%'} height={'100%'} alt="X86 Server" />, name: 'X86 Server', value: 'x86' },
+  { iconName: 'Hardware', name: 'Home Box', value: 'box' },
+  { iconName: 'Software', name: 'X86 Server', value: 'x86' },
 ]
 
 const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
@@ -23,7 +23,7 @@ const X86 = ({ stepIndex, x86Step }: { stepIndex: number, x86Step: { content: Re
 );
 
 const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<Nodes.AddType> }> = ({ onBack, onSelectedType, addRef }) => {
-  const [chooseedType, setChooseedType] = useState<Omit<Nodes.DeviceType, 'icon' | 'name'>>()
+  const [chooseedType, setChooseedType] = useState<Omit<Nodes.DeviceType, 'name'>>()
   const [stepIndex, setStepIndex] = useState(0)
   const [stepX86Index, setX86StepIndex] = useState(0)
   const [serialNum, setSerialNum] = useState<{ type?: 'x86' | 'box', num?: string }>()
@@ -74,7 +74,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setStepIndex(stepIndex + 1)
       }
     } else if (data?.online === false) {
-      toast.error('Sorry, we cannot find your Box. Please make sure your Box is powered on and have internet access.')
+      toast.error(`Sorry, we cannot find your ${chooseedType?.iconName}. Please make sure your ${chooseedType?.iconName} is powered on and have internet access.`)
     }
   }
 
@@ -94,7 +94,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setX86StepIndex(stepX86Index + 1)
       }
     } else if (data?.online === false) {
-      toast.error('Sorry, we cannot find your X86 Server. Please make sure your X86 Server is powered on and have internet access.')
+      toast.error(`Sorry, we cannot find your ${chooseedType?.iconName}. Please make sure your ${chooseedType?.iconName} is powered on and have internet access.`)
     }
   }
 
@@ -166,8 +166,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Step 1: Connect your device
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
-              Make sure your box is powered on and connected to the internet (with internet cable).
-              Find the serial number (19-digit numbers) on your box and fill in:
+              Make sure your {chooseedType?.iconName} is powered on and connected to the internet (with internet cable).
+              Find the serial number (19-digit numbers) on your {chooseedType?.iconName} and fill in:
             </div>
             <Input
               maxLength={30}
@@ -179,7 +179,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
             />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onContinue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onClick={onContinue} className="w-full rounded-lg" >
                 Continue
               </Btn>
               <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button>
@@ -207,7 +207,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             )}>
               {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the binding process will fail. ' : 'This device has been already binded to an EnReach Account. Please delete device to create a new binding.'}
             </div>
-            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
+            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5 ">
               <Btn onClick={() => onStepNext()} className="w-full rounded-lg" >
                 Continue
               </Btn>
@@ -259,7 +259,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: Home Box) binding successful.
+              Edge Node (Device Type: {chooseedType?.iconName}) binding successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -274,20 +274,19 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
 
-
   const x86Step = [
     {
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem]">
             <div className="flex w-full font-normal justify-center text-sm leading-5">
-              To add a new X86 Server Node, please refer to the guidance below.
+              To add a new {chooseedType?.iconName} Node, please refer to the guidance below.
             </div>
             <div className="mt-5  text-center text-sm underline underline-offset-1">
-              X86 Node Installation Guidance
+              {chooseedType?.iconName} Node Installation Guidance
             </div>
             <div className="mt-5 text-[#FFFFFF80] text-sm text-center">
-              Make sure you have followed the guidance and complete initial network configurations on your X86 Node CLI before continue.
+              Make sure you have followed the guidance and complete initial network configurations on your {chooseedType?.iconName} Node CLI before continue.
             </div>
             <div className="flex justify-center items-center mt-[.75rem]  flex-col  gap-[.625rem]">
               <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg" >
@@ -306,8 +305,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
               Fill in the Virtual Serial Number in this box.
-              (You will find the Virtual Serial Number on your X86 Node CLI after you have completed network configurations. )
-              Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.
+              (You will find the Virtual Serial Number on your {chooseedType?.iconName} Node CLI after you have completed network configurations. )
+              Please make sure your {chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.
             </div>
             <Input
               maxLength={30}
@@ -344,7 +343,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your X86 Node is connected to the internet during the binding process. Otherwise the binding process will fail.' : 'This device has been already binded to an EnReach Account. Please delete device to create a new binding.'}
+              {deviceInfo?.bindState === 'N/A' ? `Please make sure your ${chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.` : `This device has been already binded to an EnReach Account. Please delete device to create a new binding.`}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
               <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg " >
@@ -398,7 +397,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: X86 Server) binding successful.
+              Edge Node (Device Type: {chooseedType?.iconName}) binding successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -413,23 +412,23 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   return <div className="w-full mt-[4.5625rem] ">
-    <div className=" flex justify-center flex-col items-center  w-[37.5rem] m-auto">
+    <div className=" flex justify-center flex-col items-center  w-[55.625rem] m-auto h-full ">
       {chooseedType?.value === 'x86'
         ? <div>  <X86 stepIndex={stepX86Index} x86Step={x86Step} /></div>
         : chooseedType?.value === 'box' ?
           <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
 
-          <div className="w-full text-center flex flex-col items-center ">
+          <div className="w-full text-center flex flex-col m-auto">
             <label className="font-normal text-lg leading-5 ">Please choose which type of Edge Node you want to add:</label>
             <div className="flex  gap-10 mt-10 w-full justify-center m-auto px-[3.75rem]">
               {deviceList.map((item, index) => {
-                const IconComponent = item.icon;
                 return <div onClick={() => {
-                  onSelectedType(item.name)
+                  onSelectedType(item.iconName)
                   setChooseedType(item)
-                }} key={`device_${index}`} className=" hover:border-[#4281FF] text-center cursor-pointer w-full border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-4 flex items-center justify-center flex-col">
-                  <IconComponent />
-                  <div className="text-lg py-5 w-full justify-center flex">{item.name}</div>
+                }} key={`device_${index}`}
+                  className=" hover:border-[#4281FF] text-center cursor-pointer w-full   border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col">
+                  <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
+                  <div className="text-lg py-5 w-full justify-center flex">{item.iconName}</div>
                 </div>
               })}
             </div>
@@ -449,7 +448,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         onConfirm={async () => {
           setIsConfirmInfo({ open: false, type: undefined })
           const { data } = await bind.refetch()
-          console.log('onBindingConfigadsa', data);
           if (!data) return
           if (isConfirmInfo.type) {
             onStepNext()

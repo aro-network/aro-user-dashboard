@@ -361,8 +361,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <span className="text-[#FFFFFF80]">{nodeData.cpuCores}</span>
             </div>
             <div className="flex justify-between">
-              <span >CPU Usage</span>
-              <span className="text-[#FFFFFF80]">{nodeData.cpuUsage}%</span>
+              <span >CPU Use</span>
+              <span className="text-[#FFFFFF80]">{nodeData.cpuUsage}</span>
             </div>
             <div className="flex justify-between">
               <span >RAM</span>

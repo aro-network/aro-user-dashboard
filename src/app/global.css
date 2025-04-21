@@ -9,6 +9,7 @@ body {
 
 html {
   overflow: hidden;
+  cursor:default;
 }
 body {
   overflow: auto;
