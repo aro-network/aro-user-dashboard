@@ -65,6 +65,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     queryFn: () => backendApi.getRegions(),
   });
 
+
   const onContinue = async () => {
     if (!serialNum?.num) return
     const { data } = await allStatus.refetch()
