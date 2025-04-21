@@ -21,9 +21,9 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
                   <label className="text-[#FFFFFF] text-lg  truncate">{node.deviceName} </label>
                 </HelpTip>
                 <div className="flex items-center gap-1 ">
-                  {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-lg " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-lg" />}
+                  {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-base " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-base" />}
                   <label
-                    className={cn(' text-lg ', {
+                    className={cn('text-base ', {
                       "text-[#34D399]": node.status,
                       "text-[#FF6A6C]": !node.status
                     })}
@@ -31,7 +31,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
                 </div>
               </div>
 
-              <label className="text-[#FFFFFF80] text-sm">{node.mode}</label>
+              <label className="text-[#FFFFFF80] text-sm">{node.nodeId}</label>
             </div>
             <div className="w-full flex gap-[.625rem] text-sm items-center ">
               <div className="text-[#FFFFFF80]">

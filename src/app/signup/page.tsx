@@ -8,7 +8,6 @@ import { PageUnlogin } from "@/components/layouts";
 import { MLink } from "@/components/links";
 import { SignInWithGoogle } from "@/components/SignInWithGoogle";
 import backendApi from "@/lib/api";
-import { handlerError } from "@/lib/utils";
 import { validateConfirmPassword, validateEmail, validatePassword, validateReferralCode, validateVerifyCode } from "@/lib/validates";
 import { SingUpResult } from "@/types/user";
 import { Checkbox, Spinner } from "@nextui-org/react";
@@ -34,7 +33,6 @@ export default function Page() {
   const r = useRouter();
   const refRegisterUser = useRef<SingUpResult>();
   const { mutate: handlerSubmit, isPending } = useMutation({
-    onError: handlerError,
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
       if (!email || !password || !confirmPassword) throw new Error("Please enter email or password");
@@ -46,7 +44,6 @@ export default function Page() {
     },
   });
   const { mutate: handlerVerify, isPending: isPendingVerify } = useMutation({
-    onError: handlerError,
     mutationFn: async () => {
       if (!verifyCode || validateVerifyCode(verifyCode) !== true) throw new Error("Please enter verify code");
       if (!refRegisterUser.current) throw new Error("Please sign up");
@@ -65,7 +62,6 @@ export default function Page() {
     },
   });
   const { mutate: handlerResendVerify, isPending: isPendingResendVerify } = useMutation({
-    onError: handlerError,
     mutationFn: async (e: MouseEvent) => {
       e.preventDefault();
       if (!refRegisterUser.current) throw new Error("Please sign up");

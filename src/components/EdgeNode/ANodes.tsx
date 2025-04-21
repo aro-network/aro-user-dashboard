@@ -1,4 +1,3 @@
-import { SVGS } from "@/svg"
 import { Btn } from "../btns"
 import { useToggle } from "react-use";
 import { useCallback, useRef, useState } from "react";
@@ -9,7 +8,6 @@ import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
-// import ANewNodes from "./components/ANewNodes";
 
 
 const ANodes = () => {
@@ -47,9 +45,9 @@ const ANodes = () => {
           when: 'Today',
           experience: <>
             <label className="text-[#4281FF] text-2xl font-semibold leading-6">+{item.rewards}</label>
-            <label className="ml-[.375rem]">$BERRY</label></>,
+            <label className="ml-[.375rem]">BERRY</label></>,
           status: item.online,
-          nodeId: item.nodeUUID
+          nodeId: item.nodeID
         }
       })
       return list

@@ -7,7 +7,6 @@ import { InputEmail, InputPassword } from "@/components/inputs";
 import { PageUnlogin } from "@/components/layouts";
 import { MLink } from "@/components/links";
 import { SignInWithGoogle } from "@/components/SignInWithGoogle";
-import { handlerError } from "@/lib/utils";
 import { validateEmail } from "@/lib/validates";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useContext, useState } from "react";
@@ -23,7 +22,6 @@ export default function Page() {
   const referral = params.get("referral");
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
-    onError: handlerError,
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
       await ac.login({ email, password });

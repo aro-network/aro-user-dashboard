@@ -6,7 +6,7 @@ import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
 import { FC, useMemo } from "react";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiHelpCircle } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
 import { covertText, fmtDate } from "@/lib/utils";
@@ -302,11 +302,11 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <span className="text-[#FFFFFF80]">{nodeData.region}</span>
             </div>
             <div className="flex justify-between">
-              <span > Reputation Rate</span>
+              <span className="flex gap-[.375rem] items-center" >Reputation Rate <FiHelpCircle className="text-[#FFFFFF80]" /></span>
               <span className="text-[#FFFFFF80]">{nodeData.region}</span>
             </div>
             <div className="flex justify-between">
-              <span >  Cheating Rate</span>
+              <span className="flex gap-[.375rem] items-center" >  Cheating Rate <FiHelpCircle className="text-[#FFFFFF80]" /></span>
               <span className="text-[#FFFFFF80]">{nodeData.region}</span>
             </div>
 

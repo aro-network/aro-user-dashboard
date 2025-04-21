@@ -26,7 +26,6 @@ export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google",
 
 
   const { mutate: handleGoogle, isPending } = useMutation({
-    onError: handlerError,
     mutationFn: async (tokenRes: TokenResponse) => {
       setIsAuthing(false);
       refGoogleToken.current = tokenRes.access_token;
@@ -36,7 +35,7 @@ export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google",
       if (result.token) {
         ac.setUser(result);
       } else if (referralCode && validateReferralCode(referralCode) === true) {
-        const res = await backendApi.loginSetReferralApi({ accessToken: refGoogleToken.current, referralCode: referralCode.trim() }).catch(handlerError);
+        const res = await backendApi.loginSetReferralApi({ accessToken: refGoogleToken.current, referralCode: referralCode.trim() })
         if (res) {
           ac.setUser(res);
         } else {
@@ -51,12 +50,10 @@ export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google",
     flow: "implicit",
     onError: (err) => {
       setIsAuthing(false);
-      handlerError(err.error_description);
     },
     onSuccess: handleGoogle,
   });
   const { mutate: onConfirmReferralCode, isPending: isPendingConfirmReferralCode } = useMutation({
-    onError: handlerError,
     mutationFn: async () => {
       if (validateReferralCode(referralCode) !== true || !refGoogleToken.current) return;
       const res = await backendApi.loginSetReferralApi({ accessToken: refGoogleToken.current, referralCode });
@@ -65,7 +62,6 @@ export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google",
     },
   });
   const { mutate: onSkipReferralCode, isPending: isPendingSkiping } = useMutation({
-    onError: handlerError,
     mutationFn: async () => {
       if (!refGoogleToken.current) return;
       const res = await backendApi.loginSetReferralApi({ accessToken: refGoogleToken.current });

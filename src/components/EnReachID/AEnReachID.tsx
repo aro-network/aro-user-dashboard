@@ -22,7 +22,7 @@ const AEnReachID = () => {
 
 
 
-  return <div className="w-full justify-center flex ">
+  return <div className="w-full justify-center flex mt-5 ">
 
     <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] p-5 rounded-3xl flex-col w-[37.875rem]">
 
@@ -35,7 +35,7 @@ const AEnReachID = () => {
             <label className="text-2xl font-medium">{username}</label>
             <label className={'text-base'}><FiEdit /></label>
           </div>
-          <p className="font-normal text-sm text-[#FFFFFF99]">{user?.email}</p>
+          <p className="font-normal text-sm mt-1 text-[#FFFFFF99]">{user?.email}</p>
         </div>
       </div>
       <div className="flex flex-col gap-[.625rem] mx-5  w-full ">
@@ -53,7 +53,7 @@ const AEnReachID = () => {
             </label>
           </div>
           <div className="flex justify-between gap-[.625rem] items-center">
-            <Btn className="h-[2.125rem]">Bind</Btn>
+            <Btn disabled={true} className="h-[2.125rem]">Bind</Btn>
             <Btn disabled={true} className="h-[2.125rem]">Unbind</Btn>
           </div>
         </div>

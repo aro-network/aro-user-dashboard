@@ -3,7 +3,7 @@
 import { Btn } from "@/components/btns";
 import { InputEmail, InputPassword, InputVerifyCode } from "@/components/inputs";
 import backendApi from "@/lib/api";
-import { handlerError, sleep } from "@/lib/utils";
+import { sleep } from "@/lib/utils";
 import { validateConfirmPassword, validateEmail, validatePassword, validateVerifyCode } from "@/lib/validates";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -28,7 +28,6 @@ export default function Page() {
   const r = useRouter();
   const ac = useAuthContext();
   const { mutate: onReset, isPending } = useMutation({
-    onError: handlerError,
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
       if (!email) throw new Error("Please enter email");
@@ -48,7 +47,6 @@ export default function Page() {
     isPending: isPendingSend,
     isIdle: isIdleSend,
   } = useMutation({
-    onError: handlerError,
     mutationFn: async () => {
       if (!email) throw new Error("Please enter email");
       await backendApi.sendResetPassword(email);

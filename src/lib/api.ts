@@ -47,8 +47,6 @@ Api.interceptors.response.use(
     const message =
       error.response?.data?.message || error.message || "Network Error";
 
-    console.log("errrrr", error);
-
     if (!error.response) {
       toast.error("Network connection failed, please check your internet", {
         id: "error-toast",
@@ -56,13 +54,14 @@ Api.interceptors.response.use(
     } else {
       switch (status) {
         case 400:
-          toast.error(message || "Bad Request", { id: "error-toast" });
+          toast.error(message || "Bad Request", { id: "error-toast2" });
           break;
         case 401:
           toast.warning("Session expired, please log in again", {
             id: "error-toast",
           });
-          window.location.href = "/login";
+          localStorage.removeItem("last-login-user");
+          window.location.href = "/";
           break;
         case 403:
           toast.error("Access denied", { id: "error-toast" });

@@ -223,7 +223,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                       Wallet Connected
                     </label>
                     <div>
-                      <Btn className="h-5" onClick={() => open()}>Connect Your Wallet</Btn>
+                      <Btn disabled className="h-5" onClick={() => open()}>Connect Your Wallet</Btn>
                     </div>
                   </div>
                 }

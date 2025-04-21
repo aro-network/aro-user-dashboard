@@ -312,7 +312,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <Input
               maxLength={30}
               errorMessage="Please enter"
-              className=" mt-5 rounded-lg"
+              className=" mt-5 rounded-lg w-full"
               value={serialNum?.num}
               onChange={(e) => {
                 setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'x86' })
