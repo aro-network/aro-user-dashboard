@@ -2,8 +2,8 @@ import { PageLayout } from "./client";
 import "./global.css";
 
 export const metadata = {
-  title: "EnReach-User-Dashboard",
-  description: "EnReach User Dashboard",
+  title: "EnReach Dashboard",
+  description: "EnReach Dashboard",
 };
 
 import { Albert_Sans, Alexandria } from "next/font/google";

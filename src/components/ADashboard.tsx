@@ -22,7 +22,7 @@ const Modes: Dashboard.ModesType[] = [
 
   {
     label: 'Testnet',
-    name: 'estnet',
+    name: 'testnet',
     children: [
       // {
       //   name: "Overview",
