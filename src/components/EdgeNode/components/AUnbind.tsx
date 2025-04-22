@@ -107,7 +107,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {covertText(data?.nodeType as "x86" | "box")}) delete successful.
+              Edge Node (Device Type: {data?.nodeType}) delete successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">

@@ -41,7 +41,7 @@ const ANodes = () => {
         return {
           deviceName: item.nodeName,
           icon: <img src={`./${item.nodeType}.png`} alt={`${item.nodeType}`} style={{ height: '100%', width: '100%' }} />,
-          mode: item.nodeUUID,
+          nodeUUID: item.nodeUUID,
           when: 'Today',
           experience: <>
             <label className="text-[#4281FF] text-2xl font-semibold leading-6">+{item.rewards}</label>
@@ -97,7 +97,7 @@ const ANodes = () => {
           !isOpen && !unbindInfo && <div className="flex gap-[.625rem] font-medium text-xs leading-3">
             <Btn className="h-[1.875rem] rounded-lg">Go to Web Console</Btn>
             <Btn
-              onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeId)}
+              onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeUUID)}
               className="bg-[#F5F5F51A] h-[1.875rem] rounded-lg ">Delete</Btn>
           </div>
         }

@@ -61,7 +61,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
         toastOptions={{
           classNames: {
             toast: "rounded-xl bg-[#585858] border border-solid border-white/10 text-white/60 text-xs px-4 py-2",
-            error: '!bg-[#FFD4D7] flex !items-start !pt-3 text-xs font-medium ',
+            error: '!bg-[#FFD4D7] flex !items-start text-xs font-medium ',
             warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5 ',
             title: '!leading-[1.2]'
           }

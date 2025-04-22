@@ -43,9 +43,9 @@ const nodeData = {
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
 
   const { data, isFetching } = useQuery({
-    queryKey: ["NodeDetailList", selectList?.nodeId],
+    queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
-    queryFn: () => backendApi.getNodeInfoByNodeId(selectList?.nodeId),
+    queryFn: () => backendApi.getNodeInfoByNodeId(selectList?.nodeUUID),
     refetchOnWindowFocus: false,
   });
 
@@ -159,7 +159,6 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     };
   }, [width, result.data?.trending]);
 
-  console.log('2221adas', data);
 
 
   return <>
