@@ -193,7 +193,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   Node ID:
                 </span>
                 <div className="text-[#FFFFFF80]">
-                  {data?.nodeID || '-'}
+                  {data?.nodeId || '-'}
                 </div>
               </div>
               <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">
