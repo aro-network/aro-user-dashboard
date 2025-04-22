@@ -30,8 +30,8 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
                   >{node.status ? 'Online' : 'Offline'}</label>
                 </div>
               </div>
+              <label className="text-[#FFFFFF80] text-sm break-words">{node.nodeId}</label>
 
-              <label className="text-[#FFFFFF80] text-sm">{node.nodeId}</label>
             </div>
             <div className="w-full flex gap-[.625rem] text-sm items-center ">
               <div className="text-[#FFFFFF80]">

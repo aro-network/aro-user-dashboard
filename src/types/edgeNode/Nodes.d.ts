@@ -15,6 +15,7 @@ declare namespace Nodes {
     totalRewards: string;
     nodeName: string;
     nodeId: string;
+    nodeID: string;
   }
 
   interface TrendingList {

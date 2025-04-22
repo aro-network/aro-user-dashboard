@@ -21,8 +21,8 @@ import * as motion from "motion/react-client"
 const Modes: Dashboard.ModesType[] = [
 
   {
-    label: 'Edge Node',
-    name: 'edgeNode',
+    label: 'testnet',
+    name: 'testnet',
     children: [
       // {
       //   name: "Overview",
@@ -145,7 +145,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         }
       }
     } else {
-      updateURL('edgeNode', 'overview')
+      updateURL('testnet', 'nodes')
     }
   }, [searchParams]);
 

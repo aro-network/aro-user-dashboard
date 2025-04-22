@@ -12,6 +12,7 @@ import { fmtBerry } from "@/components/fmtData";
 import { covertText, fmtDate } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
+import { HelpTip } from "@/components/tips";
 
 const nodeData = {
   image: <SVGS.SvgDevice />,
@@ -60,6 +61,9 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
       return { node, rewards, trending }
     }
   });
+
+  console.log('aaa-----', data);
+
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
@@ -170,7 +174,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               Node Info
             </span>
           </div>
-          <div className="flex w-full gap-7">
+          <div className="flex w-full gap-7 smd:flex-wrap">
             <div className="">
               <img src={`../${data?.nodeType}.png`} className="w-full h-full" alt={`${data?.nodeType}`} />
             </div>
@@ -180,20 +184,22 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   Node Name:
                 </span>
                 <div className="text-[#FFFFFF80] flex items-center gap-[.625rem]">
-                  <span>
-                    {data?.nodeName || '-'}
-                  </span>
+                  <HelpTip content={data.nodeName}>
+                    <span className=" truncate">
+                      {data?.nodeName || '-'}
+                    </span>
+                  </HelpTip>
                   <button >
                     <FiEdit className="text-white text-xs" />
                   </button>
                 </div>
               </div>
-              <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">
-                <span>
+              <div className="text-sm mt-1 w-full flex font-semibold  gap-[.625rem]">
+                <span className="w-[4.375rem]">
                   Node ID:
                 </span>
-                <div className="text-[#FFFFFF80]">
-                  {data?.nodeId || '-'}
+                <div className="text-[#FFFFFF80] break-all w-full ">
+                  {data?.nodeID || '-'}
                 </div>
               </div>
               <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">
@@ -223,10 +229,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </span>
                 <div className="flex  gap-[10px] items-baseline">
                   <span className="font-semibold text-3xl ">
-                    290
+                    0
                   </span>
                   <span>
-                    $BERRY
+                    BERRY
                   </span>
                 </div>
               </div>
@@ -236,10 +242,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </span>
                 <div className="flex  gap-[10px] items-baseline">
                   <span className="font-semibold text-3xl ">
-                    + 290
+                    + 0
                   </span>
                   <span>
-                    $BERRY
+                    BERRY
                   </span>
                 </div>
               </div>
@@ -250,10 +256,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </span>
                 <div className="flex  gap-[10px] items-baseline">
                   <span className="font-semibold text-3xl ">
-                    +290
+                    +0
                   </span>
                   <span>
-                    $BERRY
+                    BERRY
                   </span>
                 </div>
               </div>
