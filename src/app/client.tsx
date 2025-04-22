@@ -56,20 +56,20 @@ export function PageLayout({ children }: { children: ReactNode }) {
         style={
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
-          { '--width': '15rem' }
+          { '--width': '16.25rem' }
         }
 
         toastOptions={{
           classNames: {
             toast: "rounded-xl bg-[#585858] border border-solid border-white/10 text-white/60 text-xs px-4 py-2",
-            error: '!bg-[#FFD4D7] flex !items-start  text-xs  gap-5 ',
+            error: '!bg-[#FFD4D7] flex !items-start  text-xs  gap-[.9375rem] ',
             warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5 ',
-            title: '!leading-[1.2] !text-sm !font-normal',
+            title: '!leading-[1.2] !text-xs !font-normal',
           }
         }}
         icons={{
-          error: <IoIosCloseCircle className="text-[#FF3A3D] text-2xl pt-2" />,
-          warning: <CiWarning className="text-[#FFF] text-sm   " />
+          error: <IoIosCloseCircle className="text-[#FF3A3D] text-2xl pt-2  " />,
+          warning: <CiWarning className="text-[#FFF] text-xs" />
         }}
       />
       <Providers>{children}</Providers>
