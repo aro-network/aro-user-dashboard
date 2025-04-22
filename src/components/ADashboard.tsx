@@ -24,11 +24,11 @@ const Modes: Dashboard.ModesType[] = [
     label: 'Edge Node',
     name: 'edgeNode',
     children: [
-      {
-        name: "Overview",
-        content: <AOverview />,
-        tab: 'overview'
-      },
+      // {
+      //   name: "Overview",
+      //   content: <AOverview />,
+      //   tab: 'overview'
+      // },
       {
         name: "Nodes",
         content: <ANodes />,
@@ -36,16 +36,9 @@ const Modes: Dashboard.ModesType[] = [
       },
       {
         name: "Stats",
-        content: <AStats />,
+        content: <AOverview />,
         tab: 'stats'
       },
-
-    ],
-  },
-  {
-    label: 'Enreach ID',
-    name: 'enreachId',
-    children: [
       {
         name: "EnReach ID",
         content: <AEnReachID />,
@@ -56,12 +49,6 @@ const Modes: Dashboard.ModesType[] = [
         content: <AFunds />,
         tab: 'funds'
       },
-    ],
-  },
-  {
-    label: 'Network Explorer',
-    name: 'networkExplorer',
-    children: [
       {
         name: "Edge Node",
         content: <AEdgeNode />,
@@ -82,8 +69,51 @@ const Modes: Dashboard.ModesType[] = [
         content: '',
         tab: 'incentives'
       },
-    ]
+
+    ],
   },
+  // {
+  //   label: 'Enreach ID',
+  //   name: 'enreachId',
+  //   children: [
+  //     {
+  //       name: "EnReach ID",
+  //       content: <AEnReachID />,
+  //       tab: 'enreachId'
+  //     },
+  //     {
+  //       name: "Funds",
+  //       content: <AFunds />,
+  //       tab: 'funds'
+  //     },
+  //   ],
+  // },
+  // {
+  //   label: 'Network Explorer',
+  //   name: 'networkExplorer',
+  //   children: [
+  //     {
+  //       name: "Edge Node",
+  //       content: <AEdgeNode />,
+  //       tab: 'edgeNode'
+  //     },
+  //     {
+  //       name: "Leaderboard",
+  //       content: <ALeaderboard />,
+  //       tab: 'leaderboard'
+  //     },
+  //     {
+  //       name: "Keeper Node",
+  //       content: '',
+  //       tab: 'keeperNode'
+  //     },
+  //     {
+  //       name: "Incentives",
+  //       content: '',
+  //       tab: 'incentives'
+  //     },
+  //   ]
+  // },
 ]
 
 const ADashboard: FC<Dashboard.MenusProps> = () => {
@@ -146,27 +176,29 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       <div className=" flex h-[3.75rem] flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px]  ">
         <div className="flex items-center  gap-5 smd:flex-col">
           <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
-          <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-            <Dropdown isOpen={isOpen}>
-              <DropdownTrigger  >
-                <Button className="rounded-[.625rem]  cursor-pointer h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
-                  {selectedTab.label}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="selected tab"
-                selectedKeys={[selectedTab.name]}
-                selectionMode="single"
-                variant="flat"
-              >
-                {Modes.map((mode) => {
-                  return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => { handleModeChange(mode); setIsOpen(false) }}>{mode.label}</DropdownItem>
-                }
-                )}
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+          {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
+          <Dropdown isOpen={isOpen}>
+            <DropdownTrigger  >
+              <Button className="rounded-[.625rem]  cursor-pointer h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
+                {selectedTab.label}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-readonly
+              aria-label="selected tab"
+              selectedKeys={[selectedTab.name]}
+              selectionMode="single"
+              variant="flat"
+
+            >
+              {Modes.map((mode) => {
+                return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => { handleModeChange(mode); setIsOpen(false) }}>{mode.label}</DropdownItem>
+              }
+              )}
+            </DropdownMenu>
+          </Dropdown>
+          {/* </div> */}
         </div>
         <div className="flex gap-[1.875rem] items-center">
           <SocialButtons />

@@ -47,7 +47,7 @@ const ANodes = () => {
             <label className="text-[#4281FF] text-2xl font-semibold leading-6">+{item.rewards}</label>
             <label className="ml-[.375rem]">BERRY</label></>,
           status: item.online,
-          nodeId: item.nodeID
+          nodeId: item.nodeId
         }
       })
       return list
