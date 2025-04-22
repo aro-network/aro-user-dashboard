@@ -18,7 +18,7 @@ const AFunds = () => {
   ]
 
 
-  return <div className="flex gap-5 flex-col">
+  return <div className="flex gap-5 mt-5 flex-col">
     <TitCard
       tit="Rewards & Claim"
       className="flip_item w-full bg-[#6D6D6D66]"

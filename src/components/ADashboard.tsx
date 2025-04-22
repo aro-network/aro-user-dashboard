@@ -21,8 +21,8 @@ import * as motion from "motion/react-client"
 const Modes: Dashboard.ModesType[] = [
 
   {
-    label: 'testnet',
-    name: 'testnet',
+    label: 'Testnet',
+    name: 'estnet',
     children: [
       // {
       //   name: "Overview",
@@ -30,7 +30,7 @@ const Modes: Dashboard.ModesType[] = [
       //   tab: 'overview'
       // },
       {
-        name: "Nodes",
+        name: "Edge Nodes",
         content: <ANodes />,
         tab: 'nodes'
       },
@@ -49,26 +49,31 @@ const Modes: Dashboard.ModesType[] = [
         content: <AFunds />,
         tab: 'funds'
       },
-      {
-        name: "Edge Node",
-        content: <AEdgeNode />,
-        tab: 'edgeNode'
-      },
+      // {
+      //   name: "Edge Node",
+      //   content: <AEdgeNode />,
+      //   tab: 'edgeNode'
+      // },
       {
         name: "Leaderboard",
         content: <ALeaderboard />,
         tab: 'leaderboard'
       },
       {
-        name: "Keeper Node",
+        name: "Referral",
         content: '',
-        tab: 'keeperNode'
+        tab: 'referral'
       },
-      {
-        name: "Incentives",
-        content: '',
-        tab: 'incentives'
-      },
+      // {
+      //   name: "Keeper Node",
+      //   content: '',
+      //   tab: 'keeperNode'
+      // },
+      // {
+      //   name: "Incentives",
+      //   content: '',
+      //   tab: 'incentives'
+      // },
 
     ],
   },
@@ -179,7 +184,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <Dropdown isOpen={isOpen}>
             <DropdownTrigger  >
-              <Button className="rounded-[.625rem]  cursor-pointer h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
+              <Button className="rounded-[.625rem]  cursor-default h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
                 {selectedTab.label}
               </Button>
             </DropdownTrigger>

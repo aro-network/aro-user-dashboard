@@ -247,11 +247,6 @@ const AOverview = () => {
 
   return (
     <div className=" ">
-      <div className="text-[#FFFFFF] text-base font-medium w-full  h-[2.125rem] ">
-        Overview
-      </div>
-
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  mt-5 ">
         <IconCard
           className="flip_item bg-[#6D6D6D66]"
