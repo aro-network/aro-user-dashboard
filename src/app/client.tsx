@@ -58,17 +58,16 @@ export function PageLayout({ children }: { children: ReactNode }) {
           // @ts-expect-error
           { '--width': '16.25rem' }
         }
-
         toastOptions={{
           classNames: {
             toast: "rounded-xl bg-[#585858] border border-solid border-white/10 text-white/60 text-xs px-4 py-2",
-            error: '!bg-[#FFD4D7] flex !items-start  text-xs  gap-[.9375rem] ',
+            error: '!bg-[#FFD4D7] flex !items-baseline  gap-[.9375rem]  !font-AlbertSans ',
             warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5 ',
             title: '!leading-[1.2] !text-xs !font-normal',
           }
         }}
         icons={{
-          error: <IoIosCloseCircle className="text-[#FF3A3D] text-2xl pt-2  " />,
+          error: <IoIosCloseCircle className="text-[#FF3A3D] text-base  pt-1    " />,
           warning: <CiWarning className="text-[#FFF] text-xs" />
         }}
       />

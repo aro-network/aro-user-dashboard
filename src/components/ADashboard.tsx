@@ -322,7 +322,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       <div className="h-full overflow-auto nodes">
         <AnimatePresence mode="wait">
           <motion.div
-            className=" pt-5  px-[6.5rem] flex flex-col w-full "
+            className=" pt-5  px-[6.5rem] smd:px-5 flex flex-col w-full "
             key={currentTab.name + refreshKey}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

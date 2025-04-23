@@ -9,7 +9,7 @@ import { FC, useMemo } from "react";
 import { FiEdit, FiHelpCircle } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { covertText, fmtDate } from "@/lib/utils";
+import { covertText, fmtDate, formatStr } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
@@ -168,22 +168,22 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   return <>
     {!isFetching && data?.nodeUUID ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
       <div className="flex w-full gap-5 smd:flex-wrap">
-        <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5   mb-6 bg-[#6D6D6D66]">
-          <div className="font-semibold text-base leading-10 flex justify-between items-center">
+        <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5 h-[9.375rem] smd:h-full  mb-6 bg-[#6D6D6D66]">
+          <div className="font-semibold text-base flex justify-between items-center ">
             <span>
               Node Info
             </span>
           </div>
-          <div className="flex w-full gap-7 smd:flex-wrap">
+          <div className="flex w-full gap-7 smd:flex-wrap ">
             <div className="">
-              <img src={`../${data?.nodeType}.png`} className="w-full h-full" alt={`${data?.nodeType}`} />
+              <img src={`../${data?.nodeType}.png`} className="w-[4.4375rem] h-[4.375rem]" alt={`${data?.nodeType}`} />
             </div>
-            <div className="flex flex-col justify-between ">
+            <div className="flex flex-col justify-between">
               <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">
                 <span>
                   Node Name:
                 </span>
-                <div className="text-[#FFFFFF80] flex items-center gap-[.625rem]">
+                <div className="text-[#FFFFFF80] flex items-baseline gap-[.625rem]">
                   <HelpTip content={data.nodeName}>
                     <span className=" truncate">
                       {data?.nodeName || '-'}
@@ -195,11 +195,14 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </div>
               </div>
               <div className="text-sm mt-1 w-full flex font-semibold  gap-[.625rem]">
-                <span className="w-[4.375rem]">
+                <span className="w-full">
                   Node ID:
                 </span>
-                <div className="text-[#FFFFFF80] break-all w-full ">
-                  {data?.nodeID || '-'}
+                <div className="text-[#FFFFFF80]  w-full ">
+                  <HelpTip content={data.nodeID}>
+                    {formatStr(data?.nodeID || '-')}
+                  </HelpTip>
+
                 </div>
               </div>
               <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">
@@ -215,12 +218,11 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         </div>
 
 
-        <div className="flex rounded-[1.25rem] w-full p-5   mb-6 bg-[#6D6D6D66]">
-          <div className="ml-4 flex flex-col gap-[1.5625rem]  justify-between w-full py-[.625rem] ">
+        <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem]  mb-6 bg-[#6D6D6D66]">
+          <div className="ml-4 flex flex-col  justify-between w-full py-[.625rem] ">
             <div className="flex w-full justify-between">
-
               <span className="font-semibold text-base leading-10 ">Rewards</span>
-              <Btn className="h-5 font-normal">Go to Claim Page</Btn>
+              <Btn disabled className="h-5 font-normal">Go to Claim Page</Btn>
             </div>
             <div className="flex justify-between">
               <div className="text-sm font-semibold flex flex-col justify-between gap-[.625rem] ">
@@ -283,7 +285,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         </div>
       </TitCard>
 
-      <div className="flex justify-between w-full gap-5">
+      <div className="flex justify-between w-full gap-5 smd:flex-wrap">
 
         <div className=" my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full   ">
           <span className=" text-base font-semibold">
@@ -340,7 +342,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <span >MAC Address</span>
               <span className="text-[#FFFFFF80]">{nodeData.macAddress}</span>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <span >NAT Type</span>
               <span className="text-[#FFFFFF80]">{nodeData.natType}</span>
             </div>
@@ -351,7 +353,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             <div className="flex justify-between">
               <span >Delay</span>
               <span className="text-[#FFFFFF80]">{nodeData.delay}</span>
-            </div>
+            </div> */}
           </div>
         </div>
 

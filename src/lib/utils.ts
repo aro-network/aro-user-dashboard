@@ -78,11 +78,11 @@ export const config = getDefaultConfig({
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
-export const formatStr = (address: string) => {
+export const formatStr = (address: string, start = 0, end = 10) => {
   if (!address) {
     return "-";
   }
-  const prefix = address?.slice(0, 10);
+  const prefix = address?.slice(start, end);
   const suffix = address?.slice(-10);
   const ellipsis = "...";
 

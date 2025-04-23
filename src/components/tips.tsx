@@ -9,7 +9,7 @@ export function HelpTip({ content, children }: OtherTypes.TipsProps) {
       showArrow={false}
       content={content}
       color="default"
-      className=" min-h-9 min-w-[4.5rem] max-w-[15.625rem]"
+      className=" min-h-9 min-w-[4.5rem] max-w-[18.75rem]"
       classNames={{ content: contentClassname }}
     >
       {children ? (
