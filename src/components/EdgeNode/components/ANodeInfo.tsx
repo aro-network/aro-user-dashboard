@@ -169,7 +169,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     {!isFetching && data?.nodeUUID ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
       <div className="flex w-full gap-5 smd:flex-wrap">
         <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5 h-[9.375rem] smd:h-full  mb-6 bg-[#6D6D6D66]">
-          <div className="font-semibold text-base flex justify-between items-center ">
+          <div className="font-semibold text-base flex justify-between items-center">
             <span>
               Node Info
             </span>
@@ -179,7 +179,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <img src={`../${data?.nodeType}.png`} className="w-[4.4375rem] h-[4.375rem]" alt={`${data?.nodeType}`} />
             </div>
             <div className="flex flex-col justify-between">
-              <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">
+              <div className="text-sm  flex  gap-[.625rem]">
                 <span>
                   Node Name:
                 </span>
@@ -194,7 +194,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   </button>
                 </div>
               </div>
-              <div className="text-sm mt-1 w-full flex font-semibold  gap-[.625rem]">
+              <div className="text-sm mt-1 w-full flex   gap-[.625rem]">
                 <span className="w-full">
                   Node ID:
                 </span>
@@ -205,7 +205,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
                 </div>
               </div>
-              <div className="text-sm mt-1 flex font-semibold  gap-[.625rem]">
+              <div className="text-sm mt-1 flex  gap-[.625rem]">
                 <span>
                   Node Type:
                 </span>
@@ -219,18 +219,18 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
 
         <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem]  mb-6 bg-[#6D6D6D66]">
-          <div className="ml-4 flex flex-col  justify-between w-full py-[.625rem] ">
+          <div className="ml-4 flex flex-col  justify-between w-full">
             <div className="flex w-full justify-between">
-              <span className="font-semibold text-base leading-10 ">Rewards</span>
+              <span className="font-semibold text-base  ">Rewards</span>
               <Btn disabled className="h-5 font-normal">Go to Claim Page</Btn>
             </div>
             <div className="flex justify-between">
-              <div className="text-sm font-semibold flex flex-col justify-between gap-[.625rem] ">
+              <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
                 <span className="font-normal text-sm text-[#FFFFFF80]">
                   Total
                 </span>
                 <div className="flex  gap-[10px] items-baseline">
-                  <span className="font-semibold text-3xl ">
+                  <span className="text-3xl ">
                     0
                   </span>
                   <span>
@@ -238,12 +238,12 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   </span>
                 </div>
               </div>
-              <div className="text-sm font-semibold flex flex-col justify-between gap-[.625rem] ">
+              <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
                 <span className="font-normal text-sm text-[#FFFFFF80]">
                   Today
                 </span>
                 <div className="flex  gap-[10px] items-baseline">
-                  <span className="font-semibold text-3xl ">
+                  <span className=" text-3xl ">
                     + 0
                   </span>
                   <span>
@@ -251,13 +251,13 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   </span>
                 </div>
               </div>
-              <div className="text-sm font-semibold flex flex-col justify-between gap-[.625rem] ">
+              <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
                 <span className="font-normal text-sm text-[#FFFFFF80]">
                   Yesterday
 
                 </span>
                 <div className="flex  gap-[10px] items-baseline">
-                  <span className="font-semibold text-3xl ">
+                  <span className=" text-3xl ">
                     +0
                   </span>
                   <span>
@@ -275,7 +275,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         className={cn("col-span-1 h-full bg-[#6D6D6D66] w-full  lg:col-span-2  gap-4",)}
         right={
           <div>
-            <DateRangePicker className="w-full" classNames={{ 'popoverContent': 'w-full', 'calendarContent': 'w-full' }} label="Stay duration" />
+            <DateRangePicker className="w-full" classNames={{ 'popoverContent': 'w-full', 'calendarContent': 'w-full' }} />
           </div>
         }
       >
