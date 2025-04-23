@@ -256,7 +256,7 @@ const AOverview = () => {
             <div className="flex justify-between items-center w-full">
               <span className="text-xl font-Alexandria">My Nodes</span>
               <HelpTip content='Go to Nodes Detail'>
-                <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=edgeNode&tab=nodes')}>
+                <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=testnet&tab=nodes')}>
                   <GoArrowUpRight />
                 </button>
               </HelpTip>

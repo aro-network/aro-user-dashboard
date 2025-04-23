@@ -267,7 +267,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               >
               </DropdownItem>
               <DropdownItem>
-                <button onClick={() => r.push('?mode=enreachId&tab=enreachId')} className="flex gap-[.625rem] items-center">
+                <button onClick={() => r.push('?mode=testnet&tab=enreachId')} className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
                   <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My EnReach ID</label>
                 </button>
