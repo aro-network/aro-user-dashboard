@@ -185,9 +185,9 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </span>
                 <div className="text-[#FFFFFF80] flex items-baseline gap-[.625rem]">
                   <HelpTip content={data.nodeName}>
-                    <span className=" truncate">
+                    <div className=" truncate">
                       {data?.nodeName || '-'}
-                    </span>
+                    </div>
                   </HelpTip>
                   <button >
                     <FiEdit className="text-white text-xs" />
@@ -195,10 +195,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </div>
               </div>
               <div className="text-sm mt-1 w-full flex   gap-[.625rem]">
-                <span className="w-full">
+                <span className="w-auto">
                   Node ID:
                 </span>
-                <div className="text-[#FFFFFF80]  w-full ">
+                <div className="text-[#FFFFFF80] ">
                   <HelpTip content={data.nodeID}>
                     {formatStr(data?.nodeID || '-')}
                   </HelpTip>
