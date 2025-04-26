@@ -168,15 +168,15 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   return <>
     {!isFetching && data?.nodeUUID ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
       <div className="flex w-full gap-5 smd:flex-wrap">
-        <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-5 h-[9.375rem] smd:h-full  mb-6 bg-[#6D6D6D66]">
-          <div className="font-semibold text-base flex justify-between items-center">
+        <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-[.625rem] h-[9.375rem] smd:h-full  bg-[#6D6D6D66]">
+          <div className="font-semibold text-base ">
             <span>
               Node Info
             </span>
           </div>
-          <div className="flex w-full gap-7 smd:flex-wrap ">
+          <div className="flex w-full gap-7 h-full smd:flex-wrap">
             <div className="">
-              <img src={`../${data?.nodeType}.png`} className="w-[4.4375rem] h-[4.375rem]" alt={`${data?.nodeType}`} />
+              <img src={`../${data?.nodeType}.png`} className="w-[4.4375rem] h-full" alt={`${data?.nodeType}`} />
             </div>
             <div className="flex flex-col justify-between">
               <div className="text-sm  flex  gap-[.625rem]">
@@ -185,9 +185,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </span>
                 <div className="text-[#FFFFFF80] flex items-baseline gap-[.625rem]">
                   <HelpTip content={data.nodeName}>
-                    <div className=" truncate">
-                      {data?.nodeName || '-'}
-                    </div>
+                    {formatStr(data?.nodeName,)}
                   </HelpTip>
                   <button >
                     <FiEdit className="text-white text-xs" />
@@ -218,52 +216,50 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         </div>
 
 
-        <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem]  mb-6 bg-[#6D6D6D66]">
-          <div className="ml-4 flex flex-col  justify-between w-full">
-            <div className="flex w-full justify-between">
-              <span className="font-semibold text-base  ">Rewards</span>
-              <Btn disabled className="h-5 font-normal">Go to Claim Page</Btn>
+        <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] flex-col   gap-[.625rem] bg-[#6D6D6D66]">
+          <div className="flex w-full justify-between">
+            <span className="font-semibold text-base  ">Rewards</span>
+            <Btn disabled className="h-5 font-normal">Go to Claim Page</Btn>
+          </div>
+          <div className="flex justify-between smd:flex-wrap h-full">
+            <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+              <span className="font-normal text-sm text-[#FFFFFF80]">
+                Total
+              </span>
+              <div className="flex  gap-[10px] items-baseline">
+                <span className="text-3xl ">
+                  0
+                </span>
+                <span>
+                  BERRY
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
-                <span className="font-normal text-sm text-[#FFFFFF80]">
-                  Total
+            <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+              <span className="font-normal text-sm text-[#FFFFFF80]">
+                Today
+              </span>
+              <div className="flex  gap-[10px] items-baseline">
+                <span className=" text-3xl ">
+                  + 0
                 </span>
-                <div className="flex  gap-[10px] items-baseline">
-                  <span className="text-3xl ">
-                    0
-                  </span>
-                  <span>
-                    BERRY
-                  </span>
-                </div>
-              </div>
-              <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
-                <span className="font-normal text-sm text-[#FFFFFF80]">
-                  Today
+                <span>
+                  BERRY
                 </span>
-                <div className="flex  gap-[10px] items-baseline">
-                  <span className=" text-3xl ">
-                    + 0
-                  </span>
-                  <span>
-                    BERRY
-                  </span>
-                </div>
               </div>
-              <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
-                <span className="font-normal text-sm text-[#FFFFFF80]">
-                  Yesterday
+            </div>
+            <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+              <span className="font-normal text-sm text-[#FFFFFF80]">
+                Yesterday
 
+              </span>
+              <div className="flex  gap-[10px] items-baseline">
+                <span className=" text-3xl ">
+                  +0
                 </span>
-                <div className="flex  gap-[10px] items-baseline">
-                  <span className=" text-3xl ">
-                    +0
-                  </span>
-                  <span>
-                    BERRY
-                  </span>
-                </div>
+                <span>
+                  BERRY
+                </span>
               </div>
             </div>
           </div>
@@ -272,7 +268,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
       <TitCard
         tit="Rewards History"
-        className={cn("col-span-1 h-full bg-[#6D6D6D66] w-full  lg:col-span-2  gap-4",)}
+        className={cn("col-span-1 h-full bg-[#6D6D6D66] w-full mt-5  lg:col-span-2  gap-4",)}
         right={
           <div>
             <DateRangePicker className="w-full" classNames={{ 'popoverContent': 'w-full', 'calendarContent': 'w-full' }} />

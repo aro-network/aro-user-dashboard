@@ -17,12 +17,13 @@ import { AEnReachID, AFunds } from "./EnReachID";
 import { AEdgeNode, ALeaderboard } from "./NetworkExplorer";
 import { AnimatePresence } from "motion/react"
 import * as motion from "motion/react-client"
+import AMyReferral from "./Referal/AReferal";
 
 const Modes: Dashboard.ModesType[] = [
 
   {
-    label: 'Testnet',
-    name: 'testnet',
+    label: 'Devtnet',
+    name: 'devnet',
     children: [
       // {
       //   name: "Overview",
@@ -61,7 +62,7 @@ const Modes: Dashboard.ModesType[] = [
       },
       {
         name: "Referral",
-        content: '',
+        content: <AMyReferral />,
         tab: 'referral'
       },
       // {
@@ -150,7 +151,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         }
       }
     } else {
-      updateURL('testnet', 'nodes')
+      updateURL('devnet', 'nodes')
     }
   }, [searchParams]);
 
