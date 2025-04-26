@@ -77,8 +77,6 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
                 </>
               }
             />
-
-
           </div>
         }
       />
@@ -87,7 +85,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         icon={() => <IoAlertCircle />}
         iconSize={20}
         tit={
-          <div className=" flex items-center gap-20  mt-10 font-Alexandria   ">
+          <div className=" flex items-center gap-20  mt-[3.75rem] font-Alexandria   ">
 
             <div className="flex flex-col  text-white w-full ">
               <span className="text-base ">
