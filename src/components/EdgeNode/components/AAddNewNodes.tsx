@@ -172,7 +172,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
             <Input
               maxLength={30}
-              className=" mt-5 rounded-lg"
+              className=" mt-5"
+              classNames={{ 'inputWrapper': '!rounded-lg' }}
+
               value={serialNum?.num}
               onChange={(e) => {
                 setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'box' })
@@ -197,7 +199,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
-                <img src={`./${chooseedType?.value}.png`} alt="x86" style={{ height: '100%', width: '100%' }} />
+                <img src={`./${deviceInfo?.nodeType}.png`} alt="x86" style={{ height: '100%', width: '100%' }} />
               </div>
               {foundDeviceList()}
             </div>
@@ -312,7 +314,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <Input
               maxLength={30}
               errorMessage="Please enter"
-              className=" mt-5 rounded-lg w-full"
+              className=" mt-5  w-full"
+              classNames={{ 'inputWrapper': '!rounded-lg' }}
               value={serialNum?.num}
               onChange={(e) => {
                 setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'x86' })
@@ -335,7 +338,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[50%]">
-                <img src={`./${chooseedType?.value}.png`} alt={`${chooseedType?.value}`} style={{ height: '100%', width: '100%' }} />
+                <img src={`./${deviceInfo?.nodeType}.png`} alt={`${chooseedType?.value}`} style={{ height: '100%', width: '100%' }} />
               </div>
               {foundDeviceList()}
             </div>

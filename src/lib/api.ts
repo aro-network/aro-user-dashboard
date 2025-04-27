@@ -247,6 +247,19 @@ const backendApi = {
     );
     return response.data.data;
   },
+
+  countRewards: async (nodeId?: string) => {
+    const response = await Api.get<
+      RES<{ today: string; total: string; yesterday: string }>
+    >(`${prefixUrl}${nodeId}/rewards`);
+    return response.data.data;
+  },
+  rewardHistory: async (nodeId?: string) => {
+    const response = await Api.get<RES<Nodes.RewardsHistory[]>>(
+      `${prefixUrl}${nodeId}/rewardHistory`
+    );
+    return response.data.data;
+  },
 };
 
 export default backendApi;

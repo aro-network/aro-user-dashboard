@@ -12,10 +12,33 @@ declare namespace Nodes {
     online: boolean;
     nodeType: "x86" | "box";
     rewards: string;
-    totalRewards: string;
+    todayRewards: string;
     nodeName: string;
     nodeId: string;
     nodeID: string;
+    deviceInfo: {
+      ip: string;
+      date: string;
+      cpuCores: string;
+    };
+    nodeChainInfo: {
+      Node: {
+        nodeID: string;
+        userID: string;
+        nodeName: string;
+        deviceType: string;
+        regionCode: string;
+        trafficType: number;
+        registerStatus: string;
+        workingStatus?: string;
+        cheatStatus?: string;
+        reputationPoint: string;
+        creator: string;
+        createAt: string;
+        updator: string;
+        updateAt: string;
+      };
+    };
   }
 
   interface TrendingList {
@@ -31,5 +54,12 @@ declare namespace Nodes {
 
   type AddType = {
     switchTo: () => void;
+  };
+
+  type RewardsHistory = {
+    date: string;
+    total: number;
+    startTime: number;
+    endTime: number;
   };
 }

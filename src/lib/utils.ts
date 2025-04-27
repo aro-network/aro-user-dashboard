@@ -78,7 +78,7 @@ export const config = getDefaultConfig({
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
-export const formatStr = (address: string, start = 0, end = 10) => {
+export const formatStr = (address?: string, start = 0, end = 10) => {
   if (!address) {
     return "-";
   }

@@ -46,7 +46,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   const { data, isFetching } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
-    queryFn: () => backendApi.getNodeInfoByNodeId(selectList?.nodeUUID),
+    queryFn: async () => {
+      const [detail, countRewards] = await Promise.all([backendApi.getNodeInfoByNodeId(selectList?.nodeUUID), backendApi.countRewards(selectList?.nodeUUID)])
+      return { detail, countRewards }
+    },
     refetchOnWindowFocus: false,
   });
 
@@ -56,22 +59,19 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   const result = useQuery({
     queryKey: ["TrendingChart"],
     enabled: true,
-    queryFn: async () => {
-      const [node, rewards, trending] = await Promise.all([backendApi.getCurrentEdgeNode(), backendApi.getCurrentEdgeNodeRewards(), backendApi.getCurrentEdgeNodeRewardsTrending()])
-      return { node, rewards, trending }
-    }
+    queryFn: () => backendApi.rewardHistory(selectList?.nodeUUID)
   });
 
-  console.log('aaa-----', data);
+  console.log('aaa-----', result);
 
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
-    const datas = result.data?.trending || [];
+    const datas = result.data || [];
     console.log('datas', datas);
 
-    const xData = datas.map((item: { date: number; }) => fmtDate(item.date * 1000, "MMMD"));
-    const yData = datas.map((item: { rewards: any; }) => _.toNumber(item.rewards));
+    const xData = datas.map((item: { date: string; }) => fmtDate(Number(item.date) * 1000, "MMMD"));
+    const yData = datas.map((item: { total: number; }) => _.toNumber(item.total));
     console.info("width:", width);
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
@@ -161,12 +161,12 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
       ],
       darkMode: true,
     };
-  }, [width, result.data?.trending]);
+  }, [width, result.data]);
 
 
 
   return <>
-    {!isFetching && data?.nodeUUID ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
+    {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
       <div className="flex w-full gap-5 smd:flex-wrap">
         <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-[.625rem] h-[9.375rem] smd:h-full  bg-[#6D6D6D66]">
           <div className="font-semibold text-base ">
@@ -176,7 +176,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           </div>
           <div className="flex w-full gap-7 h-full smd:flex-wrap">
             <div className="">
-              <img src={`../${data?.nodeType}.png`} className="w-[4.4375rem] h-full" alt={`${data?.nodeType}`} />
+              <img src={`../${data?.detail?.nodeType}.png`} className="w-[4.4375rem] h-full" alt={`${data?.detail?.nodeType}`} />
             </div>
             <div className="flex flex-col justify-between">
               <div className="text-sm  flex  gap-[.625rem]">
@@ -184,8 +184,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   Node Name:
                 </span>
                 <div className="text-[#FFFFFF80] flex items-baseline gap-[.625rem]">
-                  <HelpTip content={data.nodeName}>
-                    {formatStr(data?.nodeName,)}
+                  <HelpTip content={data?.detail?.nodeName}>
+                    {formatStr(data?.detail.nodeName,)}
                   </HelpTip>
                   <button >
                     <FiEdit className="text-white text-xs" />
@@ -197,8 +197,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   Node ID:
                 </span>
                 <div className="text-[#FFFFFF80] ">
-                  <HelpTip content={data.nodeID}>
-                    {formatStr(data?.nodeID || '-')}
+                  <HelpTip content={data?.detail?.nodeID}>
+                    {formatStr(data?.detail?.nodeID || '-')}
                   </HelpTip>
 
                 </div>
@@ -208,7 +208,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   Node Type:
                 </span>
                 <div className="text-[#FFFFFF80]">
-                  {covertText(data?.nodeType as "x86" | "box")}
+                  {covertText(data?.detail?.nodeType as "x86" | "box")}
                 </div>
               </div>
             </div>
@@ -228,7 +228,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className="text-3xl ">
-                  0
+                  {data?.countRewards.total || 0}
                 </span>
                 <span>
                   BERRY
@@ -241,7 +241,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className=" text-3xl ">
-                  + 0
+                  +  {data?.countRewards.today || 0}
                 </span>
                 <span>
                   BERRY
@@ -255,7 +255,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className=" text-3xl ">
-                  +0
+                  +  {data?.countRewards.yesterday || 0}
                 </span>
                 <span>
                   BERRY
@@ -361,7 +361,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           <div className="flex flex-col gap-[10px] mt-5 text-sm">
             <div className="flex justify-between">
               <span >CPU Cores</span>
-              <span className="text-[#FFFFFF80]">{nodeData.cpuCores}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.deviceInfo.cpuCores}</span>
             </div>
             <div className="flex justify-between">
               <span >CPU Use</span>
