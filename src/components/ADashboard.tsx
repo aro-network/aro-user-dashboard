@@ -30,6 +30,7 @@ const Modes: Dashboard.ModesType[] = [
       //   content: <AOverview />,
       //   tab: 'overview'
       // },
+
       {
         name: "Edge Nodes",
         content: <ANodes />,
