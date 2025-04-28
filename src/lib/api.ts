@@ -254,9 +254,21 @@ const backendApi = {
     >(`${prefixUrl}${nodeId}/rewards`);
     return response.data.data;
   },
-  rewardHistory: async (nodeId?: string) => {
+  rewardHistory: async (
+    nodeId?: string,
+    chooseDate?: { startTime: number; endTime: number }
+  ) => {
+    console.log("adasdaschooseDate", chooseDate);
+
+    const params = chooseDate?.startTime
+      ? {
+          params: chooseDate,
+        }
+      : {};
+
     const response = await Api.get<RES<Nodes.RewardsHistory[]>>(
-      `${prefixUrl}${nodeId}/rewardHistory`
+      `${prefixUrl}${nodeId}/rewardHistory`,
+      params
     );
     return response.data.data;
   },

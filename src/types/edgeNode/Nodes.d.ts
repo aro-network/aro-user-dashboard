@@ -16,10 +16,20 @@ declare namespace Nodes {
     nodeName: string;
     nodeId: string;
     nodeID: string;
+    ip?: string;
     deviceInfo: {
       ip: string;
       date: string;
-      cpuCores: string;
+      cpuUse: number;
+      memUse: number;
+      cpuCores: number;
+      memTotal: number;
+      memAvailable: number;
+      networkInterfaces: {
+        ip: string;
+        mac: string;
+        name: string;
+      }[];
     };
     nodeChainInfo: {
       Node: {

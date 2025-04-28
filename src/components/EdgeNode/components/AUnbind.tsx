@@ -79,6 +79,10 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     }
   }
 
+
+  console.log('我为的', data?.nodeType);
+
+
   const unbind = [
     {
       content:
@@ -86,7 +90,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           <div className="w-[37.5rem]">
             <div className=" py-5 mt-[4.5625rem] pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
-                {data?.nodeType === 'x86' ? <img src='./x86.png' alt="x86" style={{ height: '100%', width: '100%' }} /> : <img src='./box.png' alt="box" style={{ height: '100%', width: '100%' }} />}
+                <img src={`./${data?.nodeType}.png`} alt={`${data?.nodeType}`} style={{ height: '100%', width: '100%' }} />
               </div>
               {foundDeviceList()}
             </div>

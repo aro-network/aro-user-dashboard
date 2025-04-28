@@ -80,74 +80,11 @@ const AOverview = () => {
     }
   });
 
-  console.log('datasdatasdatas', data?.trending);
-
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
-    const datas = data?.trending || [
-      {
-        "date": 1743379200,
-        "rewards": "0",
-      },
-      {
-        "date": 1743465600,
-        "rewards": "0",
-      },
-      {
-        "date": 1743552000,
-        "rewards": "0",
-      },
-      {
-        "date": 1743638400,
-        "rewards": "0",
-      },
-      {
-        "date": 1743724800,
-        "rewards": "0",
-      },
-      {
-        "date": 1743811200,
-        "rewards": "0",
-      },
-      {
-        "date": 1743897600,
-        "rewards": "0",
-      },
-      {
-        "date": 1743984000,
-        "rewards": "0"
-      },
-      {
-        "date": 1744070400,
-        "rewards": "0",
-      },
-      {
-        "date": 1744156800,
-        "rewards": "0",
-      },
-      {
-        "date": 1744243200,
-        "rewards": "0",
-      },
-      {
-        "date": 1744329600,
-        "rewards": "0",
-      },
-      {
-        "date": 1744416000,
-        "rewards": "0",
-      },
-      {
-        "date": 1744502400,
-        "rewards": "0",
-      },
-      {
-        "date": 1744588800,
-        "rewards": "0",
-      }
-    ];
-    const xData = datas.map((item: { date: number; }) => fmtDate(item.date * 1000, "MMMD"));
+    const datas = data?.trending || []
+    const xData = datas.map((item: { date: number; }) => item.date);
 
     const yData = datas.map((item: { rewards: string; }) => _.toNumber(item.rewards));
     console.log('xData', xData, yData);
@@ -256,7 +193,7 @@ const AOverview = () => {
             <div className="flex justify-between items-center w-full">
               <span className="text-xl font-Alexandria">My Nodes</span>
               <HelpTip content='Go to Nodes Detail'>
-                <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=testnet&tab=nodes')}>
+                <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=devnet&tab=nodes')}>
                   <GoArrowUpRight />
                 </button>
               </HelpTip>
@@ -265,7 +202,7 @@ const AOverview = () => {
           }
           content={
             <div className="flex flex-1 items-center gap-[5%] min-w-[12.5rem]">
-              <DupleInfo tit={`${data?.node.total ?? 0}`} sub="Total Nodes" />
+              <DupleInfo tit={`${data?.node?.total ?? 0}`} sub="Total Nodes" />
               <DupleSplit />
               <DupleInfo
                 tit={`${data?.node?.online ?? '0'}`}
@@ -292,7 +229,7 @@ const AOverview = () => {
           content={
             <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
               <DupleInfo
-                tit={`${data?.rewards.total || 0}`}
+                tit={`${data?.rewards?.total || 0}`}
                 sub={
                   <>
                     Total
@@ -300,7 +237,7 @@ const AOverview = () => {
                 }
               />
               <DupleSplit />
-              <DupleInfo tit={`${data?.rewards.today || 0}`} sub="Today" />
+              <DupleInfo tit={`${data?.rewards?.today || 0}`} sub="Today" />
             </div>
           }
         />

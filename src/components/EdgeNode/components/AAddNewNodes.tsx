@@ -125,6 +125,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     }
   }
 
+
+  console.log('dasdasdasdas', deviceInfo);
+
+
   const foundDeviceList = () => {
     const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
     const list = [

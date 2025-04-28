@@ -14,6 +14,7 @@ declare namespace EdgeNodeMode {
     experience: React.ReactNode;
     status: string | boolean;
     nodeId?: string;
+    ip?: string;
     [key: string]: any;
   };
 

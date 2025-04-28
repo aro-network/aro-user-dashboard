@@ -5,7 +5,7 @@ import { SVGS } from "@/svg";
 import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import { FiEdit, FiHelpCircle } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
@@ -13,7 +13,9 @@ import { covertText, fmtDate, formatStr } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
-
+import dayjs from "dayjs";
+import { useDateFormatter } from "@react-aria/i18n";
+import { getLocalTimeZone } from '@internationalized/date';
 const nodeData = {
   image: <SVGS.SvgDevice />,
   totalReach: 290,
@@ -42,7 +44,7 @@ const nodeData = {
 };
 
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
-
+  const [chooseDate, setChooseDate] = useState<{ startTime: number, endTime: number }>({ startTime: 0, endTime: 0 })
   const { data, isFetching } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
@@ -57,20 +59,18 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
 
   const result = useQuery({
-    queryKey: ["TrendingChart"],
+    queryKey: ["TrendingChart", chooseDate],
     enabled: true,
-    queryFn: () => backendApi.rewardHistory(selectList?.nodeUUID)
+    queryFn: () => backendApi.rewardHistory(selectList?.nodeUUID, chooseDate)
   });
-
-  console.log('aaa-----', result);
 
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
     const datas = result.data || [];
-    console.log('datas', datas);
+    console.log('datas', datas, Math.floor(dayjs('2025-04-14').valueOf() / 1000));
 
-    const xData = datas.map((item: { date: string; }) => fmtDate(Number(item.date) * 1000, "MMMD"));
+    const xData = datas.map((item: { date: string; }) => item.date);
     const yData = datas.map((item: { total: number; }) => _.toNumber(item.total));
     console.info("width:", width);
     const showCount = Math.floor(width / 60);
@@ -164,6 +164,18 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   }, [width, result.data]);
 
 
+  let memAvailableGB = ((data?.detail.deviceInfo.memAvailable || 0) / (1024 * 1024 * 1024)).toFixed(2);
+  let memTotalGB = ((data?.detail.deviceInfo.memTotal || 0) / (1024 * 1024 * 1024)).toFixed(2);
+  let memUseGB = ((data?.detail.deviceInfo.memUse || 0) / (1024 * 1024 * 1024)).toFixed(2);
+
+  const network = data?.detail.deviceInfo.networkInterfaces || []
+  const newResult = network.find(item => item.name === 'eth0') || network.find(item => item.name === 'macvlan4vr0');
+
+  let formatter = useDateFormatter({ dateStyle: "long" });
+
+
+
+
 
   return <>
     {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
@@ -228,7 +240,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className="text-3xl ">
-                  {data?.countRewards.total || 0}
+                  {Math.round(Number(data?.countRewards.total) || 0)}
                 </span>
                 <span>
                   BERRY
@@ -270,8 +282,18 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         tit="Rewards History"
         className={cn("col-span-1 h-full bg-[#6D6D6D66] w-full mt-5  lg:col-span-2  gap-4",)}
         right={
-          <div>
-            <DateRangePicker className="w-full" classNames={{ 'popoverContent': 'w-full', 'calendarContent': 'w-full' }} />
+          <div className="w-[16.875rem]">
+            <DateRangePicker className="w-full" onChange={(e) => {
+
+              if (e?.start && e?.end) {
+                const startZoned = e.start.toDate(getLocalTimeZone());
+                const endZoned = e.end.toDate(getLocalTimeZone());
+                const startTime = Math.floor(startZoned.getTime() / 1000);
+                const endTime = Math.floor(endZoned.getTime() / 1000);
+                setChooseDate({ startTime, endTime })
+              }
+            }
+            } classNames={{ 'popoverContent': 'w-full', 'calendarContent': 'w-full' }} />
           </div>
         }
       >
@@ -290,27 +312,27 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           <div className="flex flex-col gap-[10px] mt-5 text-sm">
             <div className="flex justify-between">
               <span >Create Date</span>
-              <span className="text-[#FFFFFF80]">{nodeData.createDate}</span>
+              <span className="text-[#FFFFFF80]">{(dayjs(Number(data?.detail?.deviceInfo.date || 0) * 1000).format('YYYY-MM-DD'))}</span>
             </div>
             <div className="flex justify-between">
               <span >Serial Number</span>
-              <span className="text-[#FFFFFF80]">{nodeData.device}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.nodeUUID}</span>
             </div>
             <div className="flex justify-between">
               <span >Device</span>
-              <span className="text-[#FFFFFF80]">{nodeData.region}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.deviceType || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span >Registered Region</span>
-              <span className="text-[#FFFFFF80]">{nodeData.region}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.regionCode || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span className="flex gap-[.375rem] items-center" >Reputation Rate <FiHelpCircle className="text-[#FFFFFF80]" /></span>
-              <span className="text-[#FFFFFF80]">{nodeData.region}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.reputationPoint || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span className="flex gap-[.375rem] items-center" >  Cheating Rate <FiHelpCircle className="text-[#FFFFFF80]" /></span>
-              <span className="text-[#FFFFFF80]">{nodeData.region}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.cheatStatus || '-'}</span>
             </div>
 
           </div>
@@ -324,19 +346,19 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
             <div className="flex justify-between">
               <span >Public IP</span>
-              <span className="text-[#FFFFFF80]">{nodeData.externalIp}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>
             </div>
             <div className="flex justify-between">
               <span >IP Location</span>
-              <span className="text-[#FFFFFF80]">{nodeData.ipRegion}</span>
+              <span className="text-[#FFFFFF80]">{'-'}</span>
             </div>
             <div className="flex justify-between">
               <span >Local IP</span>
-              <span className="text-[#FFFFFF80]">{nodeData.internalIp}</span>
+              <span className="text-[#FFFFFF80]">{newResult?.ip}</span>
             </div>
             <div className="flex justify-between">
               <span >MAC Address</span>
-              <span className="text-[#FFFFFF80]">{nodeData.macAddress}</span>
+              <span className="text-[#FFFFFF80]">{newResult?.mac}</span>
             </div>
             {/* <div className="flex justify-between">
               <span >NAT Type</span>
@@ -361,19 +383,19 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           <div className="flex flex-col gap-[10px] mt-5 text-sm">
             <div className="flex justify-between">
               <span >CPU Cores</span>
-              <span className="text-[#FFFFFF80]">{data?.detail.deviceInfo.cpuCores}</span>
+              <span className="text-[#FFFFFF80]">{data?.detail.deviceInfo.cpuCores || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span >CPU Use</span>
-              <span className="text-[#FFFFFF80]">{nodeData.cpuUsage}</span>
+              <span className="text-[#FFFFFF80]">{(data?.detail.deviceInfo.cpuUse || 0) * 100 + '%' || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span >RAM</span>
-              <span className="text-[#FFFFFF80]">{nodeData.ramUsage}</span>
+              <span className="text-[#FFFFFF80]">{memUseGB + 'GB /' + memTotalGB + 'GB'}</span>
             </div>
             <div className="flex justify-between">
               <span >ROM</span>
-              <span className="text-[#FFFFFF80]">{nodeData.romUsage}</span>
+              <span className="text-[#FFFFFF80]">-</span>
             </div>
           </div>
         </div>

@@ -90,6 +90,6 @@ export const formatStr = (address?: string, start = 0, end = 10) => {
 };
 
 export const covertText = (type: "box" | "x86") => {
-  const list = { box: "Home Box", x86: "X86 Server" };
+  const list = { box: "Home Box", x86: "X86 Server", router: "Router" };
   return list[type] || "-";
 };
