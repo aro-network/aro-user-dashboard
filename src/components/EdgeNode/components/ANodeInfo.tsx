@@ -290,18 +290,18 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             </div>
             <div className="flex justify-between">
               <span >Device</span>
-              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.deviceType || '-'}</span>
+              <span className="text-[#FFFFFF80] capitalize">{data?.detail.nodeChainInfo.Node.deviceType || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span >Registered Region</span>
               <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.regionCode || '-'}</span>
             </div>
             <div className="flex justify-between">
-              <span className="flex gap-[.375rem] items-center" >Reputation Rate <FiHelpCircle className="text-[#FFFFFF80]" /></span>
+              <span className="flex gap-[.375rem] items-center" >Reputation Point</span>
               <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.reputationPoint || '-'}</span>
             </div>
             <div className="flex justify-between">
-              <span className="flex gap-[.375rem] items-center" >  Cheating Rate <FiHelpCircle className="text-[#FFFFFF80]" /></span>
+              <span className="flex gap-[.375rem] items-center" >  Cheat Status </span>
               <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.cheatStatus || '-'}</span>
             </div>
 
@@ -357,7 +357,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             </div>
             <div className="flex justify-between">
               <span >CPU Use</span>
-              <span className="text-[#FFFFFF80]">{(data?.detail.deviceInfo.cpuUse || 0) * 100 + '%' || '-'}</span>
+              <span className="text-[#FFFFFF80]">{((data?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) + '%' || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span >RAM</span>

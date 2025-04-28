@@ -9,6 +9,8 @@ import { Btn, IconBtn } from "../btns";
 import { fmtBerry } from "../fmtData";
 import { DupleInfo, DupleSplit } from "../EdgeNode/AOverview";
 import { HelpTip } from "../tips";
+import { useQuery } from "@tanstack/react-query";
+import backendApi from "@/lib/api";
 
 export default function AMyReferral() {
   const ac = useAuthContext();
@@ -28,6 +30,16 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
     const postXUrl = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(refferralLink)}`;
     window.open(postXUrl, "_blank");
   };
+
+
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["ReferralRewards"],
+    enabled: true,
+    refetchOnWindowFocus: false,
+    queryFn: () => backendApi.getReferralRewards()
+  })
+
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  mt-5 ">
       <IconCard
@@ -63,13 +75,13 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
           <div className="flex items-center gap-[10%] min-w-[13.75rem]">
 
             <div className="flex items-center gap-[10%]">
-              <DupleInfo tit={referredPoint} sub="BERRY" />
+              <DupleInfo tit={data?.referredRewards} sub="BERRY" />
             </div>
 
             <DupleSplit />
 
             <DupleInfo
-              tit={referredCount}
+              tit={data?.referred}
               subClassName="text-green-400 opacity-100"
               sub={
                 <>

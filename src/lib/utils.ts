@@ -81,6 +81,8 @@ export const config = getDefaultConfig({
 export const formatStr = (address?: string, start = 0, end = 10) => {
   if (!address) {
     return "-";
+  } else if (address.length < 10) {
+    return address;
   }
   const prefix = address?.slice(start, end);
   const suffix = address?.slice(-10);

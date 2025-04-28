@@ -22,7 +22,7 @@ import AMyReferral from "./Referal/AReferal";
 const Modes: Dashboard.ModesType[] = [
 
   {
-    label: 'Devtnet',
+    label: 'Devnet',
     name: 'devnet',
     children: [
       // {

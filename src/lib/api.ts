@@ -272,6 +272,12 @@ const backendApi = {
     );
     return response.data.data;
   },
+  getReferralRewards: async () => {
+    const response = await Api.get<
+      RES<{ referred: number; referredRewards: string }>
+    >("/edgeNode/referral/rewards");
+    return response.data.data;
+  },
 };
 
 export default backendApi;
