@@ -90,5 +90,5 @@ jobs:
         with:
           deploy_key: ${{ secrets.DK_PROD }}
           publish_dir: ./out
-          external_repository: EnReachNetwork/dashboard-site-prod
-          cname: dashboard.enreach.network
+          external_repository: EnReachNetwork/enreach-dashboard-devnet
+          cname: devnet.dashboard.enreach.network
