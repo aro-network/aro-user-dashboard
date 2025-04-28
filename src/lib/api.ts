@@ -8,7 +8,7 @@ import { toast } from "sonner";
 const API_MAP: { [k in typeof ENV]: string } = {
   beta: "https://dev-api.enreach.network/api",
   staging: "https://staging-api.enreach.network/api",
-  prod: "https://api.enreach.network/api",
+  prod: "https://devnet-api.enreach.network/api",
 };
 
 export const BASE_API = API_MAP[ENV];
