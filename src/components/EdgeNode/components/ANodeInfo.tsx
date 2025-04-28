@@ -1,7 +1,6 @@
 import { Btn } from "@/components/btns";
 import { TitCard } from "@/components/cards";
 import backendApi from "@/lib/api";
-import { SVGS } from "@/svg";
 import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
@@ -9,39 +8,13 @@ import { FC, useMemo, useState } from "react";
 import { FiEdit, FiHelpCircle } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { covertText, fmtDate, formatStr } from "@/lib/utils";
+import { covertText, formatStr } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
 import dayjs from "dayjs";
-import { useDateFormatter } from "@react-aria/i18n";
 import { getLocalTimeZone } from '@internationalized/date';
-const nodeData = {
-  image: <SVGS.SvgDevice />,
-  totalReach: 290,
-  todayReach: 2.1,
-  yesterdayReach: 4.6,
-  nodeName: "-",
-  nodeId: "-",
-  nodeType: "-",
-  createDate: "-",
-  activationCode: "-",
-  device: "-",
-  region: "-",
-  externalIp: "-",
-  ipRegion: "-",
-  internalIp: "-",
-  macAddress: "-",
-  natType: "-",
-  upnp: "-",
-  delay: "-",
-  cpuCores: '-',
-  cpuUsage: '-',
-  ramUsage: '-',
-  totalRam: '-',
-  romUsage: '-',
-  totalRom: '-',
-};
+
 
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
   const [chooseDate, setChooseDate] = useState<{ startTime: number, endTime: number }>({ startTime: 0, endTime: 0 })
@@ -169,10 +142,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   let memUseGB = ((data?.detail.deviceInfo.memUse || 0) / (1024 * 1024 * 1024)).toFixed(2);
 
   const network = data?.detail.deviceInfo.networkInterfaces || []
-  const newResult = network.find(item => item.name === 'eth0') || network.find(item => item.name === 'macvlan4vr0');
-
-  let formatter = useDateFormatter({ dateStyle: "long" });
-
+  const newResult = network.find(item => item.name === 'eth0') || network[0];
 
 
 
