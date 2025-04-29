@@ -112,7 +112,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
                 </span>
               </div>
             </div>
-            <div className="flex  items-center xsl:justify-center xsl:gap-5 gap-20 w-full flex-wrap">
+            <div className="flex  items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-20 w-full flex-wrap">
               <img src="./refer.png" className="w-auto h-auto" />
               <img src="./refer1.png" className="w-auto h-auto" />
             </div>
