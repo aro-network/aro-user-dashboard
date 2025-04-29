@@ -1,25 +1,22 @@
-import { IoGiftOutline } from "react-icons/io5";
 import { SVGS } from "@/svg"
 import { IconCard, TitCard } from "../cards"
 import { useAuthContext } from "@/app/context/AuthContext";
 import { IoIosCheckmarkCircle } from "react-icons/io";
-import { cn, Select, SelectItem } from "@nextui-org/react";
+import { cn } from "@nextui-org/react";
 import { ReactNode, useMemo, useState } from "react";
 import EChartsReact from "echarts-for-react";
 import { useDebounce, useMeasure } from "react-use";
 import { UseMeasureRef } from "react-use/lib/useMeasure";
 import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
-import { fmtDate } from "@/lib/utils";
 import _ from 'lodash'
 import { fmtBerry } from "../fmtData";
 import numbro from "numbro";
 import { HelpTip } from "../tips";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
-import { AnimatePresence } from "motion/react"
-import * as motion from "motion/react-client"
 import { FaGift } from "react-icons/fa6";
+import { formatNumber } from "@/lib/utils";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 type OptionType = (typeof options)[number];
 export function DupleSplit() {
@@ -84,9 +81,9 @@ const AOverview = () => {
   const chartOpt = useMemo(() => {
     if (!width) return {};
     const datas = data?.trending || []
-    const xData = datas.map((item: { date: number; }) => item.date);
+    const xData = datas.map((item) => item.date);
 
-    const yData = datas.map((item: { rewards: string; }) => _.toNumber(item.rewards));
+    const yData = datas.map((item) => _.toNumber(item.total));
     console.log('xData', xData, yData);
 
     console.info("width:", width);
@@ -219,17 +216,15 @@ const AOverview = () => {
           className="flip_item bg-[#6D6D6D66]"
           icon={() => <FaGift />}
           iconSize={24}
-
           tit={
             <div className="flex justify-between items-center w-full">
               <span className="text-xl font-Alexandria">Rewards - All Nodes</span>
-
             </div>
           }
           content={
             <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
               <DupleInfo
-                tit={`${data?.rewards?.total || 0}`}
+                tit={formatNumber(Number(data?.rewards.total || 0))}
                 sub={
                   <>
                     Total
@@ -237,7 +232,7 @@ const AOverview = () => {
                 }
               />
               <DupleSplit />
-              <DupleInfo tit={`${data?.rewards?.today || 0}`} sub="Today" />
+              <DupleInfo tit={`${formatNumber(data?.rewards?.today || 0)}`} sub="Today" />
             </div>
           }
         />

@@ -54,6 +54,7 @@ declare namespace Nodes {
   interface TrendingList {
     date: number;
     rewards: string;
+    total?: string;
   }
 
   type DeviceType = {

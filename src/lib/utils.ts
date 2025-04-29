@@ -95,3 +95,39 @@ export const covertText = (type: "box" | "x86") => {
   const list = { box: "Home Box", x86: "X86 Server", router: "Router" };
   return list[type] || "-";
 };
+
+export const getLast15Days = () => {
+  const result = [];
+  const today = new Date();
+
+  for (let i = 0; i < 15; i++) {
+    const date = new Date();
+    date.setDate(today.getDate() - i);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    result.push(`${year}-${month}-${day}`);
+  }
+
+  return result;
+};
+export const formatNumber = (num: number) => {
+  if (num >= 10000) {
+    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "k";
+  }
+  return num.toString();
+};
+
+// function formatLargeNumber(num) {
+//   if (num >= 1_000_000_000) {
+//     return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
+//   } else if (num >= 1_000_000) {
+//     return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+//   } else if (num >= 10_000) {
+//     return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+//   } else {
+//     return num.toString();
+//   }
+// }

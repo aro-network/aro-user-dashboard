@@ -8,6 +8,7 @@ import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
+import { formatNumber } from "@/lib/utils";
 
 
 const ANodes = () => {
@@ -44,7 +45,9 @@ const ANodes = () => {
           nodeUUID: item.nodeUUID,
           when: 'Today',
           experience: <>
-            <label className="text-[#4281FF] text-2xl font-semibold leading-6">+{item.todayRewards}</label>
+            <label className="text-[#4281FF] text-2xl font-semibold leading-6">
+              +{formatNumber(Number(item.todayRewards) || 0)}
+            </label>
             <label className="ml-[.375rem]">BERRY</label></>,
           status: item.online,
           nodeId: item.nodeId
@@ -95,7 +98,7 @@ const ANodes = () => {
             className="h-[1.875rem]  rounded-lg"
             onClick={() => { setOpenAddNode(!isOpen) }} >Add New Node</Btn> :
           !isOpen && !unbindInfo && <div className="flex gap-[.625rem] font-medium text-xs leading-3">
-            <Btn className="h-[1.875rem] rounded-lg">Go to Web Console</Btn>
+            <Btn disabled className="h-[1.875rem] rounded-lg">Go to Web Console</Btn>
             <Btn
               onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeUUID)}
               className="bg-[#F5F5F51A] h-[1.875rem] rounded-lg ">Delete</Btn>

@@ -8,16 +8,19 @@ import { FC, useMemo, useState } from "react";
 import { FiEdit, FiHelpCircle } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { covertText, formatStr } from "@/lib/utils";
+import { covertText, formatNumber, formatStr, getLast15Days } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
 import dayjs from "dayjs";
-import { getLocalTimeZone } from '@internationalized/date';
+import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
+import { I18nProvider } from "@react-aria/i18n";
 
 
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
-  const [chooseDate, setChooseDate] = useState<{ startTime: number, endTime: number }>({ startTime: 0, endTime: 0 })
+  const last15days = getLast15Days()
+
+  const [chooseDate, setChooseDate] = useState<{ start: CalendarDate, end: CalendarDate }>({ start: parseDate(last15days[last15days.length - 1]), end: parseDate(last15days[0]) })
   const { data, isFetching } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
@@ -34,8 +37,29 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   const result = useQuery({
     queryKey: ["TrendingChart", chooseDate],
     enabled: true,
-    queryFn: () => backendApi.rewardHistory(selectList?.nodeUUID, chooseDate)
+    queryFn: async () => {
+      const startZoned = chooseDate.start.toDate(getLocalTimeZone());
+      const endZoned = chooseDate.end.toDate(getLocalTimeZone());
+      const startTime = Math.floor(startZoned.getTime() / 1000);
+      const endTime = Math.floor(endZoned.getTime() / 1000);
+
+      const res = backendApi.rewardHistory(selectList?.nodeUUID, { startTime: startTime, endTime: endTime })
+      return res
+    }
   });
+
+  const onDealTime = () => {
+    const data = result.data
+    if (data && data.length) {
+      const firstItem = data[0];
+      const lastItem = data[data.length - 1];
+
+      console.log('datadasdasd', data, firstItem, lastItem);
+
+    }
+  }
+
+  console.log('daasdasdasda', result.data, onDealTime());
 
 
   const chartOpt = useMemo(() => {
@@ -137,9 +161,9 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   }, [width, result.data]);
 
 
-  let memAvailableGB = ((data?.detail.deviceInfo.memAvailable || 0) / (1024 * 1024 * 1024)).toFixed(2);
-  let memTotalGB = ((data?.detail.deviceInfo.memTotal || 0) / (1024 * 1024 * 1024)).toFixed(2);
-  let memUseGB = ((data?.detail.deviceInfo.memUse || 0) / (1024 * 1024 * 1024)).toFixed(2);
+  const memAvailableGB = ((data?.detail.deviceInfo.memAvailable || 0) / (1024 * 1024 * 1024)).toFixed(2);
+  const memTotalGB = ((data?.detail.deviceInfo.memTotal || 0) / (1024 * 1024 * 1024)).toFixed(2);
+  const memUseGB = ((data?.detail.deviceInfo.memUse || 0) / (1024 * 1024 * 1024)).toFixed(2);
 
   const network = data?.detail.deviceInfo.networkInterfaces || []
   const newResult = network.find(item => item.name === 'eth0') || network[0];
@@ -179,7 +203,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   Node ID:
                 </span>
                 <div className="text-[#FFFFFF80] ">
-                  <HelpTip content={data?.detail?.nodeID}>
+                  <HelpTip content={data?.detail?.nodeID} >
                     {formatStr(data?.detail?.nodeID || '-')}
                   </HelpTip>
 
@@ -210,7 +234,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className="text-3xl ">
-                  {Math.round(Number(data?.countRewards.total) || 0)}
+                  {formatNumber(Number(data?.countRewards.total || 0))}
                 </span>
                 <span>
                   BERRY
@@ -223,7 +247,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className=" text-3xl ">
-                  +  {data?.countRewards.today || 0}
+                  +  {formatNumber(Number(data?.countRewards.today || 0))}
                 </span>
                 <span>
                   BERRY
@@ -233,11 +257,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
               <span className="font-normal text-sm text-[#FFFFFF80]">
                 Yesterday
-
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className=" text-3xl ">
-                  +  {data?.countRewards.yesterday || 0}
+                  +  {formatNumber(Number(data?.countRewards.yesterday || 0))}
                 </span>
                 <span>
                   BERRY
@@ -250,20 +273,22 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
       <TitCard
         tit="Rewards History"
-        className={cn("col-span-1 h-full bg-[#6D6D6D66] w-full mt-5  lg:col-span-2  gap-4",)}
+        className={cn("col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5  lg:col-span-2  gap-4",)}
         right={
-          <div className="w-[16.875rem]">
-            <DateRangePicker className="w-full" onChange={(e) => {
-
-              if (e?.start && e?.end) {
-                const startZoned = e.start.toDate(getLocalTimeZone());
-                const endZoned = e.end.toDate(getLocalTimeZone());
-                const startTime = Math.floor(startZoned.getTime() / 1000);
-                const endTime = Math.floor(endZoned.getTime() / 1000);
-                setChooseDate({ startTime, endTime })
-              }
-            }
-            } classNames={{ 'popoverContent': 'w-full', 'calendarContent': 'w-full' }} />
+          <div className=" !text-sm ">
+            <I18nProvider locale="en-US">
+              <DateRangePicker className="w-full !text-2xl custom-date-picker"
+                showMonthAndYearPickers={true}
+                value={chooseDate}
+                onChange={(e) => {
+                  if (e?.start && e?.end) {
+                    setChooseDate({ start: e.start, end: e.end })
+                  }
+                }
+                }
+                maxValue={today(getLocalTimeZone())}
+              />
+            </I18nProvider>
           </div>
         }
       >

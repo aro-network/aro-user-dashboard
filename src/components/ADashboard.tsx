@@ -183,7 +183,10 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         <div className="flex items-center  gap-5 smd:flex-col">
           <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <Dropdown isOpen={isOpen}>
+          <div className="bg-[#FFFFFF33] rounded-md py-1 px-2">
+            {selectedTab.label}
+          </div>
+          {/* <Dropdown isOpen={isOpen}>
             <DropdownTrigger  >
               <Button className="rounded-[.625rem]  cursor-default h-8 border flex items-center p-[.625rem] border-[#999999] text-[#999999] font-normal text-xs leading-3" variant="bordered">
                 {selectedTab.label}
@@ -203,7 +206,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               }
               )}
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown> */}
           {/* </div> */}
         </div>
         <div className="flex gap-[1.875rem] items-center">

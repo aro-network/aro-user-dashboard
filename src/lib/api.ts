@@ -4,6 +4,8 @@ import { ENV } from "./env";
 import _ from "lodash";
 import { fmtBoost } from "@/components/fmtData";
 import { toast } from "sonner";
+import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
+import { useDateFormatter } from "@react-aria/i18n";
 
 const API_MAP: { [k in typeof ENV]: string } = {
   beta: "https://dev-api.enreach.network/api",
@@ -258,8 +260,6 @@ const backendApi = {
     nodeId?: string,
     chooseDate?: { startTime: number; endTime: number }
   ) => {
-    console.log("adasdaschooseDate", chooseDate);
-
     const params = chooseDate?.startTime
       ? {
           params: chooseDate,

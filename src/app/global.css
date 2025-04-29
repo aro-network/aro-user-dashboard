@@ -60,6 +60,9 @@ body {
   }
 }
 
+
+
+
 .font-HelveticaNeue {
   transform: translateY(0.1em);
 }
@@ -142,4 +145,15 @@ button[data-slot="trigger"] {
 .dropdown-item-custom[data-hover='true'],
 .dropdown-item-custom[data-focus='true'] {
   background-color: #FFFFFF1A !important;
+}
+
+
+
+[data-slot="calendar"] {
+  width: 16rem;
+}
+
+[data-slot="content"]{
+  width: 16rem;
+
 }
