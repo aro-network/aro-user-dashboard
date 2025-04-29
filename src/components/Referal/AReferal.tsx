@@ -93,31 +93,31 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         }
       />
       <IconCard
-        className="flip_item col-span-full h-[10.625rem] "
+        className="flip_item col-span-full h-[10.625rem] w-full "
         icon={() => <IoAlertCircle />}
         iconSize={20}
         tit={
-          <div className=" flex items-center gap-20  mt-[3.75rem] font-Alexandria   ">
+          <div className=" flex items-center w-full  md:gap-10 mt-[3.75rem] font-Alexandria   ">
 
-            <div className="flex flex-col  text-white w-full ">
+            <div className="flex flex-col  text-white w-auto ">
               <span className="text-base ">
                 How Referral Program Works?
               </span>
-              <div className=" text-[#FFFFFFB2] text-sm flex flex-col">
+              <div className=" text-[#FFFFFFB2] text-sm pt-1 flex flex-col">
                 <span >
-                  Ask your friends to join EnReach Network
+                  {` The Referrer enjoy 15% commission from the Referee's mining rewards.`}
                 </span>
                 <span>
-                  and get referral bonus!
+                  Contact us to get whitelisted for the extra seond-tier commission.
                 </span>
               </div>
             </div>
-
-            <img src="./refer.png" className="w-full h-full" />
-
-            <img src="./refer1.png" className="w-full h-full" />
-
+            <div className="flex  items-center xsl:justify-center gap-20 ml-5 w-full flex-wrap">
+              <img src="./refer.png" className="w-auto h-auto" />
+              <img src="./refer1.png" className="w-auto h-auto" />
+            </div>
           </div>
+
         }
         content={
           <></>
