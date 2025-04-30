@@ -1,3 +1,4 @@
+import { CalendarDate, getLocalTimeZone, today } from "@internationalized/date";
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { AxiosError } from "axios";
 import dayjs from "dayjs";
@@ -96,28 +97,38 @@ export const covertText = (type: "box" | "x86") => {
   return list[type] || "-";
 };
 
-export const getLast15Days = () => {
-  const result = [];
-  const today = new Date();
-
-  for (let i = 0; i < 15; i++) {
-    const date = new Date();
-    date.setDate(today.getDate() - i);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    result.push(`${year}-${month}-${day}`);
-  }
-
-  return result;
+export const generateLast15DaysRange = (): {
+  start: CalendarDate;
+  end: CalendarDate;
+} => {
+  const end = today(getLocalTimeZone());
+  const start = end.subtract({ days: 14 });
+  return { start, end };
 };
+
+export function getAdjustedDateRange(
+  startTimestamp: number,
+  endTimestamp: number
+) {
+  const secondsInDay = 86400;
+
+  const adjustedStart =
+    Math.floor(startTimestamp / secondsInDay) * secondsInDay;
+
+  const adjustedEnd =
+    (Math.floor(endTimestamp / secondsInDay) + 1) * secondsInDay - 1;
+
+  return {
+    startTime: adjustedStart,
+    endTime: adjustedEnd,
+  };
+}
+
 export const formatNumber = (num: number) => {
   if (num >= 10000) {
-    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "K";
+    return Math.floor(num / 1000) + "K";
   }
-  return num.toString();
+  return Math.round(num).toString();
 };
 
 // function formatLargeNumber(num) {

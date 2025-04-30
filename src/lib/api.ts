@@ -260,6 +260,8 @@ const backendApi = {
     nodeId?: string,
     chooseDate?: { startTime: number; endTime: number }
   ) => {
+    console.log("chooseDate", chooseDate);
+
     const params = chooseDate?.startTime
       ? {
           params: chooseDate,

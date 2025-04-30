@@ -8,21 +8,21 @@ import { FC, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { covertText, formatNumber, formatStr, getLast15Days } from "@/lib/utils";
+import { covertText, formatNumber, formatStr, generateLast15DaysRange, } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { I18nProvider } from "@react-aria/i18n";
 import { TiTick } from "react-icons/ti";
 import { IoCloseSharp } from "react-icons/io5";
 
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
-  const last15days = getLast15Days()
   const [isEdit, setIsEdit] = useState(false)
 
-  const [chooseDate, setChooseDate] = useState<{ start: CalendarDate, end: CalendarDate }>({ start: parseDate(last15days[last15days.length - 1]), end: parseDate(last15days[0]) })
+
+  const [chooseDate, setChooseDate] = useState<{ start: CalendarDate, end: CalendarDate }>(generateLast15DaysRange())
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
@@ -41,24 +41,38 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
   const result = useQuery({
     queryKey: ["TrendingChart", chooseDate],
-    enabled: true,
+    enabled: !!chooseDate.start && !!chooseDate.end,
     queryFn: async () => {
-      const startZoned = chooseDate.start.toDate(getLocalTimeZone());
-      const endZoned = chooseDate.end.toDate(getLocalTimeZone());
-      const startTime = Math.floor(startZoned.getTime() / 1000);
-      const endTime = Math.floor(endZoned.getTime() / 1000);
+      const timeZone = getLocalTimeZone();
 
-      const res = backendApi.rewardHistory(selectList?.nodeUUID, { startTime: startTime, endTime: endTime })
-      return res
+      const startDate = chooseDate.start.toDate(timeZone);
+      const endDate = chooseDate.end.toDate(timeZone);
+
+      startDate.setHours(8, 0, 0, 0);
+
+      endDate.setDate(endDate.getDate() + 1);
+      endDate.setHours(7, 59, 59, 999);
+
+      const startTime = Math.floor(startDate.getTime() / 1000);
+      const endTime = Math.floor(endDate.getTime() / 1000);
+
+
+      const res = await backendApi.rewardHistory(selectList?.nodeUUID, {
+        startTime,
+        endTime
+      });
+
+      return res;
     }
   });
+
+
 
 
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
     const datas = result.data || [];
-    console.log('datas', datas, Math.floor(dayjs('2025-04-14').valueOf() / 1000));
 
     const xData = datas.map((item: { date: string; }) => item.date);
     const yData = datas.map((item: { total: number; }) => _.toNumber(item.total));
@@ -176,6 +190,10 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     refetch()
     setIsEdit(false)
   }
+
+
+  console.log('appppppp', chooseDate);
+
   return <>
     {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
       <div className="flex w-full gap-5 smd:flex-wrap">
@@ -299,6 +317,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 showMonthAndYearPickers={true}
                 value={chooseDate}
                 onChange={(e) => {
+                  console.log('asdasdasdaDateRangePicker', e.start, e.end);
+
                   if (e?.start && e?.end) {
                     setChooseDate({ start: e.start, end: e.end })
                   }
