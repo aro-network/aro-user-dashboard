@@ -115,7 +115,7 @@ export const getLast15Days = () => {
 };
 export const formatNumber = (num: number) => {
   if (num >= 10000) {
-    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "k";
+    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "K";
   }
   return num.toString();
 };

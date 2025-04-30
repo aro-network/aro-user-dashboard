@@ -1,11 +1,11 @@
 import { Btn } from "@/components/btns";
 import { TitCard } from "@/components/cards";
 import backendApi from "@/lib/api";
-import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
+import { CircularProgress, cn, DateRangePicker, Input } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
 import { FC, useMemo, useState } from "react";
-import { FiEdit, FiHelpCircle } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
 import { covertText, formatNumber, formatStr, getLast15Days } from "@/lib/utils";
@@ -15,21 +15,26 @@ import { HelpTip } from "@/components/tips";
 import dayjs from "dayjs";
 import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { I18nProvider } from "@react-aria/i18n";
-
+import { TiTick } from "react-icons/ti";
+import { IoCloseSharp } from "react-icons/io5";
 
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
   const last15days = getLast15Days()
+  const [isEdit, setIsEdit] = useState(false)
 
   const [chooseDate, setChooseDate] = useState<{ start: CalendarDate, end: CalendarDate }>({ start: parseDate(last15days[last15days.length - 1]), end: parseDate(last15days[0]) })
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
     queryFn: async () => {
       const [detail, countRewards] = await Promise.all([backendApi.getNodeInfoByNodeId(selectList?.nodeUUID), backendApi.countRewards(selectList?.nodeUUID)])
+      setNodeName(detail.nodeName)
       return { detail, countRewards }
     },
     refetchOnWindowFocus: false,
   });
+  const [nodeName, setNodeName] = useState('')
+
 
 
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
@@ -48,18 +53,6 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     }
   });
 
-  const onDealTime = () => {
-    const data = result.data
-    if (data && data.length) {
-      const firstItem = data[0];
-      const lastItem = data[data.length - 1];
-
-      console.log('datadasdasd', data, firstItem, lastItem);
-
-    }
-  }
-
-  console.log('daasdasdasda', result.data, onDealTime());
 
 
   const chartOpt = useMemo(() => {
@@ -166,11 +159,18 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   const memUseGB = ((data?.detail.deviceInfo.memUse || 0) / (1024 * 1024 * 1024)).toFixed(2);
 
   const network = data?.detail.deviceInfo.networkInterfaces || []
+
+  console.log('networknetworknetwork', network);
+
   const newResult = network.find(item => item.name === 'eth0') || network[0];
 
 
 
-
+  const onSubmit = async () => {
+    await backendApi.editCurrentNodeName(data?.detail.nodeUUID, nodeName)
+    refetch()
+    setIsEdit(false)
+  }
   return <>
     {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
       <div className="flex w-full gap-5 smd:flex-wrap">
@@ -185,17 +185,30 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <img src={`../${data?.detail?.nodeType}.png`} className="w-[4.4375rem] h-full" alt={`${data?.detail?.nodeType}`} />
             </div>
             <div className="flex flex-col justify-between">
-              <div className="text-sm  flex  gap-[.625rem]">
+              <div className="text-sm  flex  gap-[.625rem]  items-center">
                 <span>
                   Node Name:
                 </span>
-                <div className="text-[#FFFFFF80] flex items-baseline gap-[.625rem]">
-                  <HelpTip content={data?.detail?.nodeName}>
-                    {formatStr(data?.detail.nodeName,)}
-                  </HelpTip>
-                  <button >
-                    <FiEdit className="text-white text-xs" />
-                  </button>
+                <div style={{ alignItems: 'anchor-center' }} className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName ">
+                  {isEdit ? <input maxLength={30} className="rounded-lg" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
+                    <HelpTip content={data?.detail?.nodeName}>
+                      {formatStr(data?.detail.nodeName,)}
+                    </HelpTip>
+                  }
+                  {isEdit ?
+                    <div className="flex gap-[.625rem] items-baseline">
+                      <button onClick={onSubmit}>
+                        <TiTick className="text-base text-green-400" />
+                      </button>
+                      <button onClick={() => setIsEdit(false)}>
+                        <IoCloseSharp className="text-base " />
+                      </button>
+                    </div>
+                    :
+                    <button onClick={() => setIsEdit(true)}>
+                      <FiEdit className="text-white text-xs" />
+                    </button>
+                  }
                 </div>
               </div>
               <div className="text-sm mt-1 w-full flex   gap-[.625rem]">

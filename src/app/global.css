@@ -157,3 +157,16 @@ button[data-slot="trigger"] {
   width: 16rem;
 
 }
+
+
+.nodeName input:focus {
+  box-shadow: none;
+  border-color: #1C73FF;
+  outline: none;
+  content: "";
+}
+
+.nodeName input {
+  font-size: 16px;
+  padding-left: 5px;
+}

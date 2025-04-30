@@ -11,6 +11,7 @@ import { DupleInfo, DupleSplit } from "../EdgeNode/AOverview";
 import { HelpTip } from "../tips";
 import { useQuery } from "@tanstack/react-query";
 import backendApi from "@/lib/api";
+import { formatNumber } from "@/lib/utils";
 
 export default function AMyReferral() {
   const ac = useAuthContext();
@@ -75,7 +76,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
           <div className="flex items-center gap-[10%] min-w-[13.75rem]">
 
             <div className="flex items-center gap-[10%]">
-              <DupleInfo tit={data?.referredRewards} sub="BERRY" />
+              <DupleInfo tit={formatNumber(Number(data?.referredRewards) || 0)} sub="BERRY" />
             </div>
 
             <DupleSplit />

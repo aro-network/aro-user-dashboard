@@ -278,6 +278,16 @@ const backendApi = {
     >("/edgeNode/referral/rewards");
     return response.data.data;
   },
+
+  editCurrentNodeName: async (nodeId?: string, nickName?: string) => {
+    const response = await Api.post<RES<Nodes.RewardsHistory[]>>(
+      `${prefixUrl}${nodeId}/name/reset`,
+      { nickName }
+    );
+    return response.data.data;
+  },
+
+  // /api/edgeNode/node/{nodeId}/name/reset
 };
 
 export default backendApi;
