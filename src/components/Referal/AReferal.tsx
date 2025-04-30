@@ -82,7 +82,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
             <DupleSplit />
 
             <DupleInfo
-              tit={data?.referred}
+              tit={data?.referred || 0}
               subClassName="text-green-400 opacity-100"
               sub={
                 <>
