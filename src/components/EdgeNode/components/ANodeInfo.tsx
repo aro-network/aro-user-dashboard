@@ -160,11 +160,16 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
   const network = data?.detail.deviceInfo.networkInterfaces || []
 
-  console.log('networknetworknetwork', network);
 
-  const newResult = network.find(item => item.name === 'eth0') || network[0];
+  const newResult = network.sort((a, b) => {
+    const getPriority = (name: string) => {
+      if (name.startsWith("macvlan")) return 0;
+      if (name === "eth0") return 1;
+      return 2;
+    };
 
-
+    return getPriority(a.name) - getPriority(b.name);
+  });
 
   const onSubmit = async () => {
     await backendApi.editCurrentNodeName(data?.detail.nodeUUID, nodeName)
@@ -362,11 +367,11 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             </div>
             <div className="flex justify-between">
               <span >Local IP</span>
-              <span className="text-[#FFFFFF80]">{newResult?.ip}</span>
+              <span className="text-[#FFFFFF80]">{newResult![0].ip || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span >MAC Address</span>
-              <span className="text-[#FFFFFF80]">{newResult?.mac}</span>
+              <span className="text-[#FFFFFF80]">{newResult![0].mac || '-'}</span>
             </div>
             {/* <div className="flex justify-between">
               <span >NAT Type</span>
