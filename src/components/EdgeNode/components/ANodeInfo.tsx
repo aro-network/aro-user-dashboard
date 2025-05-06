@@ -300,7 +300,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
       <TitCard
         tit="Rewards History"
-        className={cn("col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5  lg:col-span-2  gap-4",)}
+        className={cn("col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5  !p-5 lg:col-span-2  gap-4",)}
         right={
           <div className=" !text-sm ">
             <I18nProvider locale="en-US">
