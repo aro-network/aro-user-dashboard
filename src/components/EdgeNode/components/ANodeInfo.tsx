@@ -8,7 +8,7 @@ import { FC, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { covertText, formatNumber, formatStr, generateLast15DaysRange, } from "@/lib/utils";
+import { covertText, formatNumber, formatStr, generateLast15DaysRange, shortenMiddle, } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
@@ -23,6 +23,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
 
   const [chooseDate, setChooseDate] = useState<{ start: CalendarDate, end: CalendarDate }>(generateLast15DaysRange())
+
+
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
@@ -35,6 +37,12 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
   });
   const [nodeName, setNodeName] = useState('')
 
+
+  const onSubmit = async (value: string) => {
+    await backendApi.editCurrentNodeName(value, nodeName)
+    refetch()
+    setIsEdit(false)
+  }
 
 
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
@@ -185,14 +193,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     return getPriority(a.name) - getPriority(b.name);
   });
 
-  const onSubmit = async () => {
-    await backendApi.editCurrentNodeName(data?.detail.nodeUUID, nodeName)
-    refetch()
-    setIsEdit(false)
-  }
 
 
-  console.log('appppppp', chooseDate);
 
   return <>
     {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
@@ -213,25 +215,22 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   Node Name:
                 </span>
                 <div style={{ alignItems: 'anchor-center' }} className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName ">
-                  {isEdit ? <input maxLength={30} className="rounded-lg" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
+                  {isEdit ? <input maxLength={30} onBlur={(e) => {
+                    console.log('eeadasdasda', e.target.value);
+
+                    if (!e.target.value) return
+                    onSubmit(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())
+
+                  }
+                  } className="rounded-lg" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
                     <HelpTip content={data?.detail?.nodeName}>
-                      {formatStr(data?.detail.nodeName,)}
+                      {shortenMiddle(data?.detail.nodeName || '-', 10)}
                     </HelpTip>
                   }
-                  {isEdit ?
-                    <div className="flex gap-[.625rem] items-baseline">
-                      <button onClick={onSubmit}>
-                        <TiTick className="text-base text-green-400" />
-                      </button>
-                      <button onClick={() => setIsEdit(false)}>
-                        <IoCloseSharp className="text-base " />
-                      </button>
-                    </div>
-                    :
-                    <button onClick={() => setIsEdit(true)}>
-                      <FiEdit className="text-white text-xs" />
-                    </button>
-                  }
+
+                  <button onClick={() => setIsEdit(true)}>
+                    <FiEdit className="text-white text-xs" />
+                  </button>
                 </div>
               </div>
               <div className="text-sm mt-1 w-full flex   gap-[.625rem]">

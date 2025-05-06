@@ -126,9 +126,10 @@ export function getAdjustedDateRange(
 
 export const formatNumber = (num: number) => {
   if (num >= 10000) {
-    return Math.floor(num / 1000) + "K";
+    const raw = Math.floor((num * 100) / 1000) / 100;
+    return raw.toFixed(2) + "K";
   }
-  return Math.round(num).toString();
+  return num.toString();
 };
 
 // function formatLargeNumber(num) {
@@ -142,3 +143,10 @@ export const formatNumber = (num: number) => {
 //     return num.toString();
 //   }
 // }
+
+export const shortenMiddle = (str: string, maxLength = 20) => {
+  if (str.length <= maxLength) return str;
+
+  const half = Math.floor((maxLength - 3) / 2);
+  return str.slice(0, half) + "..." + str.slice(-half);
+};
