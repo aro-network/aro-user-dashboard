@@ -129,7 +129,7 @@ export const formatNumber = (num: number) => {
     const raw = Math.floor((num * 100) / 1000) / 100;
     return raw.toFixed(2) + "K";
   }
-  return Math.floor(num).toString();
+  return Math.round(num).toString();
 };
 
 // function formatLargeNumber(num) {

@@ -216,8 +216,6 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </span>
                 <div style={{ alignItems: 'anchor-center' }} className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName ">
                   {isEdit ? <input maxLength={30} onBlur={(e) => {
-                    console.log('eeadasdasda', e.target.value);
-
                     if (!e.target.value) return
                     onSubmit(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())
 
@@ -269,7 +267,9 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className="text-3xl ">
-                  {formatNumber(Number(data?.countRewards.total || 0))}
+                  <HelpTip content={data?.countRewards.total}>
+                    {formatNumber(Number(data?.countRewards.total || 0))}
+                  </HelpTip>
                 </span>
                 <span>
                   BERRY
