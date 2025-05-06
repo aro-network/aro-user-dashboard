@@ -190,6 +190,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     }
   };
 
+
+
   return <>
     {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
       <div className="flex w-full gap-5 smd:flex-wrap">
@@ -210,9 +212,8 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                 </span>
                 <div style={{ alignItems: 'anchor-center' }} className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName ">
                   {isEdit ? <input maxLength={30} onBlur={(e) => {
-                    if (!e.target.value) return
+                    if (!e.target.value || e.target.value === data?.detail.nodeName) return setIsEdit(false)
                     onSubmit(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())
-
                   }
                   } className="rounded-lg" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
                     <HelpTip content={data?.detail?.nodeName}>
@@ -300,7 +301,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
       <TitCard
         tit="Rewards History"
-        className={cn("col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5  !p-5 lg:col-span-2  gap-4",)}
+        className={cn("col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4",)}
         right={
           <div className=" !text-sm ">
             <I18nProvider locale="en-US">
@@ -326,7 +327,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           <span className=" text-base font-semibold">
             Basics
           </span>
-          <div className="flex flex-col gap-[10px] mt-5 text-sm">
+          <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
             <div className="flex justify-between">
               <span >Create Date</span>
               <span className="text-[#FFFFFF80]">{(dayjs(Number(data?.detail?.deviceInfo.date || 0) * 1000).format('YYYY-MM-DD'))}</span>
@@ -359,7 +360,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           <span className=" text-base font-semibold">
             Network Info
           </span>
-          <div className="flex flex-col gap-[10px] mt-5 text-sm">
+          <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
 
             <div className="flex justify-between">
               <span >Public IP</span>
@@ -397,7 +398,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           <span className=" text-base font-semibold">
             Device States
           </span>
-          <div className="flex flex-col gap-[10px] mt-5 text-sm">
+          <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
             <div className="flex justify-between">
               <span >CPU Cores</span>
               <span className="text-[#FFFFFF80]">{data?.detail.deviceInfo.cpuCores || '-'}</span>
