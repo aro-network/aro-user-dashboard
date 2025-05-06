@@ -215,7 +215,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                     if (!e.target.value || e.target.value === data?.detail.nodeName) return setIsEdit(false)
                     onSubmit(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())
                   }
-                  } className="rounded-lg" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
+                  } className="rounded-sm !bg-[#FFFFFFCC] text-black" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
                     <HelpTip content={data?.detail?.nodeName}>
                       {shortenMiddle(data?.detail.nodeName || '-')}
                     </HelpTip>
