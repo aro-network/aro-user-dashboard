@@ -150,3 +150,24 @@ export const shortenMiddle = (str: string, maxLength = 20) => {
   const half = Math.floor((maxLength - 3) / 2);
   return str.slice(0, half) + "..." + str.slice(-half);
 };
+
+export function generateDateList(startTimestamp: number, endTimestamp: number) {
+  const result: { date: string; total: number }[] = [];
+
+  const startDate = new Date(startTimestamp * 1000);
+  const endDate = new Date(endTimestamp * 1000);
+
+  startDate.setHours(8, 0, 0, 0);
+
+  endDate.setHours(7, 59, 59, 999);
+
+  const current = new Date(startDate);
+
+  while (current <= endDate) {
+    const dateStr = current.toISOString().split("T")[0];
+    result.push({ date: dateStr, total: 0 });
+    current.setDate(current.getDate() + 1);
+  }
+
+  return result;
+}

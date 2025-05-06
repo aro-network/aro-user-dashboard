@@ -1,29 +1,25 @@
 import { Btn } from "@/components/btns";
 import { TitCard } from "@/components/cards";
 import backendApi from "@/lib/api";
-import { CircularProgress, cn, DateRangePicker, Input } from "@nextui-org/react";
+import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
 import { FC, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { covertText, formatNumber, formatStr, generateLast15DaysRange, shortenMiddle, } from "@/lib/utils";
+import { covertText, formatNumber, formatStr, generateDateList, generateLast15DaysRange, shortenMiddle, } from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { I18nProvider } from "@react-aria/i18n";
-import { TiTick } from "react-icons/ti";
-import { IoCloseSharp } from "react-icons/io5";
+
 
 const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
   const [isEdit, setIsEdit] = useState(false)
-
-
   const [chooseDate, setChooseDate] = useState<{ start: CalendarDate, end: CalendarDate }>(generateLast15DaysRange())
-
 
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
@@ -44,7 +40,6 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     setIsEdit(false)
   }
 
-
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
 
   const result = useQuery({
@@ -52,31 +47,21 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     enabled: !!chooseDate.start && !!chooseDate.end,
     queryFn: async () => {
       const timeZone = getLocalTimeZone();
-
       const startDate = chooseDate.start.toDate(timeZone);
       const endDate = chooseDate.end.toDate(timeZone);
-
       startDate.setHours(8, 0, 0, 0);
-
       endDate.setDate(endDate.getDate() + 1);
       endDate.setHours(7, 59, 59, 999);
-
       const startTime = Math.floor(startDate.getTime() / 1000);
       const endTime = Math.floor(endDate.getTime() / 1000);
-
-
       const res = await backendApi.rewardHistory(selectList?.nodeUUID, {
         startTime,
         endTime
       });
-
-      return res;
+      const list = generateDateList(startTime, endTime);
+      return !res.length ? list : res;
     }
   });
-
-
-
-
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
@@ -175,7 +160,6 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     };
   }, [width, result.data]);
 
-
   const memAvailableGB = ((data?.detail.deviceInfo.memAvailable || 0) / (1024 * 1024 * 1024)).toFixed(2);
   const memTotalGB = ((data?.detail.deviceInfo.memTotal || 0) / (1024 * 1024 * 1024)).toFixed(2);
   const memUseGB = ((data?.detail.deviceInfo.memUse || 0) / (1024 * 1024 * 1024)).toFixed(2);
@@ -193,8 +177,18 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     return getPriority(a.name) - getPriority(b.name);
   });
 
-
-
+  const handleChange = (e: { start: CalendarDate; end: CalendarDate; }) => {
+    const { start, end } = e;
+    if (start && end) {
+      const diffInTime = end.toDate(getLocalTimeZone()).getTime() - start.toDate(getLocalTimeZone()).getTime();
+      const diffInDays = diffInTime / (1000 * 3600 * 24);
+      if (diffInDays >= 6) {
+        setChooseDate({ start, end });
+      }
+    } else {
+      setChooseDate({ start, end });
+    }
+  };
 
   return <>
     {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
@@ -267,9 +261,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               </span>
               <div className="flex  gap-[10px] items-baseline">
                 <span className="text-3xl ">
-                  <HelpTip content={data?.countRewards.total}>
-                    {formatNumber(Number(data?.countRewards.total || 0))}
-                  </HelpTip>
+                  {formatNumber(Number(data?.countRewards.total || 0))}
                 </span>
                 <span>
                   BERRY
@@ -315,13 +307,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <DateRangePicker className="w-full !text-2xl custom-date-picker"
                 showMonthAndYearPickers={true}
                 value={chooseDate}
-                onChange={(e) => {
-                  console.log('asdasdasdaDateRangePicker', e.start, e.end);
-
-                  if (e?.start && e?.end) {
-                    setChooseDate({ start: e.start, end: e.end })
-                  }
-                }
+                onChange={handleChange
                 }
                 maxValue={today(getLocalTimeZone())}
               />
@@ -330,7 +316,6 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         }
       >
         <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
-
           <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={chartOpt} />
         </div>
       </TitCard>
