@@ -216,7 +216,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             <a href="https://docs.enreach.network/berry-season-1" target="_blank" className="underline-offset-4 h-8 hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999]">Guide</a>
           </div>
 
-          <Dropdown className="bg-[#585858] w-[20.625rem] py-[.625rem]" placement="bottom-end">
+          <Dropdown className="bg-[#585858] !w-[18.75rem]  py-[.625rem]" placement="bottom-end">
             <DropdownTrigger>
               <div className="w-8 cursor-pointer">
                 <MAvatar name={user?.email} />

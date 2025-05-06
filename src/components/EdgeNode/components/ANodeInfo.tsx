@@ -39,7 +39,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
 
 
   const onSubmit = async (value: string) => {
-    await backendApi.editCurrentNodeName(value, nodeName)
+    await backendApi.editCurrentNodeName(data?.detail.nodeUUID, value)
     refetch()
     setIsEdit(false)
   }
