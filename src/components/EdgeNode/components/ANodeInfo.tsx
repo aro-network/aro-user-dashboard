@@ -224,7 +224,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
                   }
                   } className="rounded-lg" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
                     <HelpTip content={data?.detail?.nodeName}>
-                      {shortenMiddle(data?.detail.nodeName || '-', 10)}
+                      {shortenMiddle(data?.detail.nodeName || '-')}
                     </HelpTip>
                   }
 
