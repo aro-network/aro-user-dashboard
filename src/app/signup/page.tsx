@@ -49,8 +49,9 @@ export default function Page() {
     },
   });
   const onSkip = (e: FormEvent<Element>) => {
-    toggleShowInputReferral(false)
     handlerSubmit(e)
+    toggleShowInputReferral(false)
+
   }
 
   const { mutate: handlerVerify, isPending: isPendingVerify } = useMutation({

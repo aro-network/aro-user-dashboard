@@ -125,7 +125,7 @@ export function getAdjustedDateRange(
 }
 
 export const formatNumber = (num: number) => {
-  if (num >= 10000) {
+  if (num >= 1000) {
     const raw = Math.floor((num * 100) / 1000) / 100;
     return raw.toFixed(2) + "K";
   }
