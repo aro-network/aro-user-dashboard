@@ -101,7 +101,7 @@ const AOverview = () => {
         formatter: (params: any) => {
           // console.info("params:", params)
           // <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0,0,0,0);"></span>
-          return `<div>${params[0].marker.replace('background-color:rgba(0,0,0,0)', 'background-color:#4281FF')}${fmtBerry(params[0].data)}</div>`
+          return `<div>${params[0].marker.replace('background-color:rgba(0,0,0,0)', 'background-color:#4281FF')}${formatNumber(params[0].data)}</div>`
         }
       },
       grid: { left: 40, top: 10, bottom: 30, right: 20, show: false },
@@ -131,13 +131,8 @@ const AOverview = () => {
         // max: (value: number) => value * 1.2,
 
         axisLabel: {
-          color: "rgba(255,255,255,0.5)", formatter: (value: number) => numbro(value)
-            .format({
-              mantissa: 2,
-              trimMantissa: true,
-              average: value >= 1000,
-            })
-            .toUpperCase(),
+          color: "rgba(255,255,255,0.5)", formatter: (value: number) => formatNumber(value)
+
         },
         splitLine: { lineStyle: { type: "dashed", color: "#fff", opacity: 0.05 } },
       },
@@ -158,7 +153,7 @@ const AOverview = () => {
 
           label: {
             show: true,
-            formatter: (d: any) => fmtBerry(d.value),
+            formatter: (d: any) => formatNumber(d.value),
             position: "top",
             color: "rgba(255,255,255,0.5)",
           },
