@@ -84,9 +84,7 @@ export default function Page() {
 
   const disableVerifyEmail = isPendingVerify || validateVerifyCode(verifyCode) !== true;
   const disableSignUp =
-    isPending ||
     !checkedTermPrivacy ||
-    (Boolean(referalCode) && validateReferralCode(referalCode) !== true) ||
     validateEmail(email) !== true ||
     validatePassword(password) !== true ||
     validateConfirmPassword(confirmPassword, password) !== true;
