@@ -105,8 +105,7 @@ export default function Page() {
             <InputEmail setEmail={setEmail} />
             <InputPassword setPassword={setPassword} />
             <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
-            <InputReferralCode value={referalCode} setReferalCode={setReferalCode} />
-            <Checkbox classNames={{ wrapper: 'flip_item', label: "text-xs text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
+            <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
               I agree to the EnReach{" "}
               <MLink target="_blank" className="text-xs" href="https://enreach.network/terms" >
                 Term of Service

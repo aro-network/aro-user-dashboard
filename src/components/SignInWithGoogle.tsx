@@ -82,8 +82,9 @@ export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google",
       </Btn>
 
       <ForceModal isOpen={showInputReferral}>
-        <p className="self-stretch flex-grow-0 flex-shrink-0  text-base text-center text-white">A Special Welcome</p>
-        <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-center text-white/50">{`Join in EnReach's Open Edge journey and earn BERRY rewards with extra boost!`}</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0  text-base text-center text-white">Get Boosted with a Referral Code!</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-center text-white/50">{`You can get 20% extra boost in the mining rewards for the first 14 days with a valid Referral Code. 
+The Referral Code is optional to provide; but remember, you will miss the benefit if you skip this step.`}</p>
         <InputSplitCode onChange={setReferralCode} />
         <Btn isDisabled={disableGetBoosted} className="w-full" onClick={() => onConfirmReferralCode()} isLoading={isPendingConfirmReferralCode}>
           Get Boosted
