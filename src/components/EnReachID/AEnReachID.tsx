@@ -55,9 +55,9 @@ const AEnReachID = () => {
                 </div>
               </HelpTip>
             </div>
-            {/* <label className="font-normal text-xs text-[#FFFFFF99]">
+            <label className="font-normal text-xs text-[#FFFFFF99]">
               -
-            </label> */}
+            </label>
           </div>
           <div className="flex justify-between gap-[.625rem] items-center">
             <Btn disabled={true} className="h-[2.125rem]">Bind</Btn>
