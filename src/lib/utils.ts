@@ -190,10 +190,5 @@ export const envText = (module?: string) => {
     },
   };
 
-  console.log(
-    "daasasmmmmm",
-    config[env]?.[module || "default"] ?? "Unknown environment or module"
-  );
-
   return config[env]?.[module || "default"] ?? "Unknown environment or module";
 };
