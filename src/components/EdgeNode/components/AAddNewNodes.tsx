@@ -162,7 +162,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     ]
     return <div className="w-full device flex justify-between flex-col">
       <div className="text-lg font-Alexandria">Device found:</div>
-      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4">
+      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 pb-2">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>
@@ -229,7 +229,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the binding process will fail. ' : 'This device has been already binded to an EnReach Account. Please delete device to create a new binding.'}
+              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the add process will fail. ' : 'This device has been already added to an EnReach Account. Please delete device to create a new add.'}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5 ">
               <Btn onClick={() => onStepNext()} className="w-full rounded-lg" >
@@ -247,20 +247,20 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Step 3: Configure your Edge Node
             </div>
             <div className="text-xs mt-5 font-Alexandria">Set a name for your Edge Node</div>
-            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg' }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
             <div className="text-xs mt-[.9375rem] font-Alexandria">Select Service Region</div>
             <Select
-
               items={data}
               onSelectionChange={(keys) => {
                 setBindInfo({ ...bindInfo, regions: new Set(keys as Set<string>) });
               }}
               placeholder="Select an regions"
-              className=" mt-[.3125rem]"
+              classNames={{ 'base': '!rounded-lg !w-full', 'popoverContent': '!w-full' }}
+              className=" mt-[.3125rem] "
               selectedKeys={new Set(bindInfo.regions)}
             >
-              {(animal: { code: string, name: string }) => <SelectItem key={animal.code}>{animal.name}</SelectItem>}
+              {(animal: { code: string, name: string }) => <SelectItem classNames={{ 'wrapper': '!w-full', 'base': '!w-full' }} key={animal.code}>{animal.name}</SelectItem>}
             </Select>
 
             {/* <div className="text-[#FF6A6C] text-xs font-normal mt-[10px]">
@@ -368,7 +368,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? `Please make sure your ${chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.` : `This device has been already binded to an EnReach Account. Please delete device to create a new binding.`}
+              {deviceInfo?.bindState === 'N/A' ? `Please make sure your ${chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.` : `This device has been already added to an EnReach Account. Please delete device to create a new add.`}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
               <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg " >

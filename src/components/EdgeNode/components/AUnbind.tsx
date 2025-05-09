@@ -43,7 +43,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     ]
     return <div className="w-full device flex flex-col justify-between">
       <div className="text-lg">Device Info:</div>
-      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4  ">
+      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 pb-2 ">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>

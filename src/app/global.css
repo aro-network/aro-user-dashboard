@@ -138,6 +138,7 @@ div[data-slot="input-wrapper"] {
 
 button[data-slot="trigger"] {
   background-color: #404040;
+  border-radius: 8px;
 }
 
 

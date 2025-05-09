@@ -367,11 +367,11 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
             </div>
             <div className="flex justify-between">
               <span >Local IP</span>
-              <span className="text-[#FFFFFF80]">{newResult![0].ip || '-'}</span>
+              <span className="text-[#FFFFFF80]">{newResult![0]?.ip || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span >MAC Address</span>
-              <span className="text-[#FFFFFF80]">{newResult![0].mac || '-'}</span>
+              <span className="text-[#FFFFFF80]">{newResult![0]?.mac || '-'}</span>
             </div>
             {/* <div className="flex justify-between">
               <span >NAT Type</span>
