@@ -13,6 +13,10 @@ import { FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useSearchParams } from "next/navigation";
 import useRedirect from "@/hooks/useRedirect";
+import { envText } from "@/lib/utils";
+import { ENV } from "@/lib/env";
+import { HelpTip } from "@/components/tips";
+import { CiCircleQuestion } from "react-icons/ci";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -34,13 +38,32 @@ export default function Page() {
 
   console.log('prodasdasda', process.env.NEXT_PUBLIC_ENV);
 
+  const openPage = () => {
+    window.open("https://enreach.network/#target-section", "_blank");
+  };
+
 
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
   return (
     <PageUnlogin>
       <AutoFlip className="mx-auto px-5 min-h-full flex flex-col gap-4 items-center w-full max-w-[25rem]">
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
-        <span className={loginTitleClassName}>Sign In</span>
+        <span className={loginTitleClassName + ' flex items-center gap-2'} >
+          {envText('sign')}
+          <div hidden={ENV !== 'prod'}>
+            <HelpTip className=" w-[12.5rem]" placement='bottom' content={
+              <span>
+                Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
+                <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
+              </span>
+            }>
+              <div>
+                <CiCircleQuestion className="text-lg" />
+              </div>
+
+            </HelpTip>
+          </div>
+        </span>
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
           <InputEmail setEmail={setEmail} />
           <InputPassword setPassword={setPassword} validate={() => null} />

@@ -33,7 +33,7 @@ const AEnReachID = () => {
         <div>
           <div className="flex items-center gap-2">
             <label className="text-2xl font-medium">{username}</label>
-            <label className={'text-base'}><FiEdit /></label>
+            {/* <label className={'text-base'}><FiEdit /></label> */}
           </div>
           <p className="font-normal text-sm mt-1 text-[#FFFFFF99]">{user?.email}</p>
         </div>
@@ -53,7 +53,7 @@ const AEnReachID = () => {
             </label>
           </div>
           <div className="flex justify-between gap-[.625rem] items-center">
-            <Btn disabled={true} className="h-[2.125rem]">Bind</Btn>
+            <Btn disabled={true} className="h-[2.125rem]">Add</Btn>
             <Btn disabled={true} className="h-[2.125rem]">Unbind</Btn>
           </div>
         </div>

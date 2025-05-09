@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 import { formatNumber } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 const ANodes = () => {
@@ -17,6 +18,7 @@ const ANodes = () => {
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>('');
   const [selectedType, setSelectedType] = useState('')
   const addRef = useRef<Nodes.AddType>(null)
+  const r = useRouter();
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
     setShowNodeInfo({ open: true, list: e });
@@ -56,6 +58,7 @@ const ANodes = () => {
       return list
     }
   });
+
 
   return (
     <>

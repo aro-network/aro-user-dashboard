@@ -38,18 +38,19 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
         </div>
       },
       { name: 'Device IP', value: ip },
-      { name: 'Current Binding', value: bindState },
+      // { name: 'Current Binding', value: bindState },
 
     ]
-    return <div className="w-full device">
+    return <div className="w-full device flex flex-col justify-between">
       <div className="text-lg">Device Info:</div>
       <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4  ">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>
-            <span className={cn('text-[#FFFFFF80] text-sm  text-center', {
-              "text-[#FF6A6C]": item.name === 'Current Binding'
-            }
+            <span className={cn('text-[#FFFFFF80] text-sm  text-center',
+              //  {
+              //   "text-[#FF6A6C]": item.name === 'Current Binding'
+              // }
             )}> {item.value}</span>
           </div>
         })}
@@ -111,7 +112,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {data?.nodeType}) delete successful.
+              Edge Node (Device Type: <span className=" capitalize">{data?.nodeType})</span> delete successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">

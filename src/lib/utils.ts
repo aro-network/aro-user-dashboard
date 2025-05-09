@@ -6,6 +6,7 @@ import plugDur from "dayjs/plugin/duration";
 import _ from "lodash";
 import { toast } from "sonner";
 import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
+import { ENV } from "./env";
 dayjs.extend(plugDur);
 
 export function strToSearchParams(str: string) {
@@ -171,3 +172,28 @@ export function generateDateList(startTimestamp: number, endTimestamp: number) {
 
   return result;
 }
+
+export const envText = (module?: string) => {
+  const env = ENV;
+  const config: Record<string, Record<string, string>> = {
+    prod: {
+      sign: "Sign In For Devnet",
+      signUp: "Sign Up For Devnet",
+    },
+    beta: {
+      sign: "Sign In",
+      signUp: "Sign Up",
+    },
+    staging: {
+      sign: "Sign In",
+      signUp: "Sign Up",
+    },
+  };
+
+  console.log(
+    "daasasmmmmm",
+    config[env]?.[module || "default"] ?? "Unknown environment or module"
+  );
+
+  return config[env]?.[module || "default"] ?? "Unknown environment or module";
+};

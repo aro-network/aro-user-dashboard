@@ -17,6 +17,10 @@ import { FormEvent, MouseEvent, useRef, useState } from "react";
 import { useCounter, useInterval, useToggle } from "react-use";
 import { useAuthContext } from "../context/AuthContext";
 import { ForceModal } from "@/components/dialogs";
+import { envText } from "@/lib/utils";
+import { HelpTip } from "@/components/tips";
+import { ENV } from "@/lib/env";
+import { CiCircleQuestion } from "react-icons/ci";
 
 export default function Page() {
   const sq = useSearchParams();
@@ -90,11 +94,33 @@ export default function Page() {
     validateConfirmPassword(confirmPassword, password) !== true;
   const disableResendEmail = reSendSecends > 0 || isPendingResendVerify;
 
+  const openPage = () => {
+    window.open("https://enreach.network/#target-section", "_blank");
+  };
+
+
   return (
     <>
       <PageUnlogin>
         <AutoFlip className="mx-auto p-5 min-h-full flex flex-col gap-5 items-center w-full max-w-[25rem]">
-          <span className={loginTitleClassName}>Sign Up</span>
+          <div className={loginTitleClassName + ' flex items-center gap-2'} >
+            {envText('signUp')}
+            <div hidden={ENV !== 'prod'}>
+              <HelpTip className=" w-[12.5rem]" placement='bottom' content={
+                <span>
+                  Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
+                  <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
+                </span>
+              }>
+                <div>
+
+                  <CiCircleQuestion className="text-lg" />
+                </div>
+
+              </HelpTip>
+            </div>
+
+          </div>
           {/* <img src="logo.svg" alt="Logo" className="mt-auto h-[4.9375rem]" /> */}
           {showToVerify ? (
             <div className="flex flex-col items-center gap-5 w-full mb-auto">

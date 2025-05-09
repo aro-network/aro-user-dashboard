@@ -7,9 +7,10 @@ export function validateEmail(email?: string) {
 
 export function validatePassword(password?: string) {
   if (!password) return null;
-  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+  // const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&.]{8,}$/;
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,20}$/;
   if (re.test(password)) return true;
-  return "Your password must be at least 8 characters long and include: at least one uppercase letter, one lowercase letter, and one number. Special characters (@$!%*?&) are allowed.";
+  return "Your password must be at least 8 characters long and include: at least one uppercase letter, one lowercase letter, and one number. Special characters are allowed.";
 }
 
 export function validateConfirmPassword(

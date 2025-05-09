@@ -18,6 +18,10 @@ import { AEdgeNode, ALeaderboard } from "./NetworkExplorer";
 import { AnimatePresence } from "motion/react"
 import * as motion from "motion/react-client"
 import AMyReferral from "./Referal/AReferal";
+import { SiGoogledocs } from "react-icons/si";
+import { CiCircleQuestion } from "react-icons/ci";
+import { ENV } from "@/lib/env";
+import { HelpTip } from "./tips";
 
 const Modes: Dashboard.ModesType[] = [
 
@@ -40,11 +44,7 @@ const Modes: Dashboard.ModesType[] = [
         content: <AOverview />,
         tab: 'stats'
       },
-      {
-        name: "EnReach ID",
-        content: <AEnReachID />,
-        tab: 'enreachId'
-      },
+
       {
         name: "Funds",
         content: <AFunds />,
@@ -55,15 +55,20 @@ const Modes: Dashboard.ModesType[] = [
       //   content: <AEdgeNode />,
       //   tab: 'edgeNode'
       // },
-      {
-        name: "Leaderboard",
-        content: <ALeaderboard />,
-        tab: 'leaderboard'
-      },
+      // {
+      //   name: "Leaderboard",
+      //   content: <ALeaderboard />,
+      //   tab: 'leaderboard'
+      // },
       {
         name: "Referral",
         content: <AMyReferral />,
         tab: 'referral'
+      },
+      {
+        name: "EnReach ID",
+        content: <AEnReachID />,
+        tab: 'enreachId'
       },
       // {
       //   name: "Keeper Node",
@@ -177,14 +182,39 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
 
+  const openPage = () => {
+    window.open("https://enreach.network/#target-section", "_blank");
+  };
+
+
+
+  console.log('大大说', selectedTab.children);
+
+
+
+
+
   return (
     <div className=" sticky top-0">
       <div className=" flex h-[3.75rem] flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px]  ">
         <div className="flex items-center  gap-5 smd:flex-col">
           <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <div className="bg-[#FFFFFF33] rounded-md py-1 px-2">
+          <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 `, {
+            'flex items-center gap-2': ENV === 'prod'
+          })}>
             {selectedTab.label}
+            <div hidden={ENV !== 'prod'}>
+              <HelpTip className=" w-[12.5rem]" placement='bottom' content={
+                <span>
+                  Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
+                  <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
+                </span>
+              }>
+                <CiCircleQuestion />
+
+              </HelpTip>
+            </div>
           </div>
           {/* <Dropdown isOpen={isOpen}>
             <DropdownTrigger  >
@@ -213,7 +243,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           <SocialButtons />
           <div className=" font-normal text-xs leading-[.9rem] text-[#999999] h-8 flex flex-col items-center lg:flex-row gap-[.625rem]">
             <a href="https://enreach.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">Website</a>
-            <a href="https://docs.enreach.network/berry-season-1" target="_blank" className="underline-offset-4 h-8 hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999]">Guide</a>
+            <a href="https://docs.enreach.network" target="_blank" className="underline-offset-4 h-8  hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999] justify-center">Docs</a>
           </div>
 
           <Dropdown className="bg-[#585858] !w-[18.75rem]  py-[.625rem]" placement="bottom-end">
@@ -234,7 +264,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                   </div>
                 </div>
               </DropdownItem>
-              <DropdownItem
+              {/* <DropdownItem
                 isReadOnly
                 className="flex flex-col  justify-start w-full  "
                 startContent={
@@ -269,7 +299,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                   </div>
                 }
               >
-              </DropdownItem>
+              </DropdownItem> */}
               <DropdownItem>
                 <button onClick={() => r.push('?mode=devnet&tab=enreachId')} className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
@@ -300,17 +330,18 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         onConfirm={ac.logout}
       />
 
-      <div className=" flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040]">
+      <div className={` flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040] ${selectedTab.children[5] && 'justify-end'}`}>
         {selectedTab.children.map((m) => {
           const selected = m.name === currentTab.name;
-
           return (
             <button
               key={m.name}
               className={cn(" flex justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-[.375rem] rounded-[1.875rem] cursor-pointer select-none",
+
                 {
                   "bg-[#373737] text-white ": selected,
                   "text-white/50 hover:bg-default": !selected,
+                  'ml-auto': m.name === 'EnReach ID'
                 }
               )}
               onClick={() => {
@@ -337,6 +368,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           </motion.div>
         </AnimatePresence>
       </div>
+
+
     </div >
   );
 }

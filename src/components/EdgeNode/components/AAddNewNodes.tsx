@@ -62,7 +62,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
   const { data } = useQuery({
     queryKey: ["Regions"],
-    queryFn: () => backendApi.getRegions(),
+    queryFn: async () => {
+      const res = await backendApi.getRegions()
+      const result = res.filter((item: { code: string }) => {
+        return item.code === 'AS'
+      })
+
+      return result
+    }
   });
 
 
@@ -108,7 +115,16 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   const onBindingConfig = async (type?: string) => {
-    setIsConfirmInfo({ open: true, type })
+    const { data } = await bind.refetch()
+    console.log('asdasdas', data);
+
+    if (!data) return
+    if (type) {
+      onStepNext()
+    } else {
+      onX86StepNext()
+    }
+    // setIsConfirmInfo({ open: true, type })
   }
 
 
@@ -141,19 +157,20 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         </div>
       },
       { name: 'Device IP', value: ip },
-      { name: 'Current Binding', value: bindState },
+      // { name: 'Current Binding', value: bindState },
 
     ]
-    return <div className="w-full device">
+    return <div className="w-full device flex justify-between flex-col">
       <div className="text-lg font-Alexandria">Device found:</div>
-      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4  ">
+      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>
-            <span className={cn('text-[#FFFFFF80] text-sm  text-center', {
-              "text-[#FFC639]": item.name === 'Current Binding' && deviceInfo?.bindState === 'N/A',
-              "text-[#FF6A6C]": item.name === 'Current Binding' && deviceInfo?.bindState === 'Detected',
-            }
+            <span className={cn('text-[#FFFFFF80] text-sm  text-center',
+              // {
+              //   "text-[#FFC639]": item.name === 'Current Binding' && deviceInfo?.bindState === 'N/A',
+              //   "text-[#FF6A6C]": item.name === 'Current Binding' && deviceInfo?.bindState === 'Detected',
+              // }
             )}> {item.value}</span>
           </div>
         })}
@@ -189,7 +206,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onClick={onContinue} className="w-full rounded-lg" >
                 Continue
               </Btn>
-              <button className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button>
+              <button onClick={() => window.open('https://youtu.be/YtjHVk2KA9w', '_blank')} className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button>
             </div>
           </div>
         </div>,
@@ -199,7 +216,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] ">
             <div className="flex w-full  font-normal text-lg leading-5 justify-center font-Alexandria">
-              Step 2: Bind Device to your account
+              Step 2: Add Device to your account
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[45%]">
@@ -246,13 +263,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {(animal: { code: string, name: string }) => <SelectItem key={animal.code}>{animal.name}</SelectItem>}
             </Select>
 
-            <div className="text-[#FF6A6C] text-xs font-normal mt-[10px]">
-              Please select the right region for your Edge Node. You cannot change this setting after registration.
-            </div>
+            {/* <div className="text-[#FF6A6C] text-xs font-normal mt-[10px]">
+              Please select the right region for your Edge Node. You can only delete the node and then rebind to change the service region.
+            </div> */}
 
-            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
+            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[1.375rem] ">
               <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg" >
-                Bind
+                Add
               </Btn>
             </div>
           </div>
@@ -266,7 +283,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {chooseedType?.iconName}) binding successful.
+              Edge Node (Device Type: {chooseedType?.iconName}) add successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -338,7 +355,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem]">
             <div className="flex w-full  font-normal text-lg leading-5 justify-center">
-              Step 2: Bind Device to your account
+              Step 2: Add Device to your account
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[50%]">
@@ -385,13 +402,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {(animal: { code: string, name: string }) => <SelectItem key={animal.code}>{animal.name}</SelectItem>}
             </Select>
 
-            <div className="text-[#FF6A6C] text-xs font-normal mt-[10px]">
-              Please select the right region for your Edge Node. You cannot change this setting after registration.
-            </div>
+            {/* <div className="text-[#FF6A6C] text-xs font-normal mt-[10px]">
+              Please select the right region for your Edge Node. You can only delete the node and then rebind to change the service region.
+            </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
               <Btn isLoading={bind.isFetching} isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
-                Bind
+                Add
               </Btn>
             </div>
           </div>
@@ -405,7 +422,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {chooseedType?.iconName}) binding successful.
+              Edge Node (Device Type: {chooseedType?.iconName}) add successful.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -431,19 +448,29 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="flex  gap-10 mt-10 w-full justify-center m-auto px-[3.75rem]">
               {deviceList.map((item, index) => {
                 return <div onClick={() => {
+                  if (index) return
                   onSelectedType(item.iconName)
                   setChooseedType(item)
                 }} key={`device_${index}`}
-                  className=" hover:border-[#4281FF] text-center cursor-pointer w-full   border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col">
+                  className={cn(`  text-center cursor-pointer w-full   border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
+                    {
+                      'cursor-not-allowed': index,
+                      'hover:border-[#4281FF]': !index
+                    }
+                  )}>
                   <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
-                  <div className="text-lg py-5 w-full justify-center flex">{item.iconName}</div>
+                  <div className="flex items-baseline gap-1">
+                    <div className="text-lg py-5 w-full justify-center flex">{item.iconName}</div>
+                    <img src="../commingSoon.svg" hidden={!index} className="h-[10px]" />
+                  </div>
                 </div>
+
               })}
             </div>
           </div>
       }
       <ConfirmDialog
-        tit="Bind this device"
+        tit="Add this device"
         msg={
           <>
             Please make sure you have selected the right region. You'll need to delete and re-bind your Edge Node if you want to change region.
