@@ -8,6 +8,8 @@ import { useToggle } from "react-use";
 import { TitModal } from "../dialogs";
 import { BsExclamationCircle } from 'react-icons/bs'
 import { AConfirmInfo, AGenerateModal } from "../ADeviceConsole";
+import { CiCircleQuestion } from "react-icons/ci";
+import { HelpTip } from "../tips";
 
 
 const AEnReachID = () => {
@@ -45,23 +47,28 @@ const AEnReachID = () => {
         </div>
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 flex items-center justify-between ">
           <div>
-            <div className=" font-semibold text-sm ">
-              Address
+            <div className=" font-semibold text-sm flex gap-2 items-center">
+              Bind your EVM address
+              <HelpTip content='This function is not available in Devnet.'>
+                <div>
+                  <CiCircleQuestion />
+                </div>
+              </HelpTip>
             </div>
-            <label className="font-normal text-xs text-[#FFFFFF99]">
+            {/* <label className="font-normal text-xs text-[#FFFFFF99]">
               -
-            </label>
+            </label> */}
           </div>
           <div className="flex justify-between gap-[.625rem] items-center">
-            <Btn disabled={true} className="h-[2.125rem]">Add</Btn>
+            <Btn disabled={true} className="h-[2.125rem]">Bind</Btn>
             <Btn disabled={true} className="h-[2.125rem]">Unbind</Btn>
           </div>
         </div>
 
       </div>
       <div className="flex justify-end w-full gap-6 ">
-        <label className="text-[#999999] text-xs underline underline-offset-1 ">Term of Use</label>
-        <label className="text-[#999999] text-xs underline underline-offset-1 ">Privacy Policy</label>
+        <button onClick={() => window.open('https://enreach.network/terms')} className="text-[#999999] text-xs underline underline-offset-1 ">Term of Use</button>
+        <button onClick={() => window.open('https://enreach.network/privacy')} className="text-[#999999] text-xs underline underline-offset-1 ">Privacy Policy</button>
       </div>
     </div>
   </div>
