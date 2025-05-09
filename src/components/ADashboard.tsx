@@ -188,11 +188,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
 
-  console.log('大大说', selectedTab.children);
-
-
-
-
 
   return (
     <div className=" sticky top-0">
@@ -211,7 +206,9 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                   <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
                 </span>
               }>
-                <CiCircleQuestion />
+                <div>
+                  <CiCircleQuestion />
+                </div>
 
               </HelpTip>
             </div>
