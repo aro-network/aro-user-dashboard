@@ -30,6 +30,11 @@ export default function Page() {
   useRedirect()
   const href = referral ? `/signup?referral=${referral}` : '/signup'
 
+
+
+  console.log('prodasdasda', process.env.NEXT_PUBLIC_ENV);
+
+
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
   return (
     <PageUnlogin>
