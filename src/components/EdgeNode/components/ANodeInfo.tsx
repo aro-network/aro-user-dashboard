@@ -16,6 +16,7 @@ import {
   generateLast15DaysRange,
   shortenMiddle,
 } from "@/lib/utils";
+import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
 import dayjs from "dayjs";
@@ -27,10 +28,13 @@ import {
 } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 
+type e = EdgeNodeMode.IpInfo[];
+
 const ANodeInfo: FC<{
   selectList?: EdgeNodeMode.NodeType;
   nodeInfoRef: Ref<EdgeNodeMode.NodeIpType>;
-}> = ({ selectList, nodeInfoRef }) => {
+  nodeInfo: (arg0: e) => void;
+}> = ({ selectList, nodeInfoRef, nodeInfo }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [chooseDate, setChooseDate] = useState<{
     start: CalendarDate;
@@ -48,6 +52,19 @@ const ANodeInfo: FC<{
       setNodeName(detail.nodeName);
 
       const network = detail.deviceInfo.networkInterfaces || [];
+
+      const result = network.sort((a, b) => {
+        const getPriority = (name: string) => {
+          if (name.startsWith("macvlan")) return 0;
+          if (name === "eth0") return 1;
+          return 2;
+        };
+
+        return getPriority(a.name) - getPriority(b.name);
+      });
+      nodeInfo(result);
+
+      console.log("resultresult", result);
 
       return { detail, countRewards };
     },
@@ -216,6 +233,8 @@ const ANodeInfo: FC<{
     }),
     []
   );
+
+  console.log("newResultnewResult", newResult);
 
   const handleChange = (e: { start: CalendarDate; end: CalendarDate }) => {
     const { start, end } = e;
