@@ -448,13 +448,13 @@ const ANodeInfo: FC<{
                 <div className="flex justify-between">
                   <span>Local IP</span>
                   <span className="text-[#FFFFFF80]">
-                    {newResult![0]?.ip || "-"}
+                    {newResult()![0]?.ip || "-"}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>MAC Address</span>
                   <span className="text-[#FFFFFF80]">
-                    {newResult![0]?.mac || "-"}
+                    {newResult()![0]?.mac || "-"}
                   </span>
                 </div>
                 {/* <div className="flex justify-between">
