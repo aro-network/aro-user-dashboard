@@ -16,7 +16,6 @@ import {
   generateLast15DaysRange,
   shortenMiddle,
 } from "@/lib/utils";
-import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
 import dayjs from "dayjs";
@@ -47,6 +46,9 @@ const ANodeInfo: FC<{
         backendApi.countRewards(selectList?.nodeUUID),
       ]);
       setNodeName(detail.nodeName);
+
+      const network = detail.deviceInfo.networkInterfaces || [];
+
       return { detail, countRewards };
     },
     refetchOnWindowFocus: false,
@@ -214,8 +216,6 @@ const ANodeInfo: FC<{
     }),
     []
   );
-
-  console.log("newResultnewResult", newResult);
 
   const handleChange = (e: { start: CalendarDate; end: CalendarDate }) => {
     const { start, end } = e;
