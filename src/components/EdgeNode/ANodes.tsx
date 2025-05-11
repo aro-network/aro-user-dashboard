@@ -21,6 +21,7 @@ const ANodes = () => {
   const [selectedType, setSelectedType] = useState("");
   const addRef = useRef<Nodes.AddType>(null);
   const nodeInfoRef = useRef<EdgeNodeMode.NodeIpType>(null);
+  const [nodeInfo, setNodeInfo] = useState<EdgeNodeMode.IpInfo[]>([]);
 
   const r = useRouter();
 
@@ -75,7 +76,9 @@ const ANodes = () => {
       return list;
     },
   });
-  const ip = nodeInfoRef.current?.nodeInfo() as any;
+  const ip = nodeInfo[0];
+
+  console.log("ipip", ip, nodeInfo);
 
   return (
     <>
@@ -201,7 +204,11 @@ const ANodes = () => {
           }}
         />
       ) : (
-        <ANodeInfo nodeInfoRef={nodeInfoRef} selectList={isShowNodeInfo.list} />
+        <ANodeInfo
+          nodeInfo={setNodeInfo}
+          nodeInfoRef={nodeInfoRef}
+          selectList={isShowNodeInfo.list}
+        />
       )}
     </>
   );
