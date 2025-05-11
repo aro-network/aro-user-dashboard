@@ -4,41 +4,60 @@ import backendApi from "@/lib/api";
 import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
-import { FC, useMemo, useState } from "react";
+import { FC, Ref, useImperativeHandle, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import { fmtBerry } from "@/components/fmtData";
-import { covertText, formatNumber, formatStr, generateDateList, generateLast15DaysRange, shortenMiddle, } from "@/lib/utils";
+import {
+  covertText,
+  formatNumber,
+  formatStr,
+  generateDateList,
+  generateLast15DaysRange,
+  shortenMiddle,
+} from "@/lib/utils";
 import numbro from "numbro";
 import _ from "lodash";
 import { HelpTip } from "@/components/tips";
 import dayjs from "dayjs";
-import { CalendarDate, getLocalTimeZone, parseDate, today } from '@internationalized/date';
+import {
+  CalendarDate,
+  getLocalTimeZone,
+  parseDate,
+  today,
+} from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 
-
-const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) => {
-  const [isEdit, setIsEdit] = useState(false)
-  const [chooseDate, setChooseDate] = useState<{ start: CalendarDate, end: CalendarDate }>(generateLast15DaysRange())
+const ANodeInfo: FC<{
+  selectList?: EdgeNodeMode.NodeType;
+  nodeInfoRef: Ref<EdgeNodeMode.NodeIpType>;
+}> = ({ selectList, nodeInfoRef }) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [chooseDate, setChooseDate] = useState<{
+    start: CalendarDate;
+    end: CalendarDate;
+  }>(generateLast15DaysRange());
 
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
     enabled: true,
     queryFn: async () => {
-      const [detail, countRewards] = await Promise.all([backendApi.getNodeInfoByNodeId(selectList?.nodeUUID), backendApi.countRewards(selectList?.nodeUUID)])
-      setNodeName(detail.nodeName)
-      return { detail, countRewards }
+      const [detail, countRewards] = await Promise.all([
+        backendApi.getNodeInfoByNodeId(selectList?.nodeUUID),
+        backendApi.countRewards(selectList?.nodeUUID),
+      ]);
+      setNodeName(detail.nodeName);
+      return { detail, countRewards };
     },
     refetchOnWindowFocus: false,
   });
-  const [nodeName, setNodeName] = useState('')
-
+  const [nodeName, setNodeName] = useState("");
 
   const onSubmit = async (value: string) => {
-    await backendApi.editCurrentNodeName(data?.detail.nodeUUID, value)
-    refetch()
-    setIsEdit(false)
-  }
+    await backendApi.editCurrentNodeName(data?.detail.nodeUUID, value);
+    refetch();
+    setIsEdit(false);
+  };
 
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
 
@@ -56,19 +75,21 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
       const endTime = Math.floor(endDate.getTime() / 1000);
       const res = await backendApi.rewardHistory(selectList?.nodeUUID, {
         startTime,
-        endTime
+        endTime,
       });
       const list = generateDateList(startTime, endTime);
       return !res.length ? list : res;
-    }
+    },
   });
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
     const datas = result.data || [];
 
-    const xData = datas.map((item: { date: string; }) => item.date);
-    const yData = datas.map((item: { total: number; }) => _.toNumber(item.total));
+    const xData = datas.map((item: { date: string }) => item.date);
+    const yData = datas.map((item: { total: number }) =>
+      _.toNumber(item.total)
+    );
     console.info("width:", width);
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
@@ -84,8 +105,11 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         formatter: (params: any) => {
           // console.info("params:", params)
           // <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0,0,0,0);"></span>
-          return `<div>${params[0].marker.replace('background-color:rgba(0,0,0,0)', 'background-color:#4281FF')}${formatNumber(params[0].data)}</div>`
-        }
+          return `<div>${params[0].marker.replace(
+            "background-color:rgba(0,0,0,0)",
+            "background-color:#4281FF"
+          )}${formatNumber(params[0].data)}</div>`;
+        },
       },
       grid: { left: 40, top: 10, bottom: 30, right: 20, show: false },
       // toolbox: { show: false },
@@ -114,10 +138,12 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
         // max: (value: number) => value * 1.2,
 
         axisLabel: {
-          color: "rgba(255,255,255,0.5)", formatter: (value: number) => formatNumber(value)
-
+          color: "rgba(255,255,255,0.5)",
+          formatter: (value: number) => formatNumber(value),
         },
-        splitLine: { lineStyle: { type: "dashed", color: "#fff", opacity: 0.05 } },
+        splitLine: {
+          lineStyle: { type: "dashed", color: "#fff", opacity: 0.05 },
+        },
       },
       series: [
         {
@@ -143,7 +169,7 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
           emphasis: {
             itemStyle: {
               color: "#4281FF",
-              decal: "none"
+              decal: "none",
             },
           },
           barWidth: 30,
@@ -155,27 +181,48 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     };
   }, [width, result.data]);
 
-  const memAvailableGB = ((data?.detail.deviceInfo.memAvailable || 0) / (1024 * 1024 * 1024)).toFixed(2);
-  const memTotalGB = ((data?.detail.deviceInfo.memTotal || 0) / (1024 * 1024 * 1024)).toFixed(2);
-  const memUseGB = ((data?.detail.deviceInfo.memUse || 0) / (1024 * 1024 * 1024)).toFixed(2);
+  const memAvailableGB = (
+    (data?.detail.deviceInfo.memAvailable || 0) /
+    (1024 * 1024 * 1024)
+  ).toFixed(2);
+  const memTotalGB = (
+    (data?.detail.deviceInfo.memTotal || 0) /
+    (1024 * 1024 * 1024)
+  ).toFixed(2);
+  const memUseGB = (
+    (data?.detail.deviceInfo.memUse || 0) /
+    (1024 * 1024 * 1024)
+  ).toFixed(2);
 
-  const network = data?.detail.deviceInfo.networkInterfaces || []
+  const network = data?.detail.deviceInfo.networkInterfaces || [];
 
+  const newResult = (): EdgeNodeMode.IpInfo[] => {
+    return network.sort((a, b) => {
+      const getPriority = (name: string) => {
+        if (name.startsWith("macvlan")) return 0;
+        if (name === "eth0") return 1;
+        return 2;
+      };
 
-  const newResult = network.sort((a, b) => {
-    const getPriority = (name: string) => {
-      if (name.startsWith("macvlan")) return 0;
-      if (name === "eth0") return 1;
-      return 2;
-    };
+      return getPriority(a.name) - getPriority(b.name);
+    });
+  };
+  useImperativeHandle(
+    nodeInfoRef,
+    () => ({
+      nodeInfo: () => newResult()[0],
+    }),
+    []
+  );
 
-    return getPriority(a.name) - getPriority(b.name);
-  });
+  console.log("newResultnewResult", newResult);
 
-  const handleChange = (e: { start: CalendarDate; end: CalendarDate; }) => {
+  const handleChange = (e: { start: CalendarDate; end: CalendarDate }) => {
     const { start, end } = e;
     if (start && end) {
-      const diffInTime = end.toDate(getLocalTimeZone()).getTime() - start.toDate(getLocalTimeZone()).getTime();
+      const diffInTime =
+        end.toDate(getLocalTimeZone()).getTime() -
+        start.toDate(getLocalTimeZone()).getTime();
       const diffInDays = diffInTime / (1000 * 3600 * 24);
       if (diffInDays >= 6) {
         setChooseDate({ start, end });
@@ -185,195 +232,232 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
     }
   };
 
+  return (
+    <>
+      {!isFetching ? (
+        <div className=" mx-auto w-full mt-5 text-white mb-5 ">
+          <div className="flex w-full gap-5 smd:flex-wrap">
+            <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-[.625rem] h-[9.375rem] smd:h-full  bg-[#6D6D6D66]">
+              <div className="font-semibold text-base ">
+                <span>Node Info</span>
+              </div>
+              <div className="flex w-full gap-7 h-full smd:flex-wrap">
+                <div className="">
+                  <img
+                    src={`../${data?.detail?.nodeType}.png`}
+                    className="w-[4.4375rem] h-full"
+                    alt={`${data?.detail?.nodeType}`}
+                  />
+                </div>
+                <div className="flex flex-col justify-between">
+                  <div className="text-sm  flex  gap-[.625rem]  items-center">
+                    <span>Node Name:</span>
+                    <div
+                      style={{ alignItems: "anchor-center" }}
+                      className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName "
+                    >
+                      {isEdit ? (
+                        <input
+                          maxLength={30}
+                          onBlur={(e) => {
+                            if (
+                              !e.target.value ||
+                              e.target.value === data?.detail.nodeName
+                            )
+                              return setIsEdit(false);
+                            onSubmit(
+                              e.target.value
+                                .replace(/[\u4e00-\u9fa5]/g, "")
+                                .trim()
+                            );
+                          }}
+                          className="rounded-sm !bg-[#FFFFFFCC] text-black"
+                          onChange={(e) =>
+                            setNodeName(
+                              e.target.value
+                                .replace(/[\u4e00-\u9fa5]/g, "")
+                                .trim()
+                            )
+                          }
+                          value={nodeName}
+                        />
+                      ) : (
+                        <HelpTip content={data?.detail?.nodeName}>
+                          {shortenMiddle(data?.detail.nodeName || "-")}
+                        </HelpTip>
+                      )}
 
-
-  return <>
-    {!isFetching ? <div className=" mx-auto w-full mt-5 text-white mb-5 ">
-      <div className="flex w-full gap-5 smd:flex-wrap">
-        <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-[.625rem] h-[9.375rem] smd:h-full  bg-[#6D6D6D66]">
-          <div className="font-semibold text-base ">
-            <span>
-              Node Info
-            </span>
-          </div>
-          <div className="flex w-full gap-7 h-full smd:flex-wrap">
-            <div className="">
-              <img src={`../${data?.detail?.nodeType}.png`} className="w-[4.4375rem] h-full" alt={`${data?.detail?.nodeType}`} />
-            </div>
-            <div className="flex flex-col justify-between">
-              <div className="text-sm  flex  gap-[.625rem]  items-center">
-                <span>
-                  Node Name:
-                </span>
-                <div style={{ alignItems: 'anchor-center' }} className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName ">
-                  {isEdit ? <input maxLength={30} onBlur={(e) => {
-                    if (!e.target.value || e.target.value === data?.detail.nodeName) return setIsEdit(false)
-                    onSubmit(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())
-                  }
-                  } className="rounded-sm !bg-[#FFFFFFCC] text-black" onChange={(e) => setNodeName(e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim())} value={nodeName} /> :
-                    <HelpTip content={data?.detail?.nodeName}>
-                      {shortenMiddle(data?.detail.nodeName || '-')}
-                    </HelpTip>
-                  }
-
-                  <button onClick={() => setIsEdit(true)}>
-                    <FiEdit className="text-white text-xs" />
-                  </button>
+                      <button onClick={() => setIsEdit(true)}>
+                        <FiEdit className="text-white text-xs" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="text-sm mt-1 w-full flex   gap-[.625rem]">
+                    <span className="w-auto">Node ID:</span>
+                    <div className="text-[#FFFFFF80] ">
+                      <HelpTip content={data?.detail?.nodeID}>
+                        {formatStr(data?.detail?.nodeID || "-")}
+                      </HelpTip>
+                    </div>
+                  </div>
+                  <div className="text-sm mt-1 flex  gap-[.625rem]">
+                    <span>Node Type:</span>
+                    <div className="text-[#FFFFFF80]">
+                      {covertText(data?.detail?.nodeType as "x86" | "box")}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="text-sm mt-1 w-full flex   gap-[.625rem]">
-                <span className="w-auto">
-                  Node ID:
-                </span>
-                <div className="text-[#FFFFFF80] ">
-                  <HelpTip content={data?.detail?.nodeID} >
-                    {formatStr(data?.detail?.nodeID || '-')}
-                  </HelpTip>
+            </div>
 
+            <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] flex-col   gap-[.625rem] bg-[#6D6D6D66]">
+              <div className="flex w-full justify-between">
+                <span className="font-semibold text-base  ">Rewards</span>
+                <Btn disabled className="h-5 font-normal">
+                  Go to Claim Page
+                </Btn>
+              </div>
+              <div className="flex justify-between smd:flex-wrap h-full">
+                <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+                  <span className="font-normal text-sm text-[#FFFFFF80]">
+                    Total
+                  </span>
+                  <div className="flex  gap-[10px] items-baseline">
+                    <span className="text-3xl ">
+                      {formatNumber(Number(data?.countRewards.total || 0))}
+                    </span>
+                    <span>BERRY</span>
+                  </div>
+                </div>
+                <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+                  <span className="font-normal text-sm text-[#FFFFFF80]">
+                    Today
+                  </span>
+                  <div className="flex  gap-[10px] items-baseline">
+                    <span className=" text-3xl ">
+                      + {formatNumber(Number(data?.countRewards.today || 0))}
+                    </span>
+                    <span>BERRY</span>
+                  </div>
+                </div>
+                <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+                  <span className="font-normal text-sm text-[#FFFFFF80]">
+                    Yesterday
+                  </span>
+                  <div className="flex  gap-[10px] items-baseline">
+                    <span className=" text-3xl ">
+                      +{" "}
+                      {formatNumber(Number(data?.countRewards.yesterday || 0))}
+                    </span>
+                    <span>BERRY</span>
+                  </div>
                 </div>
               </div>
-              <div className="text-sm mt-1 flex  gap-[.625rem]">
-                <span>
-                  Node Type:
-                </span>
-                <div className="text-[#FFFFFF80]">
-                  {covertText(data?.detail?.nodeType as "x86" | "box")}
-                </div>
-              </div>
             </div>
           </div>
-        </div>
 
-
-        <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] flex-col   gap-[.625rem] bg-[#6D6D6D66]">
-          <div className="flex w-full justify-between">
-            <span className="font-semibold text-base  ">Rewards</span>
-            <Btn disabled className="h-5 font-normal">Go to Claim Page</Btn>
-          </div>
-          <div className="flex justify-between smd:flex-wrap h-full">
-            <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
-              <span className="font-normal text-sm text-[#FFFFFF80]">
-                Total
-              </span>
-              <div className="flex  gap-[10px] items-baseline">
-                <span className="text-3xl ">
-                  {formatNumber(Number(data?.countRewards.total || 0))}
-                </span>
-                <span>
-                  BERRY
-                </span>
+          <TitCard
+            tit="Rewards History"
+            className={cn(
+              "col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4"
+            )}
+            right={
+              <div className=" !text-sm ">
+                <I18nProvider locale="en-US">
+                  <DateRangePicker
+                    className="w-full !text-2xl custom-date-picker"
+                    showMonthAndYearPickers={true}
+                    value={chooseDate}
+                    onChange={handleChange}
+                    maxValue={today(getLocalTimeZone())}
+                  />
+                </I18nProvider>
               </div>
-            </div>
-            <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
-              <span className="font-normal text-sm text-[#FFFFFF80]">
-                Today
-              </span>
-              <div className="flex  gap-[10px] items-baseline">
-                <span className=" text-3xl ">
-                  +  {formatNumber(Number(data?.countRewards.today || 0))}
-                </span>
-                <span>
-                  BERRY
-                </span>
-              </div>
-            </div>
-            <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
-              <span className="font-normal text-sm text-[#FFFFFF80]">
-                Yesterday
-              </span>
-              <div className="flex  gap-[10px] items-baseline">
-                <span className=" text-3xl ">
-                  +  {formatNumber(Number(data?.countRewards.yesterday || 0))}
-                </span>
-                <span>
-                  BERRY
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <TitCard
-        tit="Rewards History"
-        className={cn("col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4",)}
-        right={
-          <div className=" !text-sm ">
-            <I18nProvider locale="en-US">
-              <DateRangePicker className="w-full !text-2xl custom-date-picker"
-                showMonthAndYearPickers={true}
-                value={chooseDate}
-                onChange={handleChange
-                }
-                maxValue={today(getLocalTimeZone())}
+            }
+          >
+            <div className="w-full" style={{ height: "14.125rem" }} ref={ref}>
+              <EChartsReact
+                style={{ height: "14.125rem" }}
+                className="w-full"
+                option={chartOpt}
               />
-            </I18nProvider>
-          </div>
-        }
-      >
-        <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
-          <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={chartOpt} />
-        </div>
-      </TitCard>
+            </div>
+          </TitCard>
 
-      <div className="flex justify-between w-full gap-5 smd:flex-wrap">
+          <div className="flex justify-between w-full gap-5 smd:flex-wrap">
+            <div className=" my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full   ">
+              <span className=" text-base font-semibold">Basics</span>
+              <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
+                <div className="flex justify-between">
+                  <span>Create Date</span>
+                  <span className="text-[#FFFFFF80]">
+                    {dayjs(
+                      Number(data?.detail?.deviceInfo.date || 0) * 1000
+                    ).format("YYYY-MM-DD")}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Serial Number</span>
+                  <span className="text-[#FFFFFF80]">
+                    {data?.detail.nodeUUID}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Device</span>
+                  <span className="text-[#FFFFFF80] capitalize">
+                    {data?.detail.nodeChainInfo.Node.deviceType || "-"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Registered Region</span>
+                  <span className="text-[#FFFFFF80]">
+                    {data?.detail.nodeChainInfo.Node.regionCode || "-"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="flex gap-[.375rem] items-center">
+                    Reputation Point
+                  </span>
+                  <span className="text-[#FFFFFF80]">
+                    {data?.detail.nodeChainInfo.Node.reputationPoint || "-"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="flex gap-[.375rem] items-center">
+                    {" "}
+                    Cheat Status{" "}
+                  </span>
+                  <span className="text-[#FFFFFF80]">
+                    {data?.detail.nodeChainInfo.Node.cheatStatus || "-"}
+                  </span>
+                </div>
+              </div>
+            </div>
 
-        <div className=" my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full   ">
-          <span className=" text-base font-semibold">
-            Basics
-          </span>
-          <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-            <div className="flex justify-between">
-              <span >Create Date</span>
-              <span className="text-[#FFFFFF80]">{(dayjs(Number(data?.detail?.deviceInfo.date || 0) * 1000).format('YYYY-MM-DD'))}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >Serial Number</span>
-              <span className="text-[#FFFFFF80]">{data?.detail.nodeUUID}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >Device</span>
-              <span className="text-[#FFFFFF80] capitalize">{data?.detail.nodeChainInfo.Node.deviceType || '-'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >Registered Region</span>
-              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.regionCode || '-'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="flex gap-[.375rem] items-center" >Reputation Point</span>
-              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.reputationPoint || '-'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="flex gap-[.375rem] items-center" >  Cheat Status </span>
-              <span className="text-[#FFFFFF80]">{data?.detail.nodeChainInfo.Node.cheatStatus || '-'}</span>
-            </div>
-
-          </div>
-        </div>
-
-        <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
-          <span className=" text-base font-semibold">
-            Network Info
-          </span>
-          <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-
-            <div className="flex justify-between">
-              <span >Public IP</span>
-              <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >IP Location</span>
-              <span className="text-[#FFFFFF80]">{'-'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >Local IP</span>
-              <span className="text-[#FFFFFF80]">{newResult![0]?.ip || '-'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >MAC Address</span>
-              <span className="text-[#FFFFFF80]">{newResult![0]?.mac || '-'}</span>
-            </div>
-            {/* <div className="flex justify-between">
+            <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
+              <span className=" text-base font-semibold">Network Info</span>
+              <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
+                <div className="flex justify-between">
+                  <span>Public IP</span>
+                  <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>IP Location</span>
+                  <span className="text-[#FFFFFF80]">{"-"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Local IP</span>
+                  <span className="text-[#FFFFFF80]">
+                    {newResult![0]?.ip || "-"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>MAC Address</span>
+                  <span className="text-[#FFFFFF80]">
+                    {newResult![0]?.mac || "-"}
+                  </span>
+                </div>
+                {/* <div className="flex justify-between">
               <span >NAT Type</span>
               <span className="text-[#FFFFFF80]">{nodeData.natType}</span>
             </div>
@@ -385,41 +469,45 @@ const ANodeInfo: FC<{ selectList?: EdgeNodeMode.NodeType }> = ({ selectList }) =
               <span >Delay</span>
               <span className="text-[#FFFFFF80]">{nodeData.delay}</span>
             </div> */}
+              </div>
+            </div>
+
+            <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
+              <span className=" text-base font-semibold">Device States</span>
+              <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
+                <div className="flex justify-between">
+                  <span>CPU Cores</span>
+                  <span className="text-[#FFFFFF80]">
+                    {data?.detail.deviceInfo.cpuCores || "-"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>CPU Use</span>
+                  <span className="text-[#FFFFFF80]">
+                    {((data?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) +
+                      "%" || "-"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>RAM</span>
+                  <span className="text-[#FFFFFF80]">
+                    {memUseGB + "GB /" + memTotalGB + "GB"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>ROM</span>
+                  <span className="text-[#FFFFFF80]">-</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-
-        <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
-          <span className=" text-base font-semibold">
-            Device States
-          </span>
-          <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-            <div className="flex justify-between">
-              <span >CPU Cores</span>
-              <span className="text-[#FFFFFF80]">{data?.detail.deviceInfo.cpuCores || '-'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >CPU Use</span>
-              <span className="text-[#FFFFFF80]">{((data?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) + '%' || '-'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >RAM</span>
-              <span className="text-[#FFFFFF80]">{memUseGB + 'GB /' + memTotalGB + 'GB'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >ROM</span>
-              <span className="text-[#FFFFFF80]">-</span>
-            </div>
-          </div>
+      ) : (
+        <div className="flex justify-center pt-[4.5625rem]  w-full items-center h-full">
+          <CircularProgress label="Loading..." />
         </div>
-      </div>
-    </div>
-      :
-      <div className="flex justify-center pt-[4.5625rem]  w-full items-center h-full">
-        <CircularProgress label="Loading..." />
-      </div>
-    }
-  </>
-
-}
-export default ANodeInfo
+      )}
+    </>
+  );
+};
+export default ANodeInfo;
