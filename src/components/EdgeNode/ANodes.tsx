@@ -20,7 +20,6 @@ const ANodes = () => {
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>("");
   const [selectedType, setSelectedType] = useState("");
   const addRef = useRef<Nodes.AddType>(null);
-
   const nodeInfoRef = useRef<EdgeNodeMode.NodeIpType>(null);
 
   const r = useRouter();
@@ -76,14 +75,16 @@ const ANodes = () => {
       return list;
     },
   });
-  const ip = nodeInfoRef.current?.nodeInfo() as any
+  const ip = nodeInfoRef.current?.nodeInfo() as any;
 
   return (
     <>
       <div className=" flex justify-between  items-center">
         <div className="text-[#FFFFFF] text-xs font-medium">
           {!isShowNodeInfo.open && !isOpen && !unbindInfo ? (
-            <span className="text-base">{title}</span>
+            <>
+              <span className="text-base">{title}</span>
+            </>
           ) : (
             <>
               <button
