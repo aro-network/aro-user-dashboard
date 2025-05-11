@@ -23,4 +23,14 @@ declare namespace EdgeNodeMode {
     onCloseModal: () => void;
     onSubmit: (data: any) => void;
   };
+
+  type IpInfo = {
+    ip: string;
+    mac: string;
+    name: string;
+  };
+
+  type NodeIpType = {
+    nodeInfo: () => void;
+  };
 }
