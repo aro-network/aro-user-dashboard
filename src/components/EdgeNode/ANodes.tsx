@@ -76,7 +76,7 @@ const ANodes = () => {
       return list;
     },
   });
-  const ip = nodeInfoRef.current?.nodeInfo();
+  const ip = nodeInfoRef.current?.nodeInfo() as any
 
   return (
     <>
