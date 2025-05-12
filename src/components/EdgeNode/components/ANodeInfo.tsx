@@ -4,10 +4,9 @@ import backendApi from "@/lib/api";
 import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
-import { FC, Ref, useImperativeHandle, useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
-import { fmtBerry } from "@/components/fmtData";
 import {
   covertText,
   formatNumber,
@@ -32,9 +31,8 @@ type e = EdgeNodeMode.IpInfo[];
 
 const ANodeInfo: FC<{
   selectList?: EdgeNodeMode.NodeType;
-  nodeInfoRef: Ref<EdgeNodeMode.NodeIpType>;
   nodeInfo: (arg0: e) => void;
-}> = ({ selectList, nodeInfoRef, nodeInfo }) => {
+}> = ({ selectList, nodeInfo }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [chooseDate, setChooseDate] = useState<{
     start: CalendarDate;
@@ -231,15 +229,6 @@ const ANodeInfo: FC<{
       return getPriority(a.name) - getPriority(b.name);
     });
   };
-  useImperativeHandle(
-    nodeInfoRef,
-    () => ({
-      nodeInfo: () => newResult()[0],
-    }),
-    []
-  );
-
-  console.log("newResultnewResult", newResult);
 
   const handleChange = (e: { start: CalendarDate; end: CalendarDate }) => {
     const { start, end } = e;

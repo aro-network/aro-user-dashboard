@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 import { formatNumber } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -20,7 +20,6 @@ const ANodes = () => {
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>("");
   const [selectedType, setSelectedType] = useState("");
   const addRef = useRef<Nodes.AddType>(null);
-  const nodeInfoRef = useRef<EdgeNodeMode.NodeIpType>(null);
   const [nodeInfo, setNodeInfo] = useState<EdgeNodeMode.IpInfo[]>([]);
 
   const r = useRouter();
@@ -36,10 +35,10 @@ const ANodes = () => {
     isShowNodeInfo.open && !unbindInfo
       ? "Node Details"
       : isOpen
-      ? "Add New Node"
-      : unbindInfo
-      ? "Delete"
-      : "All Nodes";
+        ? "Add New Node"
+        : unbindInfo
+          ? "Delete"
+          : "All Nodes";
 
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeList"],
@@ -206,7 +205,6 @@ const ANodes = () => {
       ) : (
         <ANodeInfo
           nodeInfo={setNodeInfo}
-          nodeInfoRef={nodeInfoRef}
           selectList={isShowNodeInfo.list}
         />
       )}

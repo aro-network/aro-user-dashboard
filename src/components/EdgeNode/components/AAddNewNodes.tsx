@@ -160,9 +160,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       // { name: 'Current Binding', value: bindState },
 
     ]
-    return <div className="w-full device flex justify-between flex-col">
+    return <div className="w-full device flex justify-between flex-col py-[.625rem]">
       <div className="text-lg font-Alexandria">Device found:</div>
-      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 pb-2">
+      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 ">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>

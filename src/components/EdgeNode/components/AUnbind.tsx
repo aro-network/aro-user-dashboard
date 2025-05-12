@@ -41,9 +41,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       // { name: 'Current Binding', value: bindState },
 
     ]
-    return <div className="w-full device flex flex-col justify-between">
+    return <div className="w-full device flex flex-col justify-between py-[.625rem]">
       <div className="text-lg">Device Info:</div>
-      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 pb-2 ">
+      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4  ">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
             <span>{item.name}</span>
@@ -79,10 +79,6 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       onBack()
     }
   }
-
-
-  console.log('我为的', data?.nodeType);
-
 
   const unbind = [
     {
