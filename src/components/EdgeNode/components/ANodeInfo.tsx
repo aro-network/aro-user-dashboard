@@ -157,8 +157,13 @@ const ANodeInfo: FC<{
         // max: (value: number) => value * 1.2,
 
         axisLabel: {
-          color: "rgba(255,255,255,0.5)",
-          formatter: (value: number) => formatNumber(value),
+          color: "rgba(255,255,255,0.5)", formatter: (value: number) => numbro(value)
+            .format({
+              mantissa: 2,
+              trimMantissa: true,
+              average: value >= 1000,
+            })
+            .toUpperCase(),
         },
         splitLine: {
           lineStyle: { type: "dashed", color: "#fff", opacity: 0.05 },
