@@ -127,10 +127,12 @@ export function getAdjustedDateRange(
 
 export const formatNumber = (num: number) => {
   if (num >= 1000) {
-    const raw = Math.floor((num * 100) / 1000) / 100;
-    return raw.toFixed(2) + "K";
+    const units = ["", "K", "M", "B", "T"];
+    const index = Math.floor(Math.log10(num) / 3);
+    const scaled = num / Math.pow(1000, index);
+    return scaled.toFixed(2) + units[index];
   }
-  return Math.round(num).toString();
+  return num.toFixed(2).replace(/\.00$/, "");
 };
 
 // function formatLargeNumber(num) {
