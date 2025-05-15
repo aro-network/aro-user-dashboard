@@ -161,7 +161,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
     ]
     return <div className="w-full device flex justify-between flex-col py-[.625rem]">
-      <div className="text-lg font-Alexandria">Device found:</div>
+      <div className="text-lg smd:text-base font-Alexandria">Device found:</div>
       <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 ">
         {list.map((item) => {
           return <div key={item.name} className="flex justify-between ">
@@ -183,18 +183,18 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full flex-col items-center">
-          <div className="w-[37.5rem]">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria ">
+          <div className="w-[37.5rem] smd:w-full">
+            <div className="flex w-full font-normal smd:text-base text-lg leading-5 justify-center font-Alexandria smd:justify-start ">
               Step 1: Connect your device
             </div>
-            <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
+            <div className="mt-5 flex w-full justify-center smd:text-left text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
               Make sure your {chooseedType?.iconName} is powered on and connected to the internet (with internet cable).
               Find the serial number (19-digit numbers) on your {chooseedType?.iconName} and fill in:
             </div>
             <Input
               maxLength={30}
-              className=" mt-5"
-              classNames={{ 'inputWrapper': '!rounded-lg' }}
+              className=" mt-5 "
+              classNames={{ 'inputWrapper': '!rounded-lg smd:!h-12' }}
 
               value={serialNum?.num}
               onChange={(e) => {
@@ -203,10 +203,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
             />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onClick={onContinue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onClick={onContinue} className="w-full rounded-lg smd:!h-12" >
                 Continue
               </Btn>
-              <button onClick={() => window.open('https://youtu.be/YtjHVk2KA9w', '_blank')} className="underline underline-offset-1 text-[#999999] text-xs">See Guidance</button>
+              <button onClick={() => window.open('https://youtu.be/YtjHVk2KA9w', '_blank')} className="underline underline-offset-1 text-[#999999] text-xs smd:pt-4">See Guidance</button>
             </div>
           </div>
         </div>,
@@ -214,17 +214,17 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] ">
+          <div className="w-[37.5rem] smd:w-full ">
             <div className="flex w-full  font-normal text-lg leading-5 justify-center font-Alexandria">
               Step 2: Add Device to your account
             </div>
-            <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
-              <div className="w-[45%]">
-                <img src={`./${deviceInfo?.nodeType}.png`} alt="x86" style={{ height: '100%', width: '100%' }} />
+            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
+              <div className="w-[45%] smd:w-full smd:h-[14.375rem]">
+                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-fill" alt="x86" style={{ height: '100%', width: '100%' }} />
               </div>
               {foundDeviceList()}
             </div>
-            <div className={cn(' text-sm  text-center', {
+            <div className={cn(' text-sm smd:text-left  text-center', {
               "text-[#FFFFFF80]": deviceInfo?.bindState === 'N/A',
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
@@ -232,7 +232,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the add process will fail. ' : 'This device has been already added to an EnReach Account. Please delete device to create a new add.'}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5 ">
-              <Btn onClick={() => onStepNext()} className="w-full rounded-lg" >
+              <Btn onClick={() => onStepNext()} className="w-full rounded-lg smd:h-12" >
                 Continue
               </Btn>
             </div>
@@ -241,13 +241,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     },
     {
       content:
-        <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] ">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria">
+        <div className="flex w-full justify-center flex-col md:items-center">
+          <div className="w-[37.5rem] smd:w-full  ">
+            <div className="flex w-full font-normal smd:justify-start text-lg leading-5 justify-center font-Alexandria">
               Step 3: Configure your Edge Node
             </div>
-            <div className="text-xs mt-5 font-Alexandria">Set a name for your Edge Node</div>
-            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg' }} className="mt-[.3125rem]" />
+            <div className="text-xs w-full mt-5 font-Alexandria">Set a name for your Edge Node</div>
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg smd:h-12' }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
             <div className="text-xs mt-[.9375rem] font-Alexandria">Select Service Region</div>
             <Select
@@ -256,7 +256,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                 setBindInfo({ ...bindInfo, regions: new Set(keys as Set<string>) });
               }}
               placeholder="Select an regions"
-              classNames={{ 'base': '!rounded-lg !w-full', 'popoverContent': '!w-full' }}
+              classNames={{ 'base': '!rounded-lg !w-full smd:!h-12 ', 'popoverContent': '!w-full', 'innerWrapper': 'smd:!h-12', 'trigger': 'smd:!h-12' }}
               className=" mt-[.3125rem] "
               selectedKeys={new Set(bindInfo.regions)}
             >
@@ -268,7 +268,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[1.375rem] ">
-              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg" >
+              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg smd:!h-12 " >
                 Add
               </Btn>
             </div>
@@ -278,7 +278,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] flex flex-col gap-5 ">
+          <div className="w-[37.5rem] smd:w-full flex flex-col gap-5 ">
             <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
               Congratulations!
             </div>
@@ -287,7 +287,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn onClick={() => onStepNext(true)} type="submit" className="w-full rounded-lg" >
+              <Btn onClick={() => onStepNext(true)} type="submit" className="w-full rounded-lg smd:h-12" >
                 OK
               </Btn>
             </div>
@@ -436,31 +436,31 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   ]
 
 
-  return <div className="w-full mt-[4.5625rem] ">
-    <div className=" flex justify-center flex-col items-center  w-[55.625rem] m-auto h-full ">
+  return <div className="w-full mt-[4.5625rem] smd:mt-12 smd:mb-5 ">
+    <div className=" flex justify-center flex-col md:items-center smd:w-full  w-[55.625rem] m-auto h-full ">
       {chooseedType?.value === 'x86'
         ? <div>  <X86 stepIndex={stepX86Index} x86Step={x86Step} /></div>
         : chooseedType?.value === 'box' ?
           <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
 
           <div className="w-full text-center flex flex-col m-auto">
-            <label className="font-normal text-lg leading-5 ">Please choose which type of Edge Node you want to add:</label>
-            <div className="flex  gap-10 mt-10 w-full justify-center m-auto px-[3.75rem]">
+            <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">Please choose which type of Edge Node you want to add:</label>
+            <div className="flex  gap-10 smd:gap-4 mt-10 smd:mt-4 w-full justify-center smd:flex-col  m-auto smd:px-0 px-[3.75rem]">
               {deviceList.map((item, index) => {
                 return <div onClick={() => {
                   if (index) return
                   onSelectedType(item.iconName)
                   setChooseedType(item)
                 }} key={`device_${index}`}
-                  className={cn(`  text-center cursor-pointer w-full   border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
+                  className={cn(`  text-center cursor-pointer w-full   border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
                     {
                       'cursor-not-allowed': index,
                       'hover:border-[#4281FF]': !index
                     }
                   )}>
-                  <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
+                  <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] smd:w-full smd:h-full h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
                   <div className="flex items-baseline gap-1">
-                    <div className="text-lg py-5 w-full justify-center flex">{item.iconName}</div>
+                    <div className="text-lg smd:text-base py-5 smd:py-4 w-full justify-center flex">{item.iconName}</div>
                     <img src="../commingSoon.svg" hidden={!index} className="h-[10px]" />
                   </div>
                 </div>

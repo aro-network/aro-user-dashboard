@@ -9,7 +9,7 @@ import { MLink } from "@/components/links";
 import { SignInWithGoogle } from "@/components/SignInWithGoogle";
 import { validateEmail } from "@/lib/validates";
 import { useMutation } from "@tanstack/react-query";
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useSearchParams } from "next/navigation";
 import useRedirect from "@/hooks/useRedirect";
@@ -17,6 +17,7 @@ import { envText } from "@/lib/utils";
 import { ENV } from "@/lib/env";
 import { HelpTip } from "@/components/tips";
 import { CiCircleQuestion } from "react-icons/ci";
+import useMobileDetect from "@/hooks/useMobileDetect";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -24,6 +25,9 @@ export default function Page() {
   const ac = useContext(AuthContext);
   const params = useSearchParams();
   const referral = params.get("referral");
+  const [isOpen, setIsOpen] = useState(false)
+  const helpTipRef = useRef<any>(null);
+  const isMobile = useMobileDetect()
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
     mutationFn: async (e: FormEvent) => {
@@ -34,36 +38,53 @@ export default function Page() {
   useRedirect()
   const href = referral ? `/signup?referral=${referral}` : '/signup'
 
-
-
-  console.log('prodasdasda', process.env.NEXT_PUBLIC_ENV);
-
   const openPage = () => {
     window.open("https://enreach.network/#target-section", "_blank");
   };
 
 
+  useEffect(() => {
+    const handleClose = (event: { type: string; target: any; }) => {
+      if (event.type === "click" && helpTipRef.current!.contains(event.target)) {
+        return;
+      }
+      setIsOpen(false);
+    };
+
+    if (isOpen) {
+      window.addEventListener("click", handleClose, true);
+      window.addEventListener("scroll", handleClose, true);
+    }
+
+    return () => {
+      window.removeEventListener("click", handleClose, true);
+      window.removeEventListener("scroll", handleClose, true);
+    };
+  }, [isOpen]);
+
+
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
   return (
     <PageUnlogin>
-      <AutoFlip className="mx-auto px-5 min-h-full flex flex-col gap-4 items-center w-full max-w-[25rem]">
+      <AutoFlip className="mx-auto px-5 smd:mt-5 md:min-h-full flex flex-col gap-4 items-center w-full max-w-[25rem]">
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
-        <span className={loginTitleClassName + ' flex items-center gap-2'} >
+        <span className={loginTitleClassName + ' flex items-center gap-2'}>
           {envText('sign')}
-          <div hidden={ENV !== 'prod'}>
-            <HelpTip className=" w-[12.5rem]" placement='bottom' content={
+          <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+            <HelpTip content={
               <span>
                 Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
                 <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
               </span>
-            }>
+
+            } isOpen={isOpen} className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
               <div>
                 <CiCircleQuestion className="text-lg" />
               </div>
-
             </HelpTip>
           </div>
         </span>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
           <InputEmail setEmail={setEmail} />
           <InputPassword setPassword={setPassword} validate={() => null} />

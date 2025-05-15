@@ -1,15 +1,13 @@
 import { useAuthContext } from "@/app/context/AuthContext";
 import { SocialButtons } from "./social-buttons";
 import { MAvatar } from "./avatar";
-import React, { FC, ReactNode, useEffect, useState } from "react";
-import { Button, cn, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
+import { Button, cn, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FiCopy, FiLogOut, FiUser } from "react-icons/fi";
+import { FiCopy, FiLogOut, FiMenu, FiUser } from "react-icons/fi";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { useDisconnect } from "wagmi";
-import { formatStr } from "@/lib/utils";
 import { useCopy } from "@/hooks/useCopy";
-import { Btn } from "./btns";
 import { useToggle } from "react-use";
 import { ConfirmDialog } from "./dialogimpls";
 import { ANodes, AOverview, AStats } from "./EdgeNode";
@@ -18,11 +16,12 @@ import { AEdgeNode, ALeaderboard } from "./NetworkExplorer";
 import { AnimatePresence } from "motion/react"
 import * as motion from "motion/react-client"
 import AMyReferral from "./Referal/AReferal";
-import { SiGoogledocs } from "react-icons/si";
 import { CiCircleQuestion } from "react-icons/ci";
 import { ENV } from "@/lib/env";
 import { HelpTip } from "./tips";
-
+import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter } from "@heroui/drawer";
+import { Btn } from "./btns";
+import useMobileDetect from "@/hooks/useMobileDetect";
 const Modes: Dashboard.ModesType[] = [
 
   {
@@ -142,6 +141,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const username = user?.email?.split('@')[0] || ''
   const [refreshKey, setRefreshKey] = useState(0);
   const [isOpen, setIsOpen] = useState(false)
+  const helpTipRef = useRef<any>(null);
+  const isMobile = useMobileDetect()
 
   useEffect(() => {
     const modeFromURL = searchParams.get("mode");
@@ -187,25 +188,97 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
 
+  const { isOpen: isVisable, onOpen, onOpenChange } = useDisclosure();
+
+  useEffect(() => {
+    const handleClose = (event: { type: string; target: any; }) => {
+      if (event.type === "click" && helpTipRef.current!.contains(event.target)) {
+        return;
+      }
+      setIsOpen(false);
+    };
+
+    if (isOpen) {
+      window.addEventListener("click", handleClose, true);
+      window.addEventListener("scroll", handleClose, true);
+    }
+
+    return () => {
+      window.removeEventListener("click", handleClose, true);
+      window.removeEventListener("scroll", handleClose, true);
+    };
+  }, [isOpen]);
 
 
   return (
     <div className=" sticky top-0">
-      <div className=" flex h-[3.75rem] flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px]  ">
-        <div className="flex items-center  gap-5 smd:flex-col">
-          <img src="/logo.svg" className={`shrink-0 rotate-90 lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+
+
+
+      <div className=" flex h-[3.75rem] smd:h-14 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  ">
+        <button className="md:hidden" onClick={() => onOpen()}>
+          <FiMenu className="text-2xl" />
+        </button>
+
+
+        <Drawer isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]">
+          <DrawerContent>
+            {(onClose) => (
+              <>
+                <DrawerBody>
+                  <div className={` flex flex-col gap-4  pt-[1.875rem] border-[#404040]`}>
+                    {selectedTab.children.map((m) => {
+                      const selected = m.name === currentTab.name;
+                      return (
+                        <button
+                          key={m.name}
+                          className={cn(" h-12 flex  bg-[#373737] justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-6 rounded-lg cursor-pointer select-none",
+
+                            {
+                              " text-[#4281FF] ": selected,
+                              "text-white": !selected,
+                            }
+                          )}
+                          onClick={() => {
+                            handleTabChange(m)
+                          }}
+                        >
+                          <div className="text-sm font-medium text-left whitespace-nowrap ">{m.name}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </DrawerBody>
+                <DrawerFooter className="justify-center mb-10">
+                  <div className="flex flex-col justify-center items-center gap-6">
+                    <div>
+                      <SocialButtons />
+                    </div>
+                    <div className=" font-normal text-xs leading-[.9rem] w-full  text-[#999999] justify-center flex  items-center flex-row gap-[.625rem]">
+                      <a href="https://enreach.network/" target="_blank" className="underline-offset-1 underline items-center text-xs  border-[#999999]">Website</a>
+                      <a href="https://docs.enreach.network" target="_blank" className="underline-offset-1 underline  justify-center text-xs">Docs</a>
+                    </div>
+                  </div>
+                </DrawerFooter>
+              </>
+            )}
+          </DrawerContent>
+        </Drawer>
+        <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
+          <img src="/logo.svg" className={`shrink-0 rotate-90 smd:rotate-0 smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 `, {
+          <div ref={helpTipRef} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} onClick={() => isMobile && setIsOpen(!isOpen)} className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
           })}>
             {selectedTab.label}
             <div hidden={ENV !== 'prod'}>
-              <HelpTip className=" w-[12.5rem]" placement='bottom' content={
-                <span>
-                  Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
-                  <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
-                </span>
-              }>
+              <HelpTip isOpen={isOpen} className=" w-[12.5rem]" placement='bottom'
+                content={
+                  <span>
+                    Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
+                    <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
+                  </span>
+                }>
                 <div>
                   <CiCircleQuestion />
                 </div>
@@ -237,23 +310,28 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           {/* </div> */}
         </div>
         <div className="flex gap-[1.875rem] items-center">
-          <SocialButtons />
-          <div className=" font-normal text-xs leading-[.9rem] text-[#999999] h-8 flex flex-col items-center lg:flex-row gap-[.625rem]">
+          <div className="smd:hidden">
+            <SocialButtons />
+          </div>
+          <div className=" font-normal text-xs leading-[.9rem] smd:hidden  text-[#999999] h-8 flex flex-col items-center lg:flex-row gap-[.625rem]">
             <a href="https://enreach.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">Website</a>
             <a href="https://docs.enreach.network" target="_blank" className="underline-offset-4 h-8  hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999] justify-center">Docs</a>
           </div>
 
-          <Dropdown className="bg-[#585858] !w-[18.75rem]  py-[.625rem]" placement="bottom-end">
+          <Dropdown className="bg-[#585858] !w-[18.75rem] mo:!w--full  py-[.625rem]" placement="bottom-end">
             <DropdownTrigger>
               <div className="w-8 cursor-pointer">
-                <MAvatar name={user?.email} />
+                <MAvatar name={user?.email} className="smd:hidden" />
+                <MAvatar name={user?.email} size={24} className="md:hidden" />
               </div>
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem isReadOnly className=" gap-2 data-[hover=true]:bg-[#585858] ">
+              <DropdownItem key={'user'} isReadOnly className=" gap-2 data-[hover=true]:bg-[#585858] ">
                 <div className="flex items-center gap-[.625rem] cursor-default">
-                  <div className="w-8 ">
-                    <MAvatar name={user?.email} />
+                  <div className="w-8 smd:w-6 ">
+                    <MAvatar name={user?.email} className="smd:hidden" />
+                    <MAvatar name={user?.email} size={32} className="md:hidden" />
+
                   </div>
                   <div>
                     <label>{username}</label>
@@ -297,13 +375,13 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 }
               >
               </DropdownItem> */}
-              <DropdownItem>
+              <DropdownItem key={'enreachId'}>
                 <button onClick={() => r.push('?mode=devnet&tab=enreachId')} className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
                   <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My EnReach ID</label>
                 </button>
               </DropdownItem>
-              <DropdownItem>
+              <DropdownItem key={'signout'}>
                 <button onClick={() => toggleShowConfirmLogout()} className="flex gap-[.625rem]  items-center">
                   <FiLogOut className="text-[#FFFFFF99] text-base" />
                   <label className="font-medium text-sm   text-[#FFFFFF99] cursor-pointer">Sign Out Account</label>
@@ -322,12 +400,13 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             Are you sure?
           </>
         }
+        className="smd:mx-5"
         isOpen={showConfirmLogout}
         onCancel={toggleShowConfirmLogout}
         onConfirm={ac.logout}
       />
 
-      <div className={` flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040] ${selectedTab.children[5] && 'justify-end'}`}>
+      <div className={` smd:hidden flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040] ${selectedTab.children[5] && 'justify-end'}`}>
         {selectedTab.children.map((m) => {
           const selected = m.name === currentTab.name;
           return (
@@ -354,7 +433,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       <div className="h-full overflow-auto nodes">
         <AnimatePresence mode="wait">
           <motion.div
-            className=" pt-5  px-[6.5rem] smd:px-5 flex flex-col w-full "
+            className=" pt-5  px-[6.5rem] smd:px-4 flex flex-col w-full "
             key={currentTab.name + refreshKey}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

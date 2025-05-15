@@ -45,9 +45,9 @@ const AEnReachID = () => {
           <div className=" font-semibold text-sm ">EnReach UID</div>
           <div className="font-normal text-xs text-[#FFFFFF99]">AWJDIVVBOFNZ</div>
         </div>
-        <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 flex items-center justify-between ">
+        <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:w-full flex items-center smd:items-start justify-between ">
           <div>
-            <div className=" font-semibold text-sm flex gap-2 items-center">
+            <div className=" font-semibold text-sm flex gap-2 items-center ">
               Bind your EVM address
               <HelpTip content='This function is not available in Devnet.'>
                 <div>
@@ -59,7 +59,7 @@ const AEnReachID = () => {
               -
             </label>
           </div>
-          <div className="flex justify-between gap-[.625rem] items-center">
+          <div className="flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center">
             <Btn disabled={true} className="h-[2.125rem]">Bind</Btn>
             <Btn disabled={true} className="h-[2.125rem]">Unbind</Btn>
           </div>

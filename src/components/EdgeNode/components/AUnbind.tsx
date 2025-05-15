@@ -84,16 +84,16 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem]">
-            <div className=" py-5 mt-[4.5625rem] pl-5 bg-[#404040]  w-full flex gap-4 rounded-[1.25rem]">
-              <div className="w-[45%]">
-                <img src={`./${data?.nodeType}.png`} alt={`${data?.nodeType}`} style={{ height: '100%', width: '100%' }} />
+          <div className="w-[37.5rem] smd:w-full">
+            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
+              <div className="w-[45%] smd:w-full smd:h-[14.375rem]">
+                <img src={`./${data?.nodeType}.png`} className=" object-fill" alt={`${data?.nodeType}`} style={{ height: '100%', width: '100%' }} />
               </div>
               {foundDeviceList()}
             </div>
             <div className="text-[#FFFFFF80] text-sm mt-[.625rem]  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isLoading={getStatus.isFetching} onClick={() => setIsConfirm(true)} className="w-full rounded-lg " >
+              <Btn isLoading={getStatus.isFetching} onClick={() => setIsConfirm(true)} className="w-full rounded-lg smd:h-12 " >
                 Confirm Delete
               </Btn>
             </div>
@@ -103,7 +103,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] mt-[4.5625rem]  flex flex-col gap-5 ">
+          <div className="w-[37.5rem] smd:w-full mt-[4.5625rem]  flex flex-col gap-5 ">
             <div className="flex w-full justify-center font-normal text-lg leading-5">
               Congratulations!
             </div>
@@ -112,7 +112,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full rounded-lg" onClick={onDeviceStep} >
+              <Btn type="submit" className="w-full rounded-lg smd:h-12" onClick={onDeviceStep} >
                 OK
               </Btn>
             </div>

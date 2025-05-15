@@ -27,6 +27,7 @@ const config: Config = {
       screens: {
         smd: { max: "1000px" },
         xsl: { min: "1000px", max: "1800px" },
+        md: { min: "1000px" },
       },
       colors: {
         primary: {

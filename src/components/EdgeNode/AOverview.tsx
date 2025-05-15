@@ -19,8 +19,8 @@ import { FaGift } from "react-icons/fa6";
 import { formatNumber } from "@/lib/utils";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 type OptionType = (typeof options)[number];
-export function DupleSplit() {
-  return <div className="bg-white opacity-30 w-[1px] h-6 shrink-0" />;
+export function DupleSplit({ className }: { className?: string }) {
+  return <div className={cn("bg-white opacity-30 w-[1px] h-6 shrink-0", className)} />;
 }
 
 export function useDebounceMeasureWidth<T extends Element>() {
@@ -129,10 +129,14 @@ const AOverview = () => {
         type: "value",
         boundaryGap: [0, "10%"],
         // max: (value: number) => value * 1.2,
-
         axisLabel: {
-          color: "rgba(255,255,255,0.5)", formatter: (value: number) => formatNumber(value)
-
+          color: "rgba(255,255,255,0.5)", formatter: (value: number) => numbro(value)
+            .format({
+              mantissa: 2,
+              trimMantissa: true,
+              average: value >= 1000,
+            })
+            .toUpperCase(),
         },
         splitLine: { lineStyle: { type: "dashed", color: "#fff", opacity: 0.05 } },
       },
@@ -175,15 +179,15 @@ const AOverview = () => {
 
 
   return (
-    <div className=" ">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  mt-5 ">
+    <div className="">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  mt-5">
         <IconCard
           className="flip_item bg-[#6D6D6D66]"
           icon={SVGS.SvgNodes}
           iconSize={24}
           tit={
             <div className="flex justify-between items-center w-full">
-              <span className="text-xl font-Alexandria">My Nodes</span>
+              <span className="text-xl smd:text-base font-Alexandria">My Nodes</span>
               <HelpTip content='Go to Nodes Detail'>
                 <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=devnet&tab=nodes')}>
                   <GoArrowUpRight />
@@ -193,11 +197,12 @@ const AOverview = () => {
             </div>
           }
           content={
-            <div className="flex flex-1 items-center gap-[5%] min-w-[12.5rem]">
-              <DupleInfo tit={`${data?.node?.total ?? 0}`} sub="Total Nodes" />
+            <div className="flex flex-1 items-center gap-[15%]">
+              <DupleInfo subClassName="smd:text-xs" tit={`${data?.node?.total ?? 0}`} sub="Total Nodes" />
               <DupleSplit />
               <DupleInfo
                 tit={`${data?.node?.online ?? '0'}`}
+                subClassName="smd:text-xs"
                 sub={
                   <>
                     <div className="text-green-400  flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
@@ -213,12 +218,13 @@ const AOverview = () => {
           iconSize={24}
           tit={
             <div className="flex justify-between items-center w-full">
-              <span className="text-xl font-Alexandria">Rewards - All Nodes</span>
+              <span className="text-xl smd:text-base font-Alexandria">Rewards - All Nodes</span>
             </div>
           }
           content={
-            <div className="flex flex-1 items-center gap-[10%] min-w-[12.5rem]">
+            <div className="flex flex-1 items-center gap-[15%] min-w-[12.5rem]">
               <DupleInfo
+                subClassName="smd:text-xs"
                 tit={formatNumber(Number(data?.rewards.total || 0))}
                 sub={
                   <>
@@ -227,7 +233,7 @@ const AOverview = () => {
                 }
               />
               <DupleSplit />
-              <DupleInfo tit={`${formatNumber(data?.rewards?.today || 0)}`} sub="Today" />
+              <DupleInfo subClassName="smd:text-xs" tit={`${formatNumber(data?.rewards?.today || 0)}`} sub="Today" />
             </div>
           }
         />

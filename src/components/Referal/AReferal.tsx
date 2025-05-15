@@ -47,10 +47,10 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         className="flip_item"
         iconSize={20}
         icon={SVGS.SvgReferral}
-        tit={<div className="text-xl font-Alexandria w-full">My Referral Code</div>}
+        tit={<div className="text-xl smd:text-base font-Alexandria w-full">My Referral Code</div>}
         content={
           <div className="flex items-center gap-4">
-            <div className="uppercase text-4xl leading-8 font-bold">{user?.inviteCode}</div>
+            <div className="uppercase text-4xl smd:text-[2rem] leading-8 font-bold">{user?.inviteCode}</div>
             <IconBtn tip="Copy Referral Link" onClick={() => copy(`${origin}/signup?referral=${user?.inviteCode}`)}>
               <FaLink />
             </IconBtn>
@@ -66,24 +66,25 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         icon={SVGS.SvgRewards}
         iconSize={20}
         tit={
-          <div className="text-xl flex items-center gap-2  font-Alexandria">
+          <div className="text-xl smd:text-base flex items-center gap-2  font-Alexandria">
             Referral Bonus{" "}
             <HelpTip content="Referral Bonus include an one-time bonus for a qualified referral, and a permanent percentage share of your referees’ Network Bonus." />
           </div>
 
         }
         content={
-          <div className="flex items-center gap-[10%] min-w-[13.75rem]">
+          <div className="flex items-center gap-[10%] smd:gap-[30%] min-w-[13.75rem]">
 
             <div className="flex items-center gap-[10%]">
-              <DupleInfo tit={formatNumber(Number(data?.referredRewards) || 0)} sub="BERRY" />
+              <DupleInfo titClassName="smd:text-2xl" subClassName="smd:text-xs" tit={formatNumber(Number(data?.referredRewards) || 0)} sub="BERRY" />
             </div>
 
-            <DupleSplit />
+            <DupleSplit className="smd:hidden" />
 
             <DupleInfo
               tit={data?.referred || 0}
-              subClassName="text-green-400 opacity-100"
+              subClassName="text-green-400 opacity-100 smd:text-xs "
+              titClassName=" smd:text-2xl"
               sub={
                 <>
                   <IoIosCheckmarkCircle /> Referred
@@ -94,17 +95,17 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         }
       />
       <IconCard
-        className="flip_item col-span-full h-[10.625rem] w-full "
+        className="flip_item col-span-full h-[10.625rem] smd:h-full w-full "
         icon={() => <IoAlertCircle />}
         iconSize={20}
         tit={
-          <div className=" flex items-center w-full  md:gap-10 mt-[3.75rem] font-Alexandria   ">
+          <div className=" flex items-center w-full smd:flex-col smd:h-full  md:gap-10 smd:mt-5 mt-[3.75rem] font-Alexandria   ">
 
             <div className="flex flex-col  text-white w-auto ">
               <span className="text-base ">
                 How Referral Program Works?
               </span>
-              <div className=" text-[#FFFFFFB2] text-sm pt-1 flex flex-col">
+              <div className=" text-[#FFFFFFB2] text-sm pt-1 flex flex-col smd:hidden">
                 <span >
                   {` The Referrer enjoy 15% commission from the Referee's mining rewards.`}
                 </span>
@@ -113,7 +114,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
                 </span>
               </div>
             </div>
-            <div className="flex  items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-20 w-full flex-wrap">
+            <div className="flex  smd:hidden items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-20 w-full flex-wrap">
               <img src="./refer.png" className="w-auto h-auto" />
               <img src="./refer1.png" className="w-auto h-auto" />
             </div>
@@ -121,7 +122,15 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
 
         }
         content={
-          <></>
+          <div className="md:hidden">
+            <div className="w-full smd:text-sm text-[#FFFFFFB2]">
+              The Referrer enjoy 15% commission from the Referee's mining rewards.   Contact us to get whitelisted for the extra seond-tier commission.
+            </div>
+            <div className="flex  pt-10  items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-14 w-full flex-wrap">
+              <img src="./refer.png" className="w-auto h-auto" />
+              <img src="./refer1.png" className="w-auto h-auto" />
+            </div>
+          </div>
 
         }
       />

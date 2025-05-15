@@ -10,6 +10,7 @@ import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 import { formatNumber } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import useMobileDetect from "@/hooks/useMobileDetect";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -21,11 +22,9 @@ const ANodes = () => {
   const [selectedType, setSelectedType] = useState("");
   const addRef = useRef<Nodes.AddType>(null);
   const [nodeInfo, setNodeInfo] = useState<EdgeNodeMode.IpInfo[]>([]);
-
-  const r = useRouter();
+  const isMobile = useMobileDetect()
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
-    console.log("eeeeeee", e);
 
     setShowNodeInfo({ open: true, list: e });
     setOpenAddNode(false);
@@ -81,8 +80,8 @@ const ANodes = () => {
 
   return (
     <>
-      <div className=" flex justify-between  items-center">
-        <div className="text-[#FFFFFF] text-xs font-medium">
+      <div className=" flex justify-between  items-center  ">
+        <div className="text-[#FFFFFF] text-xs smd:text-base font-medium smd:w-full " >
           {!isShowNodeInfo.open && !isOpen && !unbindInfo ? (
             <>
               <span className="text-base">{title}</span>
@@ -98,9 +97,9 @@ const ANodes = () => {
                   setSelectedType("");
                 }}
               >
-                Nodes
+                {isMobile ? '<' : <span>Nodes {">"} {" "}</span>}
               </button>{" "}
-              {">"}{" "}
+
               <label
                 onClick={() => {
                   if (title !== "Add New Node") return;
@@ -108,7 +107,7 @@ const ANodes = () => {
                   setSelectedType("");
                 }}
                 className={cn({
-                  "text-[#FFFFFF80]": !selectedType,
+                  "text-[#FFFFFF80] text-white": !selectedType,
                   "text-[#FFFFFF] cursor-pointer": selectedType,
                 })}
               >
@@ -126,7 +125,7 @@ const ANodes = () => {
         </div>
         {!isShowNodeInfo.open && !isOpen ? (
           <Btn
-            className="h-[1.875rem]  rounded-lg"
+            className="h-[1.875rem] smd:!h-[1.875rem]  rounded-lg"
             onClick={() => {
               setOpenAddNode(!isOpen);
             }}
@@ -136,16 +135,16 @@ const ANodes = () => {
         ) : (
           !isOpen &&
           !unbindInfo && (
-            <div className="flex gap-[.625rem] font-medium text-xs leading-3">
+            <div className="flex gap-[.625rem] smd:justify-end  font-medium text-xs leading-3  smd:w-full">
               <Btn
                 onClick={() => window.open(`http://${ip.ip}:40001`)}
-                className="h-[1.875rem] rounded-lg"
+                className="h-[1.875rem] rounded-lg smd:!h-[1.875rem]"
               >
                 Go to Web Console
               </Btn>
               <Btn
                 onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeUUID)}
-                className="bg-[#F5F5F51A] h-[1.875rem] rounded-lg "
+                className="bg-[#F5F5F51A] smd:!h-[1.875rem] h-[1.875rem] rounded-lg "
               >
                 Delete
               </Btn>

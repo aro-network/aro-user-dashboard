@@ -21,6 +21,7 @@ import { envText } from "@/lib/utils";
 import { HelpTip } from "@/components/tips";
 import { ENV } from "@/lib/env";
 import { CiCircleQuestion } from "react-icons/ci";
+import useMobileDetect from "@/hooks/useMobileDetect";
 
 export default function Page() {
   const sq = useSearchParams();
@@ -35,6 +36,10 @@ export default function Page() {
   const [reSendSecends, actionResendScends] = useCounter(60, 60, 0);
   useInterval(() => actionResendScends.dec(1), 1000);
   const [showInputReferral, toggleShowInputReferral] = useToggle(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const helpTipRef = useRef<any>(null);
+  const isMobile = useMobileDetect()
+
 
   const [verifyCode, setVerifyCode] = useState("");
   const r = useRouter();
@@ -53,8 +58,9 @@ export default function Page() {
     },
   });
   const onSkip = (e: FormEvent<Element>) => {
-    handlerSubmit(e)
     toggleShowInputReferral(false)
+    handlerSubmit(e)
+
 
   }
 
@@ -105,21 +111,19 @@ export default function Page() {
         <AutoFlip className="mx-auto p-5 min-h-full flex flex-col gap-5 items-center w-full max-w-[25rem]">
           <div className={loginTitleClassName + ' flex items-center gap-2'} >
             {envText('signUp')}
-            <div hidden={ENV !== 'prod'}>
-              <HelpTip className=" w-[12.5rem]" placement='bottom' content={
+            <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+              <HelpTip content={
                 <span>
                   Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
                   <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
                 </span>
-              }>
-                <div>
 
+              } isOpen={isOpen} className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
+                <div>
                   <CiCircleQuestion className="text-lg" />
                 </div>
-
               </HelpTip>
             </div>
-
           </div>
           {/* <img src="logo.svg" alt="Logo" className="mt-auto h-[4.9375rem]" /> */}
           {showToVerify ? (
@@ -154,7 +158,15 @@ export default function Page() {
                 </MLink>
                 .
               </Checkbox>
-              <Btn onClick={() => toggleShowInputReferral()} isDisabled={disableSignUp} >
+              <Btn onClick={(e) => {
+                if (referalCode) {
+                  handlerSubmit(e)
+                  return
+                }
+                toggleShowInputReferral()
+
+              }
+              } isDisabled={disableSignUp} >
                 Sign Up
               </Btn>
               <SignInWithGoogle btn="Sign up with Google" defReferralCode={referalCode} />

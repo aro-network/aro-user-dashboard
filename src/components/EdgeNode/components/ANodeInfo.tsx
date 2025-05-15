@@ -1,10 +1,10 @@
 import { Btn } from "@/components/btns";
 import { TitCard } from "@/components/cards";
 import backendApi from "@/lib/api";
-import { CircularProgress, cn, DateRangePicker } from "@nextui-org/react";
+import { CircularProgress, cn, DateRangePicker, DateValue, RangeValue } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
-import { FC, useMemo, useState } from "react";
+import { FC, FocusEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import {
@@ -34,9 +34,16 @@ const ANodeInfo: FC<{
   nodeInfo: (arg0: e) => void;
 }> = ({ selectList, nodeInfo }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenTip, setIsOpenTip] = useState(false);
+  const helpTipRef = useRef<any>(null);
+  const helpTipRef2 = useRef<any>(null);
+
+
+
   const [chooseDate, setChooseDate] = useState<{
-    start: CalendarDate;
-    end: CalendarDate;
+    start: DateValue;
+    end: DateValue;
   }>(generateLast15DaysRange());
 
   const { data, isFetching, refetch } = useQuery({
@@ -245,6 +252,39 @@ const ANodeInfo: FC<{
     }
   };
 
+  const onSubmitInfo = (e: any) => {
+    if (
+      !e.target.value ||
+      e.target.value === data?.detail.nodeName
+    )
+      return setIsEdit(false);
+    onSubmit(
+      e.target.value
+        .replace(/[\u4e00-\u9fa5]/g, "")
+        .trim()
+    );
+
+  }
+
+  useEffect(() => {
+    const handleClose = (event: { type: string; target: any; }) => {
+      if (event.type === "click" && (helpTipRef.current!.contains(event.target) || helpTipRef2.current!.contains(event.target))) {
+        return;
+      }
+      setIsOpen(false);
+      setIsOpenTip(false)
+    };
+
+    if (isOpen || isOpenTip) {
+      window.addEventListener("click", handleClose, true);
+      window.addEventListener("scroll", handleClose, true);
+    }
+
+    return () => {
+      window.removeEventListener("click", handleClose, true);
+      window.removeEventListener("scroll", handleClose, true);
+    };
+  }, [isOpen, isOpenTip]);
   return (
     <>
       {!isFetching ? (
@@ -254,16 +294,16 @@ const ANodeInfo: FC<{
               <div className="font-semibold text-base ">
                 <span>Node Info</span>
               </div>
-              <div className="flex w-full gap-7 h-full smd:flex-wrap">
-                <div className="">
+              <div className="flex w-full gap-7 smd:gap-5 h-full  ">
+                <div className="smd:w-[40%]">
                   <img
                     src={`../${data?.detail?.nodeType}.png`}
-                    className="w-[4.4375rem] h-full"
+                    className="w-[4.4375rem] smd:w-full smd:rounded-xl  h-full"
                     alt={`${data?.detail?.nodeType}`}
                   />
                 </div>
-                <div className="flex flex-col justify-between">
-                  <div className="text-sm  flex  gap-[.625rem]  items-center">
+                <div className="flex flex-col justify-between w-full smd:py-[.625rem] ">
+                  <div className="text-sm flex smd:text-xs   gap-[.625rem]  items-center">
                     <span>Node Name:</span>
                     <div
                       style={{ alignItems: "anchor-center" }}
@@ -272,19 +312,16 @@ const ANodeInfo: FC<{
                       {isEdit ? (
                         <input
                           maxLength={30}
-                          onBlur={(e) => {
-                            if (
-                              !e.target.value ||
-                              e.target.value === data?.detail.nodeName
-                            )
-                              return setIsEdit(false);
-                            onSubmit(
-                              e.target.value
-                                .replace(/[\u4e00-\u9fa5]/g, "")
-                                .trim()
-                            );
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              onSubmitInfo(e)
+                            }
                           }}
-                          className="rounded-sm !bg-[#FFFFFFCC] text-black"
+                          onBlur={(e) => {
+                            onSubmitInfo(e)
+                          }}
+                          className="rounded-sm !bg-[#FFFFFFCC] smd:w-[7.5rem] text-black"
                           onChange={(e) =>
                             setNodeName(
                               e.target.value
@@ -295,9 +332,12 @@ const ANodeInfo: FC<{
                           value={nodeName}
                         />
                       ) : (
-                        <HelpTip content={data?.detail?.nodeName}>
-                          {shortenMiddle(data?.detail.nodeName || "-")}
-                        </HelpTip>
+                        <div ref={helpTipRef2} onMouseOver={() => setIsOpenTip(true)} onMouseLeave={() => setIsOpenTip(false)}>
+                          <HelpTip isOpen={isOpenTip} content={data?.detail?.nodeName}>
+                            {shortenMiddle(data?.detail.nodeName || "-", 15)}
+                          </HelpTip>
+                        </div>
+
                       )}
 
                       <button onClick={() => setIsEdit(true)}>
@@ -305,15 +345,15 @@ const ANodeInfo: FC<{
                       </button>
                     </div>
                   </div>
-                  <div className="text-sm mt-1 w-full flex   gap-[.625rem]">
+                  <div className="text-sm smd:text-xs  mt-1 w-full flex   gap-[.625rem]">
                     <span className="w-auto">Node ID:</span>
-                    <div className="text-[#FFFFFF80] ">
-                      <HelpTip content={data?.detail?.nodeID}>
-                        {formatStr(data?.detail?.nodeID || "-")}
+                    <div ref={helpTipRef} className="text-[#FFFFFF80] " onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                      <HelpTip content={data?.detail?.nodeID} isOpen={isOpen} >
+                        {shortenMiddle(data?.detail?.nodeID || "-",)}
                       </HelpTip>
                     </div>
                   </div>
-                  <div className="text-sm mt-1 flex  gap-[.625rem]">
+                  <div className="text-sm smd:text-xs  mt-1 flex  gap-[.625rem]">
                     <span>Node Type:</span>
                     <div className="text-[#FFFFFF80]">
                       {covertText(data?.detail?.nodeType as "x86" | "box")}
@@ -323,15 +363,15 @@ const ANodeInfo: FC<{
               </div>
             </div>
 
-            <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] flex-col   gap-[.625rem] bg-[#6D6D6D66]">
+            <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] smd:h-full flex-col   gap-[.625rem] smd:gap-5 bg-[#6D6D6D66]">
               <div className="flex w-full justify-between">
                 <span className="font-semibold text-base  ">Rewards</span>
-                <Btn disabled className="h-5 font-normal">
+                {/* <Btn disabled className="h-5 font-normal">
                   Go to Claim Page
-                </Btn>
+                </Btn> */}
               </div>
-              <div className="flex justify-between smd:flex-wrap h-full">
-                <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+              <div className="flex justify-between smd:flex-wrap h-full smd:w-full">
+                <div className="text-sm  flex flex-col justify-between gap-[.625rem] smd:w-full">
                   <span className="font-normal text-sm text-[#FFFFFF80]">
                     Total
                   </span>
@@ -342,7 +382,7 @@ const ANodeInfo: FC<{
                     <span>BERRY</span>
                   </div>
                 </div>
-                <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+                <div className="text-sm  flex flex-col justify-between gap-[.625rem] smd:pt-5 ">
                   <span className="font-normal text-sm text-[#FFFFFF80]">
                     Today
                   </span>
@@ -353,7 +393,7 @@ const ANodeInfo: FC<{
                     <span>BERRY</span>
                   </div>
                 </div>
-                <div className="text-sm  flex flex-col justify-between gap-[.625rem] ">
+                <div className="text-sm  flex flex-col justify-between gap-[.625rem] smd:pt-5  ">
                   <span className="font-normal text-sm text-[#FFFFFF80]">
                     Yesterday
                   </span>
@@ -372,16 +412,17 @@ const ANodeInfo: FC<{
           <TitCard
             tit="Rewards History"
             className={cn(
-              "col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4"
+              "col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4 "
             )}
+            contentClassName={(' smd:flex-wrap smd:gap-[.625rem]')}
             right={
               <div className=" !text-sm ">
                 <I18nProvider locale="en-US">
                   <DateRangePicker
-                    className="w-full !text-2xl custom-date-picker"
+                    className="!w-full !text-2xl custom-date-picker"
                     showMonthAndYearPickers={true}
-                    value={chooseDate}
-                    onChange={handleChange}
+                    value={chooseDate as any}
+                    onChange={handleChange as any}
                     maxValue={today(getLocalTimeZone())}
                   />
                 </I18nProvider>
@@ -398,7 +439,7 @@ const ANodeInfo: FC<{
           </TitCard>
 
           <div className="flex justify-between w-full gap-5 smd:flex-wrap">
-            <div className=" my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full   ">
+            <div className=" my-5 smd:mb-0  p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full   ">
               <span className=" text-base font-semibold">Basics</span>
               <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
                 <div className="flex justify-between">
@@ -447,7 +488,7 @@ const ANodeInfo: FC<{
               </div>
             </div>
 
-            <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
+            <div className="my-5 smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
               <span className=" text-base font-semibold">Network Info</span>
               <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
                 <div className="flex justify-between">
@@ -485,7 +526,7 @@ const ANodeInfo: FC<{
               </div>
             </div>
 
-            <div className="my-5 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
+            <div className="my-5 smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
               <span className=" text-base font-semibold">Device States</span>
               <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
                 <div className="flex justify-between">

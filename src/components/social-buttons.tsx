@@ -11,7 +11,7 @@ const socialLinks = [
 
 export function SocialButtons() {
 
-    return <div className="flex items-center gap-5 flex-col lg:flex-row">
+    return <div className="flex items-center gap-5 smd:flex-row flex-col lg:flex-row ">
         {
             socialLinks.map((item) => {
                 return <a

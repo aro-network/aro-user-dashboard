@@ -6,9 +6,13 @@ export const metadata = {
   description: "EnReach Dashboard",
 };
 
+
+
 import { Albert_Sans, Alexandria } from "next/font/google";
 import { cn } from "@nextui-org/react";
 import ContextProvider from "@/config/context";
+import Head from "next/head";
+// import { Head } from "next/document";
 const albertSans = Albert_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
@@ -23,12 +27,25 @@ const alexandria = Alexandria({
   variable: '--font-alexandria',
 });
 
+
+
+
+
+
 const fonts = [albertSans, alexandria]
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const cookies = null
+
   return (
     <html lang="en" className={cn("dark", fonts.map(item => item.variable).join(" "), "font-AlbertSans")}>
+      <Head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Enreach" />
+        <link rel="apple-touch-icon" href="https://enreach.network/icon.svg" />
+
+      </Head>
       <body>
         <ContextProvider cookies={cookies}>
           <PageLayout>{children}</PageLayout>

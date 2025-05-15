@@ -42,7 +42,7 @@ export function TitCard(p: PropsWithChildren & OtherTypes.TitCardProps) {
   return (
     <Card className={cn("bg-gray-1 bg-no-repeat rounded-3xl flex p-6 gap-5", p.className)}>
       {p.tit && (
-        <div className="flex items-center justify-between w-full">
+        <div className={cn("flex items-center justify-between w-full", p.contentClassName)}>
           <span className="text-base font-semibold font-Alexandria">{p.tit}</span>
           {p.right}
         </div>
