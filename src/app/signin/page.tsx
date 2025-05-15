@@ -65,10 +65,10 @@ export default function Page() {
 
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
   return (
-    <PageUnlogin>
-      <AutoFlip className="mx-auto px-5 smd:mt-5 md:min-h-full flex flex-col gap-4 items-center w-full max-w-[25rem]">
+    <PageUnlogin headerClassNmae=" !flex-[3]">
+      <AutoFlip className="mx-auto px-5 md:min-h-full flex flex-col gap-4 md:items-center w-full max-w-[25rem]">
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
-        <span className={loginTitleClassName + ' flex items-center gap-2'}>
+        <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center'}>
           {envText('sign')}
           <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
             <HelpTip content={
@@ -88,7 +88,7 @@ export default function Page() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
           <InputEmail setEmail={setEmail} />
           <InputPassword setPassword={setPassword} validate={() => null} />
-          <Btn type="submit" isDisabled={disableSignIn} isLoading={isPendingSignIn}>
+          <Btn type="submit" className="!" isDisabled={disableSignIn} isLoading={isPendingSignIn}>
             Sign In
           </Btn>
           <SignInWithGoogle />
