@@ -211,7 +211,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
   return (
-    <div className=" sticky top-0">
+    <div className=" sticky top-0 smd:h-screen">
 
 
 

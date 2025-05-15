@@ -42,14 +42,14 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
 
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  mt-5 ">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full smd:h-screen  mt-5   ">
       <IconCard
-        className="flip_item"
+        className="flip_item h-full smd:min-h-[12.5rem] "
         iconSize={20}
         icon={SVGS.SvgReferral}
         tit={<div className="text-xl smd:text-base font-Alexandria w-full">My Referral Code</div>}
         content={
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 h-full">
             <div className="uppercase text-4xl smd:text-[2rem] leading-8 font-bold">{user?.inviteCode}</div>
             <IconBtn tip="Copy Referral Link" onClick={() => copy(`${origin}/signup?referral=${user?.inviteCode}`)}>
               <FaLink />
@@ -62,7 +62,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
       />
 
       <IconCard
-        className="flip_item"
+        className="flip_item h-full smd:min-h-[12.5rem]"
         icon={SVGS.SvgRewards}
         iconSize={20}
         tit={
@@ -73,7 +73,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
 
         }
         content={
-          <div className="flex items-center gap-[10%] smd:gap-[30%] min-w-[13.75rem]">
+          <div className="flex items-center gap-[10%] smd:gap-[30%] min-w-[13.75rem] smd:h-full">
 
             <div className="flex items-center gap-[10%]">
               <DupleInfo titClassName="smd:text-2xl" subClassName="smd:text-xs" tit={formatNumber(Number(data?.referredRewards) || 0)} sub="BERRY" />
@@ -95,14 +95,14 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         }
       />
       <IconCard
-        className="flip_item col-span-full h-[10.625rem] smd:h-full w-full "
+        className="flip_item col-span-full h-[10.625rem] smd:min-h-[450px]  w-full smd:mb-10 "
         icon={() => <IoAlertCircle />}
         iconSize={20}
         tit={
           <div className=" flex items-center w-full smd:flex-col smd:h-full  md:gap-10 smd:mt-5 mt-[3.75rem] font-Alexandria   ">
 
             <div className="flex flex-col  text-white w-auto ">
-              <span className="text-base ">
+              <span className="text-base smd:flex smd:w-full flex-wrap">
                 How Referral Program Works?
               </span>
               <div className=" text-[#FFFFFFB2] text-sm pt-1 flex flex-col smd:hidden">
@@ -122,7 +122,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
 
         }
         content={
-          <div className="md:hidden">
+          <div className="md:hidden h-full ">
             <div className="w-full smd:text-sm text-[#FFFFFFB2]">
               The Referrer enjoy 15% commission from the Referee's mining rewards.   Contact us to get whitelisted for the extra seond-tier commission.
             </div>
