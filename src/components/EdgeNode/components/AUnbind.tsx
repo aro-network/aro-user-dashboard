@@ -134,6 +134,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           Are you sure you really want to delete Edge Node?
         </>
       }
+      className="smd:mx-5"
       confirmText={'Yes'}
       confirmColor='primary'
       cancelColor="default"

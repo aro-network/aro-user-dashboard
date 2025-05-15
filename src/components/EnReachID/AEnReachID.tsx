@@ -10,34 +10,59 @@ import { BsExclamationCircle } from 'react-icons/bs'
 import { AConfirmInfo, AGenerateModal } from "../ADeviceConsole";
 import { CiCircleQuestion } from "react-icons/ci";
 import { HelpTip } from "../tips";
+import { useEffect, useRef, useState } from "react";
+import useMobileDetect from "@/hooks/useMobileDetect";
 
 
 const AEnReachID = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
   const [isSeOpen, setSeOpenAddNode] = useToggle(false);
   const [isTipOpen, setOpenTip] = useToggle(false);
+  const [isOpenTip, setIsOpenTip] = useState(false)
 
   const ac = useAuthContext();
   const user = ac.queryUserInfo?.data;
   const username = user?.email?.split('@')[0] || ''
   const { address } = useAppKitAccount()
+  const isMobile = useMobileDetect()
+  const helpTipRef = useRef<any>(null);
 
 
+  useEffect(() => {
+    const handleClose = (event: { type: string; target: any; }) => {
+      if (event.type === "click" && helpTipRef.current!.contains(event.target)) {
+        return;
+      }
+      setIsOpenTip(false);
+    };
+
+    if (isOpen) {
+      window.addEventListener("click", handleClose, true);
+      window.addEventListener("scroll", handleClose, true);
+    }
+
+    return () => {
+      window.removeEventListener("click", handleClose, true);
+      window.removeEventListener("scroll", handleClose, true);
+    };
+  }, [isOpen]);
 
   return <div className="w-full justify-center flex mt-5 ">
 
     <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] p-5 rounded-3xl flex-col w-[37.875rem]">
 
-      <div className="flex items-center justify-start w-full gap-5 mb-5 ">
-        <div className="w-[3.75rem] ">
-          <MAvatar name={user?.email} />
+      <div className="flex items-center justify-start w-full gap-5 smd:gap-[.625rem] mb-5 ">
+        <div className="w-[3.75rem] smd:w-8 cursor-pointer ">
+          {/* <MAvatar name={user?.email} /> */}
+          <MAvatar name={user?.email} className="smd:hidden" />
+          <MAvatar name={user?.email} size={32} className="md:hidden" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <label className="text-2xl font-medium">{username}</label>
+            <label className="text-2xl smd:text-sm font-medium">{username}</label>
             {/* <label className={'text-base'}><FiEdit /></label> */}
           </div>
-          <p className="font-normal text-sm mt-1 text-[#FFFFFF99]">{user?.email}</p>
+          <p className="font-normal smd:text-xs text-sm mt-1 text-[#FFFFFF99]">{user?.email}</p>
         </div>
       </div>
       <div className="flex flex-col gap-[.625rem] mx-5  w-full ">
@@ -49,19 +74,24 @@ const AEnReachID = () => {
           <div>
             <div className=" font-semibold text-sm flex gap-2 items-center ">
               Bind your EVM address
-              <HelpTip content='This function is not available in Devnet.'>
-                <div>
-                  <CiCircleQuestion />
-                </div>
-              </HelpTip>
+              <div ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpenTip(!isOpenTip)} onMouseOver={() => setIsOpenTip(true)} onMouseLeave={() => setIsOpenTip(false)}>
+
+                <HelpTip isOpen={isOpenTip} content='This function is not available in Devnet.'>
+                  <div>
+                    <CiCircleQuestion />
+                  </div>
+                </HelpTip>
+              </div>
+
             </div>
+
             <label className="font-normal text-xs text-[#FFFFFF99]">
               -
             </label>
           </div>
           <div className="flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center">
-            <Btn disabled={true} className="h-[2.125rem]">Bind</Btn>
-            <Btn disabled={true} className="h-[2.125rem]">Unbind</Btn>
+            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem]">Bind</Btn>
+            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem]">Unbind</Btn>
           </div>
         </div>
 
