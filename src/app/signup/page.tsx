@@ -147,17 +147,21 @@ export default function Page() {
               <InputEmail setEmail={setEmail} />
               <InputPassword setPassword={setPassword} />
               <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
-              <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
-                I agree to the EnReach{" "}
+              <div className="flex items-center text-xs text-white/60">
+                <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
+                  I agree to the EnReach{"\u00A0"}
+                </Checkbox>
                 <MLink target="_blank" className="text-xs" href="https://enreach.network/terms" >
                   Term of Service
                 </MLink>{" "}
-                and{" "}
+                <div className="">
+                  {"\u00A0"}and{"\u00A0"}
+                </div>
                 <MLink target="_blank" className="text-xs" href="https://enreach.network/privacy">
-                  Privacy Policy
+                  {" "}Privacy Policy
                 </MLink>
                 .
-              </Checkbox>
+              </div>
               <Btn onClick={(e) => {
                 if (referalCode) {
                   handlerSubmit(e)
