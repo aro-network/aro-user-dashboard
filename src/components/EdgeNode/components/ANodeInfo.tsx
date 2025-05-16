@@ -311,6 +311,7 @@ const ANodeInfo: FC<{
                     >
                       {isEdit ? (
                         <input
+                          autoFocus
                           maxLength={30}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
