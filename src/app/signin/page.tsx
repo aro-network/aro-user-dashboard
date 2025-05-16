@@ -65,8 +65,8 @@ export default function Page() {
 
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
   return (
-    <PageUnlogin headerClassNmae=" !flex-[3]">
-      <AutoFlip className="mx-auto px-5 md:min-h-full flex flex-col gap-4 md:items-center w-full max-w-[25rem]">
+    <PageUnlogin headerClassNmae=" smd:!flex-[3]">
+      <AutoFlip className="mx-auto px-5 md:min-h-full flex sd flex-col gap-4 md:items-center w-full max-w-[25rem]">
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
         <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center'}>
           {envText('sign')}
