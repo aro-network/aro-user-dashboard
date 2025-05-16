@@ -32,7 +32,7 @@ export function HelpTip({ content, children, placement, ...props }: TooltipProps
         content={content}
         placement={placement}
         color="default"
-        className=" min-h-10 min-w-[4.5rem]  !max-w-[25rem]  !w-[15.625rem]"
+        className=" min-h-10 min-w-[4.5rem]  !max-w-[28.125rem] !w-full"
         classNames={{ content: contentClassname }}
         {...props}
       >

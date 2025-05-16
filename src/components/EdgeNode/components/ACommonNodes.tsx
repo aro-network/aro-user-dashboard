@@ -1,4 +1,5 @@
 import { HelpTip } from "@/components/tips"
+import { shortenMiddle } from "@/lib/utils"
 import { cn, Skeleton } from "@nextui-org/react"
 import { FC } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
@@ -18,7 +19,8 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
             <div className="flex flex-col">
               <div className="flex items-center  gap-[10px] ">
                 <HelpTip content={node.deviceName}>
-                  <label className="text-[#FFFFFF] text-lg  truncate">{node.deviceName} </label>
+
+                  <label className="text-[#FFFFFF] text-lg  truncate">{shortenMiddle(node.deviceName)} </label>
                 </HelpTip>
                 <div className="flex items-center gap-1 ">
                   {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-base " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-base" />}

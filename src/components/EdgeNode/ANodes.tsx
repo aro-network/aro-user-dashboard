@@ -125,7 +125,7 @@ const ANodes = () => {
         </div>
         {!isShowNodeInfo.open && !isOpen ? (
           <Btn
-            className="h-[1.875rem] smd:!h-[1.875rem]  rounded-lg"
+            className="h-[1.875rem] smd:p-2 smd:!h-[1.875rem]  rounded-lg"
             onClick={() => {
               setOpenAddNode(!isOpen);
             }}
