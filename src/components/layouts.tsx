@@ -6,7 +6,7 @@ import { PropsWithChildren } from "react";
 export function PageUnlogin(p: PropsWithChildren & { childrenClassName?: string, headerClassNmae?: string }) {
     const isMobile = useMobileDetect()
     return <div className="w-full h-full flex smd:flex-col">
-        <div className={cn("flex-[4] smd:flex-[1]  md:min-h-full smd:h-full basis-0 flex flex-col justify-center items-center overflow-auto gap-16 lg:gap-32 md:bg-[#535252]  text-base", p.headerClassNmae)}>
+        <div className={cn("flex-[4] smd:flex-[1] md:min-h-full smd:h-full basis-0 flex flex-col justify-center items-center overflow-auto gap-16 lg:gap-32 md:bg-[#535252]  text-base", p.headerClassNmae)}>
             {!isMobile && <SVGS.SvgLogin />}
             <SVGS.SvgLogo colors={['white', 'white']} />
         </div>

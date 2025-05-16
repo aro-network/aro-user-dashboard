@@ -60,7 +60,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
         }
         toastOptions={{
           classNames: {
-            // error: '!bg-[#FFD4D7] flex !items-baseline  gap-[.9375rem]  !text-base  !font-AlbertSans ',
+            error: '!bg-[#FFD4D7] flex !items-baseline  gap-[.9375rem]  !text-base  !font-AlbertSans ',
             warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5 ',
             title: '!leading-[1.2] !font-normal',
           }

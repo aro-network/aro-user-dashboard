@@ -18,6 +18,7 @@ import { ENV } from "@/lib/env";
 import { HelpTip } from "@/components/tips";
 import { CiCircleQuestion } from "react-icons/ci";
 import useMobileDetect from "@/hooks/useMobileDetect";
+import { SVGS } from "@/svg";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -68,7 +69,7 @@ export default function Page() {
     <PageUnlogin headerClassNmae=" smd:!flex-[3]">
       <AutoFlip className="mx-auto px-5 md:min-h-full flex sd flex-col gap-4 md:items-center w-full max-w-[25rem]">
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
-        <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center'}>
+        <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center smd:text-xl'}>
           {envText('sign')}
           <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
             <HelpTip content={
@@ -79,7 +80,7 @@ export default function Page() {
 
             } isOpen={isOpen} className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
               <div>
-                <CiCircleQuestion className="text-lg" />
+                <SVGS.SvgQuesiton />
               </div>
             </HelpTip>
           </div>

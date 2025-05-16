@@ -298,12 +298,12 @@ const ANodeInfo: FC<{
                 <div className="smd:w-[40%]">
                   <img
                     src={`../${data?.detail?.nodeType}.png`}
-                    className="w-[4.4375rem] smd:w-full smd:rounded-xl  h-full"
+                    className="w-[5.4375rem]  h-full"
                     alt={`${data?.detail?.nodeType}`}
                   />
                 </div>
                 <div className="flex flex-col justify-between w-full smd:py-[.625rem] ">
-                  <div className="text-sm flex smd:text-xs   gap-[.625rem]  items-center">
+                  <div className="text-sm flex   gap-[.625rem]  items-center">
                     <span>Node Name:</span>
                     <div
                       style={{ alignItems: "anchor-center" }}

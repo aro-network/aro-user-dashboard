@@ -12,6 +12,7 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { HelpTip } from "../tips";
 import { useEffect, useRef, useState } from "react";
 import useMobileDetect from "@/hooks/useMobileDetect";
+import { SVGS } from "@/svg";
 
 
 const AEnReachID = () => {
@@ -78,7 +79,7 @@ const AEnReachID = () => {
 
                 <HelpTip isOpen={isOpenTip} content='This function is not available in Devnet.'>
                   <div>
-                    <CiCircleQuestion />
+                    <SVGS.SvgQuesiton />
                   </div>
                 </HelpTip>
               </div>

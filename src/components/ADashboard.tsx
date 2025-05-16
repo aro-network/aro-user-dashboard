@@ -22,6 +22,7 @@ import { HelpTip } from "./tips";
 import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter } from "@heroui/drawer";
 import { Btn } from "./btns";
 import useMobileDetect from "@/hooks/useMobileDetect";
+import { SVGS } from "@/svg";
 const Modes: Dashboard.ModesType[] = [
 
   {
@@ -188,7 +189,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
 
-  const { isOpen: isVisable, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
 
   useEffect(() => {
     const handleClose = (event: { type: string; target: any; }) => {
@@ -211,17 +212,14 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
   return (
-    <div className=" sticky top-0 smd:h-screen">
-
-
-
+    <div className="  smd:h-full">
       <div className=" flex h-[3.75rem] smd:h-14 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  ">
         <button className="md:hidden" onClick={() => onOpen()}>
           <FiMenu className="text-2xl" />
         </button>
 
 
-        <Drawer isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]">
+        <Drawer isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]" hideCloseButton>
           <DrawerContent>
             {(onClose) => (
               <>
@@ -241,6 +239,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                           )}
                           onClick={() => {
                             handleTabChange(m)
+                            onClose()
                           }}
                         >
                           <div className="text-sm font-medium text-left whitespace-nowrap ">{m.name}</div>
@@ -280,7 +279,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                   </span>
                 }>
                 <div>
-                  <CiCircleQuestion />
+                  <SVGS.SvgQuesiton />
                 </div>
 
               </HelpTip>
@@ -430,10 +429,10 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         })}
       </div>
 
-      <div className="h-full overflow-auto nodes">
+      <div className="h-screen  nodes smd:mb-5">
         <AnimatePresence mode="wait">
           <motion.div
-            className=" pt-5  px-[6.5rem] smd:px-4 flex flex-col w-full "
+            className=" pt-5 smd:pb-10  px-[6.5rem] smd:px-4 flex flex-col w-full "
             key={currentTab.name + refreshKey}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

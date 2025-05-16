@@ -23,6 +23,7 @@ import SvgOnline from "./devices/online.svg";
 import Svgoffline from "./devices/offline.svg";
 import Svgdisk from "./devices/disk.svg";
 import SvgXHomeBox from "./devices/homeBox.svg";
+import SvgQuesiton from "./question.svg";
 
 import SvgShare from "./share.svg";
 
@@ -53,4 +54,5 @@ export const SVGS = {
   Svgoffline,
   Svgdisk,
   SvgXHomeBox,
+  SvgQuesiton,
 };

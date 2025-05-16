@@ -80,7 +80,7 @@ const ANodes = () => {
 
   return (
     <>
-      <div className=" flex justify-between  items-center  ">
+      <div className={` flex justify-between  items-center  ${isShowNodeInfo.open && 'smd:flex-wrap smd:w-full'}`}>
         <div className="text-[#FFFFFF] text-xs smd:text-base font-medium smd:w-full " >
           {!isShowNodeInfo.open && !isOpen && !unbindInfo ? (
             <>
@@ -97,7 +97,7 @@ const ANodes = () => {
                   setSelectedType("");
                 }}
               >
-                {isMobile ? '<' : <span>Nodes {">"} {" "}</span>}
+                Nodes {">"} {" "}
               </button>{" "}
 
               <label
@@ -135,7 +135,7 @@ const ANodes = () => {
         ) : (
           !isOpen &&
           !unbindInfo && (
-            <div className="flex gap-[.625rem] smd:justify-end  font-medium text-xs leading-3  smd:w-full">
+            <div className="flex gap-[.625rem] smd:justify-end smd:pt-5   font-medium text-xs leading-3  smd:w-full">
               <Btn
                 onClick={() => window.open(`http://${ip.ip}:40001`)}
                 className="h-[1.875rem] rounded-lg smd:!h-[1.875rem]"

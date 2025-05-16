@@ -5,7 +5,7 @@ import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 
 const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, className, isLoading }) => {
   return <div>
-    <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] w-full gap-5 mt-5 `, className)}>
+    <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
         return <div
           key={`nodes_${index}`}

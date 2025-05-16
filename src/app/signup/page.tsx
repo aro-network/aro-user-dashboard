@@ -22,6 +22,7 @@ import { HelpTip } from "@/components/tips";
 import { ENV } from "@/lib/env";
 import { CiCircleQuestion } from "react-icons/ci";
 import useMobileDetect from "@/hooks/useMobileDetect";
+import { SVGS } from "@/svg";
 
 export default function Page() {
   const sq = useSearchParams();
@@ -107,8 +108,9 @@ export default function Page() {
 
   return (
     <>
-      <PageUnlogin>
-        <AutoFlip className="mx-auto p-5 min-h-full flex flex-col gap-5 items-center w-full max-w-[25rem]">
+      <PageUnlogin headerClassNmae=" smd:!flex-[3] ">
+
+        <AutoFlip className="mx-auto p-5 smd:py-0 md:min-h-full flex  h-full flex-col gap-5 items-center w-full max-w-[25rem]">
           <div className={loginTitleClassName + ' flex items-center gap-2'} >
             {envText('signUp')}
             <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
@@ -120,7 +122,7 @@ export default function Page() {
 
               } isOpen={isOpen} className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
                 <div>
-                  <CiCircleQuestion className="text-lg" />
+                  <SVGS.SvgQuesiton />
                 </div>
               </HelpTip>
             </div>
@@ -147,7 +149,7 @@ export default function Page() {
               <InputEmail setEmail={setEmail} />
               <InputPassword setPassword={setPassword} />
               <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
-              <div className="flex items-center text-xs text-white/60">
+              <div className="flex items-center flex-wrap text-xs text-white/60">
                 <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
                   I agree to the EnReach{"\u00A0"}
                 </Checkbox>
