@@ -263,8 +263,9 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             )}
           </DrawerContent>
         </Drawer>
+
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="/logo.svg" className={`shrink-0 rotate-90 smd:rotate-0 smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+          <img src="/logo.svg" className={`shrink-0  smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div ref={helpTipRef} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} onClick={() => isMobile && setIsOpen(!isOpen)} className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
@@ -312,7 +313,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           <div className="smd:hidden">
             <SocialButtons />
           </div>
-          <div className=" font-normal text-xs leading-[.9rem] smd:hidden  text-[#999999] h-8 flex flex-col items-center lg:flex-row gap-[.625rem]">
+          <div className=" font-normal text-xs leading-[.9rem] smd:hidden  text-[#999999] h-8 flex  items-center flex-row gap-[.625rem]">
             <a href="https://enreach.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">Website</a>
             <a href="https://docs.enreach.network" target="_blank" className="underline-offset-4 h-8  hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999] justify-center">Docs</a>
           </div>

@@ -44,7 +44,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 smd:h-full mt-5   ">
       <IconCard
-        className="flip_item h-full smd:max-h-[12.5rem] "
+        className="flip_item h-auto smd:max-h-[12.5rem] "
         iconSize={20}
         icon={SVGS.SvgReferral}
         tit={<div className="text-xl smd:text-base font-Alexandria w-full">My Referral Code</div>}
@@ -99,7 +99,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         icon={() => <IoAlertCircle />}
         iconSize={20}
         tit={
-          <div className="  flex  w-full smd:flex-col smd:h-full  md:gap-10 smd:mt-5 mt-[3.75rem] font-Alexandria   ">
+          <div className="  flex  w-full smd:flex-col smd:h-full items-center  md:gap-10 smd:mt-5 mt-[3.75rem] font-Alexandria   ">
 
             <div className="flex flex-col  text-white w-full ">
               <div className="text-base smd:flex smd:w-full  smd:flex-wrap text-wrap">

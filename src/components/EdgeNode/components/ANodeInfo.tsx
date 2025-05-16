@@ -371,34 +371,34 @@ const ANodeInfo: FC<{
                 </Btn> */}
               </div>
               <div className="flex justify-between smd:flex-wrap h-full smd:w-full">
-                <div className="text-sm  flex flex-col justify-between gap-[.625rem] smd:w-full">
+                <div className="text-sm  flex flex-col justify-between xsl:justify-start    gap-[.625rem] smd:w-full flex-wrap">
                   <span className="font-normal text-sm text-[#FFFFFF80]">
                     Total
                   </span>
-                  <div className="flex  gap-[10px] items-baseline">
-                    <span className="text-3xl ">
+                  <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
+                    <span className="text-3xl xsl:text-xl ">
                       {formatNumber(Number(data?.countRewards.total || 0))}
                     </span>
                     <span>BERRY</span>
                   </div>
                 </div>
-                <div className="text-sm  flex flex-col justify-between gap-[.625rem] smd:pt-5 ">
+                <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem]  flex-wrap smd:pt-5 ">
                   <span className="font-normal text-sm text-[#FFFFFF80]">
                     Today
                   </span>
-                  <div className="flex  gap-[10px] items-baseline">
-                    <span className=" text-3xl ">
+                  <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
+                    <span className="text-3xl xsl:text-xl ">
                       + {formatNumber(Number(data?.countRewards.today || 0))}
                     </span>
                     <span>BERRY</span>
                   </div>
                 </div>
-                <div className="text-sm  flex flex-col justify-between gap-[.625rem] smd:pt-5  ">
+                <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem] smd:pt-5 flex-wrap ">
                   <span className="font-normal text-sm text-[#FFFFFF80]">
                     Yesterday
                   </span>
-                  <div className="flex  gap-[10px] items-baseline">
-                    <span className=" text-3xl ">
+                  <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
+                    <span className="text-3xl xsl:text-xl ">
                       +{" "}
                       {formatNumber(Number(data?.countRewards.yesterday || 0))}
                     </span>
