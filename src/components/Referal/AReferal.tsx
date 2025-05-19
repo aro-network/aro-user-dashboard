@@ -69,7 +69,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
           tit={
             <div className="text-xl smd:text-base flex items-center gap-2  font-Alexandria">
               Referral Bonus{" "}
-              <HelpTip content="Referral Bonus include an one-time bonus for a qualified referral, and a permanent percentage share of your referees’ Network Bonus." />
+              <HelpTip className=" w-[12.5rem]" content="Referral Bonus include an one-time bonus for a qualified referral, and a permanent percentage share of your referees’ Network Bonus." />
             </div>
 
           }

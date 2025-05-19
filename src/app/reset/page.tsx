@@ -62,7 +62,7 @@ export default function Page() {
     validateConfirmPassword(confirmPassword, password) !== true;
   const disableSend = isPendingSend || sendCount > 0 || validateEmail(email) !== true;
   return (
-    <PageUnlogin headerClassNmae="smd:!flex-[2]" childrenClassName="!flex-[8]">
+    <PageUnlogin headerClassNmae="smd:!flex-[2]" childrenClassName="smd:!flex-[8]">
       <AutoFlip className="mx-auto p-5 md:min-h-full flex flex-col gap-5 items-center w-full max-w-[25rem]">
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
         <span className={loginTitleClassName}>Reset Password</span>

@@ -192,23 +192,31 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
 
   useEffect(() => {
-    const handleClose = (event: { type: string; target: any; }) => {
-      if (event.type === "click" && helpTipRef.current!.contains(event.target)) {
+    const handleClose = (event: MouseEvent) => {
+      const path = event.composedPath();
+
+      if (helpTipRef.current && path.includes(helpTipRef.current)) {
         return;
       }
+
+      setIsOpen(false);
+    };
+
+    const handleScroll = () => {
       setIsOpen(false);
     };
 
     if (isOpen) {
-      window.addEventListener("click", handleClose, true);
-      window.addEventListener("scroll", handleClose, true);
+      document.addEventListener("click", handleClose, true);
+      document.addEventListener("scroll", handleScroll, true);
     }
 
     return () => {
-      window.removeEventListener("click", handleClose, true);
-      window.removeEventListener("scroll", handleClose, true);
+      document.removeEventListener("click", handleClose, true);
+      document.removeEventListener("scroll", handleScroll, true);
     };
   }, [isOpen]);
+
 
 
   return (
@@ -226,7 +234,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
           <img src="/logo.svg" className={`shrink-0  smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <div ref={helpTipRef} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} onClick={() => isMobile && setIsOpen(!isOpen)} className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
+          <div ref={helpTipRef} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} onClick={() => setIsOpen(!isOpen)} className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
           })}>
             {selectedTab.label}
@@ -235,7 +243,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 content={
                   <span>
                     Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
-                    <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
+                    <button onClick={openPage} className=" !text-sm  underline underline-offset-1"> Pioneer Program.</button>
                   </span>
                 }>
                 <div>

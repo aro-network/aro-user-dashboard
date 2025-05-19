@@ -129,8 +129,8 @@ export default function Page() {
           </div>
           {/* <img src="logo.svg" alt="Logo" className="mt-auto h-[4.9375rem]" /> */}
           {showToVerify ? (
-            <div className="flex flex-col items-center gap-5 w-full mb-auto">
-              <div className="text-center whitespace-nowrap">
+            <div className="flex flex-col items-center gap-5 w-full mb-auto ">
+              <div className="text-center md:whitespace-nowrap  w-full mx-auto">
                 Verify your email
                 <br />
                 Enter the 6-digit verification code we sent to your inbox below:

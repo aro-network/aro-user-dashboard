@@ -130,9 +130,9 @@ export const formatNumber = (num: number) => {
     const units = ["", "K", "M", "B", "T"];
     const index = Math.floor(Math.log10(num) / 3);
     const scaled = num / Math.pow(1000, index);
-    return scaled.toFixed(2) + units[index];
+    return Math.round(scaled) + units[index];
   }
-  return num.toFixed(2).replace(/\.00$/, "");
+  return Math.round(num).toString();
 };
 
 // function formatLargeNumber(num) {
