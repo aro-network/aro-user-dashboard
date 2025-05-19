@@ -43,7 +43,6 @@ export default function Page() {
     window.open("https://enreach.network/#target-section", "_blank");
   };
 
-
   useEffect(() => {
     const handleClose = (event: { type: string; target: any; }) => {
       if (event.type === "click" && helpTipRef.current!.contains(event.target)) {

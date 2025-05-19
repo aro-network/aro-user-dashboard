@@ -87,7 +87,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           <div className="w-[37.5rem] smd:w-full">
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                <img src={`./${data?.nodeType}.png`} className="   w-full h-full" alt={`${data?.nodeType}`} />
+                <img src={`./${data?.nodeType}.png`} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${data?.nodeType}`} />
               </div>
               {foundDeviceList()}
             </div>

@@ -76,7 +76,6 @@ const ANodes = () => {
   });
   const ip = nodeInfo[0];
 
-  console.log("ipip", ip, nodeInfo);
 
   return (
     <>

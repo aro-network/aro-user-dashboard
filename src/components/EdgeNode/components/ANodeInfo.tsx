@@ -1,7 +1,7 @@
 import { Btn } from "@/components/btns";
 import { TitCard } from "@/components/cards";
 import backendApi from "@/lib/api";
-import { CircularProgress, cn, DateRangePicker, DateValue, RangeValue } from "@nextui-org/react";
+import { CircularProgress, cn, DateRangePicker, DateValue, Input, RangeValue } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
 import { FC, FocusEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
@@ -26,6 +26,8 @@ import {
   today,
 } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
+import useMobileDetect from "@/hooks/useMobileDetect";
+import { ConfirmDialog } from "@/components/dialogimpls";
 
 type e = EdgeNodeMode.IpInfo[];
 
@@ -38,6 +40,7 @@ const ANodeInfo: FC<{
   const [isOpenTip, setIsOpenTip] = useState(false);
   const helpTipRef = useRef<any>(null);
   const helpTipRef2 = useRef<any>(null);
+  const isMobile = useMobileDetect()
 
 
 
@@ -285,6 +288,23 @@ const ANodeInfo: FC<{
       window.removeEventListener("scroll", handleClose, true);
     };
   }, [isOpen, isOpenTip]);
+
+
+
+  const onSubmitEdit = () => {
+    if (
+      !nodeName ||
+      nodeName === data?.detail.nodeName
+    )
+      return setIsEdit(false);
+    onSubmit(
+      nodeName
+        .replace(/[\u4e00-\u9fa5]/g, "")
+        .trim()
+    );
+
+
+  }
   return (
     <>
       {!isFetching ? (
@@ -309,7 +329,7 @@ const ANodeInfo: FC<{
                       style={{ alignItems: "anchor-center" }}
                       className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName "
                     >
-                      {isEdit ? (
+                      {isEdit && !isMobile ? (
                         <input
                           autoFocus
                           maxLength={30}
@@ -335,11 +355,35 @@ const ANodeInfo: FC<{
                       ) : (
                         <div ref={helpTipRef2} onMouseOver={() => setIsOpenTip(true)} onMouseLeave={() => setIsOpenTip(false)}>
                           <HelpTip isOpen={isOpenTip} content={data?.detail?.nodeName}>
-                            {shortenMiddle(data?.detail.nodeName || "-", 15)}
+                            {shortenMiddle(data?.detail.nodeName || "-", isMobile ? 12 : 20)}
                           </HelpTip>
                         </div>
 
                       )}
+                      {isEdit && isMobile && <ConfirmDialog
+                        tit=""
+
+                        msg={
+                          <Input
+                            autoFocus
+                            maxLength={30}
+                            className=" mt-5 "
+                            classNames={{ 'inputWrapper': '!rounded-lg !bg-[#FFFFFFCC] h-12', 'input': '!text-black' }}
+                            value={nodeName}
+                            onChange={(e) =>
+                              setNodeName(
+                                e.target.value
+                                  .replace(/[\u4e00-\u9fa5]/g, "")
+                                  .trim()
+                              )
+                            }
+                          />
+                        }
+                        className="smd:mx-5"
+                        isOpen={isEdit}
+                        onCancel={() => setIsEdit(!isEdit)}
+                        onConfirm={() => onSubmitEdit()}
+                      />}
 
                       <button onClick={() => setIsEdit(true)}>
                         <FiEdit className="text-white text-xs" />

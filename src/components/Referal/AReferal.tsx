@@ -102,7 +102,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
           <div className="  flex  w-full smd:flex-col smd:h-full items-center  md:gap-10 smd:mt-5 mt-[3.75rem] font-Alexandria   ">
 
             <div className="flex flex-col  text-white w-full ">
-              <div className="text-base smd:flex smd:w-full  smd:flex-wrap text-wrap">
+              <div className="text-base smd:flex smd:w-full  smd:flex-wrap  smd:overflow-x-auto smd:whitespace-normal">
                 How Referral Program Works?
               </div>
               <div className=" text-[#FFFFFFB2] text-sm pt-1 flex flex-col smd:hidden">

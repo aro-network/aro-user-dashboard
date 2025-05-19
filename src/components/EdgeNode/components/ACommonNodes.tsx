@@ -1,10 +1,12 @@
 import { HelpTip } from "@/components/tips"
+import useMobileDetect from "@/hooks/useMobileDetect"
 import { shortenMiddle } from "@/lib/utils"
 import { cn, Skeleton } from "@nextui-org/react"
 import { FC } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 
 const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, className, isLoading }) => {
+  const isMobile = useMobileDetect()
   return <div>
     <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
@@ -20,7 +22,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
               <div className="flex items-center  gap-[10px] ">
                 <HelpTip content={node.deviceName}>
 
-                  <label className="text-[#FFFFFF] text-lg  truncate">{shortenMiddle(node.deviceName)} </label>
+                  <label className="text-[#FFFFFF] text-lg  truncate">{shortenMiddle(node.deviceName, isMobile ? 12 : 15)} </label>
                 </HelpTip>
                 <div className="flex items-center gap-1 ">
                   {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-base " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-base" />}

@@ -22,12 +22,12 @@ export function ConfirmDialog({
         <div className="text-center smd:text-lg text-sm whitespace-pre-wrap font-AlbertSans">{msg}</div>
         <div className="grid grid-cols-2 gap-2.5 smd:grid-cols-1 smd:gap-5">
           {confirmText &&
-            <Btn className="h-[1.875rem] smd:h-12" color={confirmColor} isLoading={isLoading} onClick={onConfirm}>
+            <Btn className="h-[1.875rem] smd:h-12" color={confirmColor} isLoading={isLoading} onPress={onConfirm}>
               {confirmText}
             </Btn>
           }
           {cancelText &&
-            <Btn className="h-[1.875rem] smd:h-12" isLoading={isLoading} color={cancelColor} onClick={onCancel}>
+            <Btn className="h-[1.875rem] smd:h-12" isLoading={isLoading} color={cancelColor} onPress={onCancel}>
               {cancelText}
             </Btn>
           }

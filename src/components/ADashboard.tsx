@@ -212,57 +212,16 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
   return (
-    <div className="  smd:h-full">
-      <div className=" flex h-[3.75rem] smd:h-14 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  ">
+    <div className="  overflow-hidden ">
+      <div className={cn(` flex h-[3.75rem] smd:h-14 smd:fixed  top-0 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  `, {
+        'smd:!z-[-100] ': isVisable,
+        'smd:z-[10000]': !isVisable
+      })}>
         <button className="md:hidden" onClick={() => onOpen()}>
           <FiMenu className="text-2xl" />
         </button>
 
 
-        <Drawer isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]" hideCloseButton>
-          <DrawerContent>
-            {(onClose) => (
-              <>
-                <DrawerBody>
-                  <div className={` flex flex-col gap-4  pt-[1.875rem] border-[#404040]`}>
-                    {selectedTab.children.map((m) => {
-                      const selected = m.name === currentTab.name;
-                      return (
-                        <button
-                          key={m.name}
-                          className={cn(" h-12 flex  bg-[#373737] justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-6 rounded-lg cursor-pointer select-none",
-
-                            {
-                              " text-[#4281FF] ": selected,
-                              "text-white": !selected,
-                            }
-                          )}
-                          onClick={() => {
-                            handleTabChange(m)
-                            onClose()
-                          }}
-                        >
-                          <div className="text-sm font-medium text-left whitespace-nowrap ">{m.name}</div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </DrawerBody>
-                <DrawerFooter className="justify-center mb-10">
-                  <div className="flex flex-col justify-center items-center gap-6">
-                    <div>
-                      <SocialButtons />
-                    </div>
-                    <div className=" font-normal text-xs leading-[.9rem] w-full  text-[#999999] justify-center flex  items-center flex-row gap-[.625rem]">
-                      <a href="https://enreach.network/" target="_blank" className="underline-offset-1 underline items-center text-xs  border-[#999999]">Website</a>
-                      <a href="https://docs.enreach.network" target="_blank" className="underline-offset-1 underline  justify-center text-xs">Docs</a>
-                    </div>
-                  </div>
-                </DrawerFooter>
-              </>
-            )}
-          </DrawerContent>
-        </Drawer>
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
           <img src="/logo.svg" className={`shrink-0  smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
@@ -329,9 +288,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               <DropdownItem key={'user'} isReadOnly className=" gap-2 data-[hover=true]:bg-[#585858] ">
                 <div className="flex items-center gap-[.625rem] cursor-default">
                   <div className="w-8 smd:w-6 ">
-                    <MAvatar name={user?.email} className="smd:hidden" />
-                    <MAvatar name={user?.email} size={32} className="md:hidden" />
-
+                    <MAvatar name={user?.email} size={32} />
                   </div>
                   <div>
                     <label>{username}</label>
@@ -391,20 +348,67 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           </Dropdown>
         </div>
       </div>
-      <ConfirmDialog
-        tit="Log Out"
-        msg={
-          <>
-            You are going to log out your account.
-            <br />
-            Are you sure?
-          </>
-        }
-        className="smd:mx-5"
-        isOpen={showConfirmLogout}
-        onCancel={toggleShowConfirmLogout}
-        onConfirm={ac.logout}
-      />
+
+      <div className="relative z-[10000] bg-[#404040]">
+        <Drawer isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]  z-[1000] bg-[#404040]" hideCloseButton>
+          <DrawerContent>
+            {(onClose) => (
+              <>
+                <DrawerBody>
+                  <div className={` flex flex-col gap-4  pt-[1.875rem] border-[#404040]`}>
+                    {selectedTab.children.map((m) => {
+                      const selected = m.name === currentTab.name;
+                      return (
+                        <button
+                          key={m.name}
+                          className={cn(" h-12 flex  bg-[#373737] justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-6 rounded-lg cursor-pointer select-none",
+
+                            {
+                              " text-[#4281FF] ": selected,
+                              "text-white": !selected,
+                            }
+                          )}
+                          onClick={() => {
+                            handleTabChange(m)
+                            onClose()
+                          }}
+                        >
+                          <div className="text-sm font-medium text-left whitespace-nowrap ">{m.name}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </DrawerBody>
+                <DrawerFooter className="justify-center mb-10">
+                  <div className="flex flex-col justify-center items-center gap-6">
+                    <div>
+                      <SocialButtons />
+                    </div>
+                    <div className=" font-normal text-xs leading-[.9rem] w-full  text-[#999999] justify-center flex  items-center flex-row gap-[.625rem]">
+                      <a href="https://enreach.network/" target="_blank" className="underline-offset-1 underline items-center text-xs  border-[#999999]">Website</a>
+                      <a href="https://docs.enreach.network" target="_blank" className="underline-offset-1 underline  justify-center text-xs">Docs</a>
+                    </div>
+                  </div>
+                </DrawerFooter>
+              </>
+            )}
+          </DrawerContent>
+        </Drawer>
+        <ConfirmDialog
+          tit="Log Out"
+          msg={
+            <>
+              You are going to log out your account.
+              <br />
+              Are you sure?
+            </>
+          }
+          className="smd:mx-5"
+          isOpen={showConfirmLogout}
+          onCancel={toggleShowConfirmLogout}
+          onConfirm={ac.logout}
+        />
+      </div>
 
       <div className={` smd:hidden flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040] ${selectedTab.children[5] && 'justify-end'}`}>
         {selectedTab.children.map((m) => {
@@ -430,7 +434,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         })}
       </div>
 
-      <div className="h-screen  nodes smd:mb-5">
+      <div className="h-full  nodes smd:mb-5 smd:mt-[3.75rem]  ">
         <AnimatePresence mode="wait">
           <motion.div
             className=" pt-5 smd:pb-10  px-[6.5rem] smd:px-4 flex flex-col w-full "

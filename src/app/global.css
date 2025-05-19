@@ -13,11 +13,14 @@ html {
 }
 body {
   overflow: auto;
+   touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
   /* background: #222222; */
   background-size: cover;
   color: white;
   font-size: 16px; /* width 1512 */
 }
+
 
 .App {
   height: 100%;
@@ -125,6 +128,13 @@ body {
   #chartdiv {
     width: 400px;
     height: 350px;
+  }
+
+  input, textarea, select, button {
+    font-size: 16px !important;
+    user-select: auto;
+    -webkit-user-select: auto;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
