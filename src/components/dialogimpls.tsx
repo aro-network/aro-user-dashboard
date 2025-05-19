@@ -1,3 +1,4 @@
+import { cn } from "@nextui-org/react";
 import { Btn } from "./btns";
 import { TitModal } from "./dialogs";
 
@@ -13,21 +14,25 @@ export function ConfirmDialog({
   msg,
   isOpen,
   className,
-  isLoading
+  isLoading,
+  btnClassName,
+  confirmClassName,
+  cancelClassName
 
 }: OtherTypes.ConfirmDialogProps) {
   return (
     <TitModal className={className} isOpen={isOpen} tit={tit} onClose={onCancel}>
       <div className="flex flex-col gap-6 w-full">
         <div className="text-center smd:text-lg text-sm whitespace-pre-wrap font-AlbertSans">{msg}</div>
-        <div className="grid grid-cols-2 gap-2.5 smd:grid-cols-1 smd:gap-5">
+        <div className={cn("grid grid-cols-2 gap-2.5 smd:grid-cols-1 smd:gap-5", btnClassName)}>
+
           {confirmText &&
-            <Btn className="h-[1.875rem] smd:h-12" color={confirmColor} isLoading={isLoading} onPress={onConfirm}>
+            <Btn className={cn("h-[1.875rem] smd:h-12", confirmClassName)} color={confirmColor} isLoading={isLoading} onPress={onConfirm}>
               {confirmText}
             </Btn>
           }
           {cancelText &&
-            <Btn className="h-[1.875rem] smd:h-12" isLoading={isLoading} color={cancelColor} onPress={onCancel}>
+            <Btn className={cn("h-[1.875rem] smd:h-12", cancelClassName)} isLoading={isLoading} color={cancelColor} onPress={onCancel}>
               {cancelText}
             </Btn>
           }

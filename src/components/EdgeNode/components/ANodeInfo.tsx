@@ -355,20 +355,23 @@ const ANodeInfo: FC<{
                       ) : (
                         <div ref={helpTipRef2} onMouseOver={() => setIsOpenTip(true)} onMouseLeave={() => setIsOpenTip(false)}>
                           <HelpTip isOpen={isOpenTip} content={data?.detail?.nodeName}>
-                            {shortenMiddle(data?.detail.nodeName || "-", isMobile ? 12 : 20)}
+                            {shortenMiddle(data?.detail.nodeName || "-", isMobile ? 10 : 20)}
                           </HelpTip>
                         </div>
 
                       )}
                       {isEdit && isMobile && <ConfirmDialog
                         tit=""
-
+                        btnClassName='flex '
+                        confirmClassName='w-full'
+                        cancelClassName="w-full"
+                        confirmText='Cancel'
+                        cancelText='Confirm'
                         msg={
                           <Input
-                            autoFocus
                             maxLength={30}
                             className=" mt-5 "
-                            classNames={{ 'inputWrapper': '!rounded-lg !bg-[#FFFFFFCC] h-12', 'input': '!text-black' }}
+                            classNames={{ 'inputWrapper': '!rounded-lg !bg-[#FFFFFF1A] h-12', 'input': '!text-[#FFFFFF66] outline-none' }}
                             value={nodeName}
                             onChange={(e) =>
                               setNodeName(
@@ -379,10 +382,10 @@ const ANodeInfo: FC<{
                             }
                           />
                         }
-                        className="smd:mx-5"
+                        className="smd:mx-5 "
                         isOpen={isEdit}
-                        onCancel={() => setIsEdit(!isEdit)}
-                        onConfirm={() => onSubmitEdit()}
+                        onConfirm={() => setIsEdit(!isEdit)}
+                        onCancel={() => onSubmitEdit()}
                       />}
 
                       <button onClick={() => setIsEdit(true)}>

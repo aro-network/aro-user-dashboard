@@ -36,6 +36,9 @@ declare namespace OtherTypes {
     isOpen: boolean;
     className?: string;
     isLoading?: boolean;
+    btnClassName?: string;
+    confirmClassName?: string;
+    cancelClassName?: string;
     confirmColor?:
       | "default"
       | "primary"

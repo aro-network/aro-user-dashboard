@@ -243,20 +243,20 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col md:items-center">
           <div className="w-[37.5rem] smd:w-full  ">
-            <div className="flex w-full font-normal smd:justify-start text-lg leading-5 justify-center font-Alexandria">
+            <div className="flex w-full font-normal  smd:justify-start text-lg leading-5 justify-center font-Alexandria">
               Step 3: Configure your Edge Node
             </div>
-            <div className="text-xs w-full mt-5 font-Alexandria">Set a name for your Edge Node</div>
+            <div className="text-xs w-full mt-5 font-Alexandria smd:text-sm">Set a name for your Edge Node</div>
             <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg smd:h-12' }} className="mt-[.3125rem]" />
-            <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
-            <div className="text-xs mt-[.9375rem] font-Alexandria">Select Service Region</div>
+            <label className="text-[#FFFFFF80] text-xs smd:text-sm mt-[.625rem]">You can change the name anytime later.</label>
+            <div className="text-xs smd:text-sm mt-[.9375rem] font-Alexandria ">Select Service Region</div>
             <Select
               items={data}
               onSelectionChange={(keys) => {
                 setBindInfo({ ...bindInfo, regions: new Set(keys as Set<string>) });
               }}
               placeholder="Select an regions"
-              classNames={{ 'base': '!rounded-lg !w-full smd:!h-12 ', 'popoverContent': '!w-full', 'innerWrapper': 'smd:!h-12', 'trigger': 'smd:!h-12' }}
+              classNames={{ 'base': '!rounded-lg !w-full smd:!h-12 ', 'popoverContent': '!w-full', 'innerWrapper': 'smd:!h-12 ', 'trigger': 'smd:!h-12', 'value': 'smd:text-base' }}
               className=" mt-[.3125rem] "
               selectedKeys={new Set(bindInfo.regions)}
             >
