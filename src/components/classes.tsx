@@ -7,4 +7,4 @@ export const PaginationClassNames: PaginationProps['classNames'] = {
     cursor: paginationCursorClassname,
 }
 
-export const loginTitleClassName = "font-medium text-3xl mt-auto mb-2.5"
+export const loginTitleClassName = "font-medium text-3xl mt-auto mb-2.5  smd:text-xl"

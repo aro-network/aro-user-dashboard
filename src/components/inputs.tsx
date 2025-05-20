@@ -8,6 +8,7 @@ const inputClassNames: SlotsToClasses<InputSlots> = {
   inputWrapper: "flip_item h-[2.625rem] bg-l1 border-none backdrop-blur-lg shadow-1 text-xs px-4 smd:!h-12 !rounded-lg",
   label: "text-xs",
   input: "text-xs !text-white",
+  "errorMessage": '!text-sm'
 };
 
 export function InputPassword({

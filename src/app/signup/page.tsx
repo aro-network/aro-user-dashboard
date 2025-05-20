@@ -108,7 +108,7 @@ export default function Page() {
 
   return (
     <>
-      <PageUnlogin headerClassNmae=" smd:!flex-[3] ">
+      <PageUnlogin headerClassNmae=" smd:!flex-[2] ">
 
         <AutoFlip className="mx-auto p-5 smd:py-0 md:min-h-full flex  h-full flex-col gap-5 items-center w-full max-w-[25rem]">
           <div className={loginTitleClassName + ' flex items-center gap-2'} >
@@ -145,21 +145,21 @@ export default function Page() {
               </MLink>
             </div>
           ) : (
-            <div className="flex flex-col gap-5 w-full mb-auto">
+            <div className="flex flex-col gap-5 w-full mb-auto smd:mb-10">
               <InputEmail setEmail={setEmail} />
               <InputPassword setPassword={setPassword} />
               <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
-              <div className="flex items-center flex-wrap text-xs text-white/60">
-                <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
+              <div className="flex items-center flex-wrap smd:text-sm text-xs text-white/60">
+                <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs smd:text-sm text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
                   I agree to the EnReach{"\u00A0"}
                 </Checkbox>
-                <MLink target="_blank" className="text-xs" href="https://enreach.network/terms" >
+                <MLink target="_blank" className="text-xs smd:text-sm" href="https://enreach.network/terms" >
                   Term of Service
                 </MLink>{" "}
                 <div className="">
                   {"\u00A0"}and{"\u00A0"}
                 </div>
-                <MLink target="_blank" className="text-xs" href="https://enreach.network/privacy">
+                <MLink target="_blank" className="text-xs smd:text-sm" href="https://enreach.network/privacy">
                   {" "}Privacy Policy
                 </MLink>
                 .
@@ -176,9 +176,9 @@ export default function Page() {
                 Sign Up
               </Btn>
               <SignInWithGoogle btn="Sign up with Google" defReferralCode={referalCode} />
-              <div className="flip_item text-center text-xs text-white/60">
+              <div className="flip_item text-center text-xs smd:text-sm text-white/60">
                 Already have an account?{" "}
-                <MLink href="/signin" className="text-xs">
+                <MLink href="/signin" className="text-xs smd:text-sm">
                   Sign In
                 </MLink>
               </div>

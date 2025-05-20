@@ -68,7 +68,7 @@ export default function Page() {
     <PageUnlogin headerClassNmae=" smd:!flex-[3]">
       <AutoFlip className="mx-auto px-5 md:min-h-full flex sd flex-col gap-4 md:items-center w-full max-w-[25rem]">
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
-        <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center smd:text-xl'}>
+        <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center'}>
           {envText('sign')}
           <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
             <HelpTip content={
