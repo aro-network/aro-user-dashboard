@@ -219,8 +219,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Step 2: Add Device to your account
             </div>
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
-              <div className="w-[45%] smd:w-full smd:h-[14.375rem]">
-                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-fill" alt="x86" style={{ height: '100%', width: '100%' }} />
+
+              <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
+                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${data?.nodeType}`} />
               </div>
               {foundDeviceList()}
             </div>
