@@ -46,23 +46,23 @@ export default function Page() {
   const r = useRouter();
   const refRegisterUser = useRef<SingUpResult>();
   const { mutate: handlerSubmit, isPending } = useMutation({
-    mutationFn: async (e: FormEvent) => {
-      e.preventDefault();
-      if (!email || !password || !confirmPassword) throw new Error("Please enter email or password");
-      if (password !== confirmPassword) throw new Error("Please confirm password");
-      if (!checkedTermPrivacy) throw new Error("Plase checked Term of Service and Privacy Policy");
-
-      refRegisterUser.current = await backendApi.registerApi({ email, password, referralCode: referalCode ? referalCode.trim() : undefined });
-
-      actionResendScends.reset(60);
-      setShowToVerify(true);
+    mutationFn: async () => {
+      try {
+        if (!email || !password || !confirmPassword) throw new Error("Please enter email or password");
+        if (password !== confirmPassword) throw new Error("Please confirm password");
+        if (!checkedTermPrivacy) throw new Error("Plase checked Term of Service and Privacy Policy");
+        refRegisterUser.current = await backendApi.registerApi({ email, password, referralCode: referalCode ? referalCode.trim() : undefined });
+        actionResendScends.reset(60);
+        setShowToVerify(true);
+      } catch (e) {
+        setReferalCode('')
+      }
     },
   });
-  const onSkip = (e: FormEvent<Element>) => {
+
+  const onSkip = () => {
     toggleShowInputReferral(false)
-    handlerSubmit(e)
-
-
+    handlerSubmit()
   }
 
   const { mutate: handlerVerify, isPending: isPendingVerify } = useMutation({
@@ -164,12 +164,13 @@ export default function Page() {
                 </MLink>
                 .
               </div>
-              <Btn onClick={(e) => {
+              <Btn onPress={() => {
+
                 if (referalCode) {
-                  handlerSubmit(e)
+                  handlerSubmit()
                   return
                 }
-                toggleShowInputReferral()
+                toggleShowInputReferral(true)
 
               }
               } isDisabled={disableSignUp} >
@@ -192,11 +193,11 @@ export default function Page() {
         <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-center text-white/50">{`You can get 20% extra boost in the mining rewards for the first 14 days with a valid Referral Code. 
     The Referral Code is optional to provide; but remember, you will miss the benefit if you skip this step.`}</p>
         <InputSplitCode onChange={setReferalCode} />
-        <Btn isDisabled={referalCode.length !== 6} className="w-full" onClick={(e) => onSkip(e)} >
+        <Btn isDisabled={referalCode.length !== 6} className="w-full" onPress={() => onSkip()} >
           Get Boosted
         </Btn>
         <div className="flex justify-center text-white/80  text-sm h-5 items-center">
-          <MLink onClick={(e) => onSkip(e)} className="ml-2 text-xs">
+          <MLink onClick={() => onSkip()} className="ml-2 text-xs">
             {isPending ? <Spinner size="sm" /> : "Skip"}
           </MLink>
         </div>

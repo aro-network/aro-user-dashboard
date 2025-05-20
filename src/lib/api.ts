@@ -126,6 +126,8 @@ const backendApi = {
     const response = await Api.post<RES<SingUpResult>>("/user/signUp", {
       ...data,
     });
+    alert(JSON.stringify(JSON.parse(data)));
+
     return response.data.data;
   },
 
