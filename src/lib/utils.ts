@@ -130,9 +130,9 @@ export const formatNumber = (num: number) => {
     const units = ["", "K", "M", "B", "T"];
     const index = Math.floor(Math.log10(num) / 3);
     const scaled = num / Math.pow(1000, index);
-    return Math.round(scaled) + units[index];
+    return scaled.toFixed(2) + units[index];
   }
-  return Math.round(num).toString();
+  return num.toFixed(2);
 };
 
 export const formatEchartsNumber = (num: number) => {

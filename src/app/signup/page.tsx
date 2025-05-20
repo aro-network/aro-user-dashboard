@@ -108,9 +108,9 @@ export default function Page() {
 
   return (
     <>
-      <PageUnlogin headerClassNmae=" smd:!flex-[2] ">
+      <PageUnlogin headerClassNmae=" smd:!flex-[2] " >
 
-        <AutoFlip className="mx-auto p-5 smd:py-0 md:min-h-full flex  h-full flex-col gap-5 items-center w-full max-w-[25rem]">
+        <AutoFlip className="mx-auto p-5 md:min-h-full flex h-full flex-col gap-5 items-center w-full max-w-[25rem]">
           <div className={loginTitleClassName + ' flex items-center gap-2'} >
             {envText('signUp')}
             <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>

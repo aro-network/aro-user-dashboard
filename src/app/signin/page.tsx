@@ -93,7 +93,7 @@ export default function Page() {
           </Btn>
           <SignInWithGoogle />
         </form>
-        <div className="flip_item mb-auto flex items-center w-full text-xs text-white/60">
+        <div className="flip_item mb-auto flex items-center w-full text-xs smd:text-sm text-white/60">
           Don’t have an account?
           <MLink href={href} className="ml-2 text-xs">
             Sign Up
