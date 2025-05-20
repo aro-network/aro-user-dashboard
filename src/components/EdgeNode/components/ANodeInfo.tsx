@@ -9,6 +9,7 @@ import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import {
   covertText,
+  formatEchartsNumber,
   formatNumber,
   formatStr,
   generateDateList,
@@ -135,7 +136,7 @@ const ANodeInfo: FC<{
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
             "background-color:#4281FF"
-          )}${formatNumber(params[0].data)}</div>`;
+          )}${formatEchartsNumber(params[0].data)}</div>`;
         },
       },
       grid: { left: 40, top: 10, bottom: 30, right: 20, show: false },
@@ -194,7 +195,7 @@ const ANodeInfo: FC<{
 
           label: {
             show: true,
-            formatter: (d: any) => formatNumber(d.value),
+            formatter: (d: any) => formatEchartsNumber(d.value),
             position: "top",
             color: "rgba(255,255,255,0.5)",
           },

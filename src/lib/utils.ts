@@ -135,6 +135,16 @@ export const formatNumber = (num: number) => {
   return Math.round(num).toString();
 };
 
+export const formatEchartsNumber = (num: number) => {
+  if (num >= 1000) {
+    const units = ["", "K", "M", "B", "T"];
+    const index = Math.floor(Math.log10(num) / 3);
+    const scaled = num / Math.pow(1000, index);
+    return scaled.toFixed(2) + units[index];
+  }
+  return num.toFixed(2).replace(/\.00$/, "");
+};
+
 // function formatLargeNumber(num) {
 //   if (num >= 1_000_000_000) {
 //     return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';

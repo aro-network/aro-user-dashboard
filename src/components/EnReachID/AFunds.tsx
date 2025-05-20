@@ -26,7 +26,7 @@ const AFunds = () => {
       <STable
         isLoading={false}
         loadingContent={<Spinner />}
-        empty="No Data"
+        empty="Rewards claim not applicable on current stage."
         head={[
           "Total Claimable",
           "Claim to Address",
@@ -47,7 +47,7 @@ const AFunds = () => {
       <STable
         isLoading={false}
         loadingContent={<Spinner />}
-        empty="No Data"
+        empty="Rewards claim not applicable on current stage."
         head={[
           "Date",
           "Time",

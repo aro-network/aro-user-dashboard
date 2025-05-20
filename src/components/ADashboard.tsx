@@ -288,7 +288,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           <Dropdown className="bg-[#585858] !w-[18.75rem] mo:!w--full  py-[.625rem]" placement="bottom-end">
             <DropdownTrigger>
               <div className="w-8 cursor-pointer">
-                <MAvatar name={user?.email} className="smd:hidden" />
+                <MAvatar name={user?.email} size={46} className="smd:hidden" />
                 <MAvatar name={user?.email} size={24} className="md:hidden" />
               </div>
             </DropdownTrigger>
@@ -296,7 +296,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               <DropdownItem key={'user'} isReadOnly className=" gap-2 data-[hover=true]:bg-[#585858] ">
                 <div className="flex items-center gap-[.625rem] cursor-default">
                   <div className="w-8 smd:w-6 ">
-                    <MAvatar name={user?.email} size={32} />
+                    <MAvatar name={user?.email} size={46} />
                   </div>
                   <div>
                     <label>{username}</label>
