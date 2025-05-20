@@ -3,12 +3,12 @@
 import { AutoFlip } from "@/components/auto-flip";
 import { Btn } from "@/components/btns";
 import { loginTitleClassName } from "@/components/classes";
-import { InputEmail, InputPassword, InputReferralCode, InputSplitCode } from "@/components/inputs";
+import { InputEmail, InputPassword, InputSplitCode } from "@/components/inputs";
 import { PageUnlogin } from "@/components/layouts";
 import { MLink } from "@/components/links";
 import { SignInWithGoogle } from "@/components/SignInWithGoogle";
 import backendApi from "@/lib/api";
-import { validateConfirmPassword, validateEmail, validatePassword, validateReferralCode, validateVerifyCode } from "@/lib/validates";
+import { validateConfirmPassword, validateEmail, validatePassword, validateVerifyCode } from "@/lib/validates";
 import { SingUpResult } from "@/types/user";
 import { Checkbox, Spinner } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
@@ -20,7 +20,6 @@ import { ForceModal } from "@/components/dialogs";
 import { envText } from "@/lib/utils";
 import { HelpTip } from "@/components/tips";
 import { ENV } from "@/lib/env";
-import { CiCircleQuestion } from "react-icons/ci";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
 
