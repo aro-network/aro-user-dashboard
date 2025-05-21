@@ -371,7 +371,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               <div className="w-[50%]">
                 <img src={`./${deviceInfo?.nodeType}.png`} alt={`${chooseedType?.value}`} style={{ height: '100%', width: '100%' }} />
               </div>
-              {foundDeviceList()}
+              {foundDeviceList(deviceInfo, isMobile)}
             </div>
             <div className={cn(' text-sm  text-center', {
               "text-[#FFFFFF80]": deviceInfo?.bindState === 'N/A',
