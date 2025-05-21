@@ -16,7 +16,7 @@ import { HelpTip } from "../tips";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { FaGift } from "react-icons/fa6";
-import { formatEchartsNumber, formatNumber } from "@/lib/utils";
+import { formatNumber } from "@/lib/utils";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 type OptionType = (typeof options)[number];
 export function DupleSplit({ className }: { className?: string }) {
@@ -101,7 +101,7 @@ const AOverview = () => {
         formatter: (params: any) => {
           // console.info("params:", params)
           // <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0,0,0,0);"></span>
-          return `<div>${params[0].marker.replace('background-color:rgba(0,0,0,0)', 'background-color:#4281FF')}${formatEchartsNumber(params[0].data)}</div>`
+          return `<div>${params[0].marker.replace('background-color:rgba(0,0,0,0)', 'background-color:#4281FF')}${formatNumber(params[0].data)}</div>`
         }
       },
       grid: { left: 40, top: 10, bottom: 30, right: 20, show: false },
@@ -157,7 +157,7 @@ const AOverview = () => {
 
           label: {
             show: true,
-            formatter: (d: any) => formatEchartsNumber(d.value),
+            formatter: (d: any) => formatNumber(d.value),
             position: "top",
             color: "rgba(255,255,255,0.5)",
           },

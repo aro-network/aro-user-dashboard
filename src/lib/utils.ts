@@ -133,18 +133,7 @@ export const formatNumber = (num: number) => {
     const scaled = num / Math.pow(1000, index);
     return scaled.toFixed(2) + units[index];
   }
-  return num.toFixed(2);
-};
-
-export const formatEchartsNumber = (num: number) => {
-  if (num === 0) return "0";
-  if (num >= 1000) {
-    const units = ["", "K", "M", "B", "T"];
-    const index = Math.floor(Math.log10(num) / 3);
-    const scaled = num / Math.pow(1000, index);
-    return scaled.toFixed(2) + units[index];
-  }
-  return num.toFixed(2).replace(/\.00$/, "");
+  return Math.round(num).toString();
 };
 
 // function formatLargeNumber(num) {
