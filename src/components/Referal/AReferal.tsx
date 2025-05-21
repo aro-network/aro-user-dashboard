@@ -97,7 +97,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
         />
         <IconCard
           className="flip_item col-span-full h-[10.625rem] smd:min-h-[440px] w-full "
-          icon={() => <IoAlertCircle />}
+          icon={() => <IoAlertCircle className="text-[1.25rem]" />}
           iconSize={20}
           tit={
             <div className="  flex  w-full smd:flex-col smd:h-full items-center  md:gap-10 smd:mt-5 mt-[3.75rem] font-Alexandria   ">

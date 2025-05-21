@@ -206,3 +206,9 @@ export const envText = (module?: string) => {
 
   return config[env]?.[module || "default"] ?? "Unknown environment or module";
 };
+
+export const isIPv6 = (address: string) => {
+  const ipv6Regex =
+    /^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:)|::([0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,6}:)$/;
+  return ipv6Regex.test(address);
+};

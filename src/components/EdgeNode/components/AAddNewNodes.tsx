@@ -4,9 +4,11 @@ import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
-import { covertText } from "@/lib/utils"
+import { covertText, isIPv6, shortenMiddle } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
+import { HelpTip } from "@/components/tips"
+import useMobileDetect from "@/hooks/useMobileDetect"
 
 
 const deviceList: Nodes.DeviceType[] = [
@@ -30,6 +32,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const [deviceInfo, setDeviceInfo] = useState<Nodes.DevicesInfo>()
   const [bindInfo, setBindInfo] = useState<{ deviceName: string, regions: Set<string> }>({ deviceName: '', regions: new Set() })
   const [isConfirmInfo, setIsConfirmInfo] = useState<{ open: boolean, type?: string }>({ open: false, type: undefined })
+  const isMobile = useMobileDetect()
 
   const onStepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
@@ -160,18 +163,24 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       // { name: 'Current Binding', value: bindState },
 
     ]
+
     return <div className="w-full device flex justify-between flex-col py-[.625rem]">
       <div className="text-lg smd:text-base font-Alexandria">Device found:</div>
       <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 ">
         {list.map((item) => {
-          return <div key={item.name} className="flex justify-between ">
+          const isOpen = item.name === 'Device IP' && isMobile && isIPv6(item.value as string)
+          return <div key={item.name} className="flex justify-between  ">
             <span>{item.name}</span>
-            <span className={cn('text-[#FFFFFF80] text-sm  text-center',
-              // {
-              //   "text-[#FFC639]": item.name === 'Current Binding' && deviceInfo?.bindState === 'N/A',
-              //   "text-[#FF6A6C]": item.name === 'Current Binding' && deviceInfo?.bindState === 'Detected',
-              // }
-            )}> {item.value}</span>
+            {isOpen ? <HelpTip content={item.value} >
+              <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
+                {isOpen ? shortenMiddle(item.value as string) : item.value}
+              </span>
+            </HelpTip>
+              :
+              <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
+                {item.value}
+              </span>
+            }
           </div>
         })}
 

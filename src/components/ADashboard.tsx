@@ -340,17 +340,17 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 }
               >
               </DropdownItem> */}
-              <DropdownItem key={'enreachId'}>
-                <button onClick={() => r.push('?mode=devnet&tab=enreachId')} className="flex gap-[.625rem] items-center">
+              <DropdownItem key={'enreachId'} onClick={() => r.push('?mode=devnet&tab=enreachId')} >
+                <div className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
                   <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My EnReach ID</label>
-                </button>
+                </div>
               </DropdownItem>
-              <DropdownItem key={'signout'}>
-                <button onClick={() => toggleShowConfirmLogout()} className="flex gap-[.625rem]  items-center">
+              <DropdownItem key={'signout'} onClick={() => toggleShowConfirmLogout()}>
+                <div className="flex gap-[.625rem]  items-center">
                   <FiLogOut className="text-[#FFFFFF99] text-base" />
                   <label className="font-medium text-sm   text-[#FFFFFF99] cursor-pointer">Sign Out Account</label>
-                </button>
+                </div>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
