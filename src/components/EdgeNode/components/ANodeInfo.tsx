@@ -256,26 +256,16 @@ const ANodeInfo: FC<{
     }
   };
 
-  const onSubmitInfo = (e: any) => {
-    if (
-      !e.target.value ||
-      e.target.value === data?.detail.nodeName
-    )
-      return setIsEdit(false);
-    onSubmit(
-      e.target.value
-        .replace(/[\u4e00-\u9fa5]/g, "")
-        .trim()
-    );
-
-  }
-
   const onSubmitEdit = () => {
     if (
       !nodeName ||
       nodeName === data?.detail.nodeName
-    )
-      return setIsEdit(false);
+    ) {
+      setIsEdit(false);
+      setNodeName(data?.detail.nodeName as string)
+      return
+    }
+
     onSubmit(
       nodeName
         .replace(/[\u4e00-\u9fa5]/g, "")
@@ -318,11 +308,11 @@ const ANodeInfo: FC<{
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               e.preventDefault();
-                              onSubmitInfo(e)
+                              onSubmitEdit()
                             }
                           }}
                           onBlur={(e) => {
-                            onSubmitInfo(e)
+                            onSubmitEdit()
                           }}
                           className="rounded-sm !bg-[#FFFFFFCC] smd:w-[7.5rem] text-black"
                           onChange={(e) =>
@@ -366,7 +356,11 @@ const ANodeInfo: FC<{
                         }
                         className="smd:mx-5 "
                         isOpen={isEdit}
-                        onConfirm={() => setIsEdit(!isEdit)}
+                        onConfirm={() => {
+                          setNodeName(data?.detail.nodeName as string)
+                          setIsEdit(!isEdit)
+                        }
+                        }
                         onCancel={() => onSubmitEdit()}
                       />}
 
