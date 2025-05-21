@@ -18,8 +18,6 @@ import { SVGS } from "@/svg";
 const AEnReachID = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
   const [isSeOpen, setSeOpenAddNode] = useToggle(false);
-  const [isTipOpen, setOpenTip] = useToggle(false);
-  const [isOpenTip, setIsOpenTip] = useState(false)
 
   const ac = useAuthContext();
   const user = ac.queryUserInfo?.data;
@@ -29,24 +27,6 @@ const AEnReachID = () => {
   const helpTipRef = useRef<any>(null);
 
 
-  useEffect(() => {
-    const handleClose = (event: { type: string; target: any; }) => {
-      if (event.type === "click" && helpTipRef.current!.contains(event.target)) {
-        return;
-      }
-      setIsOpenTip(false);
-    };
-
-    if (isOpen) {
-      window.addEventListener("click", handleClose, true);
-      window.addEventListener("scroll", handleClose, true);
-    }
-
-    return () => {
-      window.removeEventListener("click", handleClose, true);
-      window.removeEventListener("scroll", handleClose, true);
-    };
-  }, [isOpen]);
 
   return <div className="w-full justify-center flex mt-5 ">
 
@@ -75,9 +55,9 @@ const AEnReachID = () => {
           <div>
             <div className=" font-semibold text-sm flex gap-2 items-center ">
               Bind your EVM address
-              <div ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpenTip(!isOpenTip)} onMouseOver={() => setIsOpenTip(true)} onMouseLeave={() => setIsOpenTip(false)}>
+              <div className="text-[#FFFFFF80] " >
 
-                <HelpTip isOpen={isOpenTip} content='This function is not available in Devnet.'>
+                <HelpTip content='This function is not available in Devnet.'>
                   <div>
                     <SVGS.SvgQuesiton />
                   </div>
@@ -98,8 +78,8 @@ const AEnReachID = () => {
 
       </div>
       <div className="flex justify-end w-full gap-6 ">
-        <button onClick={() => window.open('https://enreach.network/terms')} className="text-[#999999] text-xs underline underline-offset-1 ">Term of Use</button>
-        <button onClick={() => window.open('https://enreach.network/privacy')} className="text-[#999999] text-xs underline underline-offset-1 ">Privacy Policy</button>
+        <button onClick={() => window.open('https://enreach.network/terms')} className="text-[#999999] !text-xs underline underline-offset-1 ">Term of Use</button>
+        <button onClick={() => window.open('https://enreach.network/privacy')} className="text-[#999999] !text-xs underline underline-offset-1 ">Privacy Policy</button>
       </div>
     </div>
   </div>

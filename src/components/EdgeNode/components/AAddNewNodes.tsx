@@ -24,6 +24,48 @@ const X86 = ({ stepIndex, x86Step }: { stepIndex: number, x86Step: { content: Re
   <div>{x86Step[stepIndex].content}</div>
 );
 
+export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMobile: boolean) => {
+  const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
+
+  const list = [
+    { name: 'Device Type', value: covertText(nodeType as 'box' | 'x86') },
+    { name: 'Serial Number', value: nodeUUID },
+    {
+      name: 'Network Status', value: <div className="flex items-center">
+        {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
+        <label className={`ml-1 text-sm ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
+      </div>
+    },
+    { name: 'Device IP', value: ip },
+    // { name: 'Current Binding', value: bindState },
+
+  ]
+
+  return <div className="w-full device flex justify-between flex-col py-[.625rem]">
+    <div className="text-lg smd:text-base font-Alexandria">Device found:</div>
+    <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 ">
+      {list.map((item) => {
+        const isOpen = item.name === 'Device IP' && isMobile && isIPv6(item.value as string)
+        return <div key={item.name} className="flex justify-between  ">
+          <span>{item.name}</span>
+          {isOpen ? <HelpTip content={item.value} >
+            <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
+              {isOpen ? shortenMiddle(item.value as string) : item.value}
+            </span>
+          </HelpTip>
+            :
+            <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
+              {item.value}
+            </span>
+          }
+        </div>
+      })}
+
+    </div>
+  </div>
+}
+
+
 const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<Nodes.AddType> }> = ({ onBack, onSelectedType, addRef }) => {
   const [chooseedType, setChooseedType] = useState<Omit<Nodes.DeviceType, 'name'>>()
   const [stepIndex, setStepIndex] = useState(0)
@@ -33,7 +75,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const [bindInfo, setBindInfo] = useState<{ deviceName: string, regions: Set<string> }>({ deviceName: '', regions: new Set() })
   const [isConfirmInfo, setIsConfirmInfo] = useState<{ open: boolean, type?: string }>({ open: false, type: undefined })
   const isMobile = useMobileDetect()
-
   const onStepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setStepIndex(0)
@@ -145,48 +186,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
 
-  console.log('dasdasdasdas', deviceInfo);
 
-
-  const foundDeviceList = () => {
-    const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
-    const list = [
-      { name: 'Device Type', value: covertText(nodeType as 'box' | 'x86') },
-      { name: 'Serial Number', value: nodeUUID },
-      {
-        name: 'Network Status', value: <div className="flex items-center">
-          {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
-          <label className={`ml-1 text-sm ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
-        </div>
-      },
-      { name: 'Device IP', value: ip },
-      // { name: 'Current Binding', value: bindState },
-
-    ]
-
-    return <div className="w-full device flex justify-between flex-col py-[.625rem]">
-      <div className="text-lg smd:text-base font-Alexandria">Device found:</div>
-      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 ">
-        {list.map((item) => {
-          const isOpen = item.name === 'Device IP' && isMobile && isIPv6(item.value as string)
-          return <div key={item.name} className="flex justify-between  ">
-            <span>{item.name}</span>
-            {isOpen ? <HelpTip content={item.value} >
-              <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
-                {isOpen ? shortenMiddle(item.value as string) : item.value}
-              </span>
-            </HelpTip>
-              :
-              <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
-                {item.value}
-              </span>
-            }
-          </div>
-        })}
-
-      </div>
-    </div>
-  }
 
   const homeBoxStep = [
     {
@@ -232,7 +232,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
                 <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${data?.nodeType}`} />
               </div>
-              {foundDeviceList()}
+              {foundDeviceList(deviceInfo, isMobile)}
             </div>
             <div className={cn(' text-sm smd:text-left  text-center', {
               "text-[#FFFFFF80]": deviceInfo?.bindState === 'N/A',

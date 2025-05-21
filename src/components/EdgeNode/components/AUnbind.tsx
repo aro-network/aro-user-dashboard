@@ -5,7 +5,8 @@ import { covertText } from "@/lib/utils"
 import { CircularProgress, cn, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, useState } from "react"
-import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
+import { foundDeviceList } from "./AAddNewNodes"
+import useMobileDetect from "@/hooks/useMobileDetect"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => (
@@ -14,6 +15,7 @@ const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: 
 const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack }) => {
   const [stepIndex, setStepIndex] = useState(0)
   const [isConfirm, setIsConfirm] = useState(false)
+  const isMobile = useMobileDetect()
 
 
   const { data, isFetching } = useQuery({
@@ -26,38 +28,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   });
 
 
-  const foundDeviceList = () => {
-    const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = data || {}
-    const list = [
-      { name: 'Device Type', value: covertText(nodeType as "box" | "x86") },
-      { name: 'Serial Number', value: nodeUUID },
-      {
-        name: 'Network Status', value: <div className="flex items-center">
-          {online ? <IoIosCheckmarkCircle className="text-[#34D399] " /> : <IoIosCloseCircle className="text-[#FF6A6C]" />}
-          <label className={`ml-1  ${online ? 'text-green-400' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
-        </div>
-      },
-      { name: 'Device IP', value: ip },
-      // { name: 'Current Binding', value: bindState },
 
-    ]
-    return <div className="w-full device flex flex-col justify-between py-[.625rem]">
-      <div className="text-lg">Device Info:</div>
-      <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4  ">
-        {list.map((item) => {
-          return <div key={item.name} className="flex justify-between ">
-            <span>{item.name}</span>
-            <span className={cn('text-[#FFFFFF80] text-sm  text-center',
-              //  {
-              //   "text-[#FF6A6C]": item.name === 'Current Binding'
-              // }
-            )}> {item.value}</span>
-          </div>
-        })}
-
-      </div>
-    </div>
-  }
 
   const getStatus = useQuery({
     queryKey: ["NodeStatuList"],
@@ -89,7 +60,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
                 <img src={`./${data?.nodeType}.png`} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${data?.nodeType}`} />
               </div>
-              {foundDeviceList()}
+              {foundDeviceList(data, isMobile)}
             </div>
             <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">

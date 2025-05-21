@@ -14,6 +14,7 @@ import {
   formatStr,
   generateDateList,
   generateLast15DaysRange,
+  isIPv6,
   shortenMiddle,
 } from "@/lib/utils";
 import numbro from "numbro";
@@ -270,28 +271,6 @@ const ANodeInfo: FC<{
 
   }
 
-  useEffect(() => {
-    const handleClose = (event: { type: string; target: any; }) => {
-      if (event.type === "click" && (helpTipRef.current!.contains(event.target) || helpTipRef2.current!.contains(event.target))) {
-        return;
-      }
-      setIsOpen(false);
-      setIsOpenTip(false)
-    };
-
-    if (isOpen || isOpenTip) {
-      window.addEventListener("click", handleClose, true);
-      window.addEventListener("scroll", handleClose, true);
-    }
-
-    return () => {
-      window.removeEventListener("click", handleClose, true);
-      window.removeEventListener("scroll", handleClose, true);
-    };
-  }, [isOpen, isOpenTip]);
-
-
-
   const onSubmitEdit = () => {
     if (
       !nodeName ||
@@ -306,6 +285,9 @@ const ANodeInfo: FC<{
 
 
   }
+
+  const isIpv6 = isMobile && isIPv6(data?.detail.ip as string)
+
   return (
     <>
       {!isFetching ? (
@@ -354,8 +336,8 @@ const ANodeInfo: FC<{
                           value={nodeName}
                         />
                       ) : (
-                        <div ref={helpTipRef2} onMouseOver={() => setIsOpenTip(true)} onMouseLeave={() => setIsOpenTip(false)}>
-                          <HelpTip isOpen={isOpenTip} content={data?.detail?.nodeName}>
+                        <div >
+                          <HelpTip content={data?.detail?.nodeName}>
                             {shortenMiddle(data?.detail.nodeName || "-", isMobile ? 10 : 20)}
                           </HelpTip>
                         </div>
@@ -396,8 +378,8 @@ const ANodeInfo: FC<{
                   </div>
                   <div className="text-sm smd:text-xs  mt-1 w-full flex   gap-[.625rem]">
                     <span className="w-auto">Node ID:</span>
-                    <div ref={helpTipRef} className="text-[#FFFFFF80] " onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-                      <HelpTip content={data?.detail?.nodeID} isOpen={isOpen} >
+                    <div className="text-[#FFFFFF80] " >
+                      <HelpTip content={data?.detail?.nodeID} >
                         {shortenMiddle(data?.detail?.nodeID || "-",)}
                       </HelpTip>
                     </div>
@@ -542,7 +524,13 @@ const ANodeInfo: FC<{
               <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
                 <div className="flex justify-between">
                   <span>Public IP</span>
-                  <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>
+                  {isIpv6 ? <HelpTip content={data?.detail.ip} >
+                    <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
+                      {shortenMiddle(data?.detail.ip as string)}
+                    </span>
+                  </HelpTip>
+                    :
+                    <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>}
                 </div>
                 <div className="flex justify-between">
                   <span>IP Location</span>

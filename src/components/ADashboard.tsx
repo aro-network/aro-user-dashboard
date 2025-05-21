@@ -141,9 +141,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { address, isConnected, } = useAppKitAccount()
   const username = user?.email?.split('@')[0] || ''
   const [refreshKey, setRefreshKey] = useState(0);
-  const [isOpen, setIsOpen] = useState(false)
-  const helpTipRef = useRef<any>(null);
-  const isMobile = useMobileDetect()
+
 
   useEffect(() => {
     const modeFromURL = searchParams.get("mode");
@@ -191,34 +189,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
 
-  useEffect(() => {
-    const handleClose = (event: MouseEvent) => {
-      const path = event.composedPath();
-
-      if (helpTipRef.current && path.includes(helpTipRef.current)) {
-        return;
-      }
-
-      setIsOpen(false);
-    };
-
-    const handleScroll = () => {
-      setIsOpen(false);
-    };
-
-    if (isOpen) {
-      document.addEventListener("click", handleClose, true);
-      document.addEventListener("scroll", handleScroll, true);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClose, true);
-      document.removeEventListener("scroll", handleScroll, true);
-    };
-  }, [isOpen]);
-
-
-
   return (
     <div className="  overflow-hidden ">
       <div className={cn(` flex h-[3.75rem] smd:h-14 smd:fixed  top-0 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  `, {
@@ -234,12 +204,12 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
           <img src="/logo.svg" className={`shrink-0  smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <div ref={helpTipRef} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)} onClick={() => setIsOpen(!isOpen)} className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
+          <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
           })}>
             {selectedTab.label}
             <div hidden={ENV !== 'prod'}>
-              <HelpTip isOpen={isOpen} className=" w-[12.5rem]" placement='bottom'
+              <HelpTip className=" w-[12.5rem]" placement='bottom'
                 content={
                   <span>
                     Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the

@@ -26,8 +26,6 @@ export default function Page() {
   const ac = useContext(AuthContext);
   const params = useSearchParams();
   const referral = params.get("referral");
-  const [isOpen, setIsOpen] = useState(false)
-  const helpTipRef = useRef<any>(null);
   const isMobile = useMobileDetect()
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
@@ -43,24 +41,6 @@ export default function Page() {
     window.open("https://enreach.network/#target-section", "_blank");
   };
 
-  useEffect(() => {
-    const handleClose = (event: { type: string; target: any; }) => {
-      if (event.type === "click" && helpTipRef.current!.contains(event.target)) {
-        return;
-      }
-      setIsOpen(false);
-    };
-
-    if (isOpen) {
-      window.addEventListener("click", handleClose, true);
-      window.addEventListener("scroll", handleClose, true);
-    }
-
-    return () => {
-      window.removeEventListener("click", handleClose, true);
-      window.removeEventListener("scroll", handleClose, true);
-    };
-  }, [isOpen]);
 
 
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
@@ -70,14 +50,14 @@ export default function Page() {
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
         <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center'}>
           {envText('sign')}
-          <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+          <div hidden={ENV !== 'prod'} className="text-[#FFFFFF80] " >
             <HelpTip content={
               <span>
                 Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
                 <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
               </span>
 
-            } isOpen={isOpen} className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
+            } className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
               <div>
                 <SVGS.SvgQuesiton />
               </div>
