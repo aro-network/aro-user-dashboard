@@ -47,6 +47,9 @@ export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google",
   });
   const loginGoogle = useGoogleLogin({
     flow: "implicit",
+    onNonOAuthError: () => {
+      setIsAuthing(false);
+    },
     onError: (err) => {
       setIsAuthing(false);
     },
