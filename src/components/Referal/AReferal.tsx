@@ -116,8 +116,8 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
                 </div>
               </div>
               <div className="flex  smd:hidden items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-20 w-full flex-wrap">
-                <img src="./refer.png" className="w-auto h-auto" />
-                <img src="./refer1.png" className="w-auto h-auto" />
+                <img src="./refer.png" className="w-[8.6875rem]  h-auto" />
+                <img src="./refer1.png" className="w-[15.625rem] h-auto" />
               </div>
             </div>
 
@@ -128,8 +128,8 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
                 The Referrer enjoy 15% commission from the Referee's mining rewards.   Contact us to get whitelisted for the extra seond-tier commission.
               </div>
               <div className="flex  pt-10  items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-14 w-full flex-wrap">
-                <img src="./refer.png" className="w-auto h-auto" />
-                <img src="./refer1.png" className="w-auto h-auto" />
+                <img src="./refer.png" className="w-[8.6875rem] h-auto" />
+                <img src="./refer1.png" className="w-[15.625rem] h-auto" />
               </div>
             </div>
 
