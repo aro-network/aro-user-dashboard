@@ -295,7 +295,7 @@ const ANodeInfo: FC<{
                   />
                 </div>
                 <div className="flex flex-col justify-between w-full smd:py-[.625rem] ">
-                  <div className="text-sm flex   gap-[.625rem]  items-center">
+                  <div className="text-sm smd:text-xs  flex   gap-[.625rem]  items-center">
                     <span>Node Name:</span>
                     <div
                       style={{ alignItems: "anchor-center" }}
