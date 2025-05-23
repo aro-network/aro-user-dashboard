@@ -9,6 +9,7 @@ import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
 import { HelpTip } from "@/components/tips"
 import useMobileDetect from "@/hooks/useMobileDetect"
+import { ENV } from "@/lib/env"
 
 
 const deviceList: Nodes.DeviceType[] = [
@@ -458,7 +459,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="flex  gap-10 smd:gap-4 mt-10 smd:mt-4 w-full justify-center smd:flex-col  m-auto smd:px-0 px-[3.75rem]">
               {deviceList.map((item, index) => {
                 return <div onClick={() => {
-                  if (index) return
+                  if (index || ENV !== 'beta') return
                   onSelectedType(item.iconName)
                   setChooseedType(item)
                 }} key={`device_${index}`}
