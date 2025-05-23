@@ -34,7 +34,6 @@ const AEnReachID = () => {
 
   const onConfrim = async () => {
     await backendApi.addInviteCode(referalCode)
-    setIsConfirming(false)
     queryClient.invalidateQueries({ queryKey: ["QueryUserInfo"] });
     toggleShowInputReferral(false)
   }
