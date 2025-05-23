@@ -73,4 +73,12 @@ declare namespace Nodes {
     startTime: number;
     endTime: number;
   };
+
+  type WhiteListInfo = {
+    whiteListUser: boolean;
+    inviteCounts: {
+      level1: number;
+      level2: number;
+    };
+  };
 }

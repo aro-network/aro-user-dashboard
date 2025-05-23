@@ -37,8 +37,13 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
     queryKey: ["ReferralRewards"],
     enabled: true,
     refetchOnWindowFocus: false,
-    queryFn: () => backendApi.getReferralRewards()
+    queryFn: async () => {
+      const [rewardsInfo, whiteListInfo] = await Promise.all([backendApi.getReferralRewards(), backendApi.getWhiteListInfo()])
+      return { rewardsInfo, whiteListInfo }
+    }
   })
+
+
 
 
   return (
@@ -67,23 +72,36 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
           icon={SVGS.SvgRewards}
           iconSize={20}
           tit={
-            <div className="text-xl smd:text-base flex items-center gap-2  font-Alexandria">
-              Referral Bonus{" "}
-              <HelpTip className=" w-[12.5rem]" content="As a referrer, you earn a commission from your referee's node rewards." />
+            <div className="flex w-full items-center justify-between smd:flex-col smd:items-start smd:gap-[.625rem]">
+              <div className="text-xl smd:text-base flex items-center gap-2  font-Alexandria">
+                Referral Bonus{" "}
+                <HelpTip className=" w-[12.5rem]" content="As a referrer, you earn a commission from your referee's node rewards." />
+              </div>
+              {data?.whiteListInfo.whiteListUser &&
+                <div>
+                  <div className="bg-[#FF8748] rounded-[1.875rem] text-white text-xs py-1 px-2">
+                    Whitelisted
+                  </div>
+
+
+                </div>
+              }
             </div>
+
+
 
           }
           content={
             <div className="flex items-center gap-[10%] smd:gap-[30%] min-w-[13.75rem] smd:h-full">
 
               <div className="flex items-center gap-[10%]">
-                <DupleInfo titClassName="smd:text-2xl" subClassName="smd:text-xs" tit={formatNumber(Number(data?.referredRewards) || 0)} sub="BERRY" />
+                <DupleInfo titClassName="smd:text-2xl" subClassName="smd:text-xs" tit={formatNumber(Number(data?.rewardsInfo.referredRewards) || 0)} sub="BERRY" />
               </div>
 
               <DupleSplit className="smd:hidden" />
 
               <DupleInfo
-                tit={data?.referred || 0}
+                tit={data?.whiteListInfo.whiteListUser ? `${(data?.whiteListInfo.inviteCounts.level1 || 0)} + ${(data?.whiteListInfo.inviteCounts.level2 || 0)}` : (data?.rewardsInfo.referred || 0)}
                 subClassName="text-green-400 opacity-100 smd:text-xs "
                 titClassName=" smd:text-2xl"
                 sub={

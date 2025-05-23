@@ -186,8 +186,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
     window.open("https://enreach.network/#target-section", "_blank");
   };
 
-
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
+
 
   return (
     <div className="  overflow-hidden ">
@@ -413,6 +413,13 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       </div>
 
       <div className="h-full  nodes mb-5 smd:mt-[3.75rem]  ">
+        {currentTab.tab === 'referral' && user?.invited === false &&
+          <div className="bg-[#4281FF]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
+            <span>You have not set your Referrer Information. Being referred an EnReach user will give you extra boost! </span>
+            <button onClick={() => r.push('?mode=devnet&tab=enreachId')} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>
+
+          </div>
+        }
         <AnimatePresence mode="wait">
           <motion.div
             className=" pt-5 smd:pb-10  px-[6.5rem] smd:px-4 flex flex-col w-full "

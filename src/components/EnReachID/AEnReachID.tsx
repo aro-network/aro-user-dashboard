@@ -5,7 +5,7 @@ import { Btn } from "../btns";
 import { formatStr } from "@/lib/utils";
 import { FiEdit } from "react-icons/fi";
 import { useToggle } from "react-use";
-import { TitModal } from "../dialogs";
+import { ForceModal, TitModal } from "../dialogs";
 import { BsExclamationCircle } from 'react-icons/bs'
 import { AConfirmInfo, AGenerateModal } from "../ADeviceConsole";
 import { CiCircleQuestion } from "react-icons/ci";
@@ -13,6 +13,9 @@ import { HelpTip } from "../tips";
 import { useEffect, useRef, useState } from "react";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
+import { InputSplitCode } from "../inputs";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import backendApi from "@/lib/api";
 
 
 const AEnReachID = () => {
@@ -25,8 +28,16 @@ const AEnReachID = () => {
   const { address } = useAppKitAccount()
   const isMobile = useMobileDetect()
   const helpTipRef = useRef<any>(null);
+  const [showInputReferral, toggleShowInputReferral] = useToggle(false);
+  const [referalCode, setReferalCode] = useState("");
+  const queryClient = useQueryClient();
 
-
+  const onConfrim = async () => {
+    await backendApi.addInviteCode(referalCode)
+    setIsConfirming(false)
+    queryClient.invalidateQueries({ queryKey: ["QueryUserInfo"] });
+    toggleShowInputReferral(false)
+  }
 
   return <div className="w-full justify-center flex mt-5 ">
 
@@ -49,7 +60,7 @@ const AEnReachID = () => {
       <div className="flex flex-col gap-[.625rem] mx-5  w-full ">
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 ">
           <div className=" font-semibold text-sm ">EnReach UID</div>
-          <div className="font-normal text-xs text-[#FFFFFF99]">AWJDIVVBOFNZ</div>
+          <div className="font-normal text-xs text-[#FFFFFF99]">{user?.id}</div>
         </div>
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:w-full flex items-center smd:items-start justify-between ">
           <div>
@@ -75,12 +86,43 @@ const AEnReachID = () => {
             <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem]">Unbind</Btn>
           </div>
         </div>
+        <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:gap-5 smd:w-full flex items-center smd:items-start justify-between ">
+          <div>
+            <div className=" font-semibold text-sm ">Who referred me</div>
+            <div className="font-normal text-xs text-[#FFFFFF99] mt-2">{user?.invited === false ? 'You are not referred by anyone. ' : user?.inviteUserEmail}</div>
+          </div>
+          <div hidden className={`flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center ${user?.invited === true ? 'hidden' : ''}`}>
+            <Btn onPress={toggleShowInputReferral} className="h-[2.125rem] smd:!h-[2.125rem]">Add Referrer</Btn>
+          </div>
+        </div>
 
       </div>
       <div className="flex justify-end w-full gap-6 ">
         <button onClick={() => window.open('https://enreach.network/terms')} className="text-[#999999] !text-xs underline underline-offset-1 ">Term of Use</button>
         <button onClick={() => window.open('https://enreach.network/privacy')} className="text-[#999999] !text-xs underline underline-offset-1 ">Privacy Policy</button>
       </div>
+      <ForceModal isOpen={showInputReferral} >
+        <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Add Referrer</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">{`You can add a Referrer (the one that invited you to EnReach) by filling the Referral Code. Being referred an EnReach user will give you 20% extra boost on your Edge Node rewards for 14 days. Be careful: you cannot change your referrer information once it is set.`}</p>
+        <InputSplitCode onChange={setReferalCode} />
+        <div className="flex w-full gap-[.625rem]">
+          <Btn color='default' className="w-full" onPress={() => {
+            setReferalCode('')
+            toggleShowInputReferral(false)
+          }} >
+            Cancel
+          </Btn>
+          <Btn isDisabled={referalCode.length !== 6} className="w-full" onPress={() => {
+            setReferalCode('')
+            onConfrim()
+          }
+
+          }  >
+            Confirm
+          </Btn>
+        </div>
+
+      </ForceModal>
     </div>
   </div>
 

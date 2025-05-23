@@ -217,9 +217,18 @@ const AOverview = () => {
           icon={() => <FaGift />}
           iconSize={24}
           tit={
-            <div className="flex justify-between items-center w-full">
-              <span className="text-xl smd:text-base font-Alexandria">Rewards - All Nodes</span>
+            <div className="flex w-full items-center justify-between smd:flex-col smd:items-start smd:gap-[.625rem]">
+              <div className="flex justify-between items-center gap-2">
+                <span className="text-xl smd:text-base font-Alexandria">Rewards - All Nodes</span>
+                <HelpTip className=" w-[12.5rem]" content="The rewards number shows how much you have earned from running Edge Nodes, plus the Referral Bonus." />
+              </div>
+              <HelpTip className=" w-[12.5rem]" content="You enjoy a 20% extra boost on node rewards for the first 14 days from being referred to EnReach. " >
+                <div className="bg-[#FF8748] rounded-[1.875rem] text-white text-xs py-1 px-2">
+                  +20% Boosted
+                </div>
+              </HelpTip>
             </div>
+
           }
           content={
             <div className="flex flex-1 items-center gap-[15%] min-w-[12.5rem]">

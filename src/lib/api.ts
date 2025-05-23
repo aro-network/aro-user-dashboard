@@ -289,7 +289,20 @@ const backendApi = {
     return response.data.data;
   },
 
-  // /api/edgeNode/node/{nodeId}/name/reset
+  getWhiteListInfo: async () => {
+    const response = await Api.get<RES<Nodes.WhiteListInfo>>(
+      `user/referral/whiteListInfo`
+    );
+    return response.data.data;
+  },
+
+  addInviteCode: async (referralCode: string) => {
+    const response = await Api.post<RES<Nodes.WhiteListInfo>>(
+      `user/invite/from`,
+      { referralCode }
+    );
+    return response.data.data;
+  },
 };
 
 export default backendApi;
