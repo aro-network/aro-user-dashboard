@@ -14,6 +14,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { AutoFlip } from "@/components/auto-flip";
 import { PageUnlogin } from "@/components/layouts";
 import { loginTitleClassName } from "@/components/classes";
+import { MLink } from "@/components/links";
 
 export default function Page() {
   const sp = useSearchParams();
@@ -79,6 +80,9 @@ export default function Page() {
           <Btn type="submit" isDisabled={disableReset} isLoading={isPending}>
             Reset Password
           </Btn>
+          <MLink href="/signin" className="text-xs smd:text-sm text-left">
+            Go back
+          </MLink>
         </form>
       </AutoFlip>
     </PageUnlogin>
