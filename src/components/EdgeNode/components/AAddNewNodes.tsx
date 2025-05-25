@@ -459,7 +459,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="flex  gap-10 smd:gap-4 mt-10 smd:mt-4 w-full justify-center smd:flex-col  m-auto smd:px-0 px-[3.75rem]">
               {deviceList.map((item, index) => {
                 return <div onClick={() => {
-                  if (index || ENV !== 'beta') return
+                  if (index) return
                   onSelectedType(item.iconName)
                   setChooseedType(item)
                 }} key={`device_${index}`}
