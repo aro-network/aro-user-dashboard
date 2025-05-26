@@ -374,7 +374,7 @@ const ANodeInfo: FC<{
                     <span className="w-auto">Node ID:</span>
                     <div className="text-[#FFFFFF80] " >
                       <HelpTip content={data?.detail?.nodeID} >
-                        {shortenMiddle(data?.detail?.nodeID || "-",)}
+                        {shortenMiddle(data?.detail?.nodeID || "-", 18)}
                       </HelpTip>
                     </div>
                   </div>

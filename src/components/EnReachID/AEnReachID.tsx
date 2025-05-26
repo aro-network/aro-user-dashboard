@@ -85,9 +85,9 @@ const AEnReachID = () => {
 
             </div>
 
-            <label className="font-normal text-xs  smd:text-sm  text-[#FFFFFF99]">
+            <div className="font-normal text-xs smd:text-sm mt-2  text-[#FFFFFF99]">
               -
-            </label>
+            </div>
           </div>
           <div className="flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center">
             <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem]">Bind</Btn>
