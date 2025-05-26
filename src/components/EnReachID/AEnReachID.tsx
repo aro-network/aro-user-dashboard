@@ -61,6 +61,15 @@ const AEnReachID = () => {
           <div className=" font-semibold text-sm ">EnReach UID</div>
           <div className="font-normal text-xs text-[#FFFFFF99]">{user?.id}</div>
         </div>
+        <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:gap-5 smd:w-full flex items-center smd:items-start justify-between ">
+          <div>
+            <div className=" font-semibold text-sm ">Who referred me</div>
+            <div className="font-normal text-xs text-[#FFFFFF99] mt-2">{user?.invited === false ? 'You are not referred by anyone. ' : user?.inviteUserEmail}</div>
+          </div>
+          <div hidden className={`flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center ${user?.invited === true ? 'hidden' : ''}`}>
+            <Btn onPress={toggleShowInputReferral} className="h-[2.125rem] smd:!h-[2.125rem]">Add Referrer</Btn>
+          </div>
+        </div>
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:w-full flex items-center smd:items-start justify-between ">
           <div>
             <div className=" font-semibold text-sm flex gap-2 items-center ">
@@ -85,15 +94,7 @@ const AEnReachID = () => {
             <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem]">Unbind</Btn>
           </div>
         </div>
-        <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:gap-5 smd:w-full flex items-center smd:items-start justify-between ">
-          <div>
-            <div className=" font-semibold text-sm ">Who referred me</div>
-            <div className="font-normal text-xs text-[#FFFFFF99] mt-2">{user?.invited === false ? 'You are not referred by anyone. ' : user?.inviteUserEmail}</div>
-          </div>
-          <div hidden className={`flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center ${user?.invited === true ? 'hidden' : ''}`}>
-            <Btn onPress={toggleShowInputReferral} className="h-[2.125rem] smd:!h-[2.125rem]">Add Referrer</Btn>
-          </div>
-        </div>
+
 
       </div>
       <div className="flex justify-end w-full gap-6 ">
