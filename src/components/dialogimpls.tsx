@@ -17,7 +17,9 @@ export function ConfirmDialog({
   isLoading,
   btnClassName,
   confirmClassName,
-  cancelClassName
+  cancelClassName,
+  cancelDisable,
+  confirmDisable
 
 }: OtherTypes.ConfirmDialogProps) {
   return (
@@ -27,12 +29,12 @@ export function ConfirmDialog({
         <div className={cn("grid grid-cols-2 gap-2.5 smd:grid-cols-1 smd:gap-5", btnClassName)}>
 
           {confirmText &&
-            <Btn className={cn("h-[1.875rem] smd:h-12", confirmClassName)} color={confirmColor} isLoading={isLoading} onPress={onConfirm}>
+            <Btn disabled={confirmDisable} className={cn("h-[1.875rem] smd:h-12", confirmClassName)} color={confirmColor} isLoading={isLoading} onPress={onConfirm}>
               {confirmText}
             </Btn>
           }
           {cancelText &&
-            <Btn className={cn("h-[1.875rem] smd:h-12", cancelClassName)} isLoading={isLoading} color={cancelColor} onPress={onCancel}>
+            <Btn disabled={cancelDisable} className={cn("h-[1.875rem] smd:h-12", cancelClassName)} isLoading={isLoading} color={cancelColor} onPress={onCancel}>
               {cancelText}
             </Btn>
           }

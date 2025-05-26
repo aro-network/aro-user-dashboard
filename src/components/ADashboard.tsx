@@ -191,7 +191,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
   return (
     <div className="  overflow-hidden ">
-      <div className={cn(` flex h-[3.75rem] smd:h-14 smd:fixed  top-0 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  `, {
+      <div className={cn(` flex h-[3.75rem]  smd:fixed  top-0 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  `, {
         'smd:!z-[-100] ': isVisable,
         'smd:z-[10000]': !isVisable
       })}>
@@ -412,7 +412,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         })}
       </div>
 
-      <div className="h-full  nodes mb-5 smd:mt-[3.75rem]  ">
+      <div className="h-full  nodes mb-5 smd:mt-[3.75rem]">
         {currentTab.tab === 'referral' && user?.invited === false &&
           <div className="bg-[#4281FF]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
             <span>You have not set your Referrer Information. Being referred an EnReach user will give you extra boost! </span>

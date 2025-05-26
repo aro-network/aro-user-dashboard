@@ -46,25 +46,25 @@ const AEnReachID = () => {
         <div className="w-[3.75rem] smd:w-8  ">
           {/* <MAvatar name={user?.email} /> */}
           <MAvatar name={user?.email} size={120} className="smd:hidden" />
-          <MAvatar name={user?.email} size={32} className="md:hidden" />
+          <MAvatar name={user?.email} size={36} className="md:hidden" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <label className="text-2xl smd:text-sm font-medium">{username}</label>
+            <label className="text-2xl smd:text-base font-medium">{username}</label>
             {/* <label className={'text-base'}><FiEdit /></label> */}
           </div>
-          <p className="font-normal smd:text-xs text-sm mt-1 text-[#FFFFFF99]">{user?.email}</p>
+          <p className="font-normal smd:text-sm text-sm mt-2 text-[#FFFFFF99]">{user?.email}</p>
         </div>
       </div>
       <div className="flex flex-col gap-[.625rem] mx-5  w-full ">
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 ">
-          <div className=" font-semibold text-sm ">EnReach UID</div>
-          <div className="font-normal text-xs text-[#FFFFFF99]">{user?.id}</div>
+          <div className=" font-semibold text-sm smd:text-base ">EnReach UID</div>
+          <div className="font-normal text-xs smd:text-sm mt-2 text-[#FFFFFF99]">{user?.id}</div>
         </div>
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:gap-5 smd:w-full flex items-center smd:items-start justify-between ">
           <div>
-            <div className=" font-semibold text-sm ">Who referred me</div>
-            <div className="font-normal text-xs text-[#FFFFFF99] mt-2">{user?.invited === false ? 'You are not referred by anyone. ' : user?.inviteUserEmail}</div>
+            <div className=" font-semibold text-sm smd:text-base  ">Who referred me</div>
+            <div className="font-normal text-xs text-[#FFFFFF99] smd:text-sm  mt-2">{user?.invited === false ? 'You are not referred by anyone. ' : user?.inviteUserEmail}</div>
           </div>
           <div hidden className={`flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center ${user?.invited === true ? 'hidden' : ''}`}>
             <Btn onPress={toggleShowInputReferral} className="h-[2.125rem] smd:!h-[2.125rem]">Add Referrer</Btn>
@@ -72,7 +72,7 @@ const AEnReachID = () => {
         </div>
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:w-full flex items-center smd:items-start justify-between ">
           <div>
-            <div className=" font-semibold text-sm flex gap-2 items-center ">
+            <div className=" font-semibold text-sm flex gap-2 items-center  smd:text-base ">
               Bind your EVM address
               <div className="text-[#FFFFFF80] " >
 
@@ -85,7 +85,7 @@ const AEnReachID = () => {
 
             </div>
 
-            <label className="font-normal text-xs text-[#FFFFFF99]">
+            <label className="font-normal text-xs  smd:text-sm  text-[#FFFFFF99]">
               -
             </label>
           </div>
@@ -101,9 +101,9 @@ const AEnReachID = () => {
         <button onClick={() => window.open('https://enreach.network/terms')} className="text-[#999999] !text-xs underline underline-offset-1 ">Term of Use</button>
         <button onClick={() => window.open('https://enreach.network/privacy')} className="text-[#999999] !text-xs underline underline-offset-1 ">Privacy Policy</button>
       </div>
-      <ForceModal isOpen={showInputReferral} >
+      <ForceModal isOpen={showInputReferral} className="!w-[700px] smd:!w-full smd:!mx-5">
         <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Add Referrer</p>
-        <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">{`You can add a Referrer (the one that invited you to EnReach) by filling the Referral Code. Being referred an EnReach user will give you 20% extra boost on your Edge Node rewards for 14 days. Be careful: you cannot change your referrer information once it is set.`}</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{`You can add a Referrer (the one that invited you to EnReach) by filling the Referral Code. Being referred an EnReach user will give you 20% extra boost on your Edge Node rewards for 14 days. Be careful: you cannot change your referrer information once it is set.`}</p>
         <InputSplitCode onChange={setReferalCode} />
         <div className="flex w-full gap-[.625rem]">
           <Btn color='default' className="w-full" onPress={() => {

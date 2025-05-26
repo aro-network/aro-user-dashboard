@@ -295,7 +295,7 @@ const ANodeInfo: FC<{
                   />
                 </div>
                 <div className="flex flex-col justify-between w-full smd:py-[.625rem] ">
-                  <div className="text-sm smd:text-xs  flex   gap-[.625rem]  items-center">
+                  <div className="text-sm  flex   gap-[.625rem]  items-center">
                     <span>Node Name:</span>
                     <div
                       style={{ alignItems: "anchor-center" }}
@@ -339,6 +339,7 @@ const ANodeInfo: FC<{
                         cancelClassName="w-full"
                         confirmText='Cancel'
                         cancelText='Confirm'
+                        cancelDisable={!nodeName}
                         msg={
                           <Input
                             maxLength={30}
@@ -369,7 +370,7 @@ const ANodeInfo: FC<{
                       </button>
                     </div>
                   </div>
-                  <div className="text-sm smd:text-xs  mt-1 w-full flex   gap-[.625rem]">
+                  <div className="text-sm  mt-1 w-full flex   gap-[.625rem]">
                     <span className="w-auto">Node ID:</span>
                     <div className="text-[#FFFFFF80] " >
                       <HelpTip content={data?.detail?.nodeID} >
@@ -377,7 +378,7 @@ const ANodeInfo: FC<{
                       </HelpTip>
                     </div>
                   </div>
-                  <div className="text-sm smd:text-xs  mt-1 flex  gap-[.625rem]">
+                  <div className="text-sm   mt-1 flex  gap-[.625rem]">
                     <span>Node Type:</span>
                     <div className="text-[#FFFFFF80]">
                       {covertText(data?.detail?.nodeType as "x86" | "box")}
@@ -470,7 +471,7 @@ const ANodeInfo: FC<{
                   <span>Create Date</span>
                   <span className="text-[#FFFFFF80]">
                     {dayjs(
-                      Number(data?.detail?.deviceInfo.date || 0) * 1000
+                      Number(data?.detail.createTimestamp || 0) * 1000
                     ).format("YYYY-MM-DD")}
                   </span>
                 </div>

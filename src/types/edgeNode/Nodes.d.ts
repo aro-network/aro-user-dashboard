@@ -17,6 +17,7 @@ declare namespace Nodes {
     nodeId: string;
     nodeID: string;
     ip?: string;
+    createTimestamp: number;
     deviceInfo: {
       ip: string;
       date: string;

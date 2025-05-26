@@ -1,23 +1,53 @@
 import { Tooltip, TooltipProps } from "@nextui-org/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useClickAway } from "react-use";
 
 export function HelpTip({ content, children, placement, ...props }: TooltipProps) {
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useClickAway(triggerRef, () => {
     if (isOpen) setIsOpen(false);
   });
 
+  useEffect(() => {
+    setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
+  useClickAway(triggerRef, () => {
+    if (isOpen && isTouchDevice) {
+      setIsOpen(false);
+    }
+  });
+
+  const handleClick = () => {
+    if (isTouchDevice) {
+      setIsOpen((prev) => !prev);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (!isTouchDevice) {
+      setIsOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isTouchDevice) {
+      setIsOpen(false);
+    }
+  };
+
+
   return (
     <div
       ref={triggerRef}
       className="flex"
-      onMouseOver={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
-      onClick={() => setIsOpen(!isOpen)}
+      onMouseOver={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
       <Tooltip
         isOpen={isOpen}
@@ -35,7 +65,7 @@ export function HelpTip({ content, children, placement, ...props }: TooltipProps
         {children ? (
           children
         ) : (
-          <button className="outline-none border-none">
+          <button className={`outline-none border-none cursor-default`}>
             <IoIosHelpCircle className="text-base" />
           </button>
         )}

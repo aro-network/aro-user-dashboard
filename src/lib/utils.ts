@@ -182,14 +182,17 @@ export const envText = (module?: string) => {
     prod: {
       sign: "Sign In For Devnet",
       signUp: "Sign Up For Devnet",
+      mode: "Devnet",
     },
     beta: {
       sign: "Sign In",
       signUp: "Sign Up",
+      mode: "beta",
     },
     staging: {
       sign: "Sign In",
       signUp: "Sign Up",
+      mode: "Testnet",
     },
   };
 

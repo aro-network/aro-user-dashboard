@@ -39,6 +39,8 @@ declare namespace OtherTypes {
     btnClassName?: string;
     confirmClassName?: string;
     cancelClassName?: string;
+    cancelDisable?: boolean;
+    confirmDisable?: boolean;
     confirmColor?:
       | "default"
       | "primary"
