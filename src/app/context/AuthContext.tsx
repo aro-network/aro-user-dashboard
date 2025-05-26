@@ -1,4 +1,5 @@
 import backendApi from "@/lib/api";
+import { getItem, removeItem, setItem } from "@/lib/storage";
 import { Opt } from "@/lib/type";
 import { LoginResult } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
@@ -18,9 +19,13 @@ interface AuthProviderProps {
 }
 
 const storageKey = "last-login-user";
+
+
 export const getLastLoginUser = () => {
   try {
-    const json = localStorage.getItem(storageKey);
+    const json = getItem<string>(storageKey);
+
+    console.log('jsonjsonjson', json);
     if (!json) return null;
     const u = JSON.parse(json) as LoginResult;
     return u;
@@ -29,6 +34,7 @@ export const getLastLoginUser = () => {
     return null;
   }
 };
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const refIsLogout = useRef(false);
   const r = useRouter();
@@ -36,16 +42,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const params = useSearchParams()
   const redirect = params.get("redirect");
   console.info('redirect:', redirect)
+
+
   const wrapSetUser = (u?: Opt<LoginResult>) => {
     if (!u) {
       refIsLogout.current = true;
       setUser(null);
-      localStorage.removeItem(storageKey);
+      removeItem(storageKey);
       r.push("/signin");
     } else {
       refIsLogout.current = false;
       setUser(u);
-      localStorage.setItem(storageKey, JSON.stringify(u));
+      setItem(storageKey, JSON.stringify(u));
       r.push(redirect ? redirect : "/");
     }
   };
@@ -65,6 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       throw err;
     }
   };
+
   const queryUserInfo = useQuery({
     queryKey: ["QueryUserInfo", user?.token],
     enabled: Boolean(user?.token),

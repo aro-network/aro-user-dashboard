@@ -23,6 +23,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter } from "@
 import { Btn } from "./btns";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
+import { getItem } from "@/lib/storage";
 const Modes: Dashboard.ModesType[] = [
 
   {
@@ -143,6 +144,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const [refreshKey, setRefreshKey] = useState(0);
 
 
+
+
   useEffect(() => {
     const modeFromURL = searchParams.get("mode");
     const tabFromURL = searchParams.get("tab");
@@ -187,6 +190,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
+
+
 
 
   return (

@@ -6,6 +6,7 @@ import { fmtBoost } from "@/components/fmtData";
 import { toast } from "sonner";
 import { CalendarDate, getLocalTimeZone } from "@internationalized/date";
 import { useDateFormatter } from "@react-aria/i18n";
+import { getItem, removeItem } from "./storage";
 
 const API_MAP: { [k in typeof ENV]: string } = {
   beta: "https://dev-api.enreach.network/api",
@@ -31,9 +32,8 @@ export type RES<T> = {
 
 Api.interceptors.request.use(
   (config) => {
-    const result = localStorage.getItem("last-login-user");
+    const result = getItem("last-login-user") as string;
     const { token = "" } = JSON.parse(result ?? "{}");
-
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -62,7 +62,7 @@ Api.interceptors.response.use(
           toast.warning("Session expired, please log in again", {
             id: "error-toast",
           });
-          localStorage.removeItem("last-login-user");
+          removeItem("last-login-user");
           window.location.href = "/";
           break;
         case 403:
@@ -85,7 +85,6 @@ Api.interceptors.response.use(
 const backendApi = {
   loginApi: async (data: { email: string; password: string }) => {
     const response = await Api.post<RES<LoginResult>>("/user/signIn", data);
-    console.log("responseresponse", response);
     return response.data.data;
   },
 
@@ -260,8 +259,6 @@ const backendApi = {
     nodeId?: string,
     chooseDate?: { startTime: number; endTime: number }
   ) => {
-    console.log("chooseDate", chooseDate);
-
     const params = chooseDate?.startTime
       ? {
           params: chooseDate,

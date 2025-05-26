@@ -9,6 +9,5 @@ import ADashboard from "@/components/ADashboard";
 export default function Page() {
   const { user } = useContext(AuthContext);
   useShowParamsError();
-
   return user?.token || user?.accessToken ? <ADashboard /> : <Login />;
 }

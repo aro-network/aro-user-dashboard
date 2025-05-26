@@ -65,6 +65,9 @@ dependencies:
   gsap:
     specifier: ^3.12.5
     version: 3.13.0
+  js-cookie:
+    specifier: ^3.0.5
+    version: 3.0.5
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -10265,6 +10268,7 @@ packages:
 
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
+    requiresBuild: true
     dev: false
 
   /ignore@5.3.2:
@@ -10672,6 +10676,11 @@ packages:
 
   /js-cookie@2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
+    dev: false
+
+  /js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
     dev: false
 
   /js-tokens@4.0.0:
@@ -11356,8 +11365,8 @@ packages:
         optional: true
     dependencies:
       '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
+      '@noble/curves': 1.9.0
+      '@noble/hashes': 1.8.0
       '@scure/bip32': 1.6.2
       '@scure/bip39': 1.5.4
       abitype: 1.0.8(typescript@5.8.3)(zod@3.22.4)
