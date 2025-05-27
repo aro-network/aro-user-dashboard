@@ -1,4 +1,4 @@
-EnReach User dashboard
+ARO User dashboard
 
 ## Getting Started
 
