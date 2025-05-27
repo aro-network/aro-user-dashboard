@@ -42,7 +42,7 @@ const AEnReachID = () => {
 
     <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] p-5 rounded-3xl flex-col w-[37.875rem]">
 
-      <div className="flex items-center justify-start w-full gap-5 smd:gap-[.625rem] mb-5 ">
+      <div className="flex items-center justify-start w-full gap-5 smd:gap-[.625rem] mb-[.625rem] ">
         <div className="w-[3.75rem] smd:w-8  ">
           {/* <MAvatar name={user?.email} /> */}
           <MAvatar name={user?.email} size={120} className="smd:hidden" />
