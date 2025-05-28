@@ -98,8 +98,8 @@ const AEnReachID = () => {
 
       </div>
       <div className="flex justify-end w-full gap-6 ">
-        <button onClick={() => window.open('https://enreach.network/terms')} className="text-[#999999] !text-xs underline underline-offset-1 ">Term of Use</button>
-        <button onClick={() => window.open('https://enreach.network/privacy')} className="text-[#999999] !text-xs underline underline-offset-1 ">Privacy Policy</button>
+        <button onClick={() => window.open('https://aro.network/terms')} className="text-[#999999] !text-xs underline underline-offset-1 ">Term of Use</button>
+        <button onClick={() => window.open('https://aro.network/privacy')} className="text-[#999999] !text-xs underline underline-offset-1 ">Privacy Policy</button>
       </div>
       <ForceModal isOpen={showInputReferral} className="!w-[700px] smd:!w-full smd:!mx-5">
         <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Add Referrer</p>
