@@ -256,8 +256,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             <SocialButtons />
           </div>
           <div className=" font-normal text-xs leading-[.9rem] smd:hidden  text-[#999999] h-8 flex  items-center flex-row gap-[.625rem]">
-            <a href="https://enreach.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">Website</a>
-            <a href="https://docs.enreach.network" target="_blank" className="underline-offset-4 h-8  hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999] justify-center">Docs</a>
+            <a href="https://aro.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">Website</a>
+            <a href="https://docs.aro.network" target="_blank" className="underline-offset-4 h-8  hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999] justify-center">Docs</a>
           </div>
 
           <Dropdown className="bg-[#585858] !w-[18.75rem] mo:!w--full  py-[.625rem]" placement="bottom-end">
@@ -368,8 +368,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                       <SocialButtons />
                     </div>
                     <div className=" font-normal text-xs leading-[.9rem] w-full  text-[#999999] justify-center flex  items-center flex-row gap-[.625rem]">
-                      <a href="https://enreach.network/" target="_blank" className="underline-offset-1 underline items-center text-xs  border-[#999999]">Website</a>
-                      <a href="https://docs.enreach.network" target="_blank" className="underline-offset-1 underline  justify-center text-xs">Docs</a>
+                      <a href="https://aro.network/" target="_blank" className="underline-offset-1 underline items-center text-xs  border-[#999999]">Website</a>
+                      <a href="https://docs.aro.network" target="_blank" className="underline-offset-1 underline  justify-center text-xs">Docs</a>
                     </div>
                   </div>
                 </DrawerFooter>
