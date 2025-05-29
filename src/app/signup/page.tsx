@@ -101,7 +101,7 @@ export default function Page() {
   const disableResendEmail = reSendSecends > 0 || isPendingResendVerify;
 
   const openPage = () => {
-    window.open("https://enreach.network/#target-section", "_blank");
+    window.open("https://aro.network/#target-section", "_blank");
   };
 
 
@@ -150,15 +150,15 @@ export default function Page() {
               <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
               <div className="flex items-center flex-wrap smd:text-sm text-xs text-white/60">
                 <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs smd:text-sm text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
-                  I agree to the EnReach{"\u00A0"}
+                  I agree to the ARO{"\u00A0"}
                 </Checkbox>
-                <MLink target="_blank" className="text-xs smd:text-sm" href="https://enreach.network/terms" >
+                <MLink target="_blank" className="text-xs smd:text-sm" href="https://aro.network/terms" >
                   Term of Service
                 </MLink>{" "}
                 <div className="">
                   {"\u00A0"}and{"\u00A0"}
                 </div>
-                <MLink target="_blank" className="text-xs smd:text-sm" href="https://enreach.network/privacy">
+                <MLink target="_blank" className="text-xs smd:text-sm" href="https://aro.network/privacy">
                   {" "}Privacy Policy
                 </MLink>
                 .

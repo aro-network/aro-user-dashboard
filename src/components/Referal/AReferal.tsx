@@ -23,9 +23,11 @@ export default function AMyReferral() {
   const onPostX = () => {
     const refferralLink = `${origin}/signup?referral=${user?.inviteCode}`;
     const text = `
-Join the magic journey with @EnReachAI – the genesis of open edge cloud, for the AI era.
+Join the magic journey with @EnReachAI – the New Edge of AI. Testnet is LIVE!
 
-Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
+
+Share your idle internet, earn rewards, build a smarter web, together. 
+
 
     `;
     const postXUrl = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(refferralLink)}`;
@@ -60,9 +62,9 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
               <IconBtn tip="Copy Referral Link" onClick={() => copy(`${origin}/signup?referral=${user?.inviteCode}`)}>
                 <FaLink />
               </IconBtn>
-              <IconBtn tip="Tweet Your Referral" onClick={onPostX}>
+              {/* <IconBtn tip="Tweet Your Referral" onClick={onPostX}>
                 <FaXTwitter />
-              </IconBtn>
+              </IconBtn> */}
             </div>
           }
         />
@@ -95,7 +97,7 @@ Get your EnReach Edge Node ready for🫐BerryBurst Season 1🫐
             <div className="flex items-center gap-[10%] smd:gap-[30%] min-w-[13.75rem] smd:h-full">
 
               <div className="flex items-center gap-[10%]">
-                <DupleInfo titClassName="smd:text-2xl" subClassName="smd:text-xs" tit={formatNumber(Number(data?.rewardsInfo.referredRewards) || 0)} sub="BERRY" />
+                <DupleInfo titClassName="smd:text-2xl" subClassName="smd:text-xs" tit={formatNumber(Number(data?.rewardsInfo.referredRewards) || 0)} sub="Jades" />
               </div>
 
               <DupleSplit className="smd:hidden" />

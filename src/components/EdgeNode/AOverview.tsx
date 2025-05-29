@@ -223,7 +223,7 @@ const AOverview = () => {
                 <HelpTip className=" w-[12.5rem]" content="The rewards number shows how much you have earned from running Edge Nodes, plus the Referral Bonus." />
               </div>
               <div hidden={!user?.inviteUserEmail}>
-                <HelpTip className={`  w-[12.5rem] `} content="You enjoy a 20% extra boost on node rewards for the first 14 days from being referred to EnReach. " >
+                <HelpTip className={`  w-[12.5rem] `} content="You enjoy a 20% extra boost on node rewards for the first 14 days from being referred to ARO. " >
                   <div className="bg-[#FF8748] rounded-[1.875rem] text-white text-xs py-1 px-2">
                     +20% Boosted
                   </div>

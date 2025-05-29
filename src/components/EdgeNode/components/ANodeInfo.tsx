@@ -404,7 +404,7 @@ const ANodeInfo: FC<{
                     <span className="text-3xl xsl:text-xl ">
                       {formatNumber(Number(data?.countRewards.total || 0))}
                     </span>
-                    <span>BERRY</span>
+                    <span>Jades</span>
                   </div>
                 </div>
                 <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem]  flex-wrap smd:pt-5 ">
@@ -415,7 +415,7 @@ const ANodeInfo: FC<{
                     <span className="text-3xl xsl:text-xl ">
                       + {formatNumber(Number(data?.countRewards.today || 0))}
                     </span>
-                    <span>BERRY</span>
+                    <span>Jades</span>
                   </div>
                 </div>
                 <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem] smd:pt-5 flex-wrap ">
@@ -427,7 +427,7 @@ const ANodeInfo: FC<{
                       +{" "}
                       {formatNumber(Number(data?.countRewards.yesterday || 0))}
                     </span>
-                    <span>BERRY</span>
+                    <span>Jades</span>
                   </div>
                 </div>
               </div>
@@ -484,7 +484,7 @@ const ANodeInfo: FC<{
                 <div className="flex justify-between">
                   <span>Device</span>
                   <span className="text-[#FFFFFF80] capitalize">
-                    {data?.detail.nodeChainInfo.Node.deviceType || "-"}
+                    {covertText(data?.detail.nodeChainInfo.Node.deviceType as "box" | "x86" | "Box") || "-"}
                   </span>
                 </div>
                 <div className="flex justify-between">

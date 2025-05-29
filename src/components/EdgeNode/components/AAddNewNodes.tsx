@@ -9,7 +9,7 @@ import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
 import { HelpTip } from "@/components/tips"
 import useMobileDetect from "@/hooks/useMobileDetect"
-import { ENV } from "@/lib/env"
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 const deviceList: Nodes.DeviceType[] = [
@@ -76,6 +76,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const [bindInfo, setBindInfo] = useState<{ deviceName: string, regions: Set<string> }>({ deviceName: '', regions: new Set() })
   const [isConfirmInfo, setIsConfirmInfo] = useState<{ open: boolean, type?: string }>({ open: false, type: undefined })
   const isMobile = useMobileDetect()
+  const r = useRouter();
+  const searchParams = useSearchParams();
   const onStepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setStepIndex(0)
@@ -187,6 +189,18 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
 
+  // const updateURL = (mode: string) => {
+  //   console.log('modeeeeee', mode, chooseedType);
+
+  //   const params = new URLSearchParams(searchParams.toString());
+
+  //   params.set("type", mode);
+  //   console.log('asaaa----sdas', params.toString(),);
+
+  //   // r.push(`?${params.toString()}`);
+  // };
+
+
 
 
   const homeBoxStep = [
@@ -213,7 +227,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
             />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onClick={onContinue} className="w-full rounded-lg smd:!h-12" >
+              <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onPress={onContinue} className="w-full rounded-lg smd:!h-12" >
                 Continue
               </Btn>
               <button onClick={() => window.open('https://youtu.be/YtjHVk2KA9w', '_blank')} className="underline underline-offset-1 text-[#999999] text-xs smd:pt-4">See Guidance</button>
@@ -240,10 +254,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the add process will fail. ' : 'This device has been already added to an EnReach Account. Please delete device to create a new add.'}
+              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the add process will fail. ' : 'This device has been already added to another ARO Account. Please delete the device from the previous account first.'}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5 ">
-              <Btn onClick={() => onStepNext()} className="w-full rounded-lg smd:h-12" >
+              <Btn onPress={() => onStepNext()} className="w-full rounded-lg smd:h-12" >
                 Continue
               </Btn>
             </div>
@@ -279,7 +293,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[1.375rem] ">
-              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onClick={() => onBindingConfig('box')} className="w-full rounded-lg smd:!h-12 " >
+              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onPress={() => onBindingConfig('box')} className="w-full rounded-lg smd:!h-12 " >
                 Add
               </Btn>
             </div>
@@ -294,11 +308,11 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {chooseedType?.iconName}) add successful.
+              Edge Node (Device Type: {chooseedType?.iconName}) added.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn onClick={() => onStepNext(true)} type="submit" className="w-full rounded-lg smd:h-12" >
+              <Btn onPress={() => onStepNext(true)} type="submit" className="w-full rounded-lg smd:h-12" >
                 OK
               </Btn>
             </div>
@@ -379,10 +393,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? `Please make sure your ${chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.` : `This device has been already added to an EnReach Account. Please delete device to create a new add.`}
+              {deviceInfo?.bindState === 'N/A' ? `Please make sure your ${chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.` : `This device has been already added to another ARO Account. Please delete the device from the previous account first.`}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg " >
+              <Btn onPress={() => onX86StepNext()} className="w-full rounded-lg " >
                 Continue
               </Btn>
             </div>
@@ -433,11 +447,11 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {chooseedType?.iconName}) add successful.
+              Edge Node (Device Type: {chooseedType?.iconName}) added.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full rounded-lg" onClick={() => onX86StepNext(true)} >
+              <Btn type="submit" className="w-full rounded-lg" onPress={() => onX86StepNext(true)} >
                 OK
               </Btn>
             </div>
@@ -462,6 +476,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   if (index) return
                   onSelectedType(item.iconName)
                   setChooseedType(item)
+
                 }} key={`device_${index}`}
                   className={cn(`  text-center cursor-pointer w-full   border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
                     {

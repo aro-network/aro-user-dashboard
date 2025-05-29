@@ -157,7 +157,7 @@ const ANewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, a
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the binding process will fail. ' : 'This device has been already binded to an EnReach Account. Please delete device to create a new binding.'}
+              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the binding process will fail. ' : 'This device has been already binded to an ARO Account. Please delete device to create a new binding.'}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5 ">
               <Btn onClick={() => onStepNext()} className="w-full rounded-lg" >

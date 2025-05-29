@@ -74,7 +74,7 @@ export const scrollToTop = () => {
 };
 
 export const config = getDefaultConfig({
-  appName: "EnReach",
+  appName: "ARO",
   projectId: "7dbfe391a389f1dd5555a5d31c90f523",
   chains: [mainnet, polygon, optimism, arbitrum, base],
   ssr: true, // If your dApp uses server side rendering (SSR)
@@ -93,8 +93,13 @@ export const formatStr = (address?: string, start = 0, end = 10) => {
   return `${prefix}${ellipsis}${suffix}`;
 };
 
-export const covertText = (type: "box" | "x86") => {
-  const list = { box: "Box", x86: "X86 Server", router: "Router" };
+export const covertText = (type: "box" | "x86" | "Box") => {
+  const list = {
+    box: "ARO Pod",
+    Box: "ARO Pod",
+    x86: "X86 Server",
+    router: "ARO Link",
+  };
   return list[type] || "-";
 };
 

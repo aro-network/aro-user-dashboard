@@ -4,7 +4,9 @@ import { toast } from "sonner";
 
 export function handlerErrForBind(err?: string | null) {
   if (err === "handle_third_party_failed") {
-    toast.error("Oops! This account has been connected to an existing EnReach account.");
+    toast.error(
+      "Oops! This account has been connected to an existing ARO account."
+    );
   }
 }
 export function useShowParamsError() {

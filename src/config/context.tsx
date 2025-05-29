@@ -12,7 +12,7 @@ import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
 const queryClient = new QueryClient()
 
 const metadata = {
-  name: 'EnReach',
+  name: 'ARO',
   description: 'AppKit Example',
   url: 'https://reown.com/appkit',
   icons: ['https://assets.reown.com/reown-profile-pic.png']

@@ -266,7 +266,7 @@ const AStats = () => {
           icon: <img src={`./${item.nodeType}.png`} alt={`${item.nodeType}`} style={{ height: '100%', width: '100%' }} />,
           nodeUUID: item.nodeUUID,
           when: 'Today',
-          experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">{item.rewards}</label><label>$BERRY</label></>,
+          experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">{item.rewards}</label><label>$Jades</label></>,
           status: item.online,
           nodeId: item.nodeId
         }

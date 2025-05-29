@@ -64,7 +64,7 @@ const ANodes = () => {
               <label className="text-[#4281FF] text-2xl font-semibold leading-6">
                 +{formatNumber(Number(item.todayRewards) || 0)}
               </label>
-              <label className="ml-[.375rem]">BERRY</label>
+              <label className="ml-[.375rem]">Jades</label>
             </>
           ),
           status: item.online,
@@ -168,7 +168,7 @@ const ANodes = () => {
             <div className="w-[37.5rem] m-auto text-center gap-5 flex flex-col">
               <div className=" text-lg ">Add Your Edge Node</div>
               <div className="text-sm text-[#FFFFFF80]">
-                EnReach supports hardware and software solutions on multiple
+                ARO supports hardware and software solutions on multiple
                 platforms for running an Edge Node. Find which node type is best
                 for you in this guide.
               </div>

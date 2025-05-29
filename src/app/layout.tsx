@@ -2,8 +2,8 @@ import { PageLayout } from "./client";
 import "./global.css";
 
 export const metadata = {
-  title: "EnReach Dashboard",
-  description: "EnReach Dashboard",
+  title: "ARO Dashboard",
+  description: "ARO Dashboard",
 };
 
 

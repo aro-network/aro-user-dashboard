@@ -30,11 +30,7 @@ const Modes: Dashboard.ModesType[] = [
     label: 'Devnet',
     name: 'devnet',
     children: [
-      // {
-      //   name: "Overview",
-      //   content: <AOverview />,
-      //   tab: 'overview'
-      // },
+
       {
         name: "Edge Nodes",
         content: <ANodes />,
@@ -51,81 +47,22 @@ const Modes: Dashboard.ModesType[] = [
         content: <AFunds />,
         tab: 'funds'
       },
-      // {
-      //   name: "Edge Node",
-      //   content: <AEdgeNode />,
-      //   tab: 'edgeNode'
-      // },
-      // {
-      //   name: "Leaderboard",
-      //   content: <ALeaderboard />,
-      //   tab: 'leaderboard'
-      // },
+
       {
         name: "Referral",
         content: <AMyReferral />,
         tab: 'referral'
       },
       {
-        name: "EnReach ID",
+        name: "ARO ID",
         content: <AEnReachID />,
         tab: 'enreachId'
       },
-      // {
-      //   name: "Keeper Node",
-      //   content: '',
-      //   tab: 'keeperNode'
-      // },
-      // {
-      //   name: "Incentives",
-      //   content: '',
-      //   tab: 'incentives'
-      // },
+
 
     ],
   },
-  // {
-  //   label: 'Enreach ID',
-  //   name: 'enreachId',
-  //   children: [
-  //     {
-  //       name: "EnReach ID",
-  //       content: <AEnReachID />,
-  //       tab: 'enreachId'
-  //     },
-  //     {
-  //       name: "Funds",
-  //       content: <AFunds />,
-  //       tab: 'funds'
-  //     },
-  //   ],
-  // },
-  // {
-  //   label: 'Network Explorer',
-  //   name: 'networkExplorer',
-  //   children: [
-  //     {
-  //       name: "Edge Node",
-  //       content: <AEdgeNode />,
-  //       tab: 'edgeNode'
-  //     },
-  //     {
-  //       name: "Leaderboard",
-  //       content: <ALeaderboard />,
-  //       tab: 'leaderboard'
-  //     },
-  //     {
-  //       name: "Keeper Node",
-  //       content: '',
-  //       tab: 'keeperNode'
-  //     },
-  //     {
-  //       name: "Incentives",
-  //       content: '',
-  //       tab: 'incentives'
-  //     },
-  //   ]
-  // },
+
 ]
 
 const ADashboard: FC<Dashboard.MenusProps> = () => {
@@ -186,7 +123,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
   const openPage = () => {
-    window.open("https://enreach.network/#target-section", "_blank");
+    window.open("https://aro.network/#target-section", "_blank");
   };
 
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -207,7 +144,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="/logo.svg" className={`shrink-0  smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+          <img src="/logo.png" className={`shrink-0  smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
@@ -318,7 +255,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               <DropdownItem key={'enreachId'} onClick={() => r.push('?mode=devnet&tab=enreachId')} >
                 <div className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
-                  <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My EnReach ID</label>
+                  <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My ARO ID</label>
                 </div>
               </DropdownItem>
               <DropdownItem key={'signout'} onClick={() => toggleShowConfirmLogout()}>
@@ -404,7 +341,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 {
                   "bg-[#373737] text-white ": selected,
                   "text-white/50 hover:bg-default": !selected,
-                  'ml-auto': m.name === 'EnReach ID'
+                  'ml-auto': m.name === 'ARO ID'
                 }
               )}
               onClick={() => {
@@ -420,7 +357,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       <div className="h-full  nodes mb-5 smd:mt-[3.75rem]">
         {currentTab.tab === 'referral' && user?.invited === false &&
           <div className="bg-[#4281FF]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
-            <span>You have not set your Referrer Information. Being referred an EnReach user will give you extra boost! </span>
+            <span>You have not set your Referrer Information. Being referred by an ARO user will give you extra boost! </span>
             <button onClick={() => r.push('?mode=devnet&tab=enreachId')} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>
 
           </div>

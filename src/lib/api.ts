@@ -9,9 +9,9 @@ import { useDateFormatter } from "@react-aria/i18n";
 import { getItem, removeItem } from "./storage";
 
 const API_MAP: { [k in typeof ENV]: string } = {
-  beta: "https://dev-api.enreach.network/api",
-  staging: "https://staging-api.enreach.network/api",
-  prod: "https://devnet-api.enreach.network/api",
+  beta: "https://dev-api.aro.network/api",
+  staging: "https://staging-api.aro.network/api",
+  prod: "https://devnet-api.aro.network/api",
 };
 
 export const BASE_API = API_MAP[ENV];

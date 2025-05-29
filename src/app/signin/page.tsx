@@ -38,8 +38,9 @@ export default function Page() {
   const href = referral ? `/signup?referral=${referral}` : '/signup'
 
   const openPage = () => {
-    window.open("https://enreach.network/#target-section", "_blank");
+    window.open("https://aro.network/#target-section", "_blank");
   };
+
 
 
 
