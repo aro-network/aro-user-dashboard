@@ -8,12 +8,9 @@ export function HelpTip({ content, children, placement, ...props }: TooltipProps
   const triggerRef = useRef<HTMLDivElement>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
-  useClickAway(triggerRef, () => {
-    if (isOpen) setIsOpen(false);
-  });
-
   useEffect(() => {
-    setIsTouchDevice(window.matchMedia("(pointer: coarse)").matches);
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    setIsTouchDevice(isTouch);
   }, []);
 
   useClickAway(triggerRef, () => {

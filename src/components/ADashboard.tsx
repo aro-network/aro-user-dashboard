@@ -144,7 +144,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="/logo.png" className={`shrink-0  smd:w-[5.9375rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+          <img src="/logo.png" className={`shrink-0  smd:w-[4.6875rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
