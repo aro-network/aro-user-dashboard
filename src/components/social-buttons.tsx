@@ -8,7 +8,6 @@ const socialLinks = [
     { href: 'https://t.me/EnReachNetwork', icon: <FaTelegramPlane /> },
 ]
 
-
 export function SocialButtons() {
 
     return <div className="flex items-center gap-5 flex-row  lg:flex-row ">
