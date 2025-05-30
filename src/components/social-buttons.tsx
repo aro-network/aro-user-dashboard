@@ -3,7 +3,7 @@ import { FaTelegramPlane } from 'react-icons/fa';
 import { FaDiscord, FaXTwitter } from 'react-icons/fa6'
 
 const socialLinks = [
-    { href: 'https://x.com/EnReachNetwork', icon: <FaXTwitter /> },
+    { href: 'https://x.com/AroNetwork', icon: <FaXTwitter /> },
     { href: 'https://discord.gg/Rc4BMUjbNB', icon: <FaDiscord /> },
     { href: 'https://t.me/EnReachNetwork', icon: <FaTelegramPlane /> },
 ]

@@ -63,7 +63,7 @@ const AEnReachID = () => {
         </div>
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:gap-5 smd:w-full flex items-center smd:items-start justify-between ">
           <div>
-            <div className=" font-semibold text-sm smd:text-base  ">Who referred me</div>
+            <div className=" font-semibold text-sm smd:text-base  ">Who Referred Me</div>
             <div className="font-normal text-xs text-[#FFFFFF99] smd:text-sm  mt-2">{user?.invited === false ? 'You are not referred by anyone. ' : user?.inviteUserEmail}</div>
           </div>
           <div hidden className={`flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center ${user?.invited === true ? 'hidden' : ''}`}>
@@ -73,7 +73,7 @@ const AEnReachID = () => {
         <div className="bg-[#FFFFFF14] rounded-lg py-[.9375rem] px-5 smd:flex-col smd:w-full flex items-center smd:items-start justify-between ">
           <div>
             <div className=" font-semibold text-sm flex gap-2 items-center  smd:text-base ">
-              Bind your EVM address
+              Bind Your EVM Address
               <div className="text-[#FFFFFF80] " >
 
                 <HelpTip content='This function is not available in Devnet.'>
