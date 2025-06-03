@@ -10,16 +10,13 @@ import { UseMeasureRef } from "react-use/lib/useMeasure";
 import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import _ from 'lodash'
-import { fmtBerry } from "../fmtData";
 import numbro from "numbro";
 import { HelpTip } from "../tips";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { FaGift } from "react-icons/fa6";
 import { formatNumber, generateDateList, generateLast15DaysRange, getCurrentDate } from "@/lib/utils";
-import { getLocalTimeZone } from "@internationalized/date";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
-type OptionType = (typeof options)[number];
 export function DupleSplit({ className }: { className?: string }) {
   return <div className={cn("bg-white opacity-30 w-[1px] h-6 shrink-0", className)} />;
 }
@@ -65,7 +62,6 @@ export function DupleInfo({
 const AOverview = () => {
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
   const r = useRouter()
-
   const ac = useAuthContext();
   const user = ac.queryUserInfo?.data;
   const connectedNodes = user?.node.connected || 0;

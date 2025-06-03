@@ -2,7 +2,7 @@ import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
 import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
-import { FC, ReactNode, Ref, useImperativeHandle, useState } from "react"
+import { FC, ReactNode, Ref, useEffect, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 import { covertText, isIPv6, shortenMiddle } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
@@ -13,12 +13,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { ENV } from "@/lib/env"
 
 
-
 const deviceList: Nodes.DeviceType[] = [
   { iconName: 'Hardware', name: 'Home Box', value: 'box' },
   { iconName: 'Software', name: 'X86 Server', value: 'x86' },
 ]
 
+const deviceTypeList: { [key: 'box' | 'x86' | string]: Nodes.DeviceType } = {
+  box: { iconName: 'Hardware', name: 'Home Box', value: 'box' },
+  x86: { iconName: 'Software', name: 'X86 Server', value: 'x86' },
+}
 const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
   <div>{homeBoxStep[stepIndex].content}</div>
 );
@@ -70,7 +73,7 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
 
 
 const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<Nodes.AddType> }> = ({ onBack, onSelectedType, addRef }) => {
-  const [chooseedType, setChooseedType] = useState<Omit<Nodes.DeviceType, 'name'>>()
+  const [chooseedType, setChooseedType] = useState<Omit<Nodes.DeviceType, 'name'> | undefined>(undefined)
   const [stepIndex, setStepIndex] = useState(0)
   const [stepX86Index, setX86StepIndex] = useState(0)
   const [serialNum, setSerialNum] = useState<{ type?: 'x86' | 'box', num?: string }>()
@@ -80,6 +83,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const isMobile = useMobileDetect()
   const r = useRouter();
   const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams.toString());
   const onStepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setStepIndex(0)
@@ -95,6 +100,17 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     }
   }
 
+
+  useEffect(() => {
+    const type = params.get('chooseType')
+    if (type) {
+      setChooseedType(deviceTypeList[type])
+    } else {
+      setChooseedType(undefined)
+    }
+
+  }, [params])
+
   useImperativeHandle(
     addRef,
     () => ({
@@ -108,6 +124,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     }),
     []
   );
+
 
   const { data } = useQuery({
     queryKey: ["Regions"],
@@ -165,7 +182,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
   const onBindingConfig = async (type?: string) => {
     const { data } = await bind.refetch()
-    console.log('asdasdas', data);
 
     if (!data) return
     if (type) {
@@ -189,20 +205,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       onBack()
     }
   }
-
-
-  // const updateURL = (mode: string) => {
-  //   console.log('modeeeeee', mode, chooseedType);
-
-  //   const params = new URLSearchParams(searchParams.toString());
-
-  //   params.set("type", mode);
-  //   console.log('asaaa----sdas', params.toString(),);
-
-  //   // r.push(`?${params.toString()}`);
-  // };
-
-
 
 
   const homeBoxStep = [
@@ -469,17 +471,16 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         ? <div>  <X86 stepIndex={stepX86Index} x86Step={x86Step} /></div>
         : chooseedType?.value === 'box' ?
           <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
-
           <div className="w-full text-center flex flex-col m-auto">
             <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">Please choose which type of Edge Node you want to add:</label>
             <div className="flex  gap-10 smd:gap-4 mt-10 smd:mt-4 w-full justify-center smd:flex-col  m-auto smd:px-0 px-[3.75rem]">
               {deviceList.map((item, index) => {
                 return <div onClick={() => {
                   if (index && ENV !== 'staging') return
-
                   onSelectedType(item.iconName)
                   setChooseedType(item)
-
+                  params.set("chooseType", item?.value as 'box' | 'box');
+                  r.push(`?${params.toString()}`);
                 }} key={`device_${index}`}
                   className={cn(`  text-center cursor-pointer w-full   border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
                     {

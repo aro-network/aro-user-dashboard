@@ -113,12 +113,26 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       setRefreshKey((prev) => prev + 1);
     }
   };
+  const params = new URLSearchParams();
 
   const updateURL = (mode: string, tab: string) => {
-    const params = new URLSearchParams();
+
     params.set("mode", mode);
     params.set("tab", tab);
-    r.push(`?${params.toString()}`);
+
+    if (tab !== "nodes") {
+      params.delete("type");
+      params.delete("chooseType");
+    } else {
+      if (searchParams.get("type")) {
+        params.set("type", 'add');
+      }
+      if (searchParams.get("chooseType")) {
+        params.set("chooseType", searchParams.get("chooseType")!);
+      }
+    }
+
+    r.replace(`?${params.toString()}`);
   };
 
 
@@ -127,8 +141,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
-
-
 
 
   return (
@@ -144,7 +156,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="/logo.png" className={`shrink-0  smd:w-[4.6875rem] smd:h-6  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+          <img src="/logo.png" className={`shrink-0  smd:w-[4.6875rem] smd:h-7  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'

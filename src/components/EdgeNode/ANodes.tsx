@@ -1,6 +1,6 @@
 import { Btn } from "../btns";
 import { useToggle } from "react-use";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ANodeInfo from "./components/ANodeInfo";
 import ACommonNodes from "./components/ACommonNodes";
 import AAddNewNodes from "./components/AAddNewNodes";
@@ -9,8 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 import { formatNumber } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import useMobileDetect from "@/hooks/useMobileDetect";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -22,9 +21,12 @@ const ANodes = () => {
   const [selectedType, setSelectedType] = useState("");
   const addRef = useRef<Nodes.AddType>(null);
   const [nodeInfo, setNodeInfo] = useState<EdgeNodeMode.IpInfo[]>([]);
-  const isMobile = useMobileDetect()
+  const r = useRouter()
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
+    updateURL('type', 'detail')
 
     setShowNodeInfo({ open: true, list: e });
     setOpenAddNode(false);
@@ -76,6 +78,40 @@ const ANodes = () => {
   });
   const ip = nodeInfo[0];
 
+  const updateURL = (key: string, value: string) => {
+    params.set(key, value);
+    r.push(`?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    const showAdd = params.get("type") === 'add';
+    const type = params.get("chooseType");
+    const obj: { [key: 'box' | 'x86' | string]: string } = {
+      box: 'Hardware',
+      x86: 'Software'
+    }
+
+    if (showAdd) {
+      setOpenAddNode(showAdd);
+      updateURL('type', 'add')
+    } else {
+      addRef.current?.switchTo();
+      setSelectedType("");
+      setOpenAddNode(false);
+      params.delete('chooseType')
+      r.replace(`?${params.toString()}`);
+    }
+
+    if (type) {
+      setSelectedType(obj[type]);
+    } else {
+      addRef.current?.switchTo();
+      setSelectedType('');
+    }
+  }, [searchParams.toString()]);
+
+
+
 
   return (
     <>
@@ -94,6 +130,9 @@ const ANodes = () => {
                   setUnbingInfo("");
                   refetch();
                   setSelectedType("");
+                  params.delete('type')
+                  params.delete('chooseType')
+                  r.replace(`?${params.toString()}`);
                 }}
               >
                 Nodes {">"} {" "}
@@ -104,6 +143,9 @@ const ANodes = () => {
                   if (title !== "Add New Node") return;
                   addRef.current?.switchTo();
                   setSelectedType("");
+                  params.delete('chooseType')
+                  r.replace(`?${params.toString()}`);
+
                 }}
                 className={cn({
                   "text-[#FFFFFF80] text-white": !selectedType,
@@ -127,6 +169,9 @@ const ANodes = () => {
             className="h-[1.875rem] smd:p-2 smd:!h-[1.875rem]  rounded-lg"
             onClick={() => {
               setOpenAddNode(!isOpen);
+              updateURL('type', 'add')
+
+
             }}
           >
             Add New Node
@@ -176,6 +221,8 @@ const ANodes = () => {
                 className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
                 onClick={() => {
                   setOpenAddNode(!isOpen);
+                  updateURL('type', 'add')
+
                 }}
               >
                 Add New Node
