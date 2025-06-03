@@ -16,7 +16,8 @@ import { HelpTip } from "../tips";
 import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { FaGift } from "react-icons/fa6";
-import { formatNumber } from "@/lib/utils";
+import { formatNumber, generateDateList, generateLast15DaysRange, getCurrentDate } from "@/lib/utils";
+import { getLocalTimeZone } from "@internationalized/date";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 type OptionType = (typeof options)[number];
 export function DupleSplit({ className }: { className?: string }) {
@@ -73,7 +74,10 @@ const AOverview = () => {
     enabled: true,
     queryFn: async () => {
       const [node, rewards, trending] = await Promise.all([backendApi.getCurrentEdgeNode(), backendApi.getCurrentEdgeNodeRewards(), backendApi.getCurrentEdgeNodeRewardsTrending()])
-      return { node, rewards, trending }
+      const data = generateLast15DaysRange()
+      const list = getCurrentDate(data)
+      const result = generateDateList(list.startTime, list.endTime);
+      return { node, rewards, trending: !trending.length ? result : trending }
     }
   });
 

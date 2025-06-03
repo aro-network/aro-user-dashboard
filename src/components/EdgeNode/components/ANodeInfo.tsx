@@ -13,6 +13,7 @@ import {
   formatStr,
   generateDateList,
   generateLast15DaysRange,
+  getCurrentDate,
   isIPv6,
   shortenMiddle,
 } from "@/lib/utils";
@@ -93,19 +94,9 @@ const ANodeInfo: FC<{
     queryKey: ["TrendingChart", chooseDate],
     enabled: !!chooseDate.start && !!chooseDate.end,
     queryFn: async () => {
-      const timeZone = getLocalTimeZone();
-      const startDate = chooseDate.start.toDate(timeZone);
-      const endDate = chooseDate.end.toDate(timeZone);
-      startDate.setHours(8, 0, 0, 0);
-      endDate.setDate(endDate.getDate() + 1);
-      endDate.setHours(7, 59, 59, 999);
-      const startTime = Math.floor(startDate.getTime() / 1000);
-      const endTime = Math.floor(endDate.getTime() / 1000);
-      const res = await backendApi.rewardHistory(selectList?.nodeUUID, {
-        startTime,
-        endTime,
-      });
-      const list = generateDateList(startTime, endTime);
+      const result = getCurrentDate(chooseDate)
+      const res = await backendApi.rewardHistory(selectList?.nodeUUID, result);
+      const list = generateDateList(result.startTime, result.endTime);
       return !res.length ? list : res;
     },
   });

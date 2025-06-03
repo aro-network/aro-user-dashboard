@@ -7,6 +7,7 @@ import _ from "lodash";
 import { toast } from "sonner";
 import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
 import { ENV } from "./env";
+import { DateValue } from "@nextui-org/react";
 dayjs.extend(plugDur);
 
 export function strToSearchParams(str: string) {
@@ -208,4 +209,20 @@ export const isIPv6 = (address: string) => {
   const ipv6Regex =
     /^(([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:)|::([0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,6}:)$/;
   return ipv6Regex.test(address);
+};
+
+export const getCurrentDate = (dateList: {
+  start: CalendarDate | DateValue;
+  end: CalendarDate | DateValue;
+}) => {
+  const timeZone = getLocalTimeZone();
+  const startDate = dateList.start.toDate(timeZone);
+  const endDate = dateList.end.toDate(timeZone);
+  startDate.setHours(8, 0, 0, 0);
+  endDate.setDate(endDate.getDate() + 1);
+  endDate.setHours(7, 59, 59, 999);
+  const startTime = Math.floor(startDate.getTime() / 1000);
+  const endTime = Math.floor(endDate.getTime() / 1000);
+
+  return { startTime, endTime };
 };
