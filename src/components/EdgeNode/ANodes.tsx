@@ -83,32 +83,32 @@ const ANodes = () => {
     r.push(`?${params.toString()}`);
   };
 
-  useEffect(() => {
-    const showAdd = params.get("type") === 'add';
-    const type = params.get("chooseType");
-    const obj: { [key: 'box' | 'x86' | string]: string } = {
-      box: 'Hardware',
-      x86: 'Software'
-    }
+  // useEffect(() => {
+  //   const showAdd = params.get("type") === 'add';
+  //   const type = params.get("chooseType");
+  //   const obj: { [key: 'box' | 'x86' | string]: string } = {
+  //     box: 'Hardware',
+  //     x86: 'Software'
+  //   }
 
-    if (showAdd) {
-      setOpenAddNode(showAdd);
-      updateURL('type', 'add')
-    } else {
-      addRef.current?.switchTo();
-      setSelectedType("");
-      setOpenAddNode(false);
-      params.delete('chooseType')
-      r.replace(`?${params.toString()}`);
-    }
+  //   if (showAdd) {
+  //     setOpenAddNode(showAdd);
+  //     updateURL('type', 'add')
+  //   } else {
+  //     addRef.current?.switchTo();
+  //     setSelectedType("");
+  //     setOpenAddNode(false);
+  //     params.delete('chooseType')
+  //     r.replace(`?${params.toString()}`);
+  //   }
 
-    if (type) {
-      setSelectedType(obj[type]);
-    } else {
-      addRef.current?.switchTo();
-      setSelectedType('');
-    }
-  }, [searchParams.toString()]);
+  //   if (type) {
+  //     setSelectedType(obj[type]);
+  //   } else {
+  //     addRef.current?.switchTo();
+  //     setSelectedType('');
+  //   }
+  // }, [searchParams.toString()]);
 
 
 
