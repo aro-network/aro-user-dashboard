@@ -101,15 +101,15 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
 
-  useEffect(() => {
-    const type = params.get('chooseType')
-    if (type) {
-      setChooseedType(deviceTypeList[type])
-    } else {
-      setChooseedType(undefined)
-    }
+  // useEffect(() => {
+  //   const type = params.get('chooseType')
+  //   if (type) {
+  //     setChooseedType(deviceTypeList[type])
+  //   } else {
+  //     setChooseedType(undefined)
+  //   }
 
-  }, [params])
+  // }, [params])
 
   useImperativeHandle(
     addRef,
@@ -479,8 +479,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   if (index && ENV !== 'staging') return
                   onSelectedType(item.iconName)
                   setChooseedType(item)
-                  params.set("chooseType", item?.value as 'box' | 'box');
-                  r.push(`?${params.toString()}`);
+                  // params.set("chooseType", item?.value as 'box' | 'box');
+                  // r.push(`?${params.toString()}`);
                 }} key={`device_${index}`}
                   className={cn(`  text-center cursor-pointer w-full   border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
                     {

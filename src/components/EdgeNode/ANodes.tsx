@@ -26,7 +26,7 @@ const ANodes = () => {
   const params = new URLSearchParams(searchParams.toString());
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
-    updateURL('type', 'detail')
+    // updateURL('type', 'detail')
 
     setShowNodeInfo({ open: true, list: e });
     setOpenAddNode(false);
@@ -129,9 +129,9 @@ const ANodes = () => {
                   setUnbingInfo("");
                   refetch();
                   setSelectedType("");
-                  params.delete('type')
-                  params.delete('chooseType')
-                  r.replace(`?${params.toString()}`);
+                  // params.delete('type')
+                  // params.delete('chooseType')
+                  // r.replace(`?${params.toString()}`);
                 }}
               >
                 Nodes {">"} {" "}
@@ -142,8 +142,8 @@ const ANodes = () => {
                   if (title !== "Add New Node") return;
                   addRef.current?.switchTo();
                   setSelectedType("");
-                  params.delete('chooseType')
-                  r.replace(`?${params.toString()}`);
+                  // params.delete('chooseType')
+                  // r.replace(`?${params.toString()}`);
 
                 }}
                 className={cn({
@@ -168,7 +168,7 @@ const ANodes = () => {
             className="h-[1.875rem] smd:p-2 smd:!h-[1.875rem]  rounded-lg"
             onClick={() => {
               setOpenAddNode(!isOpen);
-              updateURL('type', 'add')
+              // updateURL('type', 'add')
 
 
             }}
@@ -220,7 +220,7 @@ const ANodes = () => {
                 className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
                 onClick={() => {
                   setOpenAddNode(!isOpen);
-                  updateURL('type', 'add')
+                  // updateURL('type', 'add')
 
                 }}
               >

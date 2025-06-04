@@ -120,17 +120,17 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
     params.set("mode", mode);
     params.set("tab", tab);
 
-    if (tab !== "nodes") {
-      params.delete("type");
-      params.delete("chooseType");
-    } else {
-      if (searchParams.get("type")) {
-        params.set("type", 'add');
-      }
-      if (searchParams.get("chooseType")) {
-        params.set("chooseType", searchParams.get("chooseType")!);
-      }
-    }
+    // if (tab !== "nodes") {
+    //   params.delete("type");
+    //   params.delete("chooseType");
+    // } else {
+    //   if (searchParams.get("type")) {
+    //     params.set("type", 'add');
+    //   }
+    //   if (searchParams.get("chooseType")) {
+    //     params.set("chooseType", searchParams.get("chooseType")!);
+    //   }
+    // }
 
     r.replace(`?${params.toString()}`);
   };
