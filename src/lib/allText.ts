@@ -9,16 +9,15 @@ export const AllText = {
   signIn: {
     title: "Sign In For Devnet",
     titleTips:
-      " Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the Pioneer Program.",
-    noAccount: "Don’t have an account?",
+      "Devnet is a private testing environment, not the Testnet. No mining rewards are available in Devnet. Testnet will launch soon. To join Devnet, check out the Pioneers Program for details.",
     signUp: "Sign Up",
     forgetPwd: "Forget Password?",
   },
   signUp: {
     title: "Sign Up For Devnet",
     titleTips:
-      " Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the Pioneer Program.",
-    agreeText: "I agree to the ARO  Term of Service and Privacy Policy",
+      "Devnet is a private testing environment, not the Testnet. No mining rewards are available in Devnet. Testnet will launch soon. To join Devnet, check out the Pioneers Program for details.",
+    agreeText: "I agree to the ARO Terms of Service and Privacy Policy",
     haveAccount: "Already have an account? Sign In",
   },
   resetPwd: {
@@ -28,7 +27,7 @@ export const AllText = {
   edgeNodes: {
     "All Nodes": "All Nodes",
     noData:
-      "ARO supports hardware and software solutions on multiple platforms for running an Edge Node. Find which node type is best for you in this guide.",
+      "ARO supports both hardware and software Edge Nodes on various platforms. Check our guide to choose the best node type for you.",
     "Add Your Edge Node": "Add Your Edge Node",
   },
   AAddNewNodes: {
@@ -40,9 +39,9 @@ export const AllText = {
       step1: {
         title: "Step 1: Connect your device",
         subtitle:
-          "Make sure your xx is powered on and connected to the internet (with internet cable). Find the serial number (19-digit numbers) on your xxx and fill in:",
+          "Make sure your xx is powered on and connected to the internet. Locate the 19-digit serial number on your xxx and enter it below:",
         error: [
-          "Sorry, we cannot find your xx. Please make sure your xx is powered on and have internet access.",
+          "Sorry, we cannot find your xx. Please make sure your xx is powered on and connected to the internet.",
         ],
       },
       step2: {
@@ -53,8 +52,8 @@ export const AllText = {
         "Network Status": "Network Status",
         "Device IP": "Device IP",
         error: [
-          "This device has been already added to an ARO Account. Please delete device to create a new add.",
-          "Please make sure your device is still online. Otherwise, the add process will fail.",
+          "This device has been already added to an ARO Account. Please remove it from the existing account to add it again.",
+          "Please ensure your device is online, or the adding process may fail.",
         ],
       },
       step3: {
@@ -65,7 +64,7 @@ export const AllText = {
       },
       step4: {
         "Congratulations!": "Congratulations!",
-        content: "Edge Node (Device Type: xxx) add successful.",
+        content: "Your Edge Node (Device Type: xxx) was added successfully.",
       },
     },
   },
@@ -76,12 +75,12 @@ export const AllText = {
     "Network Status": "Network Status",
     "Device IP": "Device IP",
     "Confirm Delete": "Confirm Delete",
-    "Please make sure you want to delete this device before continue. You cannot undo this action.":
-      "Please make sure you want to delete this device before continue. You cannot undo this action.",
-    "Are you sure you really want to delete Edge Node?":
-      "Are you sure you really want to delete Edge Node?",
+    "Please confirm you want to delete this device. This action cannot be undone.":
+      "Please confirm you want to delete this device. This action cannot be undone.",
+    "Are you sure you want to delete this Edge Node?":
+      "Are you sure you want to delete this Edge Node?",
     "Congratulations!": "Congratulations!",
-    delInfo: "Edge Node (Device Type: xxx delete successful.",
+    delInfo: "Your Edge Node (Device Type: xxx) was deleted successfully.",
   },
   stats: {
     "My Nodes": {
@@ -96,9 +95,9 @@ export const AllText = {
     },
     Trending: "Trending",
     rewardsAllNodesTips:
-      "The rewards number shows how much you have earned from running Edge Nodes, plus the Referral Bonus.",
+      "Your rewards show the total amount earned from running Edge Nodes, including any Referral Bonus.",
     inviteTips:
-      "You enjoy a 20% extra boost on node rewards for the first 14 days from being referred to ARO. ",
+      "You enjoy a 20% extra boost on node rewards for the first 14 days after being referred to ARO.",
   },
   Funds: {
     Funds: "Funds",
@@ -113,33 +112,32 @@ export const AllText = {
     Amount: "Amount",
     Address: "Address",
     TXID: "TXID",
-    "Rewards claim not applicable on current stage.":
-      "Rewards claim not applicable on current stage.",
+    "Claiming rewards is not available at the current stage. Stay tuned for updates!":
+      "Claiming rewards is not available at the current stage. Stay tuned for updates!",
   },
 
   referral: {
     "My Referral Code": "My Referral Code",
     "Copy Referral Link": "Copy Referral Link",
     "Referral Bonus": "Referral Bonus",
-    referralBonusTips: `As a referrer, you earn a commission from your referee's node rewards.`,
+    referralBonusTips: `As a referrer, you earn a commission on your referee's Edge Node rewards.`,
     whitelistedTips:
-      "You get whitelisted for the extra second-tier commission.",
+      "You’re eligible for an additional second-tier commission.",
     isInvitedTips:
-      "Your first-tier referee count and second-tier referee count.",
+      "View your first-tier and second-tier referee counts.",
     "How Referral Program Works?": "How Referral Program Works?",
-    subTitle: `The Referrer enjoy 15% commission from the Referee's mining rewards.
-Contact us to get whitelisted for the extra seond-tier commission.`,
+    subTitle: `Referrers earn a 15% commission on their referee’s Edge Node rewards. Contact us to get whitelisted for an additional second-tier commission.`,
   },
   aroId: {
     evmAddressTips: "This function is not available in Devnet.",
     notReferredTips: "You are not referred by anyone.",
     addReferrer: {
       title: "Add Referrer",
-      content: `You can add a Referrer (the one that invited you to ARO) by filling the Referral Code. Being referred an ARO user will give you 20% extra boost on your Edge Node rewards for 14 days. Be careful: you cannot change your referrer information once it is set.`,
+      content: `You can add a referrer (the person who invited you to ARO) by entering their Referral Code. Being referred by an ARO user grants you a 20% bonus on your Edge Node rewards for 14 days. Note: You cannot change your referrer once set.`,
     },
   },
   signOut: {
-    tips: `You are going to log out your account.Are you sure?`,
+    tips: `Are you sure you want to log out of your account?`,
   },
   devnet: {
     title:
