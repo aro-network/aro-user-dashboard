@@ -131,7 +131,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
     //     params.set("chooseType", searchParams.get("chooseType")!);
     //   }
     // }
-
     r.push(`?${params.toString()}`);
   };
 
