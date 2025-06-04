@@ -132,7 +132,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
     //   }
     // }
 
-    r.replace(`?${params.toString()}`);
+    r.push(`?${params.toString()}`);
   };
 
 
