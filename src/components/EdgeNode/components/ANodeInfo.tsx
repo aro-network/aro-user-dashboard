@@ -30,19 +30,25 @@ import {
 import { I18nProvider } from "@react-aria/i18n";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { ConfirmDialog } from "@/components/dialogimpls";
+import { useSearchParams } from "next/navigation";
+import { getItem } from "@/lib/storage";
 
 type e = EdgeNodeMode.IpInfo[];
 
 const ANodeInfo: FC<{
   selectList?: EdgeNodeMode.NodeType;
   nodeInfo: (arg0: e) => void;
-}> = ({ selectList, nodeInfo }) => {
+  onBack: () => void
+}> = ({ selectList, nodeInfo, onBack }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenTip, setIsOpenTip] = useState(false);
   const helpTipRef = useRef<any>(null);
   const helpTipRef2 = useRef<any>(null);
   const isMobile = useMobileDetect()
+  const searchParams = useSearchParams();
+
+  const params = new URLSearchParams(searchParams.toString());
 
 
 
@@ -51,9 +57,13 @@ const ANodeInfo: FC<{
     end: DateValue;
   }>(generateLast15DaysRange());
 
+
+
+
+
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeDetailList", selectList?.nodeUUID],
-    enabled: true,
+    enabled: false,
     queryFn: async () => {
       const [detail, countRewards] = await Promise.all([
         backendApi.getNodeInfoByNodeId(selectList?.nodeUUID),
@@ -80,6 +90,15 @@ const ANodeInfo: FC<{
     },
     refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    const sid = JSON.parse(getItem('sid') || '{}')
+    if (JSON.stringify(sid) === '{}') {
+      onBack()
+    } else {
+      refetch()
+    }
+  }, [searchParams.toString()])
   const [nodeName, setNodeName] = useState("");
 
   const onSubmit = async (value: string) => {

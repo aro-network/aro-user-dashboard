@@ -10,6 +10,7 @@ import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 import { formatNumber } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getItem, removeItem, setItem } from "@/lib/storage";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -26,9 +27,11 @@ const ANodes = () => {
   const params = new URLSearchParams(searchParams.toString());
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
-    // updateURL('type', 'detail')
+    params.delete('chooseType')
+    updateURL('type', 'detail')
 
     setShowNodeInfo({ open: true, list: e });
+    setItem('sid', JSON.stringify(e))
     setOpenAddNode(false);
   }, []);
 
@@ -83,32 +86,49 @@ const ANodes = () => {
     r.push(`?${params.toString()}`);
   };
 
-  // useEffect(() => {
-  //   const showAdd = params.get("type") === 'add';
-  //   const type = params.get("chooseType");
-  //   const obj: { [key: 'box' | 'x86' | string]: string } = {
-  //     box: 'Hardware',
-  //     x86: 'Software'
-  //   }
+  useEffect(() => {
+    const showAdd = params.get("type") === 'add';
+    const showDetail = params.get("type") === 'detail';
+    const showDel = params.get("type") === 'del';
+    const sid = JSON.parse(getItem('sid') || '{}')
 
-  //   if (showAdd) {
-  //     setOpenAddNode(showAdd);
-  //     updateURL('type', 'add')
-  //   } else {
-  //     addRef.current?.switchTo();
-  //     setSelectedType("");
-  //     setOpenAddNode(false);
-  //     params.delete('chooseType')
-  //     r.replace(`?${params.toString()}`);
-  //   }
+    const type = params.get("chooseType");
+    const obj: { [key: 'box' | 'x86' | string]: string } = {
+      box: 'Hardware',
+      x86: 'Software'
+    }
 
-  //   if (type) {
-  //     setSelectedType(obj[type]);
-  //   } else {
-  //     addRef.current?.switchTo();
-  //     setSelectedType('');
-  //   }
-  // }, [searchParams.toString()]);
+    if (showAdd) {
+      setOpenAddNode(showAdd);
+      updateURL('type', 'add')
+    } else if (showDetail) {
+      setUnbingInfo('')
+      setShowNodeInfo({ open: true, list: sid });
+      updateURL('type', 'detail')
+    } else if (showDel) {
+      setUnbingInfo(sid?.nodeUUID)
+      updateURL('type', 'del')
+    } else {
+      addRef.current?.switchTo();
+      setUnbingInfo('')
+      setSelectedType("");
+      setOpenAddNode(false);
+      params.delete('chooseType')
+      params.delete('type')
+      r.push(`?${params.toString()}`);
+      setShowNodeInfo({ open: false, list: undefined });
+      refetch();
+      // removeItem('sid')
+
+    }
+
+    if (type) {
+      setSelectedType(obj[type]);
+    } else {
+      addRef.current?.switchTo();
+      setSelectedType('');
+    }
+  }, [searchParams.toString()]);
 
 
 
@@ -129,9 +149,9 @@ const ANodes = () => {
                   setUnbingInfo("");
                   refetch();
                   setSelectedType("");
-                  // params.delete('type')
-                  // params.delete('chooseType')
-                  // r.replace(`?${params.toString()}`);
+                  params.delete('type')
+                  params.delete('chooseType')
+                  r.push(`?${params.toString()}`);
                 }}
               >
                 Nodes {">"} {" "}
@@ -142,8 +162,8 @@ const ANodes = () => {
                   if (title !== "Add New Node") return;
                   addRef.current?.switchTo();
                   setSelectedType("");
-                  // params.delete('chooseType')
-                  // r.replace(`?${params.toString()}`);
+                  params.delete('chooseType')
+                  r.push(`?${params.toString()}`);
 
                 }}
                 className={cn({
@@ -168,7 +188,7 @@ const ANodes = () => {
             className="h-[1.875rem] smd:p-2 smd:!h-[1.875rem]  rounded-lg"
             onClick={() => {
               setOpenAddNode(!isOpen);
-              // updateURL('type', 'add')
+              updateURL('type', 'add')
 
 
             }}
@@ -186,7 +206,11 @@ const ANodes = () => {
                 Go to Web Console
               </Btn>
               <Btn
-                onClick={() => setUnbingInfo(isShowNodeInfo.list?.nodeUUID)}
+                onClick={() => {
+                  updateURL('type', 'del')
+
+                  setUnbingInfo(isShowNodeInfo.list?.nodeUUID)
+                }}
                 className="bg-[#F5F5F51A] smd:!h-[1.875rem] h-[1.875rem] rounded-lg "
               >
                 Delete
@@ -204,6 +228,9 @@ const ANodes = () => {
             setOpenAddNode(false);
             refetch();
             setSelectedType("");
+            params.delete('type')
+            params.delete('chooseType')
+            r.push(`?${params.toString()}`);
           }}
         />
       ) : !isShowNodeInfo.open && !isOpen ? (
@@ -220,7 +247,7 @@ const ANodes = () => {
                 className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
                 onClick={() => {
                   setOpenAddNode(!isOpen);
-                  // updateURL('type', 'add')
+                  updateURL('type', 'add')
 
                 }}
               >
@@ -244,12 +271,23 @@ const ANodes = () => {
             setOpenAddNode(!isOpen);
             refetch();
             setSelectedType("");
+            params.delete('type')
+            params.delete('chooseType')
+            r.push(`?${params.toString()}`);
           }}
         />
       ) : (
         <ANodeInfo
           nodeInfo={setNodeInfo}
           selectList={isShowNodeInfo.list}
+          onBack={() => {
+            setShowNodeInfo({ open: false, list: undefined });
+            params.delete('type')
+            params.delete('chooseType')
+            r.push(`?${params.toString()}`);
+
+
+          }}
         />
       )}
     </>

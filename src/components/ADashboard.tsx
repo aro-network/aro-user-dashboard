@@ -24,6 +24,7 @@ import { Btn } from "./btns";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
 import { getItem } from "@/lib/storage";
+import { useQueryClient } from "@tanstack/react-query";
 const Modes: Dashboard.ModesType[] = [
 
   {
@@ -79,6 +80,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { address, isConnected, } = useAppKitAccount()
   const username = user?.email?.split('@')[0] || ''
   const [refreshKey, setRefreshKey] = useState(0);
+  const params = new URLSearchParams();
+  const queryClient = useQueryClient();
 
 
 
@@ -96,6 +99,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         }
       }
     } else {
+
       updateURL('devnet', 'nodes')
     }
   }, [searchParams]);
@@ -107,30 +111,52 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
   const handleTabChange = (tab: Dashboard.TabItem) => {
+
     setCurrentTab(tab);
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {
       setRefreshKey((prev) => prev + 1);
+
+
     }
   };
 
 
   const updateURL = (mode: string, tab: string) => {
-    const params = new URLSearchParams();
+    const sid = JSON.parse(getItem('sid') || '{}')
+
+    if (JSON.stringify(sid) === '{}') {
+      params.delete('type')
+      r.push(`?${params.toString()}`);
+    }
     params.set("mode", mode);
     params.set("tab", tab);
 
-    // if (tab !== "nodes") {
-    //   params.delete("type");
-    //   params.delete("chooseType");
-    // } else {
-    //   if (searchParams.get("type")) {
+    // if (tab === "nodes") {
+    //   queryClient.invalidateQueries({ queryKey: ["NodeList"] });
+    // }
+    //  else {
+
+
+    //   if (searchParams.get("type") === 'add') {
     //     params.set("type", 'add');
     //   }
+    //   if (searchParams.get("type") === 'detail') {
+
+    //     params.set("type", 'detail');
+    //   }
+    //   if (searchParams.get("type") === 'del') {
+
+
+    //     params.set("type", 'del');
+    //   }
+
     //   if (searchParams.get("chooseType")) {
     //     params.set("chooseType", searchParams.get("chooseType")!);
     //   }
+
     // }
+
     r.push(`?${params.toString()}`);
   };
 

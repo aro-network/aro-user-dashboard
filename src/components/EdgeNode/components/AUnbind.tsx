@@ -4,9 +4,11 @@ import backendApi from "@/lib/api"
 import { covertText } from "@/lib/utils"
 import { CircularProgress, cn, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
-import { FC, ReactNode, useState } from "react"
+import { FC, ReactNode, useEffect, useState } from "react"
 import { foundDeviceList } from "./AAddNewNodes"
 import useMobileDetect from "@/hooks/useMobileDetect"
+import { getItem, removeItem } from "@/lib/storage"
+import { useSearchParams } from "next/navigation"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => (
@@ -16,19 +18,14 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const [stepIndex, setStepIndex] = useState(0)
   const [isConfirm, setIsConfirm] = useState(false)
   const isMobile = useMobileDetect()
-
+  const searchParams = useSearchParams();
 
   const { data, isFetching } = useQuery({
     queryKey: ["DeviceUnbindStatus"],
     enabled: true,
     queryFn: () => backendApi.getDeviceStatusInfo(nodeId),
     refetchOnWindowFocus: false,
-
-
   });
-
-
-
 
   const getStatus = useQuery({
     queryKey: ["NodeStatuList"],
@@ -36,10 +33,17 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     queryFn: () => backendApi.unbingDevice(nodeId)
   });
 
+  useEffect(() => {
+    const sid = JSON.parse(getItem('sid') || '{}')
+    if (JSON.stringify(sid) === '{}') {
+      onBack()
+    }
+  }, [searchParams.toString()])
 
   const onUnbindingConfig = async () => {
     setIsConfirm(!isConfirm)
     await getStatus.refetch()
+    removeItem('sid')
     onDeviceStep()
   }
 
@@ -49,6 +53,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     } else {
       onBack()
     }
+
   }
 
   const unbind = [
