@@ -113,10 +113,10 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       setRefreshKey((prev) => prev + 1);
     }
   };
-  const params = new URLSearchParams();
+
 
   const updateURL = (mode: string, tab: string) => {
-
+    const params = new URLSearchParams();
     params.set("mode", mode);
     params.set("tab", tab);
 
