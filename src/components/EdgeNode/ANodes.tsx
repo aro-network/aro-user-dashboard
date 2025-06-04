@@ -112,7 +112,6 @@ const ANodes = () => {
 
 
 
-
   return (
     <>
       <div className={` flex justify-between  items-center  ${isShowNodeInfo.open && 'smd:flex-wrap smd:w-full'}`}>
