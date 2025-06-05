@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 export function Btn({ children, className, ...props }: ButtonProps) {
   return (
-    <Button isDisabled={props.disabled} color={props.disabled ? `default` : 'primary'} className={cn("h-[2.625rem] smd:!h-12 rounded-lg text-xs  font-medium !min-w-max  hover:bg-default", props.color == "default" ? "hover:bg-l1" : "", props.disabled && 'cursor-not-allowed', className)} {...props}>
+    <Button isDisabled={props.disabled} color={props.disabled ? `default` : 'primary'} className={cn("h-[2.625rem] bg-[#00E42A] smd:!h-12 rounded-lg text-xs text-black  font-medium !min-w-max  hover:bg-[#5CF077]", props.color == "default" ? "hover:bg-[#5CF077]" : "", props.disabled && 'cursor-not-allowed', className)} {...props}>
       {children}
     </Button>
   );

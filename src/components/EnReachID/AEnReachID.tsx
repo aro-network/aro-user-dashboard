@@ -90,8 +90,8 @@ const AEnReachID = () => {
             </div>
           </div>
           <div className="flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center">
-            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem]">Bind</Btn>
-            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem]">Unbind</Btn>
+            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem] bg-default">Bind</Btn>
+            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem] bg-default">Unbind</Btn>
           </div>
         </div>
 
@@ -106,7 +106,7 @@ const AEnReachID = () => {
         <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{`You can add a Referrer (the one that invited you to ARO) by filling the Referral Code. Being referred an ARO user will give you 20% extra boost on your Edge Node rewards for 14 days. Be careful: you cannot change your referrer information once it is set.`}</p>
         <InputSplitCode onChange={setReferalCode} />
         <div className="flex w-full gap-[.625rem]">
-          <Btn color='default' className="w-full" onPress={() => {
+          <Btn color='default' className="w-full  bg-default text-white" onPress={() => {
             setReferalCode('')
             toggleShowInputReferral(false)
           }} >

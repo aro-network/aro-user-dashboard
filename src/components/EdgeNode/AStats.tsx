@@ -7,12 +7,15 @@ import { useState } from "react";
 import ACommonNodes from "./components/ACommonNodes";
 import { useQuery } from "@tanstack/react-query";
 import backendApi from "@/lib/api";
+import useMobileDetect from "@/hooks/useMobileDetect";
 
 const AStats = () => {
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
   const [currentProcess, setProcess] = useState(10);
   const [isShowNodeInfo, setShowNodeInfo] = useState(false);
   const [status, setStatus] = useState(true)
+  const isMobile = useMobileDetect(1100)
+
   const options = [
     { label: "Today", value: true },
     { label: "Yesterday", value: false },
@@ -43,21 +46,16 @@ const AStats = () => {
     },
     yAxis: {
       type: 'value',
-      name: '时间（h）',
+      name: 'Uptime(0%)',
       nameTextStyle: { color: '#FFFFFF80', fontSize: 10, top: 100 },
       axisLabel: { color: '#FFFFFF80', fontSize: 10 },
       axisLine: { lineStyle: { color: '#FFFFFF0D' } },
       splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.5 } },
 
     },
-    title: {
-      text: '2025-01-20 16:20:00 更新',
-      left: 'right',
-      top: 10,
-      textStyle: { color: '#FFFFFF80', fontSize: 12 }
-    },
+
     grid: {
-      left: 50,
+      left: 30,
       right: 0,
       top: 40,
       bottom: 50
@@ -65,54 +63,69 @@ const AStats = () => {
     color: ['#FDB600'],
     series: [
       {
-        type: 'bar',
-        itemStyle: {
+        data: [0, 0, 0, 0, 0, 0, 0, 0],
+        type: 'line',
+        lineStyle: {
           borderRadius: 10,
           color: '#FDB600',
         },
-        encode: { x: 0, y: 1 }
-      },
-      {
-        type: 'bar',
+        symbol: 'circle',
+        symbolSize: 8,
         itemStyle: {
-          borderRadius: 10,
-          color: '#FDB600',
-        },
-        encode: { x: 0, y: 2 }
-      },
-      {
-        type: 'bar',
-        itemStyle: {
-          borderRadius: 10,
-          color: '#FDB600',
-        },
-        encode: { x: 0, y: 3 }
-      },
-      {
-        type: 'bar',
-        itemStyle: {
-          borderRadius: 10,
-          color: '#FDB600',
-        },
-        encode: { x: 0, y: 4 }
-      },
-    ],
+          color: '#34A853'
+        }
+      }
+    ]
+    // series: [
+    //   {
+    //     type: 'bar',
+    //     itemStyle: {
+    //       borderRadius: 10,
+    //       // color: '#FDB600',
+    //     },
+    //     encode: { x: 0, y: 1 }
+    //   },
+    //   {
+    //     type: 'bar',
+    //     itemStyle: {
+    //       borderRadius: 10,
+    //       color: '#FDB600',
+    //     },
+    //     encode: { x: 0, y: 0 }
+    //   },
+    //   {
+    //     type: 'bar',
+    //     itemStyle: {
+    //       borderRadius: 10,
+    //       color: '#FDB600',
+    //     },
+    //     encode: { x: 0, y: 0 }
+    //   },
+    //   {
+    //     type: 'bar',
+    //     itemStyle: {
+    //       borderRadius: 10,
+    //       color: '#FDB600',
+    //     },
+    //     encode: { x: 0, y: 0 }
+    //   },
+    // ],
 
   };
 
   const option2 = {
     grid: {
-      left: 50,
+      left: 30,
       right: 0,
       top: 40,
       bottom: 50
     },
-    title: {
-      text: '建议低于2%',
-      left: 'right',
-      top: 10,
-      textStyle: { color: '#FFFFFF80', fontSize: 12 }
-    },
+    // title: {
+    //   text: '建议低于2%',
+    //   left: 'right',
+    //   top: 10,
+    //   textStyle: { color: '#FFFFFF80', fontSize: 12 }
+    // },
 
     xAxis: {
       type: 'category',
@@ -123,7 +136,7 @@ const AStats = () => {
     },
     yAxis: {
       type: 'value',
-      name: '丢包率（%）',
+      name: 'Delay(0ms)',
       nameTextStyle: { color: '#FFFFFF80', fontSize: 10 },
       axisLabel: { color: '#FFFFFF80', fontSize: 10 },
       axisLine: { lineStyle: { color: '#FFFFFF0D' } },
@@ -133,7 +146,7 @@ const AStats = () => {
 
     series: [
       {
-        data: [0.4, 0.8, 0.3, 0.1, 0.9, 0.5, 0.7, 1.1],
+        data: [0, 0, 0, 0, 0, 0, 0, 0],
         type: 'line',
         lineStyle: {
           borderRadius: 10,
@@ -157,7 +170,7 @@ const AStats = () => {
     },
     yAxis: {
       type: 'value',
-      name: '时延(ms)',
+      name: 'Loss(0%)',
       nameTextStyle: { color: '#FFFFFF80', fontSize: 10 },
       axisLabel: { color: '#FFFFFF80', fontSize: 10 },
       axisLine: { lineStyle: { color: '#FFFFFF0D' } },
@@ -167,21 +180,21 @@ const AStats = () => {
 
     },
     grid: {
-      left: 50,
+      left: 30,
       right: 0,
       top: 40,
       bottom: 50
     },
-    title: {
-      text: '建议低于20ms',
-      left: 'right',
-      top: 10,
-      textStyle: { color: '#FFFFFF80', fontSize: 10 }
-    },
+    // title: {
+    //   text: '建议低于20ms',
+    //   left: 'right',
+    //   top: 10,
+    //   textStyle: { color: '#FFFFFF80', fontSize: 10 }
+    // },
 
     series: [
       {
-        data: [0.4, 0.8, 0.3, 0.1, 0.9, 0.5, 0.7, 1.1],
+        data: [0, 0, 0, 0, 0, 0, 0, 0],
         type: 'line',
         lineStyle: {
           borderRadius: 10,
@@ -203,38 +216,35 @@ const AStats = () => {
       axisLabel: { color: '#FFFFFF80', fontSize: 10 },
       axisLine: { lineStyle: { color: '#FFFFFF0D' } }
     },
-    yAxis: {
-      type: 'category',
-      data: ['未知', '对称性', '端口型', 'IP型', '全锥型', '映射型', 'DNZ型', '公网型'],
-      name: 'NAT类型',
-      axisTick: { show: false },
-      nameTextStyle: { color: '#FFFFFF80', fontSize: 10 },
-      axisLabel: { color: '#FFFFFF80', fontSize: 10 },
 
-      splitLine: {
-        show: true,
-        lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.5 }
-      },
+
+    yAxis: {
+      type: 'value',
+      name: ' Volume(0MB) ',
+      nameTextStyle: { color: '#FFFFFF80', fontSize: 10, top: 100 },
+      axisLabel: { color: '#FFFFFF80', fontSize: 10 },
+      axisLine: { lineStyle: { color: '#FFFFFF0D' } },
+      splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.5 } },
+
     },
 
-
-
     grid: {
-      left: 50,
+      left: 30,
       right: 0,
       top: 40,
       bottom: 50
     },
-    title: {
-      text: '建议全锥型及以上',
-      left: 'right',
-      top: 10,
-      textStyle: { color: '#FFFFFF80', fontSize: 12 }
-    },
+    // title: {
+    //   text: '建议全锥型及以上',
+    //   left: 'right',
+    //   top: 10,
+    //   textStyle: { color: '#FFFFFF80', fontSize: 12 }
+    // },
 
     series: [
       {
-        data: [0.4, 0.8, 0.3, 0.1, 0.9, 0.5, 0.7, 1.1],
+        data: [0, 0, 0, 0, 0, 0, 0, 0],
+
         type: 'line',
         lineStyle: {
           borderRadius: 10,
@@ -277,110 +287,64 @@ const AStats = () => {
 
   return (
     <>
-      <div className=" flex justify-between  items-center h-[2.125rem]">
-        <div className="text-[#FFFFFF] text-base font-medium w-full">
-          {!isShowNodeInfo ? 'All Nodes' :
-            <div className="flex justify-between w-full">
-              <div>
-                <button onClick={() => setShowNodeInfo(!isShowNodeInfo)}>Stats</button> {'>'} <label className="text-[#FFFFFF80]">Node Info</label>
-              </div>
-              <div className="flex justify-between gap-[.625rem]">
-                {options.map(({ label, value }) => {
-                  const isActive = status === value;
-                  return (
-                    <button
-                      key={label}
-                      onClick={() => setStatus(value)}
-                      className={cn(
-                        "text-white transition-colors",
-                        isActive ? "text-[#4281FF]" : "text-[#FFFFFF80]"
-                      )}
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          }
-        </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5  ">
+        <TitCard
+          contentClassName="flex flex-col  justify-center !items-center"
+          tit={'24H Uptime'}
+          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+        // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
+        //   2025-01-20 16:20:00 Updated
+        // </label>}
+
+        >
+          <div className="!w-full " style={{ height: '10rem' }} ref={ref}>
+            <EChartsReact style={{ height: '10rem' }} className="!w-full" option={option} />
+          </div>
+        </TitCard>
+
+        <TitCard
+          contentClassName="flex flex-col  justify-center !items-center"
+          tit={'24H Upload Volume'}
+          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+        // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
+        //   2025-01-20 16:20:00 Updated
+        // </label>}
+        >
+          <div className="w-full" style={{ height: '10rem' }} ref={ref}>
+            <EChartsReact style={{ height: '10rem' }} className="w-full" option={option4} />
+          </div>
+        </TitCard>
+
+        <TitCard
+          contentClassName="flex flex-col  justify-center !items-center"
+          tit={'24H Package Loss'}
+          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+        // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
+        //   2025-01-20 16:20:00 Updated
+        // </label>}
+        >
+          <div className="w-full" style={{ height: '10rem' }} ref={ref}>
+
+            <EChartsReact style={{ height: '10rem' }} className="w-full" option={option2} />
+          </div>
+        </TitCard>
+
+        <TitCard
+          contentClassName="flex flex-col  justify-center !items-center"
+          tit={'24H Average Delay'}
+          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+        // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
+        //   2025-01-20 16:20:00 Updated
+        // </label>}
+        >
+          <div className="w-full" style={{ height: '10rem' }} ref={ref}>
+            <EChartsReact style={{ height: '10rem' }} className="w-full" option={option3} />
+          </div>
+        </TitCard>
+
 
       </div>
-      {!isShowNodeInfo ? <ACommonNodes isLoading={isFetching} data={data} onOpenModal={() => { }} /> :
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full pb-10  ">
-          <TitCard
-            tit={`${value}在线情况`}
-            className={cn("w-full")}
-            right={<div className="flex justify-between px-[1.875rem] items-center ">
-              <label className=" font-normal text-xs text-[#FFFFFF80]">
-                2025-01-20 16:20:00 更新
-              </label>
-            </div>}
-          >
-            <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
-              <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={option} />
-            </div>
-          </TitCard>
-          <TitCard
-            tit={`${value}线路平均丢包率`}
-            className={cn("h-full  w-full  ")}
-            right={<label className=" font-normal text-xs text-[#FFFFFF80]">
-              2025-01-20 16:20:00 更新
-            </label>}
-          >
-            <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
-
-              <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={option2} />
-            </div>
-          </TitCard>
-          <TitCard
-            tit={`${value}线路平均时延`}
-            className={cn("h-full  w-full  ")}
-            right={<label className=" font-normal text-xs text-[#FFFFFF80]">
-              2025-01-20 16:20:00 更新
-            </label>}
-          >
-            <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
-              <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={option3} />
-            </div>
-          </TitCard>
-          <TitCard
-            tit={`${value}管理线路NAT`}
-            className={cn("h-full  w-full  ")}
-            right={<label className=" font-normal text-xs text-[#FFFFFF80]">
-              2025-01-20 16:20:00 更新
-            </label>}
-          >
-            <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
-              <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={option4} />
-            </div>
-          </TitCard>
-          <TitCard
-            tit={`${value}磁盘状态`}
-            className={cn("h-full  w-full  ")}
-          >
-            <div>
-              <div className="flex justify-between items-center ">
-                <SVGS.Svgdisk />
-              </div>
-              <div className="flex mt-5 justify-between items-center ">
-                <label>
-                  磁盘缓存
-                </label>
-                <label>
-                  32.7G/108.5G
-                </label>
-              </div>
-              <div>
-                <div className="w-full h-[19px] mt-[.625rem] relative rounded-full overflow-hidden">
-                  <div className="loader" />
-                  <div className="left-0 top-0 h-full rounded-full absolute bg-primary" style={{ transition: "all ease 1s", width: `${currentProcess}%` }}></div>
-                </div>
-              </div>
-            </div>
-          </TitCard>
-        </div>
-      }
     </>
   );
 };

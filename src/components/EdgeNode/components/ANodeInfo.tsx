@@ -32,6 +32,7 @@ import useMobileDetect from "@/hooks/useMobileDetect";
 import { ConfirmDialog } from "@/components/dialogimpls";
 import { useSearchParams } from "next/navigation";
 import { getItem } from "@/lib/storage";
+import AStats from "../AStats";
 
 type e = EdgeNodeMode.IpInfo[];
 
@@ -45,7 +46,7 @@ const ANodeInfo: FC<{
   const [isOpenTip, setIsOpenTip] = useState(false);
   const helpTipRef = useRef<any>(null);
   const helpTipRef2 = useRef<any>(null);
-  const isMobile = useMobileDetect()
+  const isMobile = useMobileDetect(1100)
   const searchParams = useSearchParams();
 
   const params = new URLSearchParams(searchParams.toString());
@@ -145,7 +146,7 @@ const ANodeInfo: FC<{
           // <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0,0,0,0);"></span>
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
-            "background-color:#4281FF"
+            "background-color:#00E42A"
           )}${formatNumber(params[0].data)}</div>`;
         },
       },
@@ -211,7 +212,7 @@ const ANodeInfo: FC<{
           },
           emphasis: {
             itemStyle: {
-              color: "#4281FF",
+              color: "#00E42A",
               decal: "none",
             },
           },
@@ -290,17 +291,97 @@ const ANodeInfo: FC<{
   return (
     <>
       {!isFetching ? (
-        <div className=" mx-auto w-full mt-5 text-white mb-5 ">
-          <div className="flex w-full gap-5 smd:flex-wrap">
-            <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-[.625rem] h-[9.375rem] smd:h-full  bg-[#6D6D6D66]">
+
+        <div className=" mx-auto w-full mt-5 text-white mb-5 flex justify-between smd:flex-col gap-5 ">
+          <div className="w-[60%] smd:w-full">
+            <div className="flex w-full gap-5 smd:flex-wrap">
+              <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] smd:h-full flex-col   gap-[.625rem] smd:gap-5 bg-[#6D6D6D66]">
+                <div className="flex w-full justify-between">
+                  <span className="font-semibold text-base  ">Rewards</span>
+                  {/* <Btn disabled className="h-5 font-normal">
+                  Go to Claim Page
+                </Btn> */}
+                </div>
+                <div className="flex justify-between smd:flex-wrap h-full smd:w-full">
+                  <div className="text-sm  flex flex-col justify-between xsl:justify-start    gap-[.625rem] smd:w-full flex-wrap">
+                    <span className="font-normal text-sm text-[#FFFFFF80]">
+                      Total
+                    </span>
+                    <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
+                      <span className="text-3xl xsl:text-xl ">
+                        {formatNumber(Number(data?.countRewards.total || 0))}
+                      </span>
+                      <span>Jades</span>
+                    </div>
+                  </div>
+                  <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem]  flex-wrap smd:pt-5 ">
+                    <span className="font-normal text-sm text-[#FFFFFF80]">
+                      Today
+                    </span>
+                    <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
+                      <span className="text-3xl xsl:text-xl ">
+                        + {formatNumber(Number(data?.countRewards.today || 0))}
+                      </span>
+                      <span>Jades</span>
+                    </div>
+                  </div>
+                  <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem] smd:pt-5 flex-wrap ">
+                    <span className="font-normal text-sm text-[#FFFFFF80]">
+                      Yesterday
+                    </span>
+                    <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
+                      <span className="text-3xl xsl:text-xl ">
+                        +{" "}
+                        {formatNumber(Number(data?.countRewards.yesterday || 0))}
+                      </span>
+                      <span>Jades</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <TitCard
+              tit="Rewards History"
+              className={cn(
+                "col-span-1 h-[19.375rem]   bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4 "
+              )}
+              contentClassName={(' smd:flex-wrap smd:gap-[.625rem]')}
+              right={
+                <div className=" !text-sm ">
+                  <I18nProvider locale="en-US">
+                    <DateRangePicker
+                      className="!w-full !text-2xl custom-date-picker"
+                      showMonthAndYearPickers={true}
+                      value={chooseDate as any}
+                      onChange={handleChange as any}
+                      maxValue={today(getLocalTimeZone())}
+                    />
+                  </I18nProvider>
+                </div>
+              }
+            >
+              <div className="w-full" ref={ref}>
+                <EChartsReact
+                  className="w-full  !h-[12.5rem]"
+                  option={chartOpt}
+                />
+              </div>
+            </TitCard>
+
+            <AStats />
+
+          </div>
+          <div className="w-[40%] smd:w-full">
+            <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-[.625rem] h-[9.375rem]  smd:h-full  bg-[#6D6D6D66]">
               <div className="font-semibold text-base ">
                 <span>Node Info</span>
               </div>
-              <div className="flex w-full gap-7 smd:gap-5 h-full  ">
+              <div className="flex w-full gap-[.625rem] md:gap-5 h-full  ">
                 <div className="smd:w-[40%]">
                   <img
                     src={`../${data?.detail?.nodeType}.png`}
-                    className="w-[5.4375rem]  h-full"
+                    className="w-[5.4375rem] h-full"
                     alt={`${data?.detail?.nodeType}`}
                   />
                 </div>
@@ -337,7 +418,7 @@ const ANodeInfo: FC<{
                       ) : (
                         <div >
                           <HelpTip content={data?.detail?.nodeName}>
-                            {shortenMiddle(data?.detail.nodeName || "-", isMobile ? 10 : 20)}
+                            {shortenMiddle(data?.detail.nodeName || "-", isMobile ? 10 : 15)}
                           </HelpTip>
                         </div>
 
@@ -345,7 +426,7 @@ const ANodeInfo: FC<{
                       {isEdit && isMobile && <ConfirmDialog
                         tit=""
                         btnClassName='flex '
-                        confirmClassName='w-full'
+                        confirmClassName='w-full !bg-[#F5F5F51A] text-white'
                         cancelClassName="w-full"
                         confirmText='Cancel'
                         cancelText='Confirm'
@@ -396,206 +477,137 @@ const ANodeInfo: FC<{
                   </div>
                 </div>
               </div>
+
+
             </div>
 
-            <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] smd:h-full flex-col   gap-[.625rem] smd:gap-5 bg-[#6D6D6D66]">
-              <div className="flex w-full justify-between">
-                <span className="font-semibold text-base  ">Rewards</span>
-                {/* <Btn disabled className="h-5 font-normal">
-                  Go to Claim Page
-                </Btn> */}
+            <div className="flex justify-between w-full gap-5 flex-col mt-5  ">
+              <div className=" smd:mb-0  p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full  h-[19.375rem] smd:h-full   ">
+                <span className=" text-base font-semibold">Basics</span>
+                <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
+                  <div className="flex justify-between">
+                    <span>Create Date</span>
+                    <span className="text-[#FFFFFF80]">
+                      {dayjs(
+                        Number(data?.detail.createTimestamp || 0) * 1000
+                      ).format("YYYY-MM-DD")}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Serial Number</span>
+                    <span className="text-[#FFFFFF80]">
+                      {data?.detail.nodeUUID}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Device</span>
+                    <span className="text-[#FFFFFF80] capitalize">
+                      {covertText(data?.detail.nodeChainInfo.Node.deviceType as "box" | "x86" | "Box") || "-"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Registered Region</span>
+                    <span className="text-[#FFFFFF80]">
+                      {data?.detail.nodeChainInfo.Node.regionCode || "-"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="flex gap-[.375rem] items-center">
+                      Reputation Point
+                    </span>
+                    <span className="text-[#FFFFFF80]">
+                      {data?.detail.nodeChainInfo.Node.reputationPoint || "-"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="flex gap-[.375rem] items-center">
+                      {" "}
+                      Cheat Status{" "}
+                    </span>
+                    <span className="text-[#FFFFFF80]">
+                      {data?.detail.nodeChainInfo.Node.cheatStatus || "-"}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-between smd:flex-wrap h-full smd:w-full">
-                <div className="text-sm  flex flex-col justify-between xsl:justify-start    gap-[.625rem] smd:w-full flex-wrap">
-                  <span className="font-normal text-sm text-[#FFFFFF80]">
-                    Total
-                  </span>
-                  <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                    <span className="text-3xl xsl:text-xl ">
-                      {formatNumber(Number(data?.countRewards.total || 0))}
-                    </span>
-                    <span>Jades</span>
+
+              <div className=" smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full h-[15rem] smd:h-full">
+                <span className=" text-base font-semibold">Network Info</span>
+                <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
+                  <div className="flex justify-between">
+                    <span>Public IP</span>
+                    {isIpv6 ? <HelpTip content={data?.detail.ip} >
+                      <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
+                        {shortenMiddle(data?.detail.ip as string)}
+                      </span>
+                    </HelpTip>
+                      :
+                      <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>}
                   </div>
-                </div>
-                <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem]  flex-wrap smd:pt-5 ">
-                  <span className="font-normal text-sm text-[#FFFFFF80]">
-                    Today
-                  </span>
-                  <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                    <span className="text-3xl xsl:text-xl ">
-                      + {formatNumber(Number(data?.countRewards.today || 0))}
-                    </span>
-                    <span>Jades</span>
+                  <div className="flex justify-between">
+                    <span>IP Location</span>
+                    <span className="text-[#FFFFFF80]">{"-"}</span>
                   </div>
-                </div>
-                <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem] smd:pt-5 flex-wrap ">
-                  <span className="font-normal text-sm text-[#FFFFFF80]">
-                    Yesterday
-                  </span>
-                  <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                    <span className="text-3xl xsl:text-xl ">
-                      +{" "}
-                      {formatNumber(Number(data?.countRewards.yesterday || 0))}
+                  <div className="flex justify-between">
+                    <span>Local IP</span>
+                    <span className="text-[#FFFFFF80]">
+                      {newResult()![0]?.ip || "-"}
                     </span>
-                    <span>Jades</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>MAC Address</span>
+                    <span className="text-[#FFFFFF80]">
+                      {newResult()![0]?.mac || "-"}
+                    </span>
+                  </div>
+                  {/* <div className="flex justify-between">
+                          <span >NAT Type</span>
+                          <span className="text-[#FFFFFF80]">{nodeData.natType}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span >Packet Loss Rate</span>
+                          <span className="text-[#FFFFFF80]">{nodeData.upnp}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span >Delay</span>
+                          <span className="text-[#FFFFFF80]">{nodeData.delay}</span>
+                        </div> */}
+                </div>
+              </div>
+
+              <div className=" smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full  h-[15rem] smd:h-full">
+                <span className=" text-base font-semibold">Device States</span>
+                <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
+                  <div className="flex justify-between">
+                    <span>CPU Cores</span>
+                    <span className="text-[#FFFFFF80]">
+                      {data?.detail.deviceInfo.cpuCores || "-"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>CPU Use</span>
+                    <span className="text-[#FFFFFF80]">
+                      {((data?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) +
+                        "%" || "-"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>RAM</span>
+                    <span className="text-[#FFFFFF80]">
+                      {memUseGB + "GB /" + memTotalGB + "GB"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>ROM</span>
+                    <span className="text-[#FFFFFF80]">-</span>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
 
-          <TitCard
-            tit="Rewards History"
-            className={cn(
-              "col-span-1 h-full  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4 "
-            )}
-            contentClassName={(' smd:flex-wrap smd:gap-[.625rem]')}
-            right={
-              <div className=" !text-sm ">
-                <I18nProvider locale="en-US">
-                  <DateRangePicker
-                    className="!w-full !text-2xl custom-date-picker"
-                    showMonthAndYearPickers={true}
-                    value={chooseDate as any}
-                    onChange={handleChange as any}
-                    maxValue={today(getLocalTimeZone())}
-                  />
-                </I18nProvider>
-              </div>
-            }
-          >
-            <div className="w-full" style={{ height: "14.125rem" }} ref={ref}>
-              <EChartsReact
-                style={{ height: "14.125rem" }}
-                className="w-full"
-                option={chartOpt}
-              />
-            </div>
-          </TitCard>
 
-          <div className="flex justify-between w-full gap-5 smd:flex-wrap">
-            <div className=" my-5 smd:mb-0  p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full   ">
-              <span className=" text-base font-semibold">Basics</span>
-              <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-                <div className="flex justify-between">
-                  <span>Create Date</span>
-                  <span className="text-[#FFFFFF80]">
-                    {dayjs(
-                      Number(data?.detail.createTimestamp || 0) * 1000
-                    ).format("YYYY-MM-DD")}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Serial Number</span>
-                  <span className="text-[#FFFFFF80]">
-                    {data?.detail.nodeUUID}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Device</span>
-                  <span className="text-[#FFFFFF80] capitalize">
-                    {covertText(data?.detail.nodeChainInfo.Node.deviceType as "box" | "x86" | "Box") || "-"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Registered Region</span>
-                  <span className="text-[#FFFFFF80]">
-                    {data?.detail.nodeChainInfo.Node.regionCode || "-"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="flex gap-[.375rem] items-center">
-                    Reputation Point
-                  </span>
-                  <span className="text-[#FFFFFF80]">
-                    {data?.detail.nodeChainInfo.Node.reputationPoint || "-"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="flex gap-[.375rem] items-center">
-                    {" "}
-                    Cheat Status{" "}
-                  </span>
-                  <span className="text-[#FFFFFF80]">
-                    {data?.detail.nodeChainInfo.Node.cheatStatus || "-"}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="my-5 smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
-              <span className=" text-base font-semibold">Network Info</span>
-              <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-                <div className="flex justify-between">
-                  <span>Public IP</span>
-                  {isIpv6 ? <HelpTip content={data?.detail.ip} >
-                    <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
-                      {shortenMiddle(data?.detail.ip as string)}
-                    </span>
-                  </HelpTip>
-                    :
-                    <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>}
-                </div>
-                <div className="flex justify-between">
-                  <span>IP Location</span>
-                  <span className="text-[#FFFFFF80]">{"-"}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Local IP</span>
-                  <span className="text-[#FFFFFF80]">
-                    {newResult()![0]?.ip || "-"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>MAC Address</span>
-                  <span className="text-[#FFFFFF80]">
-                    {newResult()![0]?.mac || "-"}
-                  </span>
-                </div>
-                {/* <div className="flex justify-between">
-              <span >NAT Type</span>
-              <span className="text-[#FFFFFF80]">{nodeData.natType}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >Packet Loss Rate</span>
-              <span className="text-[#FFFFFF80]">{nodeData.upnp}</span>
-            </div>
-            <div className="flex justify-between">
-              <span >Delay</span>
-              <span className="text-[#FFFFFF80]">{nodeData.delay}</span>
-            </div> */}
-              </div>
-            </div>
-
-            <div className="my-5 smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full">
-              <span className=" text-base font-semibold">Device States</span>
-              <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-                <div className="flex justify-between">
-                  <span>CPU Cores</span>
-                  <span className="text-[#FFFFFF80]">
-                    {data?.detail.deviceInfo.cpuCores || "-"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>CPU Use</span>
-                  <span className="text-[#FFFFFF80]">
-                    {((data?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) +
-                      "%" || "-"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>RAM</span>
-                  <span className="text-[#FFFFFF80]">
-                    {memUseGB + "GB /" + memTotalGB + "GB"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>ROM</span>
-                  <span className="text-[#FFFFFF80]">-</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       ) : (
         <div className="flex justify-center pt-[4.5625rem]  w-full items-center h-full">

@@ -5,7 +5,7 @@ import { FaDiscord, FaXTwitter } from 'react-icons/fa6'
 const socialLinks = [
     { href: 'https://x.com/AroNetwork', icon: <FaXTwitter /> },
     { href: 'https://discord.gg/Rc4BMUjbNB', icon: <FaDiscord /> },
-    { href: 'https://t.me/EnReachNetwork', icon: <FaTelegramPlane /> },
+    { href: 'https://t.me/ARO_Network', icon: <FaTelegramPlane /> },
 ]
 
 export function SocialButtons() {

@@ -29,7 +29,6 @@ const ANodes = () => {
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
     params.delete('chooseType')
     updateURL('type', 'detail')
-
     setShowNodeInfo({ open: true, list: e });
     setItem('sid', JSON.stringify(e))
     setOpenAddNode(false);
@@ -66,7 +65,7 @@ const ANodes = () => {
           when: "Today",
           experience: (
             <>
-              <label className="text-[#4281FF] text-2xl font-semibold leading-6">
+              <label className="text-[#00E42A] text-2xl font-semibold leading-6">
                 +{formatNumber(Number(item.todayRewards) || 0)}
               </label>
               <label className="ml-[.375rem]">Jades</label>
@@ -84,6 +83,7 @@ const ANodes = () => {
   const updateURL = (key: string, value: string) => {
     params.set(key, value);
     r.push(`?${params.toString()}`);
+
   };
 
   useEffect(() => {
@@ -91,6 +91,9 @@ const ANodes = () => {
     const showDetail = params.get("type") === 'detail';
     const showDel = params.get("type") === 'del';
     const sid = JSON.parse(getItem('sid') || '{}')
+
+    console.log('sids222idsidsidsid', sid);
+
 
     const type = params.get("chooseType");
     const obj: { [key: 'box' | 'x86' | string]: string } = {
@@ -108,18 +111,18 @@ const ANodes = () => {
     } else if (showDel) {
       setUnbingInfo(sid?.nodeUUID)
       updateURL('type', 'del')
+    } else if (JSON.stringify(sid) === '{}') {
+      params.delete('chooseType')
+      params.delete('type')
+      setShowNodeInfo({ open: false, list: undefined });
+      refetch();
     } else {
       addRef.current?.switchTo();
       setUnbingInfo('')
       setSelectedType("");
       setOpenAddNode(false);
-      params.delete('chooseType')
-      params.delete('type')
       r.push(`?${params.toString()}`);
-      setShowNodeInfo({ open: false, list: undefined });
       refetch();
-      // removeItem('sid')
-
     }
 
     if (type) {
@@ -211,7 +214,7 @@ const ANodes = () => {
 
                   setUnbingInfo(isShowNodeInfo.list?.nodeUUID)
                 }}
-                className="bg-[#F5F5F51A] smd:!h-[1.875rem] h-[1.875rem] rounded-lg "
+                className="bg-[#F5F5F51A] text-white smd:!h-[1.875rem] h-[1.875rem] rounded-lg  hover:!bg-default"
               >
                 Delete
               </Btn>

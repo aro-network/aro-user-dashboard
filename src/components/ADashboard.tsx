@@ -23,7 +23,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter } from "@
 import { Btn } from "./btns";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
-import { getItem } from "@/lib/storage";
+import { getItem, removeItem } from "@/lib/storage";
 import { useQueryClient } from "@tanstack/react-query";
 const Modes: Dashboard.ModesType[] = [
 
@@ -113,6 +113,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const handleTabChange = (tab: Dashboard.TabItem) => {
 
     setCurrentTab(tab);
+    removeItem('sid')
+
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {
       setRefreshKey((prev) => prev + 1);
@@ -181,7 +183,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="/logo.png" className={`shrink-0  smd:w-[4.6875rem] smd:h-7  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+          <img src="/enreach-logo.svg" className={`shrink-0  smd:w-[4.6875rem] smd:h-7  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
@@ -362,6 +364,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           }
           className="smd:mx-5"
           isOpen={showConfirmLogout}
+          cancelClassName="!bg-[#F5F5F51A] text-white"
           onCancel={toggleShowConfirmLogout}
           onConfirm={ac.logout}
         />
@@ -401,7 +404,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         }
         <AnimatePresence mode="wait">
           <motion.div
-            className=" pt-5 smd:pb-10  px-[6.5rem] smd:px-4 flex flex-col w-full "
+            className=" pt-5 smd:pb-10  px-[6.5rem] xsl:px-[5rem] smd:px-4 flex flex-col w-full "
             key={currentTab.name + refreshKey}
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

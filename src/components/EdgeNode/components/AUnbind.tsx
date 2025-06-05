@@ -35,6 +35,8 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
   useEffect(() => {
     const sid = JSON.parse(getItem('sid') || '{}')
+    console.log('sidsidsidsidsid', sid);
+
     if (JSON.stringify(sid) === '{}') {
       onBack()
     }
@@ -115,6 +117,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       confirmColor='primary'
       cancelColor="default"
       isOpen={isConfirm}
+      cancelClassName="!bg-[#F5F5F51A] text-white"
       onCancel={() => setIsConfirm(!isConfirm)}
       onConfirm={onUnbindingConfig}
     />
