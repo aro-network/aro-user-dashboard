@@ -86,9 +86,11 @@ declare namespace OtherTypes {
   };
   interface AuthContextProps {
     user?: Opt<LoginResult>;
+    link?: string;
     setUser: (u?: Opt<LoginResult>) => void;
     login: (credentials: { email: string; password: string }) => Promise<void>;
     logout: () => void;
+    setLink: (link?: string) => void;
     queryUserInfo?: UseQueryResult<User | undefined>;
   }
 }

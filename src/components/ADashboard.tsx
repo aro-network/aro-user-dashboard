@@ -27,6 +27,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AllText } from "@/lib/allText";
 import AAROID from "./AROID/AAROID";
 import { AFunds } from "./AROID";
+import ALinkOther from "./EdgeNode/components/ALinkOther";
 const Modes: Dashboard.ModesType[] = [
 
   {
@@ -140,10 +141,9 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
   const handleTabChange = (tab: Dashboard.TabItem) => {
-
+    ac.setLink('')
     setCurrentTab(tab);
     removeItem('sid')
-
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {
       setRefreshKey((prev) => prev + 1);
@@ -306,7 +306,12 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 }
               >
               </DropdownItem> */}
-              <DropdownItem key={'aroId'} onClick={() => r.push('?mode=devnet&tab=aroId')} >
+              <DropdownItem key={'aroId'} onClick={() => {
+                ac.setLink('')
+                r.push('?mode=devnet&tab=aroId')
+
+
+              }} >
                 <div className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
                   <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My ARO ID</label>
@@ -379,7 +384,12 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           isOpen={showConfirmLogout}
           cancelClassName="!bg-[#F5F5F51A] text-white"
           onCancel={toggleShowConfirmLogout}
-          onConfirm={ac.logout}
+          onConfirm={() => {
+            ac.setLink('')
+            ac.logout()
+          }
+          }
+
         />
       </div>
 
@@ -407,6 +417,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         })}
       </div>
 
+
       <div className="h-full  nodes mb-5 smd:mt-[3.75rem]">
         {currentTab.tab === 'referral' && user?.invited === false &&
           <div className="bg-[#00E42A]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
@@ -415,18 +426,22 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
           </div>
         }
-        <AnimatePresence mode="wait">
-          <motion.div
-            className=" pt-5 smd:pb-10  px-[6.5rem] xsl:px-[5rem] smd:px-4 flex flex-col w-full "
-            key={currentTab.name + refreshKey}
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -10, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {currentTab.content}
-          </motion.div>
-        </AnimatePresence>
+        {ac.link ?
+          <ALinkOther /> :
+          <AnimatePresence mode="wait">
+            <motion.div
+              className=" pt-5 smd:pb-10  px-[6.5rem] xsl:px-[5rem] smd:px-4 flex flex-col w-full "
+              key={currentTab.name + refreshKey}
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentTab.content}
+            </motion.div>
+          </AnimatePresence>
+        }
+
       </div>
 
 

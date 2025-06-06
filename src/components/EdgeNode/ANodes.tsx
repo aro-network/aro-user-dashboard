@@ -11,6 +11,7 @@ import { cn } from "@nextui-org/react";
 import { formatNumber } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getItem, removeItem, setItem } from "@/lib/storage";
+import { useAuthContext } from "@/app/context/AuthContext";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -25,6 +26,7 @@ const ANodes = () => {
   const r = useRouter()
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
+  const ac = useAuthContext();
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
     params.delete('chooseType')
@@ -192,8 +194,6 @@ const ANodes = () => {
             onClick={() => {
               setOpenAddNode(!isOpen);
               updateURL('type', 'add')
-
-
             }}
           >
             Add New Node
@@ -203,7 +203,10 @@ const ANodes = () => {
           !unbindInfo && (
             <div className="flex gap-[.625rem] smd:justify-end smd:pt-5   font-medium text-xs leading-3  smd:w-full">
               <Btn
-                onClick={() => window.open(`http://${ip.ip}:40001`)}
+                onClick={() =>
+                  ac.setLink(ip.ip)
+                  // window.open(`link?target=${ip.ip}`, '_blank')
+                }
                 className="h-[1.875rem] rounded-lg smd:!h-[1.875rem]"
               >
                 Go to Web Console

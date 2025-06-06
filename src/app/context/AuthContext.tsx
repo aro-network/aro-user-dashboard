@@ -12,6 +12,7 @@ export const AuthContext = createContext<OtherTypes.AuthContextProps>({
   login: async () => { },
   setUser: () => { },
   logout: () => { },
+  setLink: () => { },
 });
 
 interface AuthProviderProps {
@@ -24,8 +25,6 @@ const storageKey = "last-login-user";
 export const getLastLoginUser = () => {
   try {
     const json = getItem<string>(storageKey);
-
-    console.log('jsonjsonjson', json);
     if (!json) return null;
     const u = JSON.parse(json) as LoginResult;
     return u;
@@ -39,6 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const refIsLogout = useRef(false);
   const r = useRouter();
   const [user, setUser] = useState<Opt<LoginResult>>(getLastLoginUser());
+  const [link, setLink] = useState<string>()
   const params = useSearchParams()
   const redirect = params.get("redirect");
   console.info('redirect:', redirect)
@@ -81,7 +81,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     queryFn: () => backendApi.userInfo(),
   });
   // const queryUserInfo = useSWR(["QueryUserInfo", user?.token, location.href], () => (user?.token ? backendApi.userInfo() : undefined));
-  return <AuthContext.Provider value={{ user, login, logout, setUser: wrapSetUser, queryUserInfo }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, setLink, link, login, logout, setUser: wrapSetUser, queryUserInfo }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthContext = () => {
