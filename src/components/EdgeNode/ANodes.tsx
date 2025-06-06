@@ -242,7 +242,7 @@ const ANodes = () => {
             <div className="w-[37.5rem] m-auto text-center gap-5 flex flex-col">
               <div className=" text-lg ">Add Your Edge Node</div>
               <div className="text-sm text-[#FFFFFF80]">
-                ARO supports both hardware and software Edge Nodes on various platforms. Check our guide to choose the best node type for you.
+                ARO supports both hardware and software Edge Nodes on various platforms. Check <button onClick={() => window.open('https://docs.aro.network/edge-node/types', '_blank')} className="underline underline-offset-1 hover:text-[#00E42A]">our guide</button> to choose the best node type for you.
 
 
               </div>
