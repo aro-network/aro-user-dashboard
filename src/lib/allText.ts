@@ -141,14 +141,14 @@ export const AllText = {
       "You’re eligible for an additional second-tier commission.",
     isInvitedTips: "View your first-tier and second-tier referee counts.",
     "How Referral Program Works?": "How Referral Program Works?",
-    subTitle: `Referrers earn a 15% commission on their referee’s Edge Node rewards. Contact us to get whitelisted for an additional second-tier commission.`,
+    subTitle: `Referrers earn a 15% commission on their referees' Edge Node rewards. Contact us to get whitelisted for an additional second-tier commission.`,
   },
   aroId: {
     evmAddressTips: "This function is not available in Devnet.",
     notReferredTips: "You are not referred by anyone.",
     addReferrer: {
       title: "Add Referrer",
-      content: `You can add a referrer (the person who invited you to ARO) by entering their Referral Code. Being referred by an ARO user grants you a 20% bonus on your Edge Node rewards for 14 days. Note: You cannot change your referrer once set.`,
+      content: `You can add the referrer (the person who invited you to ARO) by entering the Referral Code. Being referred by an ARO user grants you a 20% bonus on your Edge Node rewards for 14 days. Note: You cannot change your referrer once set.`,
     },
   },
   signOut: {

@@ -80,7 +80,7 @@ export default function Page() {
           <Btn type="submit" isDisabled={disableReset} isLoading={isPending}>
             Reset Password
           </Btn>
-          <MLink href="/signin" className="text-xs smd:text-sm text-left">
+          <MLink href="/signin" className="text-xs smd:text-sm text-left hover:text-[#00E42A]">
             Go back
           </MLink>
         </form>

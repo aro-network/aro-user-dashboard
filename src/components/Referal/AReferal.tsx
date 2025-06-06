@@ -139,7 +139,7 @@ Share your idle internet, earn rewards, build a smarter web, together.
                 </div>
                 <div className=" text-[#FFFFFFB2] text-sm pt-1 flex flex-col smd:hidden">
                   <span >
-                    Referrers earn a 15% commission on their referee’s Edge Node rewards.
+                    Referrers earn a 15% commission on their referees' Edge Node rewards.
                   </span>
                   <span>
                     Contact us to get whitelisted for an additional second-tier commission.
@@ -156,7 +156,7 @@ Share your idle internet, earn rewards, build a smarter web, together.
           content={
             <div className="md:hidden h-full ">
               <div className="w-full smd:text-sm text-[#FFFFFFB2] smd:pt-[.625rem]">
-                Referrers earn a 15% commission on their referee’s Edge Node rewards.    Contact us to get whitelisted for an additional second-tier commission.
+                Referrers earn a 15% commission on their referees' Edge Node rewards.     Contact us to get whitelisted for an additional second-tier commission.
               </div>
               <div className="flex  pt-10  items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-14 w-full flex-wrap">
                 <img src="./refer.png" className="w-[8.6875rem] h-auto" />

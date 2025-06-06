@@ -80,7 +80,7 @@ export function SignInWithGoogle({ defReferralCode, btn = "Sign in with Google",
   const disableLogin = isDisabled || isPending || isAuthing;
   return (
     <>
-      <Btn color="default" type="button" className="bg-default text-white" isDisabled={disableLogin} isLoading={isPending || isAuthing} onClick={onClick}>
+      <Btn color="default" type="button" className="bg-default hover:bg-l1 text-white" isDisabled={disableLogin} isLoading={isPending || isAuthing} onClick={onClick}>
         <FcGoogle /> {btn}
       </Btn>
 

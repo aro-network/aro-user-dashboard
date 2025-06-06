@@ -61,17 +61,17 @@ export default function Page() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
           <InputEmail setEmail={setEmail} />
           <InputPassword setPassword={setPassword} validate={() => null} />
-          <Btn type="submit" className="!" isDisabled={disableSignIn} isLoading={isPendingSignIn}>
+          <Btn type="submit" isDisabled={disableSignIn} isLoading={isPendingSignIn}>
             Sign In
           </Btn>
           <SignInWithGoogle />
         </form>
         <div className="flip_item mb-auto flex items-center w-full text-xs smd:text-sm text-white/60">
           Don’t have an account?
-          <MLink href={href} className="ml-2 text-xs">
+          <MLink href={href} className="ml-2 text-xs hover:text-[#00E42A]">
             Sign Up
           </MLink>
-          <MLink href={`/reset?email=${email}`} className="ml-auto text-xs">
+          <MLink href={`/reset?email=${email}`} className="ml-auto text-xs  hover:text-[#00E42A]">
             Forget Password?
           </MLink>
         </div>

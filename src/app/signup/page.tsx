@@ -143,13 +143,13 @@ export default function Page() {
                 <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs smd:text-sm text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
                   I agree to the ARO{"\u00A0"}
                 </Checkbox>
-                <MLink target="_blank" className="text-xs smd:text-sm" href="https://aro.network/terms" >
+                <MLink target="_blank" className="text-xs smd:text-sm   hover:text-[#00E42A]" href="https://aro.network/terms" >
                   Terms of Service
                 </MLink>{" "}
                 <div className="">
                   {"\u00A0"}and{"\u00A0"}
                 </div>
-                <MLink target="_blank" className="text-xs smd:text-sm" href="https://aro.network/privacy">
+                <MLink target="_blank" className="text-xs smd:text-sm   hover:text-[#00E42A]" href="https://aro.network/privacy">
                   {" "}Privacy Policy
                 </MLink>
                 .
@@ -169,7 +169,7 @@ export default function Page() {
               <SignInWithGoogle btn="Sign up with Google" defReferralCode={referalCode} />
               <div className="flip_item text-center text-xs smd:text-sm text-white/60">
                 Already have an account?{" "}
-                <MLink href="/signin" className="text-xs smd:text-sm">
+                <MLink href="/signin" className="text-xs smd:text-sm   hover:text-[#00E42A]">
                   Sign In
                 </MLink>
               </div>

@@ -31,7 +31,7 @@ const config: Config = {
       },
       colors: {
         primary: {
-          DEFAULT: "#4281FF",
+          DEFAULT: "#00E42A",
         },
         default: {
           DEFAULT: "rgba(255, 255, 255, 0.15)",
