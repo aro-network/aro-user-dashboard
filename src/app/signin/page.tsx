@@ -19,6 +19,8 @@ import { HelpTip } from "@/components/tips";
 import { CiCircleQuestion } from "react-icons/ci";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
+import { AllText } from "@/lib/allText";
+import { Devnet } from "@/components/ADashboard";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -52,17 +54,7 @@ export default function Page() {
         <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center'}>
           {envText('sign')}
           <div hidden={ENV !== 'prod'} className="text-[#FFFFFF80] " >
-            <HelpTip content={
-              <span>
-                Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
-                <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
-              </span>
-
-            } className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
-              <div>
-                <SVGS.SvgQuesiton />
-              </div>
-            </HelpTip>
+            <Devnet placement={isMobile ? 'top' : 'bottom'} />
           </div>
         </span>
 

@@ -2,6 +2,7 @@ import { Spinner } from "@nextui-org/react";
 import { Btn } from "../btns";
 import { TitCard } from "../cards";
 import { STable } from "../tables";
+import { AllText } from "@/lib/allText";
 
 const AFunds = () => {
 
@@ -26,7 +27,7 @@ const AFunds = () => {
       <STable
         isLoading={false}
         loadingContent={<Spinner />}
-        empty="Rewards claim not applicable on current stage."
+        empty={AllText.Funds["Claiming rewards is not available at the current stage. Stay tuned for updates!"]}
         head={[
           "Total Claimable",
           "Claim to Address",
@@ -47,7 +48,7 @@ const AFunds = () => {
       <STable
         isLoading={false}
         loadingContent={<Spinner />}
-        empty="Rewards claim not applicable on current stage."
+        empty={AllText.Funds["Claiming rewards is not available at the current stage. Stay tuned for updates!"]}
         head={[
           "Date",
           "Time",

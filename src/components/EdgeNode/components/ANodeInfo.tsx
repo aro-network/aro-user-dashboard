@@ -308,7 +308,7 @@ const ANodeInfo: FC<{
                       Total
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-3xl xsl:text-xl ">
+                      <span className="text-3xl">
                         {formatNumber(Number(data?.countRewards.total || 0))}
                       </span>
                       <span>Jades</span>
@@ -319,7 +319,7 @@ const ANodeInfo: FC<{
                       Today
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-3xl xsl:text-xl ">
+                      <span className="text-3xl">
                         + {formatNumber(Number(data?.countRewards.today || 0))}
                       </span>
                       <span>Jades</span>
@@ -330,7 +330,7 @@ const ANodeInfo: FC<{
                       Yesterday
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-3xl xsl:text-xl ">
+                      <span className="text-3xl">
                         +{" "}
                         {formatNumber(Number(data?.countRewards.yesterday || 0))}
                       </span>
@@ -611,7 +611,7 @@ const ANodeInfo: FC<{
         </div>
       ) : (
         <div className="flex justify-center pt-[4.5625rem]  w-full items-center h-full">
-          <CircularProgress label="Loading..." />
+          <CircularProgress label="Loading..." classNames={{ 'svg': 'text-[#00E42A]' }} />
         </div>
       )}
     </>

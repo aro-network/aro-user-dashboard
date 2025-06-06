@@ -9,7 +9,7 @@ export const AllText = {
   signIn: {
     title: "Sign In For Devnet",
     titleTips:
-      "Devnet is a private testing environment, not the Testnet. No mining rewards are available in Devnet. Testnet will launch soon. To join Devnet, check out the Pioneers Program for details.",
+      "Devnet is a private testing environment, not the Testnet. No mining rewards are available in Devnet. Testnet will launch soon. To join Devnet, check out the // for details.",
     signUp: "Sign Up",
     forgetPwd: "Forget Password?",
   },
@@ -67,8 +67,23 @@ export const AllText = {
         content: "Your Edge Node (Device Type: xxx) was added successfully.",
       },
     },
+    type2: {
+      first: {
+        title: "To add a new xx Node, please refer to the guidance below.",
+        subtitle: "Software Node Installation Guidance",
+        "Node Installation Guidance": " Node Installation Guidance",
+        "Make sure you have followed the guidance and complete initial network configurations on your Software Node CLI before continue.":
+          "Make sure you have followed the guidance and complete initial network configurations on your xx Node CLI before continue.",
+      },
+      step1: {
+        title: "Step 1: Connect your device",
+        subTitle:
+          "Fill in the Virtual Serial Number in this box. (You will find the Virtual Serial Number on your xx Node CLI after you have completed network configurations. ) Please make sure your xx Node is connected to the internet during the binding process. Otherwise the binding process will fail.",
+      },
+      step2: {},
+    },
   },
-  delDevice: {
+  deviceInfo: {
     "Device found": "Device found:",
     "Device Type": "Device Type",
     "Serial Number": "Serial Number",
@@ -80,7 +95,8 @@ export const AllText = {
     "Are you sure you want to delete this Edge Node?":
       "Are you sure you want to delete this Edge Node?",
     "Congratulations!": "Congratulations!",
-    delInfo: "Your Edge Node (Device Type: xxx) was deleted successfully.",
+    "Your Edge Node (Device Type: xxx) was deleted successfully.":
+      "Your Edge Node (Device Type: xxx) was deleted successfully.",
   },
   stats: {
     "My Nodes": {
@@ -123,8 +139,7 @@ export const AllText = {
     referralBonusTips: `As a referrer, you earn a commission on your referee's Edge Node rewards.`,
     whitelistedTips:
       "You’re eligible for an additional second-tier commission.",
-    isInvitedTips:
-      "View your first-tier and second-tier referee counts.",
+    isInvitedTips: "View your first-tier and second-tier referee counts.",
     "How Referral Program Works?": "How Referral Program Works?",
     subTitle: `Referrers earn a 15% commission on their referee’s Edge Node rewards. Contact us to get whitelisted for an additional second-tier commission.`,
   },

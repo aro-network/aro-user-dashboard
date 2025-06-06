@@ -16,9 +16,10 @@ import { SVGS } from "@/svg";
 import { InputSplitCode } from "../inputs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import backendApi from "@/lib/api";
+import { AllText } from "@/lib/allText";
 
 
-const AEnReachID = () => {
+const AAROID = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
   const [isSeOpen, setSeOpenAddNode] = useToggle(false);
 
@@ -103,7 +104,7 @@ const AEnReachID = () => {
       </div>
       <ForceModal isOpen={showInputReferral} className="!w-[650px] smd:!w-full smd:!mx-5">
         <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base text-center  text-white">Add Referrer</p>
-        <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{`You can add a Referrer (the one that invited you to ARO) by filling the Referral Code. Being referred an ARO user will give you 20% extra boost on your Edge Node rewards for 14 days. Be careful: you cannot change your referrer information once it is set.`}</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{AllText.aroId.addReferrer.content}</p>
         <InputSplitCode onChange={setReferalCode} />
         <div className="flex w-full gap-[.625rem]">
           <Btn color='default' className="w-full  bg-default text-white" onPress={() => {
@@ -128,4 +129,4 @@ const AEnReachID = () => {
 
 }
 
-export default AEnReachID
+export default AAROID

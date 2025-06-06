@@ -25,10 +25,10 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
                   <label className="text-[#FFFFFF] text-lg  truncate">{shortenMiddle(node.deviceName, isMobile ? 12 : 15)} </label>
                 </HelpTip>
                 <div className="flex items-center gap-1 ">
-                  {node.status ? <IoIosCheckmarkCircle className="text-[#4297FF] text-base " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-base" />}
+                  {node.status ? <IoIosCheckmarkCircle className="text-[#34D399] text-base " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-base" />}
                   <label
                     className={cn('text-base ', {
-                      "text-[#4297FF]": node.status,
+                      "text-[#34D399]": node.status,
                       "text-[#FF6A6C]": !node.status
                     })}
                   >{node.status ? 'Online' : 'Offline'}</label>

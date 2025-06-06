@@ -11,6 +11,7 @@ import { HelpTip } from "@/components/tips"
 import useMobileDetect from "@/hooks/useMobileDetect"
 import { useRouter, useSearchParams } from "next/navigation";
 import { ENV } from "@/lib/env"
+import { AllText } from "@/lib/allText"
 
 
 const deviceList: Nodes.DeviceType[] = [
@@ -33,13 +34,14 @@ const X86 = ({ stepIndex, x86Step }: { stepIndex: number, x86Step: { content: Re
 export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMobile: boolean) => {
   const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
 
+
   const list = [
-    { name: 'Device Type', value: covertText(nodeType as 'box' | 'x86') },
-    { name: 'Serial Number', value: nodeUUID },
+    { name: AllText.deviceInfo["Device Type"], value: covertText(nodeType as 'box' | 'x86') },
+    { name: AllText.deviceInfo["Serial Number"], value: nodeUUID },
     {
-      name: 'Network Status', value: <div className="flex items-center">
-        {online ? <IoIosCheckmarkCircle className="text-[#4297FF] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
-        <label className={`ml-1 text-sm ${online ? 'text-[#4297FF]' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
+      name: AllText.deviceInfo["Network Status"], value: <div className="flex items-center">
+        {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
+        <label className={`ml-1 text-sm ${online ? 'text-[#34D399]' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
       </div>
     },
     { name: 'Device IP', value: ip },
@@ -48,7 +50,7 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
   ]
 
   return <div className="w-full device flex justify-between flex-col py-[.625rem]">
-    <div className="text-lg smd:text-base font-Alexandria">Device found:</div>
+    <div className="text-lg smd:text-base font-Alexandria">{AllText.deviceInfo["Device found"]}</div>
     <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 ">
       {list.map((item) => {
         const isOpen = item.name === 'Device IP' && isMobile && isIPv6(item.value as string)
@@ -149,7 +151,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setStepIndex(stepIndex + 1)
       }
     } else if (data?.online === false) {
-      toast.error(`Sorry, we cannot find your ${chooseedType?.iconName}. Please make sure your ${chooseedType?.iconName} is powered on and have internet access.`)
+      toast.error(AllText.AAddNewNodes.type.step1.error[0].replaceAll('xx', chooseedType?.iconName ?? '-'))
     }
   }
 
@@ -169,7 +171,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setX86StepIndex(stepX86Index + 1)
       }
     } else if (data?.online === false) {
-      toast.error(`Sorry, we cannot find your ${chooseedType?.iconName}. Please make sure your ${chooseedType?.iconName} is powered on and have internet access.`)
+      toast.error(AllText.AAddNewNodes.type.step1.error[0].replaceAll('xx', chooseedType?.iconName ?? '-'))
     }
   }
 
@@ -215,17 +217,16 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
             <div className="flex w-full font-normal smd:text-base text-lg leading-5 justify-center font-Alexandria smd:justify-start ">
-              Step 1: Connect your device
+              {AllText.AAddNewNodes.type.step1.title}
+
             </div>
             <div className="mt-5 flex w-full justify-center smd:text-left text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
-              Make sure your {chooseedType?.iconName} is powered on and connected to the internet (with internet cable).
-              Find the serial number (19-digit numbers) on your {chooseedType?.iconName} and fill in:
+              {AllText.AAddNewNodes.type.step1.subtitle.replaceAll('xx', chooseedType?.iconName ?? '')}
             </div>
             <Input
               maxLength={30}
               className=" mt-5 "
               classNames={{ 'inputWrapper': '!rounded-lg smd:!h-12' }}
-
               value={serialNum?.num}
               onChange={(e) => {
                 setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'box' })
@@ -246,7 +247,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full ">
             <div className="flex w-full  font-normal text-lg leading-5 justify-center font-Alexandria">
-              Step 2: Add Device to your account
+              {AllText.AAddNewNodes.type.step2.title}
             </div>
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
 
@@ -260,7 +261,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? 'Please make sure your device is still online. Otherwise, the add process will fail. ' : 'This device has been already added to another ARO Account. Please delete the device from the previous account first.'}
+              {deviceInfo?.bindState === 'N/A' ? AllText.AAddNewNodes.type.step2.error[1] : AllText.AAddNewNodes.type.step2.error[0]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5 ">
               <Btn onPress={() => onStepNext()} className="w-full rounded-lg smd:h-12" >
@@ -275,11 +276,11 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full justify-center flex-col md:items-center">
           <div className="w-[37.5rem] smd:w-full  ">
             <div className="flex w-full font-normal  smd:justify-start text-lg leading-5 justify-center font-Alexandria">
-              Step 3: Configure your Edge Node
+              {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
             </div>
-            <div className="text-xs w-full mt-5 font-Alexandria smd:text-sm">Set a name for your Edge Node</div>
+            <div className="text-xs w-full mt-5 font-Alexandria smd:text-sm">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
             <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg smd:h-12' }} className="mt-[.3125rem]" />
-            <label className="text-[#FFFFFF80] text-xs smd:text-sm mt-[.625rem]">You can change the name anytime later.</label>
+            <label className="text-[#FFFFFF80] text-xs smd:text-sm mt-[.625rem]">{AllText.AAddNewNodes.type.step3["You can change the name anytime later."]}</label>
             <div className="text-xs smd:text-sm mt-[.9375rem] font-Alexandria ">Select Service Region</div>
             <Select
               items={data}
@@ -314,7 +315,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {chooseedType?.iconName}) added.
+              {AllText.AAddNewNodes.type.step4.content.replace('xxx', chooseedType?.iconName ?? '-')}
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -335,13 +336,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem]">
             <div className="flex w-full font-normal justify-center text-sm leading-5">
-              To add a new {chooseedType?.iconName} Node, please refer to the guidance below.
+              {AllText.AAddNewNodes.type2.first.title.replace('xx', chooseedType?.iconName ?? '-')}
             </div>
             <div className="mt-5  text-center text-sm underline underline-offset-1">
-              {chooseedType?.iconName} Node Installation Guidance
+              {chooseedType?.iconName + AllText.AAddNewNodes.type2.first["Node Installation Guidance"]}
             </div>
             <div className="mt-5 text-[#FFFFFF80] text-sm text-center">
-              Make sure you have followed the guidance and complete initial network configurations on your {chooseedType?.iconName} Node CLI before continue.
+
+              {AllText.AAddNewNodes.type2.first["Make sure you have followed the guidance and complete initial network configurations on your Software Node CLI before continue."].replaceAll('xx', chooseedType?.iconName ?? '')}
             </div>
             <div className="flex justify-center items-center mt-[.75rem]  flex-col  gap-[.625rem]">
               <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg" >
@@ -356,12 +358,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem]">
             <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria">
-              Step 1: Connect your device
+              {AllText.AAddNewNodes.type.step1.title}
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
-              Fill in the Virtual Serial Number in this box.
-              (You will find the Virtual Serial Number on your {chooseedType?.iconName} Node CLI after you have completed network configurations. )
-              Please make sure your {chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.
+              {AllText.AAddNewNodes.type2.step1.subTitle.replaceAll('xx', chooseedType?.iconName ?? '-')}
             </div>
             <Input
               maxLength={30}
@@ -386,7 +386,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem]">
             <div className="flex w-full  font-normal text-lg leading-5 justify-center">
-              Step 2: Add Device to your account
+              {AllText.AAddNewNodes.type.step2.title}
             </div>
             <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
               <div className="w-[50%]">
@@ -399,7 +399,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
             )}>
-              {deviceInfo?.bindState === 'N/A' ? `Please make sure your ${chooseedType?.iconName} Node is connected to the internet during the binding process. Otherwise the binding process will fail.` : `This device has been already added to another ARO Account. Please delete the device from the previous account first.`}
+              {deviceInfo?.bindState === 'N/A' ? AllText.AAddNewNodes.type.step2.error[1] : AllText.AAddNewNodes.type.step2.error[0]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
               <Btn onPress={() => onX86StepNext()} className="w-full rounded-lg " >
@@ -414,12 +414,12 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] ">
             <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria">
-              Step 3: Configure your Edge Node
+              {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
             </div>
 
-            <div className="text-xs mt-5 ">Set a name for your Edge Node</div>
+            <div className="text-xs mt-5 ">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
             <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" />
-            <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">You can change the name anytime later.</label>
+            <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">{AllText.AAddNewNodes.type.step3["You can change the name anytime later."]}</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
               items={data}
@@ -453,7 +453,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: {chooseedType?.iconName}) added.
+              {AllText.AAddNewNodes.type.step4.content.replace('xxx', chooseedType?.iconName ?? '-')}
+
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -474,7 +475,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         : chooseedType?.value === 'box' ?
           <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
           <div className="w-full text-center flex flex-col m-auto">
-            <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">Please choose which type of Edge Node you want to add:</label>
+            <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">
+              {AllText.AAddNewNodes.title}
+            </label>
             <div className="flex  gap-10 smd:gap-4 mt-10 smd:mt-4 w-full justify-center smd:flex-col  m-auto smd:px-0 px-[3.75rem]">
               {deviceList.map((item, index) => {
                 return <div onClick={() => {

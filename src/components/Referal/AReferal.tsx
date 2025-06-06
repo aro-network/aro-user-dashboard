@@ -12,6 +12,7 @@ import { HelpTip } from "../tips";
 import { useQuery } from "@tanstack/react-query";
 import backendApi from "@/lib/api";
 import { formatNumber } from "@/lib/utils";
+import { AllText } from "@/lib/allText";
 
 export default function AMyReferral() {
   const ac = useAuthContext();
@@ -59,8 +60,8 @@ Share your idle internet, earn rewards, build a smarter web, together.
           content={
             <div className="flex items-center gap-4 h-full">
               <div className="uppercase text-4xl smd:text-[2rem] leading-8 font-bold">{user?.inviteCode}</div>
-              <IconBtn tip="Copy Referral Link" onClick={() => copy(`${origin}/signup?referral=${user?.inviteCode}`)}>
-                <FaLink />
+              <IconBtn className="bg-[#00E42A] hover:bg-[#5CF077]" tip="Copy Referral Link" onClick={() => copy(`${origin}/signup?referral=${user?.inviteCode}`)}>
+                <FaLink className="text-black" />
               </IconBtn>
               {/* <IconBtn tip="Tweet Your Referral" onClick={onPostX}>
                 <FaXTwitter />
@@ -77,11 +78,11 @@ Share your idle internet, earn rewards, build a smarter web, together.
             <div className="flex w-full items-center justify-between  smd:flex-wrap smd:gap-[.625rem]">
               <div className="text-xl smd:text-base flex items-center gap-2  font-Alexandria">
                 Referral Bonus{" "}
-                <HelpTip className=" w-[12.5rem]" content="As a referrer, you earn a commission from your referee's node rewards." />
+                <HelpTip className=" w-[12.5rem]" content={AllText.referral.referralBonusTips} />
               </div>
               {data?.whiteListInfo.whiteListUser &&
                 <div>
-                  <HelpTip className=" w-[12.5rem]" content="You get whitelisted for the extra second-tier commission." >
+                  <HelpTip className=" w-[12.5rem]" content={AllText.referral.whitelistedTips} >
                     <div className="bg-[#FF8748] rounded-[1.875rem] text-white text-xs py-1 px-2">
                       Whitelisted
                     </div>
@@ -110,11 +111,11 @@ Share your idle internet, earn rewards, build a smarter web, together.
                       <span>
                         {(data?.whiteListInfo.inviteCounts.level1 || 0)} + {(data?.whiteListInfo.inviteCounts.level2 || 0)}
                       </span>
-                      <HelpTip className=" w-[12.5rem]" content="Your first-tier referee count and second-tier referee count." />
+                      <HelpTip className=" w-[12.5rem]" content={AllText.referral.isInvitedTips} />
 
                     </div>
                     : (data?.rewardsInfo.referred || 0)}
-                subClassName="text-green-400 opacity-100 smd:text-xs "
+                subClassName="text-[#34D399]  smd:text-xs "
                 titClassName=" smd:text-2xl"
                 sub={
                   <>
@@ -138,10 +139,10 @@ Share your idle internet, earn rewards, build a smarter web, together.
                 </div>
                 <div className=" text-[#FFFFFFB2] text-sm pt-1 flex flex-col smd:hidden">
                   <span >
-                    {` The Referrer enjoy 15% commission from the Referee's mining rewards.`}
+                    Referrers earn a 15% commission on their referee’s Edge Node rewards.
                   </span>
                   <span>
-                    Contact us to get whitelisted for the extra seond-tier commission.
+                    Contact us to get whitelisted for an additional second-tier commission.
                   </span>
                 </div>
               </div>
@@ -155,7 +156,7 @@ Share your idle internet, earn rewards, build a smarter web, together.
           content={
             <div className="md:hidden h-full ">
               <div className="w-full smd:text-sm text-[#FFFFFFB2] smd:pt-[.625rem]">
-                The Referrer enjoy 15% commission from the Referee's mining rewards.   Contact us to get whitelisted for the extra seond-tier commission.
+                Referrers earn a 15% commission on their referee’s Edge Node rewards.    Contact us to get whitelisted for an additional second-tier commission.
               </div>
               <div className="flex  pt-10  items-center xsl:justify-center xsl:gap-10 xsl:mt-5 gap-14 w-full flex-wrap">
                 <img src="./refer.png" className="w-[8.6875rem] h-auto" />

@@ -9,6 +9,7 @@ import { foundDeviceList } from "./AAddNewNodes"
 import useMobileDetect from "@/hooks/useMobileDetect"
 import { getItem, removeItem } from "@/lib/storage"
 import { useSearchParams } from "next/navigation"
+import { AllText } from "@/lib/allText"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => (
@@ -69,7 +70,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               </div>
               {foundDeviceList(data, isMobile)}
             </div>
-            <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5  text-center">Please make sure you want to delete this device before continue. You cannot undo this action. </div>
+            <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5  text-center">
+              {AllText.deviceInfo["Please confirm you want to delete this device. This action cannot be undone."]}
+            </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
               <Btn isLoading={getStatus.isFetching} onClick={() => setIsConfirm(true)} className="w-full rounded-lg smd:h-12 " >
                 Confirm Delete
@@ -86,7 +89,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              Edge Node (Device Type: <span className=" capitalize">{covertText(data?.nodeType as "box" | "x86" | "Box")})</span> deleted.
+              Your Edge Node (Device Type:  <span className=" capitalize">{covertText(data?.nodeType as "box" | "x86" | "Box")})</span> was deleted successfully.
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -109,7 +112,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       tit="Delete this device"
       msg={
         <>
-          Are you sure you really want to delete Edge Node?
+          {AllText.deviceInfo["Are you sure you want to delete this Edge Node?"]}
         </>
       }
       className="smd:mx-5"

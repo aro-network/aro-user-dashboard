@@ -11,7 +11,6 @@ import { useCopy } from "@/hooks/useCopy";
 import { useToggle } from "react-use";
 import { ConfirmDialog } from "./dialogimpls";
 import { ANodes, AOverview, AStats } from "./EdgeNode";
-import { AEnReachID, AFunds } from "./EnReachID";
 import { AEdgeNode, ALeaderboard } from "./NetworkExplorer";
 import { AnimatePresence } from "motion/react"
 import * as motion from "motion/react-client"
@@ -25,6 +24,9 @@ import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
 import { getItem, removeItem } from "@/lib/storage";
 import { useQueryClient } from "@tanstack/react-query";
+import { AllText } from "@/lib/allText";
+import AAROID from "./AROID/AAROID";
+import { AFunds } from "./AROID";
 const Modes: Dashboard.ModesType[] = [
 
   {
@@ -56,8 +58,8 @@ const Modes: Dashboard.ModesType[] = [
       },
       {
         name: "ARO ID",
-        content: <AEnReachID />,
-        tab: 'enreachId'
+        content: <AAROID />,
+        tab: 'aroId'
       },
 
 
@@ -65,6 +67,33 @@ const Modes: Dashboard.ModesType[] = [
   },
 
 ]
+
+type OverlayPlacement = "top" | "bottom" | "right" | "left" | "top-start" | "top-end" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end";
+type Placement = { placement?: OverlayPlacement }
+export const Devnet: FC<Placement> = ({ placement = 'bottom' }) => {
+  const parts = AllText.signIn.titleTips.split('//');
+  const openPage = () => {
+    window.open("https://aro.network/#target-section", "_blank");
+  };
+  const align = placement as OverlayPlacement ?? 'bottom'
+  return <HelpTip className=" w-[12.5rem]" placement={align}
+    content={
+      <span>
+        {parts[0]}
+        <button onClick={openPage} className="underline underline-offset-1">
+          Pioneer Program.
+        </button>
+        {parts[1]}
+      </span>
+    }>
+    <div>
+      <SVGS.SvgQuesiton />
+    </div>
+
+  </HelpTip>
+
+
+}
 
 const ADashboard: FC<Dashboard.MenusProps> = () => {
   const ac = useAuthContext();
@@ -163,10 +192,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
 
-  const openPage = () => {
-    window.open("https://aro.network/#target-section", "_blank");
-  };
-
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
 
 
@@ -190,18 +215,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           })}>
             {selectedTab.label}
             <div hidden={ENV !== 'prod'}>
-              <HelpTip className=" w-[12.5rem]" placement='bottom'
-                content={
-                  <span>
-                    Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
-                    <button onClick={openPage} className=" !text-sm  underline underline-offset-1"> Pioneer Program.</button>
-                  </span>
-                }>
-                <div>
-                  <SVGS.SvgQuesiton />
-                </div>
+              <Devnet />
 
-              </HelpTip>
             </div>
           </div>
           {/* <Dropdown isOpen={isOpen}>
@@ -291,7 +306,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 }
               >
               </DropdownItem> */}
-              <DropdownItem key={'enreachId'} onClick={() => r.push('?mode=devnet&tab=enreachId')} >
+              <DropdownItem key={'aroId'} onClick={() => r.push('?mode=devnet&tab=aroId')} >
                 <div className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
                   <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My ARO ID</label>
@@ -357,9 +372,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           tit="Log Out"
           msg={
             <>
-              You are going to log out your account.
-              <br />
-              Are you sure?
+              {AllText.signOut.tips}
             </>
           }
           className="smd:mx-5"
@@ -396,9 +409,9 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
       <div className="h-full  nodes mb-5 smd:mt-[3.75rem]">
         {currentTab.tab === 'referral' && user?.invited === false &&
-          <div className="bg-[#4281FF]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
-            <span>You have not set your Referrer Information. Being referred by an ARO user will give you extra boost! </span>
-            <button onClick={() => r.push('?mode=devnet&tab=enreachId')} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>
+          <div className="bg-[#00E42A]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
+            <span className="text-black">You have not set your Referrer Information. Being referred by an ARO user will give you extra boost! </span>
+            <button onClick={() => r.push('?mode=devnet&tab=aroId')} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>
 
           </div>
         }

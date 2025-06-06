@@ -22,6 +22,7 @@ import { HelpTip } from "@/components/tips";
 import { ENV } from "@/lib/env";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
+import { Devnet } from "@/components/ADashboard";
 
 export default function Page() {
   const sq = useSearchParams();
@@ -113,17 +114,7 @@ export default function Page() {
           <div className={loginTitleClassName + ' flex items-center gap-2'} >
             {envText('signUp')}
             <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-              <HelpTip content={
-                <span>
-                  Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the
-                  <button onClick={openPage} className=" underline underline-offset-1"> Pioneer Program.</button>
-                </span>
-
-              } isOpen={isOpen} className=" w-[12.5rem]" placement={isMobile ? 'top' : 'bottom'} >
-                <div>
-                  <SVGS.SvgQuesiton />
-                </div>
-              </HelpTip>
+              <Devnet placement={isMobile ? 'top' : 'bottom'} />
             </div>
           </div>
           {/* <img src="logo.svg" alt="Logo" className="mt-auto h-[4.9375rem]" /> */}
@@ -153,7 +144,7 @@ export default function Page() {
                   I agree to the ARO{"\u00A0"}
                 </Checkbox>
                 <MLink target="_blank" className="text-xs smd:text-sm" href="https://aro.network/terms" >
-                  Term of Service
+                  Terms of Service
                 </MLink>{" "}
                 <div className="">
                   {"\u00A0"}and{"\u00A0"}

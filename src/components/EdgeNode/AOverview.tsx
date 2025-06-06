@@ -16,6 +16,7 @@ import { GoArrowUpRight } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { FaGift } from "react-icons/fa6";
 import { formatNumber, generateDateList, generateLast15DaysRange, getCurrentDate } from "@/lib/utils";
+import { AllText } from "@/lib/allText";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 export function DupleSplit({ className }: { className?: string }) {
   return <div className={cn("bg-white opacity-30 w-[1px] h-6 shrink-0", className)} />;
@@ -101,7 +102,7 @@ const AOverview = () => {
         formatter: (params: any) => {
           // console.info("params:", params)
           // <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0,0,0,0);"></span>
-          return `<div>${params[0].marker.replace('background-color:rgba(0,0,0,0)', 'background-color:#4281FF')}${formatNumber(params[0].data)}</div>`
+          return `<div>${params[0].marker.replace('background-color:rgba(0,0,0,0)', 'background-color:#00E42A')}${formatNumber(params[0].data)}</div>`
         }
       },
       grid: { left: 40, top: 10, bottom: 30, right: 20, show: false },
@@ -163,7 +164,7 @@ const AOverview = () => {
           },
           emphasis: {
             itemStyle: {
-              color: "#4281FF",
+              color: "#00E42A",
               decal: "none"
             },
           },
@@ -189,8 +190,8 @@ const AOverview = () => {
             <div className="flex justify-between items-center w-full">
               <span className="text-xl smd:text-base font-Alexandria">My Nodes</span>
               <HelpTip content='Go to Nodes Detail'>
-                <button className=" bg-[#4281FF]  hover:bg-default rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=devnet&tab=nodes')}>
-                  <GoArrowUpRight />
+                <button className=" bg-[#00E42A]  hover:bg-[#5CF077] rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=devnet&tab=nodes')}>
+                  <GoArrowUpRight className="text-black" />
                 </button>
               </HelpTip>
 
@@ -205,7 +206,7 @@ const AOverview = () => {
                 subClassName="smd:text-xs"
                 sub={
                   <>
-                    <div className="text-[#4297FF]  flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
+                    <div className="text-[#34D399]  flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
                   </>
                 }
               />
@@ -220,10 +221,10 @@ const AOverview = () => {
             <div className="flex w-full items-center justify-between smd:flex-col smd:items-start smd:gap-[.625rem]">
               <div className="flex justify-between items-center gap-2">
                 <span className="text-xl smd:text-base font-Alexandria">Rewards - All Nodes</span>
-                <HelpTip className=" w-[12.5rem]" content="The rewards number shows how much you have earned from running Edge Nodes, plus the Referral Bonus." />
+                <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
               </div>
               <div hidden={!user?.inviteUserEmail}>
-                <HelpTip className={`  w-[12.5rem] `} content="You enjoy a 20% extra boost on node rewards for the first 14 days from being referred to ARO. " >
+                <HelpTip className={`  w-[12.5rem] `} content={AllText.stats.inviteTips} >
                   <div className="bg-[#FF8748] rounded-[1.875rem] text-white text-xs py-1 px-2">
                     +20% Boosted
                   </div>
