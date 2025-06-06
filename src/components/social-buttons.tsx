@@ -15,7 +15,7 @@ export function SocialButtons() {
             socialLinks.map((item) => {
                 return <a
                     key={item.href}
-                    className="border text-lg items-center justify-center flex hover:text-[#4281FF] hover:border-[#4281FF]  w-8 h-8 mo:h-6 border-white rounded-full "
+                    className="border text-lg items-center justify-center flex hover:text-[#00E42A] hover:border-[#00E42A]  w-8 h-8 mo:h-6 border-white rounded-full "
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"

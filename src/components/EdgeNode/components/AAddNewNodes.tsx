@@ -490,7 +490,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   className={cn(`  text-center cursor-pointer w-full   border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
                     {
                       'cursor-not-allowed': index,
-                      'hover:border-[#4281FF]': !index
+                      'hover:border-[#00E42A]': !index
                     }
                   )}>
                   <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] smd:w-full smd:h-full h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />

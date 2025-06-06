@@ -285,7 +285,7 @@ const ANewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, a
                 onSelectedType(item.name)
                 setChooseedType(item)
               }} key={`device_${index}`}
-                className=" hover:border-[#4281FF] text-center cursor-pointer w-full   border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col">
+                className=" hover:border-[#00E42A] text-center cursor-pointer w-full   border-[#404040] border rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col">
                 <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
 
                 <div className="text-lg py-5 w-full justify-center flex bf">{item.iconName}</div>

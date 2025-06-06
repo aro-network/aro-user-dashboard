@@ -80,7 +80,7 @@ export const Devnet: FC<Placement> = ({ placement = 'bottom' }) => {
     content={
       <span>
         {parts[0]}
-        <button onClick={openPage} className="underline underline-offset-1">
+        <button onClick={openPage} className="underline underline-offset-1 hover:text-[#00E42A]">
           Pioneer Program.
         </button>
         {parts[1]}
@@ -235,7 +235,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
             >
               {Modes.map((mode) => {
-                return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#4281FF]   '} dropdown-item-custom`} onClick={() => { handleModeChange(mode); setIsOpen(false) }}>{mode.label}</DropdownItem>
+                return <DropdownItem key={mode.name} className={`${selectedTab.name === mode.name && 'text-[#00E42A]   '} dropdown-item-custom`} onClick={() => { handleModeChange(mode); setIsOpen(false) }}>{mode.label}</DropdownItem>
               }
               )}
             </DropdownMenu>
@@ -247,8 +247,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             <SocialButtons />
           </div>
           <div className=" font-normal text-xs leading-[.9rem] smd:hidden  text-[#999999] h-8 flex  items-center flex-row gap-[.625rem]">
-            <a href="https://aro.network/" target="_blank" className="underline-offset-4 hover:text-[#4281FF] hover:border-[#4281FF] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">Website</a>
-            <a href="https://docs.aro.network" target="_blank" className="underline-offset-4 h-8  hover:text-[#4281FF] hover:border-[#4281FF]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999] justify-center">Docs</a>
+            <a href="https://aro.network/" target="_blank" className="underline-offset-4 hover:text-[#00E42A] hover:border-[#00E42A] h-8 rounded-[.625rem] items-center flex border p-[.625rem] border-[#999999]">Website</a>
+            <a href="https://docs.aro.network" target="_blank" className="underline-offset-4 h-8  hover:text-[#00E42A] hover:border-[#00E42A]  items-center flex rounded-[.625rem] border p-[.625rem] border-[#999999] justify-center">Docs</a>
           </div>
 
           <Dropdown className="bg-[#585858] !w-[18.75rem] mo:!w--full  py-[.625rem]" placement="bottom-end">
@@ -338,7 +338,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                           className={cn(" h-12 flex  bg-[#373737] justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-6 rounded-lg cursor-pointer select-none",
 
                             {
-                              " text-[#4281FF] ": selected,
+                              " text-[#00E42A] ": selected,
                               "text-white": !selected,
                             }
                           )}
