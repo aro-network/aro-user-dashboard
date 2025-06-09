@@ -1,6 +1,6 @@
 import { Btn } from "../btns";
 import { useToggle } from "react-use";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ANodeInfo from "./components/ANodeInfo";
 import ACommonNodes from "./components/ACommonNodes";
 import AAddNewNodes from "./components/AAddNewNodes";
@@ -14,27 +14,18 @@ import { useAuthContext } from "@/app/context/AuthContext";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
-  const [isShowNodeInfo, setShowNodeInfo] = useState<{
-    open: boolean;
-    list?: EdgeNodeMode.NodeType;
-  }>({ open: false, list: undefined });
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>("");
   const [selectedType, setSelectedType] = useState("");
   const addRef = useRef<Nodes.AddType>(null);
   const [nodeInfo, setNodeInfo] = useState<Nodes.NodeInfoList>();
   const r = useRouter()
   const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams.toString());
+  const params = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
+
   const ac = useAuthContext();
   const nId = params.get("nId") || ''
 
 
-  const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
-    params.delete('chooseType')
-    updateURL('type', 'detail')
-    updateURL('nId', `${e.nodeUUID}`)
-    setOpenAddNode(false);
-  }, []);
 
   const title =
     nId && !unbindInfo
@@ -90,13 +81,20 @@ const ANodes = () => {
 
   };
 
+
+
+  
+  const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
+    params.delete('chooseType')
+    updateURL('type', 'detail')
+    updateURL('nId', `${e.nodeUUID}`)
+    setOpenAddNode(false);
+  }, []);
+
   useEffect(() => {
     const showAdd = params.get("type") === 'add';
     const showDetail = params.get("type") === 'detail';
     const showDel = params.get("type") === 'del';
-
-    console.log('showAshowAdddd',showAdd,showDetail,showDel);
-    
 
     const type = params.get("chooseType");
     const obj: { [key: 'box' | 'x86' | string]: string } = {
@@ -113,9 +111,7 @@ const ANodes = () => {
     } else if (showDel && nId) {
       setUnbingInfo(nId)
       updateURL('type', 'del')
-    } else{
-      closeAll()
-    }
+    } 
 
     if (type) {
       setSelectedType(obj[type]);
@@ -123,7 +119,7 @@ const ANodes = () => {
       addRef.current?.switchTo();
       setSelectedType('');
     }
-  }, [searchParams.toString()]);
+  }, [searchParams]);
 
 
   const closeAll = () => {
@@ -131,8 +127,6 @@ const ANodes = () => {
     setUnbingInfo('')
     setSelectedType("");
     setOpenAddNode(false);
-
-
     params.delete('type')
     params.delete('chooseType')
     params.delete('nId')
@@ -203,7 +197,7 @@ const ANodes = () => {
             <div className="flex gap-[.625rem] smd:justify-end smd:pt-5   font-medium text-xs leading-3  smd:w-full">
 
               {nodeInfo?.nodeType === 'box' && <Btn
-                onClick={() =>
+                onPress={() =>
                   ac.setLink(sortIp(nodeInfo?.deviceInfo.networkInterfaces || [])[0].ip)
 
                 }
@@ -213,10 +207,8 @@ const ANodes = () => {
               </Btn>
               }
               <Btn
-                onClick={() => {
+                onPress={() => {
                   updateURL('type', 'del')
-                  // setUnbingInfo(isShowNodeInfo.list?.nodeUUID)
-
                 }}
                 className="bg-[#F5F5F51A] text-white smd:!h-[1.875rem] h-[1.875rem] rounded-lg  hover:!bg-default"
               >
@@ -230,11 +222,8 @@ const ANodes = () => {
         <AUnbind
           nodeId={unbindInfo}
           onBack={() => {
-
             setUnbingInfo("");
-            // setShowNodeInfo({ open: false, list: undefined });
             params.delete('nId')
-
             setOpenAddNode(false);
             refetch();
             setSelectedType("");
@@ -255,10 +244,9 @@ const ANodes = () => {
               </div>
               <Btn
                 className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
-                onClick={() => {
+                onPress={() => {
                   setOpenAddNode(!isOpen);
                   updateURL('type', 'add')
-
                 }}
               >
                 Add New Node
@@ -277,9 +265,7 @@ const ANodes = () => {
           addRef={addRef}
           onSelectedType={setSelectedType}
           onBack={() => {
-            // setShowNodeInfo({ open: false, list: undefined });
             params.delete('nId')
-
             setOpenAddNode(!isOpen);
             refetch();
             setSelectedType("");
@@ -291,16 +277,11 @@ const ANodes = () => {
       ) : (
         <ANodeInfo
           nodeInfo={setNodeInfo}
-          // selectList={isShowNodeInfo.list}
           onBack={() => {
-            // setShowNodeInfo({ open: false, list: undefined });
             params.delete('nId')
-
             params.delete('type')
             params.delete('chooseType')
             r.replace(`?${params.toString()}`);
-
-
           }}
         />
       )}
