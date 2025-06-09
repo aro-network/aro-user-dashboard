@@ -31,8 +31,12 @@ const ANodes = () => {
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
     params.delete('chooseType')
     updateURL('type', 'detail')
+    // updateURL('nId', `${e.nodeUUID}`)
+
     setShowNodeInfo({ open: true, list: e });
+
     setItem('sid', JSON.stringify(e))
+
     setOpenAddNode(false);
   }, []);
 
@@ -53,8 +57,10 @@ const ANodes = () => {
       const pageSize = 10;
       const pageParams = { pageSize, pageNum };
       const data = await backendApi.getNodeList();
+
       const list = data.map((item) => {
         return {
+          nodeType: item.nodeType,
           deviceName: item.nodeName,
           icon: (
             <img
@@ -93,8 +99,6 @@ const ANodes = () => {
     const showDetail = params.get("type") === 'detail';
     const showDel = params.get("type") === 'del';
     const sid = JSON.parse(getItem('sid') || '{}')
-
-    console.log('sids222idsidsidsid', sid);
 
 
     const type = params.get("chooseType");
@@ -156,6 +160,7 @@ const ANodes = () => {
                   setSelectedType("");
                   params.delete('type')
                   params.delete('chooseType')
+                  params.delete('nId')
                   r.push(`?${params.toString()}`);
                 }}
               >
@@ -202,15 +207,18 @@ const ANodes = () => {
           !isOpen &&
           !unbindInfo && (
             <div className="flex gap-[.625rem] smd:justify-end smd:pt-5   font-medium text-xs leading-3  smd:w-full">
-              <Btn
+
+              {isShowNodeInfo.list?.nodeType === 'box' && <Btn
                 onClick={() =>
                   ac.setLink(ip.ip)
                   // window.open(`link?target=${ip.ip}`, '_blank')
+
                 }
                 className="h-[1.875rem] rounded-lg smd:!h-[1.875rem]"
               >
                 Go to Web Console
               </Btn>
+              }
               <Btn
                 onClick={() => {
                   updateURL('type', 'del')

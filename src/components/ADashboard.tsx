@@ -156,10 +156,10 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const updateURL = (mode: string, tab: string) => {
     const sid = JSON.parse(getItem('sid') || '{}')
 
-    if (JSON.stringify(sid) === '{}') {
-      params.delete('type')
-      r.push(`?${params.toString()}`);
-    }
+    // if (JSON.stringify(sid) === '{}') {
+    //   params.delete('type')
+    //   r.push(`?${params.toString()}`);
+    // }
     params.set("mode", mode);
     params.set("tab", tab);
 

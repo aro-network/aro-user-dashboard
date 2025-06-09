@@ -468,6 +468,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   ]
 
 
+
   return <div className="w-full mt-[4.5625rem] smd:mt-12 smd:mb-5 ">
     <div className=" flex justify-center flex-col md:items-center smd:w-full  w-[55.625rem] m-auto h-full ">
       {chooseedType?.value === 'x86'
@@ -487,16 +488,12 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   params.set("chooseType", item?.value as 'box' | 'box');
                   r.push(`?${params.toString()}`);
                 }} key={`device_${index}`}
-                  className={cn(`  text-center cursor-pointer w-full   border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
-                    {
-                      'cursor-not-allowed': index,
-                      'hover:border-[#00E42A]': !index
-                    }
+                  className={cn(`  text-center cursor-pointer w-full  hover:border-[#00E42A]  border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
                   )}>
                   <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] smd:w-full smd:h-full h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
                   <div className="flex items-baseline gap-1">
                     <div className="text-lg smd:text-base py-5 smd:py-4 w-full justify-center flex">{item.iconName}</div>
-                    <img src="../commingSoon.svg" hidden={!index} className="h-[10px]" />
+                    {/* <img src="../commingSoon.svg" hidden={!index} className="h-[10px]" /> */}
                   </div>
                 </div>
 
