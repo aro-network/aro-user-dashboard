@@ -8,7 +8,7 @@ import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
-import { formatNumber } from "@/lib/utils";
+import { formatNumber, sortIp } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getItem, removeItem, setItem } from "@/lib/storage";
 import { useAuthContext } from "@/app/context/AuthContext";
@@ -22,26 +22,28 @@ const ANodes = () => {
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>("");
   const [selectedType, setSelectedType] = useState("");
   const addRef = useRef<Nodes.AddType>(null);
-  const [nodeInfo, setNodeInfo] = useState<EdgeNodeMode.IpInfo[]>([]);
+  const [nodeInfo, setNodeInfo] = useState<Nodes.NodeInfoList>();
   const r = useRouter()
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const ac = useAuthContext();
+  const nId = params.get("nId") || ''
+
 
   const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
     params.delete('chooseType')
     updateURL('type', 'detail')
-    // updateURL('nId', `${e.nodeUUID}`)
+    updateURL('nId', `${e.nodeUUID}`)
 
-    setShowNodeInfo({ open: true, list: e });
+    // setShowNodeInfo({ open: true, list: e });
 
-    setItem('sid', JSON.stringify(e))
+    // setItem('sid', JSON.stringify(e))
 
     setOpenAddNode(false);
   }, []);
 
   const title =
-    isShowNodeInfo.open && !unbindInfo
+    nId && !unbindInfo
       ? "Node Details"
       : isOpen
         ? "Add New Node"
@@ -86,7 +88,7 @@ const ANodes = () => {
       return list;
     },
   });
-  const ip = nodeInfo[0];
+
 
   const updateURL = (key: string, value: string) => {
     params.set(key, value);
@@ -98,7 +100,9 @@ const ANodes = () => {
     const showAdd = params.get("type") === 'add';
     const showDetail = params.get("type") === 'detail';
     const showDel = params.get("type") === 'del';
-    const sid = JSON.parse(getItem('sid') || '{}')
+    // const sid = JSON.parse(getItem('sid') || '{}')
+
+    // console.log('nIdnIdnIdnId', showAdd, showDetail, showDel, nId);
 
 
     const type = params.get("chooseType");
@@ -112,23 +116,17 @@ const ANodes = () => {
       updateURL('type', 'add')
     } else if (showDetail) {
       setUnbingInfo('')
-      setShowNodeInfo({ open: true, list: sid });
+      // setShowNodeInfo({ open: true, list: sid });
+
       updateURL('type', 'detail')
     } else if (showDel) {
-      setUnbingInfo(sid?.nodeUUID)
+      setUnbingInfo(nId)
       updateURL('type', 'del')
-    } else if (JSON.stringify(sid) === '{}') {
-      params.delete('chooseType')
-      params.delete('type')
-      setShowNodeInfo({ open: false, list: undefined });
-      refetch();
-    } else {
-      addRef.current?.switchTo();
-      setUnbingInfo('')
-      setSelectedType("");
-      setOpenAddNode(false);
-      r.push(`?${params.toString()}`);
-      refetch();
+    }
+
+    else {
+
+      closeAll()
     }
 
     if (type) {
@@ -140,12 +138,28 @@ const ANodes = () => {
   }, [searchParams.toString()]);
 
 
+  const closeAll = () => {
+    addRef.current?.switchTo();
+    setUnbingInfo('')
+    setSelectedType("");
+    setOpenAddNode(false);
+
+
+    params.delete('type')
+    params.delete('chooseType')
+    params.delete('nId')
+    r.push(`?${params.toString()}`);
+    refetch();
+
+
+  }
+
 
   return (
     <>
-      <div className={` flex justify-between  items-center  ${isShowNodeInfo.open && 'smd:flex-wrap smd:w-full'}`}>
+      <div className={` flex justify-between  items-center  ${nId && 'smd:flex-wrap smd:w-full'}`}>
         <div className="text-[#FFFFFF] text-xs smd:text-base font-medium smd:w-full " >
-          {!isShowNodeInfo.open && !isOpen && !unbindInfo ? (
+          {!nId && !isOpen && !unbindInfo ? (
             <>
               <span className="text-base">{title}</span>
             </>
@@ -153,15 +167,7 @@ const ANodes = () => {
             <>
               <button
                 onClick={() => {
-                  setShowNodeInfo({ open: false, list: undefined });
-                  setOpenAddNode(false);
-                  setUnbingInfo("");
-                  refetch();
-                  setSelectedType("");
-                  params.delete('type')
-                  params.delete('chooseType')
-                  params.delete('nId')
-                  r.push(`?${params.toString()}`);
+                  closeAll()
                 }}
               >
                 Nodes {">"} {" "}
@@ -193,7 +199,7 @@ const ANodes = () => {
             </>
           )}
         </div>
-        {!isShowNodeInfo.open && !isOpen ? (
+        {!nId && !isOpen ? (
           <Btn
             className="h-[1.875rem] smd:p-2 smd:!h-[1.875rem]  rounded-lg"
             onClick={() => {
@@ -208,10 +214,9 @@ const ANodes = () => {
           !unbindInfo && (
             <div className="flex gap-[.625rem] smd:justify-end smd:pt-5   font-medium text-xs leading-3  smd:w-full">
 
-              {isShowNodeInfo.list?.nodeType === 'box' && <Btn
+              {nodeInfo?.nodeType === 'box' && <Btn
                 onClick={() =>
-                  ac.setLink(ip.ip)
-                  // window.open(`link?target=${ip.ip}`, '_blank')
+                  ac.setLink(sortIp(nodeInfo?.deviceInfo.networkInterfaces || [])[0].ip)
 
                 }
                 className="h-[1.875rem] rounded-lg smd:!h-[1.875rem]"
@@ -222,8 +227,8 @@ const ANodes = () => {
               <Btn
                 onClick={() => {
                   updateURL('type', 'del')
+                  // setUnbingInfo(isShowNodeInfo.list?.nodeUUID)
 
-                  setUnbingInfo(isShowNodeInfo.list?.nodeUUID)
                 }}
                 className="bg-[#F5F5F51A] text-white smd:!h-[1.875rem] h-[1.875rem] rounded-lg  hover:!bg-default"
               >
@@ -237,8 +242,11 @@ const ANodes = () => {
         <AUnbind
           nodeId={unbindInfo}
           onBack={() => {
+
             setUnbingInfo("");
-            setShowNodeInfo({ open: false, list: undefined });
+            // setShowNodeInfo({ open: false, list: undefined });
+            params.delete('nId')
+
             setOpenAddNode(false);
             refetch();
             setSelectedType("");
@@ -247,7 +255,7 @@ const ANodes = () => {
             r.push(`?${params.toString()}`);
           }}
         />
-      ) : !isShowNodeInfo.open && !isOpen ? (
+      ) : !nId && !isOpen ? (
         (!data || !data.length) && !isFetching ? (
           <div className="w-full flex justify-center items-center mt-[6.5625rem]  ">
             <div className="w-[37.5rem] m-auto text-center gap-5 flex flex-col">
@@ -281,7 +289,9 @@ const ANodes = () => {
           addRef={addRef}
           onSelectedType={setSelectedType}
           onBack={() => {
-            setShowNodeInfo({ open: false, list: undefined });
+            // setShowNodeInfo({ open: false, list: undefined });
+            params.delete('nId')
+
             setOpenAddNode(!isOpen);
             refetch();
             setSelectedType("");
@@ -293,12 +303,14 @@ const ANodes = () => {
       ) : (
         <ANodeInfo
           nodeInfo={setNodeInfo}
-          selectList={isShowNodeInfo.list}
+          // selectList={isShowNodeInfo.list}
           onBack={() => {
-            setShowNodeInfo({ open: false, list: undefined });
+            // setShowNodeInfo({ open: false, list: undefined });
+            params.delete('nId')
+
             params.delete('type')
             params.delete('chooseType')
-            r.push(`?${params.toString()}`);
+            r.replace(`?${params.toString()}`);
 
 
           }}

@@ -82,7 +82,7 @@ export const Devnet: FC<Placement> = ({ placement = 'bottom' }) => {
       <span>
         {parts[0]}
         <button onClick={openPage} className="underline underline-offset-1 hover:text-[#00E42A]">
-          Pioneer Program.
+          Pioneer Program
         </button>
         {parts[1]}
       </span>
@@ -147,47 +147,13 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {
       setRefreshKey((prev) => prev + 1);
-
-
     }
   };
 
 
   const updateURL = (mode: string, tab: string) => {
-    const sid = JSON.parse(getItem('sid') || '{}')
-
-    // if (JSON.stringify(sid) === '{}') {
-    //   params.delete('type')
-    //   r.push(`?${params.toString()}`);
-    // }
     params.set("mode", mode);
     params.set("tab", tab);
-
-    // if (tab === "nodes") {
-    //   queryClient.invalidateQueries({ queryKey: ["NodeList"] });
-    // }
-    //  else {
-
-
-    //   if (searchParams.get("type") === 'add') {
-    //     params.set("type", 'add');
-    //   }
-    //   if (searchParams.get("type") === 'detail') {
-
-    //     params.set("type", 'detail');
-    //   }
-    //   if (searchParams.get("type") === 'del') {
-
-
-    //     params.set("type", 'del');
-    //   }
-
-    //   if (searchParams.get("chooseType")) {
-    //     params.set("chooseType", searchParams.get("chooseType")!);
-    //   }
-
-    // }
-
     r.push(`?${params.toString()}`);
   };
 
@@ -208,7 +174,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="/enreach-logo.svg" className={`shrink-0  smd:w-[4.6875rem] smd:h-7  lg:ml-0 max-w-[9.375rem] h-[2.375rem] lg:rotate-0 `} alt="Logo" />
+          <img src="/enreach-logo.svg" className={`  smd:w-[4.6875rem] smd:h-7  lg:ml-0 w-[4.5625rem] h-[26px] lg:rotate-0 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'

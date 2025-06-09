@@ -30,6 +30,7 @@ declare namespace Nodes {
         ip: string;
         mac: string;
         name: string;
+        nodeType?: "x86" | "box";
       }[];
     };
     nodeChainInfo: {

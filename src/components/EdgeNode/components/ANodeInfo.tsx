@@ -1,16 +1,14 @@
-import { Btn } from "@/components/btns";
 import { TitCard } from "@/components/cards";
 import backendApi from "@/lib/api";
-import { CircularProgress, cn, DateRangePicker, DateValue, Input, RangeValue } from "@nextui-org/react";
+import { CircularProgress, cn, DateRangePicker, DateValue, Input } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
 import EChartsReact from "echarts-for-react";
-import { FC, FocusEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import {
   covertText,
   formatNumber,
-  formatStr,
   generateDateList,
   generateLast15DaysRange,
   getCurrentDate,
@@ -24,32 +22,27 @@ import dayjs from "dayjs";
 import {
   CalendarDate,
   getLocalTimeZone,
-  parseDate,
   today,
 } from "@internationalized/date";
 import { I18nProvider } from "@react-aria/i18n";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { ConfirmDialog } from "@/components/dialogimpls";
 import { useSearchParams } from "next/navigation";
-import { getItem } from "@/lib/storage";
 import AStats from "../AStats";
 
-type e = EdgeNodeMode.IpInfo[];
+type e = EdgeNodeMode.IpInfo[]
 
 const ANodeInfo: FC<{
   selectList?: EdgeNodeMode.NodeType;
-  nodeInfo: (arg0: e) => void;
+  nodeInfo: (arg0: any) => void;
   onBack: () => void
 }> = ({ selectList, nodeInfo, onBack }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [isOpen, setIsOpen] = useState(false)
-  const [isOpenTip, setIsOpenTip] = useState(false);
-  const helpTipRef = useRef<any>(null);
-  const helpTipRef2 = useRef<any>(null);
   const isMobile = useMobileDetect(1100)
   const searchParams = useSearchParams();
-
   const params = new URLSearchParams(searchParams.toString());
+  const nId = params.get("nId") || ''
+
 
 
 
@@ -59,47 +52,44 @@ const ANodeInfo: FC<{
   }>(generateLast15DaysRange());
 
 
+  const isOwner = useQuery({
+    queryKey: ["detailOwner"],
+    enabled: true,
+    queryFn: async () => {
+      const res = await backendApi.currentOwner(nId)
 
+      if (res?.owner === false) {
+        onBack()
+      } else {
+        refetch()
+      }
+      return res
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 0,
+    gcTime: 0,
+  });
 
-
-  const { data, isFetching, refetch } = useQuery({
-    queryKey: ["NodeDetailList", selectList?.nodeUUID],
+  const { data, isFetching, refetch, isLoading } = useQuery({
+    queryKey: ["NodeDetailList", nId],
     enabled: false,
     queryFn: async () => {
+
       const [detail, countRewards] = await Promise.all([
-        backendApi.getNodeInfoByNodeId(selectList?.nodeUUID),
-        backendApi.countRewards(selectList?.nodeUUID),
+        backendApi.getNodeInfoByNodeId(nId),
+        backendApi.countRewards(nId),
       ]);
       setNodeName(detail.nodeName);
-
-      const network = detail.deviceInfo.networkInterfaces || [];
-
-      const result = network.sort((a, b) => {
-        const getPriority = (name: string) => {
-          if (name.startsWith("macvlan")) return 0;
-          if (name === "eth0") return 1;
-          return 2;
-        };
-
-        return getPriority(a.name) - getPriority(b.name);
-      });
-      nodeInfo(result);
-
-      console.log("resultresult", result);
-
+      nodeInfo(detail);
       return { detail, countRewards };
     },
     refetchOnWindowFocus: false,
+
+
   });
 
-  useEffect(() => {
-    const sid = JSON.parse(getItem('sid') || '{}')
-    if (JSON.stringify(sid) === '{}') {
-      onBack()
-    } else {
-      refetch()
-    }
-  }, [searchParams.toString()])
+
+
   const [nodeName, setNodeName] = useState("");
 
   const onSubmit = async (value: string) => {
@@ -115,11 +105,26 @@ const ANodeInfo: FC<{
     enabled: !!chooseDate.start && !!chooseDate.end,
     queryFn: async () => {
       const result = getCurrentDate(chooseDate)
-      const res = await backendApi.rewardHistory(selectList?.nodeUUID, result);
+      const res = await backendApi.rewardHistory(nId, result);
       const list = generateDateList(result.startTime, result.endTime);
       return !res.length ? list : res;
     },
   });
+
+
+
+
+  // useEffect(() => {
+  //   if (nId) {
+  //     isOwner.refetch();
+  //   }
+  // }, [nId]); //
+
+
+
+
+
+
 
   const chartOpt = useMemo(() => {
     if (!width) return {};
@@ -225,10 +230,7 @@ const ANodeInfo: FC<{
     };
   }, [width, result.data]);
 
-  const memAvailableGB = (
-    (data?.detail.deviceInfo.memAvailable || 0) /
-    (1024 * 1024 * 1024)
-  ).toFixed(2);
+
   const memTotalGB = (
     (data?.detail.deviceInfo.memTotal || 0) /
     (1024 * 1024 * 1024)
@@ -287,6 +289,8 @@ const ANodeInfo: FC<{
   }
 
   const isIpv6 = isMobile && isIPv6(data?.detail.ip as string)
+
+
 
   return (
     <>
@@ -462,10 +466,10 @@ const ANodeInfo: FC<{
                     </div>
                   </div>
                   <div className="text-sm  mt-1 w-full flex   gap-[.625rem]">
-                    <span className="w-auto">Node ID:</span>
+                    <span className="w-auto">Serial Number:</span>
                     <div className="text-[#FFFFFF80] " >
-                      <HelpTip content={data?.detail?.nodeID} >
-                        {shortenMiddle(data?.detail?.nodeID || "-", 18)}
+                      <HelpTip content={data?.detail?.nodeUUID} >
+                        {shortenMiddle(data?.detail?.nodeUUID || "-", 18)}
                       </HelpTip>
                     </div>
                   </div>
@@ -493,12 +497,7 @@ const ANodeInfo: FC<{
                       ).format("YYYY-MM-DD")}
                     </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Serial Number</span>
-                    <span className="text-[#FFFFFF80]">
-                      {data?.detail.nodeUUID}
-                    </span>
-                  </div>
+
                   <div className="flex justify-between">
                     <span>Device</span>
                     <span className="text-[#FFFFFF80] capitalize">

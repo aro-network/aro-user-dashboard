@@ -29,6 +29,7 @@ declare namespace EdgeNodeMode {
     ip: string;
     mac: string;
     name: string;
+    nodeType?: "box" | "x86";
   };
 
   type NodeIpType = {

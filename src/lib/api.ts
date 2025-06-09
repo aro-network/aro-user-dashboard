@@ -199,9 +199,12 @@ const backendApi = {
   },
 
   getDeviceStatusInfo: async (nodeId?: string, deviceType?: "box" | "x86") => {
+    if (!nodeId) return;
     const url = deviceType
       ? `${prefixUrl}${nodeId}/stat/?deviceType=${deviceType}`
       : `${prefixUrl}${nodeId}/stat`;
+    console.log("nodeIdnodeIdnodeId", nodeId);
+
     const response = await Api.get<RES<Nodes.DevicesInfo>>(url);
     return response.data.data;
   },
@@ -297,6 +300,17 @@ const backendApi = {
     const response = await Api.post<RES<Nodes.WhiteListInfo>>(
       `user/invite/from`,
       { referralCode }
+    );
+    return response.data.data;
+  },
+
+  currentOwner: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    console.log("nodenodeIdId", nodeId);
+
+    const response = await Api.get<RES<{ owner: boolean }>>(
+      `${prefixUrl}${nodeId}/owner`
     );
     return response.data.data;
   },

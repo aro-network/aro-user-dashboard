@@ -12,40 +12,62 @@ import { useSearchParams } from "next/navigation"
 import { AllText } from "@/lib/allText"
 
 
-const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => (
-  <div>{deviceStep[stepIndex].content}</div>
-);
+const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => {
+  return <div>{deviceStep[stepIndex].content}</div>
+}
 const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack }) => {
   const [stepIndex, setStepIndex] = useState(0)
   const [isConfirm, setIsConfirm] = useState(false)
   const isMobile = useMobileDetect()
   const searchParams = useSearchParams();
 
-  const { data, isFetching } = useQuery({
+  const params = new URLSearchParams(searchParams.toString());
+  const nId = params.get("nId") || ''
+
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["DeviceUnbindStatus"],
-    enabled: true,
-    queryFn: () => backendApi.getDeviceStatusInfo(nodeId),
+    enabled: false,
+    queryFn: async () => {
+      const res = await backendApi.getDeviceStatusInfo(nId)
+      console.log('resssss', res);
+      return res
+
+    },
     refetchOnWindowFocus: false,
+
   });
+
 
   const getStatus = useQuery({
     queryKey: ["NodeStatuList"],
     enabled: false,
-    queryFn: () => backendApi.unbingDevice(nodeId)
+    queryFn: () => backendApi.unbingDevice(nId)
   });
 
-  useEffect(() => {
-    const sid = JSON.parse(getItem('sid') || '{}')
-    console.log('sidsidsidsidsid', sid);
+  const isOwner = useQuery({
+    queryKey: ["unBindOwner", nId],
+    enabled: true,
+    queryFn: () => backendApi.currentOwner(nId),
+    refetchOnWindowFocus: false,
+    staleTime: 0,
+    gcTime: 0,
+  });
 
-    if (JSON.stringify(sid) === '{}') {
+
+  useEffect(() => {
+
+    if (isOwner.data?.owner === false) {
       onBack()
+    } else {
+      refetch()
     }
-  }, [searchParams.toString()])
+  }, [isOwner.data?.owner])
 
   const onUnbindingConfig = async () => {
     setIsConfirm(!isConfirm)
     await getStatus.refetch()
+    params.delete('')
+
     removeItem('sid')
     onDeviceStep()
   }
@@ -58,6 +80,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     }
 
   }
+
+  console.log('datadatadata', data);
+
 
   const unbind = [
     {

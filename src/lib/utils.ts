@@ -226,3 +226,15 @@ export const getCurrentDate = (dateList: {
 
   return { startTime, endTime };
 };
+
+export const sortIp = (network: any[]) => {
+  return network.sort((a, b) => {
+    const getPriority = (name: string) => {
+      if (name.startsWith("macvlan")) return 0;
+      if (name === "eth0") return 1;
+      return 2;
+    };
+
+    return getPriority(a.name) - getPriority(b.name);
+  });
+};
