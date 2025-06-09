@@ -10,7 +10,6 @@ import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 import { formatNumber, sortIp } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getItem, removeItem, setItem } from "@/lib/storage";
 import { useAuthContext } from "@/app/context/AuthContext";
 
 const ANodes = () => {
@@ -34,11 +33,6 @@ const ANodes = () => {
     params.delete('chooseType')
     updateURL('type', 'detail')
     updateURL('nId', `${e.nodeUUID}`)
-
-    // setShowNodeInfo({ open: true, list: e });
-
-    // setItem('sid', JSON.stringify(e))
-
     setOpenAddNode(false);
   }, []);
 
@@ -100,10 +94,6 @@ const ANodes = () => {
     const showAdd = params.get("type") === 'add';
     const showDetail = params.get("type") === 'detail';
     const showDel = params.get("type") === 'del';
-    // const sid = JSON.parse(getItem('sid') || '{}')
-
-    // console.log('nIdnIdnIdnId', showAdd, showDetail, showDel, nId);
-
 
     const type = params.get("chooseType");
     const obj: { [key: 'box' | 'x86' | string]: string } = {
@@ -114,18 +104,13 @@ const ANodes = () => {
     if (showAdd) {
       setOpenAddNode(showAdd);
       updateURL('type', 'add')
-    } else if (showDetail) {
+    } else if (showDetail || nId) {
       setUnbingInfo('')
-      // setShowNodeInfo({ open: true, list: sid });
-
       updateURL('type', 'detail')
     } else if (showDel) {
       setUnbingInfo(nId)
       updateURL('type', 'del')
-    }
-
-    else {
-
+    } else {
       closeAll()
     }
 
@@ -321,3 +306,4 @@ const ANodes = () => {
 };
 
 export default ANodes;
+
