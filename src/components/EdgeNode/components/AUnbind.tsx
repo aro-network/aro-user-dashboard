@@ -29,7 +29,6 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     enabled: false,
     queryFn: async () => {
       const res = await backendApi.getDeviceStatusInfo(nId)
-      console.log('resssss', res);
       return res
 
     },
@@ -51,9 +50,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     queryKey: ["unBindOwner", nId],
     enabled: true,
     queryFn: () => backendApi.currentOwner(nId),
-    refetchOnWindowFocus: false,
-    staleTime: 0,
-    gcTime: 0,
+  
   });
 
 
@@ -83,7 +80,6 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
   }
 
-  console.log('datadatadata', data);
 
 
   const unbind = [
