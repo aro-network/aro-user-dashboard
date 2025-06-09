@@ -30,8 +30,6 @@ import { ConfirmDialog } from "@/components/dialogimpls";
 import { useSearchParams } from "next/navigation";
 import AStats from "../AStats";
 
-type e = EdgeNodeMode.IpInfo[]
-
 const ANodeInfo: FC<{
   nodeInfo: (arg0: any) => void;
   onBack: () => void
@@ -42,38 +40,25 @@ const ANodeInfo: FC<{
   const params = new URLSearchParams(searchParams.toString());
   const nId = params.get("nId") || ''
 
-
-
-
   const [chooseDate, setChooseDate] = useState<{
     start: DateValue;
     end: DateValue;
   }>(generateLast15DaysRange());
 
+  
 
   const isOwner = useQuery({
-    queryKey: ["detailOwner"],
-    enabled: true,
-    queryFn: async () => {
-      const res = await backendApi.currentOwner(nId)
-
-      if (res?.owner === false) {
-        onBack()
-      } else {
-        refetch()
-      }
-      return res
-    },
+    queryKey: ["detailOwner", nId],
+    queryFn: () => backendApi.currentOwner(nId),
+    staleTime: 0, 
+    gcTime: 0,    
     refetchOnWindowFocus: false,
-    staleTime: 0,
-    gcTime: 0,
   });
-
-  const { data, isFetching, refetch, isLoading } = useQuery({
+  
+  const { data, isLoading, isFetching,refetch } = useQuery({
     queryKey: ["NodeDetailList", nId],
-    enabled: false,
+    enabled:false,
     queryFn: async () => {
-
       const [detail, countRewards] = await Promise.all([
         backendApi.getNodeInfoByNodeId(nId),
         backendApi.countRewards(nId),
@@ -82,10 +67,22 @@ const ANodeInfo: FC<{
       nodeInfo(detail);
       return { detail, countRewards };
     },
+    staleTime: 0,  
+    gcTime: 0,     
+    refetchOnMount: "always",
     refetchOnWindowFocus: false,
-
-
   });
+
+  console.log('isOwnerisOwnerisOwner',isOwner);
+  
+  
+  useEffect(() => {
+    if (isOwner.data?.owner === false) {
+      onBack(); 
+    }else{
+      refetch()
+    }
+  }, [isOwner.data?.owner]);
 
 
 
@@ -276,14 +273,13 @@ const ANodeInfo: FC<{
   const isIpv6 = isMobile && isIPv6(data?.detail.ip as string)
 
 
-  console.log('akdosakdoksaod', data,);
-
-
+  console.log('adasdasdsadsa',data);
+  
 
 
   return (
     <>
-      {/* {!isFetching ? ( */}
+      {!isFetching ? (
 
       <div className=" mx-auto w-full mt-5 text-white mb-5 flex justify-between smd:flex-col gap-5 ">
         <div className="w-[60%] smd:w-full">
@@ -601,11 +597,11 @@ const ANodeInfo: FC<{
 
 
       </div>
-      {/* ) : (
+     ) : (
         <div className="flex justify-center pt-[4.5625rem]  w-full items-center h-full">
           <CircularProgress label="Loading..." classNames={{ 'svg': 'text-[#00E42A]' }} />
         </div>
-      )} */}
+      )} 
     </>
   );
 };
