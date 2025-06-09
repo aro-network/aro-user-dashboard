@@ -68,7 +68,6 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     await getStatus.refetch()
     params.delete('')
 
-    removeItem('sid')
     onDeviceStep()
   }
 

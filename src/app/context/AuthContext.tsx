@@ -49,7 +49,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       refIsLogout.current = true;
       setUser(null);
       removeItem(storageKey);
-      removeItem('sid')
       r.push("/signin");
     } else {
       refIsLogout.current = false;

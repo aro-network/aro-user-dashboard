@@ -143,7 +143,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const handleTabChange = (tab: Dashboard.TabItem) => {
     ac.setLink('')
     setCurrentTab(tab);
-    removeItem('sid')
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {
       setRefreshKey((prev) => prev + 1);
