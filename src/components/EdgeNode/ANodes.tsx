@@ -95,6 +95,9 @@ const ANodes = () => {
     const showDetail = params.get("type") === 'detail';
     const showDel = params.get("type") === 'del';
 
+    console.log('showAshowAdddd',showAdd,showDetail,showDel);
+    
+
     const type = params.get("chooseType");
     const obj: { [key: 'box' | 'x86' | string]: string } = {
       box: 'Hardware',
@@ -104,13 +107,13 @@ const ANodes = () => {
     if (showAdd) {
       setOpenAddNode(showAdd);
       updateURL('type', 'add')
-    } else if (showDetail || nId) {
+    } else if (showDetail && nId) {
       setUnbingInfo('')
       updateURL('type', 'detail')
-    } else if (showDel) {
+    } else if (showDel && nId) {
       setUnbingInfo(nId)
       updateURL('type', 'del')
-    } else {
+    } else{
       closeAll()
     }
 
