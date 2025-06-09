@@ -2,7 +2,7 @@ import { Btn } from "@/components/btns"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import backendApi from "@/lib/api"
 import { covertText } from "@/lib/utils"
-import { CircularProgress, cn, } from "@nextui-org/react"
+import { CircularProgress, cn, Image, Skeleton, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, useEffect, useState } from "react"
 import { foundDeviceList } from "./AAddNewNodes"
@@ -90,7 +90,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           <div className="w-[37.5rem] smd:w-full">
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                <img src={`./${data?.nodeType}.png`} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${data?.nodeType}`} />
+                {!data?.nodeType ? <Skeleton className="rounded-2xl"><div className="w-[5.4375rem] rounded-3xl" /></Skeleton> :
+                  <Image src={`./${data?.nodeType}.png`} width={'100%'} height={'100%'} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${data?.nodeType}`} />
+                }
               </div>
               {foundDeviceList(data, isMobile)}
             </div>
@@ -127,11 +129,11 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   ]
 
   return <div className="">
-    {isFetching ? <div className="flex justify-center w-full pt-[4.5625rem] items-center h-full">
+    {/* {isFetching ? <div className="flex justify-center w-full pt-[4.5625rem] items-center h-full">
       <CircularProgress label="Loading..." />
-    </div> :
-      <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
-    }
+    </div> : */}
+    <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
+    {/* } */}
     <ConfirmDialog
       tit="Delete this device"
       msg={

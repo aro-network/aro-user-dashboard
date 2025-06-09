@@ -428,6 +428,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               }}
               placeholder="Select an regions"
               className=" mt-[.3125rem]"
+              classNames={{ 'base': '!rounded-lg !w-full smd:!h-12 ', 'popoverContent': '!w-full', 'innerWrapper': 'smd:!h-12 ', 'trigger': 'smd:!h-12', 'value': 'smd:text-base' }}
               selectedKeys={new Set(bindInfo.regions)}
             >
               {(animal: { code: string, name: string }) => <SelectItem key={animal.code}>{animal.name}</SelectItem>}
