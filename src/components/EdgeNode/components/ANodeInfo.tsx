@@ -39,58 +39,49 @@ const ANodeInfo: FC<{
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const nId = params.get("nId") || ''
-
+  const [detailInfo,setDetailInfo] = useState<{detail:Nodes.NodeInfoList,countRewards:{ today: string; total: string; yesterday: string }}>()
+  const [isFetching,setIsFetching] = useState(true)
   const [chooseDate, setChooseDate] = useState<{
     start: DateValue;
     end: DateValue;
   }>(generateLast15DaysRange());
-
   
 
-  const isOwner = useQuery({
-    queryKey: ["detailOwner", nId],
-    queryFn: () => backendApi.currentOwner(nId),
-    staleTime: 0, 
-    gcTime: 0,    
-    refetchOnWindowFocus: false,
-  });
-  
-  const { data, isLoading, isFetching,refetch } = useQuery({
-    queryKey: ["NodeDetailList", nId],
-    enabled:false,
-    queryFn: async () => {
-      const [detail, countRewards] = await Promise.all([
-        backendApi.getNodeInfoByNodeId(nId),
-        backendApi.countRewards(nId),
-      ]);
-      setNodeName(detail.nodeName);
-      nodeInfo(detail);
-      return { detail, countRewards };
-    },
-    staleTime: 0,  
-    gcTime: 0,     
-    refetchOnMount: "always",
-    refetchOnWindowFocus: false,
-  });
-
-  console.log('isOwnerisOwnerisOwner',isOwner);
-  
-  
-  useEffect(() => {
-    if (isOwner.data?.owner === false) {
+  const isUserOwner = async() =>{
+    const isOwner = await backendApi.currentOwner(nId)
+    setIsFetching(false)
+    
+    if (isOwner?.owner === false) {
       onBack(); 
     }else{
-      refetch()
+      getCurrentDetail()
     }
-  }, [isOwner.data?.owner]);
+  }
+
+
+  const getCurrentDetail = async() =>{
+    const [detail, countRewards] = await Promise.all([
+      backendApi.getNodeInfoByNodeId(nId),
+      backendApi.countRewards(nId),
+    ]);
+    nodeInfo(detail);
+    setNodeName(detail.nodeName);
+    setDetailInfo( { detail, countRewards })
+
+  }
+
+  
+  useEffect(() => {
+    isUserOwner()
+  }, []);
 
 
 
   const [nodeName, setNodeName] = useState("");
 
   const onSubmit = async (value: string) => {
-    await backendApi.editCurrentNodeName(data?.detail.nodeUUID, value);
-    refetch();
+    await backendApi.editCurrentNodeName(detailInfo?.detail.nodeUUID, value);
+    getCurrentDetail
     setIsEdit(false);
   };
 
@@ -214,15 +205,15 @@ const ANodeInfo: FC<{
 
 
   const memTotalGB = (
-    (data?.detail.deviceInfo.memTotal || 0) /
+    (detailInfo?.detail.deviceInfo.memTotal || 0) /
     (1024 * 1024 * 1024)
   ).toFixed(2);
   const memUseGB = (
-    (data?.detail.deviceInfo.memUse || 0) /
+    (detailInfo?.detail.deviceInfo.memUse || 0) /
     (1024 * 1024 * 1024)
   ).toFixed(2);
 
-  const network = data?.detail.deviceInfo.networkInterfaces || [];
+  const network = detailInfo?.detail.deviceInfo.networkInterfaces || [];
 
   const newResult = (): EdgeNodeMode.IpInfo[] => {
     return network.sort((a, b) => {
@@ -254,10 +245,10 @@ const ANodeInfo: FC<{
   const onSubmitEdit = () => {
     if (
       !nodeName ||
-      nodeName === data?.detail.nodeName
+      nodeName === detailInfo?.detail.nodeName
     ) {
       setIsEdit(false);
-      setNodeName(data?.detail.nodeName as string)
+      setNodeName(detailInfo?.detail.nodeName as string)
       return
     }
 
@@ -270,10 +261,10 @@ const ANodeInfo: FC<{
 
   }
 
-  const isIpv6 = isMobile && isIPv6(data?.detail.ip as string)
+  const isIpv6 = isMobile && isIPv6(detailInfo?.detail.ip as string)
 
 
-  console.log('adasdasdsadsa',data);
+  console.log('adasdasdsadsa',detailInfo);
   
 
 
@@ -298,7 +289,7 @@ const ANodeInfo: FC<{
                   </span>
                   <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                     <span className="text-3xl">
-                      {formatNumber(Number(data?.countRewards.total || 0))}
+                      {formatNumber(Number(detailInfo?.countRewards.total || 0))}
                     </span>
                     <span>Jades</span>
                   </div>
@@ -309,7 +300,7 @@ const ANodeInfo: FC<{
                   </span>
                   <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                     <span className="text-3xl">
-                      + {formatNumber(Number(data?.countRewards.today || 0))}
+                      + {formatNumber(Number(detailInfo?.countRewards.today || 0))}
                     </span>
                     <span>Jades</span>
                   </div>
@@ -321,7 +312,7 @@ const ANodeInfo: FC<{
                   <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                     <span className="text-3xl">
                       +{" "}
-                      {formatNumber(Number(data?.countRewards.yesterday || 0))}
+                      {formatNumber(Number(detailInfo?.countRewards.yesterday || 0))}
                     </span>
                     <span>Jades</span>
                   </div>
@@ -368,12 +359,12 @@ const ANodeInfo: FC<{
             </div>
             <div className="flex w-full gap-[.625rem] md:gap-5 h-full  ">
               <div className="smd:w-[40%]">
-                {!data?.detail?.nodeType ?
+                {!detailInfo?.detail?.nodeType ?
                   <Skeleton className="rounded-2xl"><div className="w-[5.4375rem] rounded-3xl" /></Skeleton> :
                   <img
-                    src={`../${data?.detail?.nodeType}.png`}
+                    src={`../${detailInfo?.detail?.nodeType}.png`}
                     className="w-[5.4375rem] h-full"
-                    alt={`${data?.detail?.nodeType}`}
+                    alt={`${detailInfo?.detail?.nodeType}`}
                   />
                 }
 
@@ -410,8 +401,8 @@ const ANodeInfo: FC<{
                       />
                     ) : (
                       <div >
-                        <HelpTip content={data?.detail?.nodeName}>
-                          {shortenMiddle(data?.detail.nodeName || "-", isMobile ? 10 : 15)}
+                        <HelpTip content={detailInfo?.detail?.nodeName}>
+                          {shortenMiddle(detailInfo?.detail.nodeName || "-", isMobile ? 10 : 15)}
                         </HelpTip>
                       </div>
 
@@ -442,7 +433,7 @@ const ANodeInfo: FC<{
                       className="smd:mx-5 "
                       isOpen={isEdit}
                       onConfirm={() => {
-                        setNodeName(data?.detail.nodeName as string)
+                        setNodeName(detailInfo?.detail.nodeName as string)
                         setIsEdit(!isEdit)
                       }
                       }
@@ -457,15 +448,15 @@ const ANodeInfo: FC<{
                 <div className="text-sm  mt-1 w-full flex   gap-[.625rem]">
                   <span className="w-auto">Serial Number:</span>
                   <div className="text-[#FFFFFF80] " >
-                    <HelpTip content={data?.detail?.nodeUUID} >
-                      {shortenMiddle(data?.detail?.nodeUUID || "-", 18)}
+                    <HelpTip content={detailInfo?.detail?.nodeUUID} >
+                      {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", 18)}
                     </HelpTip>
                   </div>
                 </div>
                 <div className="text-sm   mt-1 flex  gap-[.625rem]">
                   <span>Node Type:</span>
                   <div className="text-[#FFFFFF80]">
-                    {covertText(data?.detail?.nodeType as "x86" | "box")}
+                    {covertText(detailInfo?.detail?.nodeType as "x86" | "box")}
                   </div>
                 </div>
               </div>
@@ -482,7 +473,7 @@ const ANodeInfo: FC<{
                   <span>Create Date</span>
                   <span className="text-[#FFFFFF80]">
                     {dayjs(
-                      Number(data?.detail.createTimestamp || 0) * 1000
+                      Number(detailInfo?.detail.createTimestamp || 0) * 1000
                     ).format("YYYY-MM-DD")}
                   </span>
                 </div>
@@ -490,13 +481,13 @@ const ANodeInfo: FC<{
                 <div className="flex justify-between">
                   <span>Device</span>
                   <span className="text-[#FFFFFF80] capitalize">
-                    {covertText(data?.detail.nodeChainInfo.Node.deviceType as "box" | "x86" | "Box") || "-"}
+                    {covertText(detailInfo?.detail.nodeChainInfo.Node.deviceType as "box" | "x86" | "Box") || "-"}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Registered Region</span>
                   <span className="text-[#FFFFFF80]">
-                    {data?.detail.nodeChainInfo.Node.regionCode || "-"}
+                    {detailInfo?.detail.nodeChainInfo.Node.regionCode || "-"}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -504,7 +495,7 @@ const ANodeInfo: FC<{
                     Reputation Point
                   </span>
                   <span className="text-[#FFFFFF80]">
-                    {data?.detail.nodeChainInfo.Node.reputationPoint || "-"}
+                    {detailInfo?.detail.nodeChainInfo.Node.reputationPoint || "-"}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -513,7 +504,7 @@ const ANodeInfo: FC<{
                     Cheat Status{" "}
                   </span>
                   <span className="text-[#FFFFFF80]">
-                    {data?.detail.nodeChainInfo.Node.cheatStatus || "-"}
+                    {detailInfo?.detail.nodeChainInfo.Node.cheatStatus || "-"}
                   </span>
                 </div>
               </div>
@@ -524,13 +515,13 @@ const ANodeInfo: FC<{
               <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
                 <div className="flex justify-between">
                   <span>Public IP</span>
-                  {isIpv6 ? <HelpTip content={data?.detail.ip} >
+                  {isIpv6 ? <HelpTip content={detailInfo?.detail.ip} >
                     <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
-                      {shortenMiddle(data?.detail.ip as string)}
+                      {shortenMiddle(detailInfo?.detail.ip as string)}
                     </span>
                   </HelpTip>
                     :
-                    <span className="text-[#FFFFFF80]">{data?.detail.ip}</span>}
+                    <span className="text-[#FFFFFF80]">{detailInfo?.detail.ip}</span>}
                 </div>
                 <div className="flex justify-between">
                   <span>IP Location</span>
@@ -569,13 +560,13 @@ const ANodeInfo: FC<{
                 <div className="flex justify-between">
                   <span>CPU Cores</span>
                   <span className="text-[#FFFFFF80]">
-                    {data?.detail.deviceInfo.cpuCores || "-"}
+                    {detailInfo?.detail.deviceInfo.cpuCores || "-"}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>CPU Use</span>
                   <span className="text-[#FFFFFF80]">
-                    {((data?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) +
+                    {((detailInfo?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) +
                       "%" || "-"}
                   </span>
                 </div>
