@@ -33,6 +33,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       return res
 
     },
+    staleTime: 0,  
+    gcTime: 0,     
+    refetchOnMount: "always",
     refetchOnWindowFocus: false,
 
   });
@@ -129,11 +132,11 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   ]
 
   return <div className="">
-    {/* {isFetching ? <div className="flex justify-center w-full pt-[4.5625rem] items-center h-full">
+    {isFetching ? <div className="flex justify-center w-full pt-[4.5625rem] items-center h-full">
       <CircularProgress label="Loading..." />
-    </div> : */}
+    </div> :
     <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
-    {/* } */}
+    } 
     <ConfirmDialog
       tit="Delete this device"
       msg={
