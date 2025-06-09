@@ -80,8 +80,8 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
-              <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                  <Image src={`./${delDetail?.nodeType}.png`} width={'100%'} height={'100%'} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${delDetail?.nodeType}`} />
+              <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
+                  <img src={`./${delDetail?.nodeType}.png`} className=" object-contain rounded-lg bg-white  w-full h-full" alt={`${delDetail?.nodeType}`} />
               </div>
               {foundDeviceList(delDetail, isMobile)}
             </div>
@@ -89,7 +89,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               {AllText.deviceInfo["Please confirm you want to delete this device. This action cannot be undone."]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isLoading={getStatus.isFetching} onClick={() => setIsConfirm(true)} className="w-full rounded-lg smd:h-12 " >
+              <Btn isLoading={getStatus.isFetching} onPress={() => setIsConfirm(true)} className="w-full rounded-lg smd:h-12 " >
                 Confirm Delete
               </Btn>
             </div>
@@ -108,7 +108,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full rounded-lg smd:h-12" onClick={onDeviceStep} >
+              <Btn type="submit" className="w-full rounded-lg smd:h-12" onPress={onDeviceStep} >
                 OK
               </Btn>
             </div>
