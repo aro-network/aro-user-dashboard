@@ -39,7 +39,7 @@ const ANodes = () => {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeList"],
     enabled: true,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     queryFn: async ({ pageParam: pageNum }) => {
       const pageSize = 10;
       const pageParams = { pageSize, pageNum };
@@ -75,14 +75,12 @@ const ANodes = () => {
   });
 
 
+
   const updateURL = (key: string, value: string) => {
     params.set(key, value);
     r.push(`?${params.toString()}`);
 
   };
-
-
-
 
   const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
     params.delete('chooseType')
@@ -95,6 +93,8 @@ const ANodes = () => {
     const showAdd = params.get("type") === 'add';
     const showDetail = params.get("type") === 'detail';
     const showDel = params.get("type") === 'del';
+    const showLink = params.get("type") === 'link';
+
 
     const type = params.get("chooseType");
     const obj: { [key: 'box' | 'x86' | string]: string } = {
@@ -111,16 +111,20 @@ const ANodes = () => {
     } else if (showDel && nId) {
       setUnbingInfo(nId)
       updateURL('type', 'del')
+    } else if (showLink) {
+      updateURL('type', 'link')
+    } else {
+      closeAll()
     }
-
     if (type) {
       setSelectedType(obj[type]);
     }
     else {
       addRef.current?.switchTo();
+      refetch()
       setSelectedType('');
     }
-  }, [nId, searchParams]);
+  }, [nId, searchParams, params]);
 
 
   const closeAll = () => {
@@ -133,10 +137,7 @@ const ANodes = () => {
     params.delete('nId')
     r.push(`?${params.toString()}`);
     refetch();
-
-
   }
-
 
   return (
     <>
@@ -198,8 +199,11 @@ const ANodes = () => {
             <div className="flex gap-[.625rem] smd:justify-end smd:pt-5   font-medium text-xs leading-3  smd:w-full">
 
               {nodeInfo?.nodeType === 'box' && <Btn
-                onPress={() =>
+                onPress={() => {
+                  params.delete('nId')
+                  updateURL('type', 'link')
                   ac.setLink(sortIp(nodeInfo?.deviceInfo.networkInterfaces || [])[0].ip)
+                }
 
                 }
                 className="h-[1.875rem] rounded-lg smd:!h-[1.875rem]"
@@ -231,6 +235,7 @@ const ANodes = () => {
             setSelectedType("");
             params.delete('type')
             params.delete('chooseType')
+
             r.push(`?${params.toString()}`);
           }}
         />

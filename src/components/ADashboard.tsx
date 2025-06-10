@@ -1,7 +1,7 @@
 import { useAuthContext } from "@/app/context/AuthContext";
 import { SocialButtons } from "./social-buttons";
 import { MAvatar } from "./avatar";
-import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
+import React, { FC, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Button, cn, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FiCopy, FiLogOut, FiMenu, FiUser } from "react-icons/fi";
@@ -110,10 +110,10 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { address, isConnected, } = useAppKitAccount()
   const username = user?.email?.split('@')[0] || ''
   const [refreshKey, setRefreshKey] = useState(0);
-  const params = new URLSearchParams();
   const queryClient = useQueryClient();
+  const params = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
 
-
+  const isLink = params.get('type') === 'link'
 
 
   useEffect(() => {
@@ -141,14 +141,14 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   };
 
   const handleTabChange = (tab: Dashboard.TabItem) => {
-    ac.setLink('')
+    params.delete('type')
+    params.delete('nId')
     setCurrentTab(tab);
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {
       setRefreshKey((prev) => prev + 1);
     }
   };
-
 
   const updateURL = (mode: string, tab: string) => {
     params.set("mode", mode);
@@ -358,6 +358,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         />
       </div>
 
+
       <div className={` smd:hidden flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040] ${selectedTab.children[5] && 'justify-end'}`}>
         {selectedTab.children.map((m) => {
           const selected = m.name === currentTab.name;
@@ -391,7 +392,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
           </div>
         }
-        {ac.link ?
+        {isLink && ac.link ?
           <ALinkOther /> :
           <AnimatePresence mode="wait">
             <motion.div

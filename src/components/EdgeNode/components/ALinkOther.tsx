@@ -2,12 +2,16 @@
 import { useAuthContext } from "@/app/context/AuthContext";
 import { Btn } from "@/components/btns"
 import { AllText } from "@/lib/allText"
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const ALinkOther = () => {
   const ac = useAuthContext();
+  const r = useRouter()
 
   const onCancel = () => {
-    ac.setLink('')
+    // ac.setLink('')
+    r.back()
   }
 
   const onConfirm = () => {
