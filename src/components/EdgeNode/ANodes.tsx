@@ -83,13 +83,13 @@ const ANodes = () => {
 
 
 
-  
-  const handleToggleNodeInfo = useCallback((e: EdgeNodeMode.NodeType) => {
+
+  const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
     params.delete('chooseType')
     updateURL('type', 'detail')
     updateURL('nId', `${e.nodeUUID}`)
     setOpenAddNode(false);
-  }, []);
+  }
 
   useEffect(() => {
     const showAdd = params.get("type") === 'add';
@@ -111,15 +111,16 @@ const ANodes = () => {
     } else if (showDel && nId) {
       setUnbingInfo(nId)
       updateURL('type', 'del')
-    } 
+    }
 
     if (type) {
       setSelectedType(obj[type]);
-    } else {
+    }
+    else {
       addRef.current?.switchTo();
       setSelectedType('');
     }
-  }, [searchParams]);
+  }, [nId, searchParams]);
 
 
   const closeAll = () => {
@@ -209,6 +210,7 @@ const ANodes = () => {
               <Btn
                 onPress={() => {
                   updateURL('type', 'del')
+
                 }}
                 className="bg-[#F5F5F51A] text-white smd:!h-[1.875rem] h-[1.875rem] rounded-lg  hover:!bg-default"
               >
