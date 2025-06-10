@@ -10,7 +10,5 @@ import { removeItem } from "@/lib/storage";
 export default function Page() {
   const { user } = useContext(AuthContext);
   useShowParamsError();
-  removeItem('sid')
-
   return user?.token || user?.accessToken ? <ADashboard /> : <Login />;
 }
