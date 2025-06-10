@@ -418,7 +418,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="text-xs mt-5 ">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
-            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg smd:h-12' }} />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">{AllText.AAddNewNodes.type.step3["You can change the name anytime later."]}</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
