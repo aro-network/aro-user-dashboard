@@ -189,7 +189,7 @@ const AOverview = () => {
           tit={
             <div className="flex justify-between items-center w-full">
               <span className="text-xl smd:text-base font-Alexandria">My Nodes</span>
-              <HelpTip content='Go to Nodes Detail'>
+              <HelpTip content='Go to All Nodes'>
                 <button className=" bg-[#00E42A]  hover:bg-[#5CF077] rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=devnet&tab=nodes')}>
                   <GoArrowUpRight className="text-black" />
                 </button>
