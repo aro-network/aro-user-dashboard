@@ -395,7 +395,7 @@ const ANodeInfo: FC<{
                       ) : (
                         <div >
                           <HelpTip content={detailInfo?.detail?.nodeName}>
-                            {shortenMiddle(detailInfo?.detail.nodeName || "-", isMobile ? 10 : 15)}
+                            {shortenMiddle(detailInfo?.detail.nodeName || "-", isMobile ? 12 : 15)}
                           </HelpTip>
                         </div>
 
@@ -442,7 +442,7 @@ const ANodeInfo: FC<{
                     <span className="w-auto">Serial Number:</span>
                     <div className="text-[#FFFFFF80] " >
                       <HelpTip content={detailInfo?.detail?.nodeUUID} >
-                        {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", 18)}
+                        {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", isMobile ? 12 : 18)}
                       </HelpTip>
                     </div>
                   </div>
