@@ -220,9 +220,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.type.step1.title}
 
             </div>
-            <div className="mt-5 flex w-full justify-center smd:text-left text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
+            <button className="mt-5 flex w-full justify-center smd:text-left text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
               {AllText.AAddNewNodes.type.step1.subtitle.replaceAll('xx', chooseedType?.iconName ?? '')}
-            </div>
+            </button>
             <Input
               maxLength={30}
               className=" mt-5 "
@@ -252,7 +252,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
 
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg bg-[#F6F8F9]  w-full h-full" alt={`${data?.nodeType}`} />
+                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg  bg-white  w-full h-full" alt={`${data?.nodeType}`} />
               </div>
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
@@ -335,12 +335,12 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full font-normal justify-center text-sm leading-5 smd:justify-start">
+            <div className="flex w-full font-normal justify-center text-center text-sm leading-5 ">
               {AllText.AAddNewNodes.type2.first.title.replace('xx', chooseedType?.iconName ?? '-')}
             </div>
-            <div className="mt-5  text-center text-sm underline underline-offset-1">
+            <button onClick={() => window.open('https://docs.aro.network/user-guides/software-setup', '_blank')} className="mt-5  text-center smd:flex justify-center w-full text-sm underline underline-offset-1">
               {chooseedType?.iconName + AllText.AAddNewNodes.type2.first["Node Installation Guidance"]}
-            </div>
+            </button>
             <div className="mt-5 text-[#FFFFFF80] text-sm text-center">
 
               {AllText.AAddNewNodes.type2.first["Make sure you have followed the guidance and complete initial network configurations on your Software Node CLI before continue."].replaceAll('xx', chooseedType?.iconName ?? '')}
@@ -357,7 +357,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria smd:justify-start">
+            <div className="flex w-full font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
               {AllText.AAddNewNodes.type.step1.title}
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
@@ -367,7 +367,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               maxLength={30}
               errorMessage="Please enter"
               className=" mt-5  w-full"
-              classNames={{ 'inputWrapper': '!rounded-lg' }}
+              classNames={{ 'inputWrapper': '!rounded-lg smd:!h-12' }}
               value={serialNum?.num}
               onChange={(e) => {
                 setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'x86' })
@@ -385,13 +385,17 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full  font-normal text-lg leading-5 justify-center smd:justify-start">
+            <div className="flex w-full  font-normal text-lg  smd:text-baseleading-5 justify-center smd:justify-start">
               {AllText.AAddNewNodes.type.step2.title}
             </div>
-            <div className=" py-5 my-5 pl-5 bg-[#6D6D6D66]  w-full flex gap-4 rounded-[1.25rem]">
-              <div className="w-[50%]">
-                <img src={`./${deviceInfo?.nodeType}.png`} alt={`${chooseedType?.value}`} style={{ height: '100%', width: '100%' }} />
+
+            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
+
+              <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
+                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg  bg-white   w-full h-full" alt={`${data?.nodeType}`} />
               </div>
+
+
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
             <div className={cn(' text-sm  text-center', {
@@ -413,7 +417,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full font-normal text-lg leading-5 justify-center font-Alexandria smd:justify-start">
+            <div className="flex w-full font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
               {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
             </div>
 
@@ -449,8 +453,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] flex flex-col gap-5 ">
-            <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
+          <div className="w-[37.5rem] flex flex-col gap-5 smd:w-full ">
+            <div className="flex w-full justify-center font-normal text-lg smd:text-base leading-5 font-Alexandria">
               Congratulations!
             </div>
             <div className="text-center text-sm ">

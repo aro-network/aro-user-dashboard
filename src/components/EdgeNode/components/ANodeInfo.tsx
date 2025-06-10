@@ -80,8 +80,11 @@ const ANodeInfo: FC<{
   const [nodeName, setNodeName] = useState("");
 
   const onSubmit = async (value: string) => {
+
     await backendApi.editCurrentNodeName(detailInfo?.detail.nodeUUID, value);
-    getCurrentDetail
+    setIsFetching(true)
+
+    getCurrentDetail()
     setIsEdit(false);
   };
 
