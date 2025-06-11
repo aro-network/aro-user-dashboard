@@ -12,6 +12,7 @@ import useMobileDetect from "@/hooks/useMobileDetect"
 import { useRouter, useSearchParams } from "next/navigation";
 import { ENV } from "@/lib/env"
 import { AllText } from "@/lib/allText"
+import { env } from "node:process"
 
 
 const deviceList: Nodes.DeviceType[] = [
@@ -133,7 +134,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     queryKey: ["Regions"],
     queryFn: async () => {
       const res = await backendApi.getRegions()
-      const result = res.filter((item: { code: string }) => {
+
+      const result = ENV === 'staging' ? res : res.filter((item: { code: string }) => {
         return item.code === 'AS'
       })
 
