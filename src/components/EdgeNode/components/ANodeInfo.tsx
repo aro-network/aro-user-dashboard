@@ -29,6 +29,7 @@ import useMobileDetect from "@/hooks/useMobileDetect";
 import { ConfirmDialog } from "@/components/dialogimpls";
 import { useSearchParams } from "next/navigation";
 import AStats from "../AStats";
+import { ENV } from "@/lib/env";
 
 const InfoRow = ({
   label,
@@ -305,8 +306,13 @@ const ANodeInfo: FC<{
 
   const isIpv6 = isMobile && isIPv6(detailInfo?.detail.ip as string)
 
-
-
+  const chainInfo = detailInfo?.detail.nodeChainInfo;
+  let info
+  if (chainInfo && 'Node' in chainInfo) {
+    info = chainInfo.Node;
+  } else if (chainInfo) {
+    info = chainInfo;
+  }
   return (
     <>
       {!isFetching ? (
@@ -510,21 +516,21 @@ const ANodeInfo: FC<{
                   label="Device"
                   value={
                     <span className="capitalize">
-                      {covertText(detailInfo?.detail.nodeChainInfo.Node.deviceType as "box" | "x86" | "Box") || "-"}
+                      {covertText(info?.deviceType as "box" | "x86" | "Box") || "-"}
                     </span>
                   }
                 />
                 <InfoRow
                   label="Registered Region"
-                  value={detailInfo?.detail.nodeChainInfo.Node.regionCode || "-"}
+                  value={info?.regionCode || "-"}
                 />
                 <InfoRow
                   label="Reputation Point"
-                  value={detailInfo?.detail.nodeChainInfo.Node.reputationPoint || "-"}
+                  value={info?.reputationPoint || "-"}
                 />
                 <InfoRow
                   label="Cheat Status"
-                  value={detailInfo?.detail.nodeChainInfo.Node.cheatStatus || "-"}
+                  value={info?.cheatStatus || "-"}
                 />
               </InfoCard>
 

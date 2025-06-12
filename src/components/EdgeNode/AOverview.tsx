@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { FaGift } from "react-icons/fa6";
 import { formatNumber, generateDateList, generateLast15DaysRange, getCurrentDate } from "@/lib/utils";
 import { AllText } from "@/lib/allText";
+import { currentENVName } from "../ADashboard";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 export function DupleSplit({ className }: { className?: string }) {
   return <div className={cn("bg-white opacity-30 w-[1px] h-6 shrink-0", className)} />;
@@ -190,7 +191,7 @@ const AOverview = () => {
             <div className="flex justify-between items-center w-full">
               <span className="text-xl smd:text-base font-Alexandria">My Nodes</span>
               <HelpTip content='Go to All Nodes'>
-                <button className=" bg-[#00E42A]  hover:bg-[#5CF077] rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push('?mode=devnet&tab=nodes')}>
+                <button className=" bg-[#00E42A]  hover:bg-[#5CF077] rounded-full flex items-center justify-center w-8 h-8 text-base" onClick={() => r.push(`?mode=${currentENVName}&tab=nodes`)}>
                   <GoArrowUpRight className="text-black" />
                 </button>
               </HelpTip>

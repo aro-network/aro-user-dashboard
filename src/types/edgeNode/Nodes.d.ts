@@ -33,26 +33,41 @@ declare namespace Nodes {
         nodeType?: "x86" | "box";
       }[];
     };
-    nodeChainInfo: {
-      Node: {
-        nodeID: string;
-        userID: string;
-        nodeName: string;
-        deviceType: string;
-        regionCode: string;
-        trafficType: number;
-        registerStatus: string;
-        workingStatus?: string;
-        cheatStatus?: string;
-        reputationPoint: string;
-        creator: string;
-        createAt: string;
-        updator: string;
-        updateAt: string;
-      };
-    };
+    nodeChainInfo:
+      | {
+          Node: {
+            nodeID: string;
+            userID: string;
+            nodeName: string;
+            deviceType: string;
+            regionCode: string;
+            trafficType: number;
+            registerStatus: string;
+            workingStatus?: string;
+            cheatStatus?: string;
+            reputationPoint: string;
+            creator: string;
+            createAt: string;
+            updator: string;
+            updateAt: string;
+          };
+        }
+      | {
+          nodeId: string;
+          nodePubkey: string;
+          userId: string;
+          deviceType: string;
+          regionCode: string;
+          trafficType: number;
+          registerStatus: string;
+          cheatStatus: string;
+          reputationPoint: number;
+          creator: string;
+          createAt: number;
+          updator: string;
+          updateAt: number;
+        };
   }
-
   interface TrendingList {
     date: number;
     rewards: string;

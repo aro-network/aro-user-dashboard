@@ -28,11 +28,13 @@ import { AllText } from "@/lib/allText";
 import AAROID from "./AROID/AAROID";
 import { AFunds } from "./AROID";
 import ALinkOther from "./EdgeNode/components/ALinkOther";
+
+export const currentENVName = ENV === 'staging' ? 'testnet' : 'devnet'
 const Modes: Dashboard.ModesType[] = [
 
   {
-    label: 'Devnet',
-    name: 'devnet',
+    label: ENV === 'staging' ? 'Testnet' : 'Devnet',
+    name: currentENVName,
     children: [
 
       {
@@ -130,7 +132,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       }
     } else {
 
-      updateURL('devnet', 'nodes')
+      updateURL(currentENVName, 'nodes')
     }
   }, [searchParams]);
 
@@ -273,7 +275,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               </DropdownItem> */}
               <DropdownItem key={'aroId'} onClick={() => {
                 ac.setLink('')
-                r.push('?mode=devnet&tab=aroId')
+                r.push(`?mode=${currentENVName}&tab=aroId`)
 
 
               }} >
@@ -389,7 +391,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         {currentTab.tab === 'referral' && user?.invited === false &&
           <div className="bg-[#00E42A]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
             <span className="text-black">You have not set your Referrer Information. Being referred by an ARO user will give you extra boost! </span>
-            <button onClick={() => r.push('?mode=devnet&tab=aroId')} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>
+            <button onClick={() => r.push(`?mode=${currentENVName}&tab=aroId`)} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>
 
           </div>
         }
