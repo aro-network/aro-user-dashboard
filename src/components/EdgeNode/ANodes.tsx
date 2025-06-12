@@ -25,11 +25,6 @@ const ANodes = () => {
   const ac = useAuthContext();
   const nId = params.get("nId") || ''
 
-  const showAdd = params.get("type") === 'add';
-  const showDetail = params.get("type") === 'detail';
-  const showDel = params.get("type") === 'del';
-  const showLink = params.get("type") === 'link';
-  const type = params.get("chooseType");
 
 
 
@@ -98,6 +93,11 @@ const ANodes = () => {
 
   useEffect(() => {
 
+    const showAdd = params.get("type") === 'add';
+    const showDetail = params.get("type") === 'detail';
+    const showDel = params.get("type") === 'del';
+    const showLink = params.get("type") === 'link';
+    const type = params.get("chooseType");
 
 
     const obj: { [key: 'box' | 'x86' | string]: string } = {
@@ -141,8 +141,6 @@ const ANodes = () => {
     r.push(`?${params.toString()}`);
     refetch();
   }
-
-  console.log('ddddddd', showDetail || (showAdd && !type));
 
 
   return (
