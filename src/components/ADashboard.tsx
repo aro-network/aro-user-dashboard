@@ -161,8 +161,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
   return (
-    <div className="  overflow-hidden ">
-      <div className={cn(` flex h-[3.75rem]  smd:fixed  top-0 flex-row w-full justify-between items-center py-5 bg-[#373737]  px-[50px] smd:px-4  `, {
+    <div className="  overflow-hidden m-auto flex justify-center flex-col xs:w-full ">
+      <div className={cn(` flex h-[3.75rem] bg-[#373737]   smd:fixed  top-0 flex-row w-full justify-between items-center py-5   px-[50px] smd:px-5 `, {
         'smd:!z-[-100] ': isVisable,
         'smd:z-[10000]': !isVisable
       })}>
@@ -347,7 +347,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           }
           className="smd:mx-5"
           isOpen={showConfirmLogout}
-          cancelClassName="!bg-[#F5F5F51A] text-white"
+          confirmClassName="hover:bg-[#00E42A33]"
+          cancelClassName="!bg-[#F5F5F51A] text-white border-white border"
           onCancel={toggleShowConfirmLogout}
           onConfirm={() => {
             ac.setLink('')
@@ -359,7 +360,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       </div>
 
 
-      <div className={` smd:hidden flex flex-row gap-3 px-[3.125rem] py-[.625rem] border-b border-[#404040] ${selectedTab.children[5] && 'justify-end'}`}>
+      <div className={` smd:hidden flex flex-row gap-3 px-[3.125rem] xs:px-[50px] py-[.625rem] border-b border-[#404040] ${selectedTab.children[5] && 'justify-end'}`}>
         {selectedTab.children.map((m) => {
           const selected = m.name === currentTab.name;
           return (
@@ -394,18 +395,21 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         }
         {isLink && ac.link ?
           <ALinkOther /> :
-          <AnimatePresence mode="wait">
-            <motion.div
-              className=" pt-5 smd:pb-10  px-[6.5rem] xsl:px-[5rem] smd:px-4 flex flex-col w-full "
-              key={currentTab.name + refreshKey}
-              initial={{ y: -10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -10, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {currentTab.content}
-            </motion.div>
-          </AnimatePresence>
+          <div className=" w-container m-auto flex justify-center xs:w-full smd:w-full xs:px-[50px] smd:px-5 ">
+            <AnimatePresence mode="wait">
+              <motion.div
+                className=" pt-5 smd:pb-10  flex flex-col w-full "
+                key={currentTab.name + refreshKey}
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {currentTab.content}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
         }
 
       </div>

@@ -27,7 +27,7 @@ body {
   max-height: max-content;
   min-height: 100%;
 }
-@media (min-width: 1663px) {
+/* @media (min-width: 1663px) {
   html {
     font-size: 17.6px;
   }
@@ -63,7 +63,7 @@ body {
   }
 }
 
-
+ */
 
 
 .font-HelveticaNeue {
@@ -180,4 +180,77 @@ button[data-slot="trigger"] {
 .nodeName input {
   font-size: 16px;
   padding-left: 5px;
+}
+
+
+.rewards-bg{
+   background-color: #00E42A14;
+            box-shadow: 0px 2px 0px 0px #00E42A99;
+}
+
+.falling-stars-container {
+  width: 100%;
+  /* Removed max-width to fully adapt to parent container */
+  margin: 0 auto; /* Center the SVG */
+}
+
+/* FallingStars.css */
+.star {
+  animation: fall linear infinite, blink ease-in-out infinite;
+  will-change: transform, opacity;
+  animation-duration: var(--animation-duration, 3s);
+  animation-delay: var(--animation-delay, 0s);
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(161px);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.newTab{
+  background: linear-gradient(167.25deg, #616161 -5.37%, #383838 29.21%);
+
+
+}
+
+.rewardsTab{
+background: linear-gradient(1.66deg, #141414 1.41%, #383838 91.74%);
+  box-shadow: 0px 2px 0px 0px #6D6D6D66;
+
+
+}
+
+
+
+.rightTab{
+  background: linear-gradient(167.25deg, #616161 -5.37%, #383838 29.21%);
+  border-radius: 12px;
+  border: 1px solid none;
+
+}
+
+.titleBg{
+  background-color: #4F4F4F;
+  width: 100%;
+  border: 1px solid none;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  height: 27px;
 }

@@ -24,9 +24,13 @@ const config: Config = {
         1: "0px 2px 0px 0px #6D6D6D66",
         2: "0px 4px 4px 0 rgba(0,0,0,0.25)",
       },
+      width: {
+        container: "1440px",
+      },
       screens: {
         smd: { max: "1000px" },
         xsl: { min: "1000px", max: "1800px" },
+        xs: [{ min: "1001px", max: "1440px" }],
         md: { min: "1000px" },
       },
       colors: {

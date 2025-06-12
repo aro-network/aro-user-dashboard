@@ -57,7 +57,7 @@ const AStats = () => {
     grid: {
       left: 30,
       right: 0,
-      top: 40,
+      top: 30,
       bottom: 50
     },
     color: ['#FDB600'],
@@ -117,7 +117,7 @@ const AStats = () => {
     grid: {
       left: 30,
       right: 0,
-      top: 40,
+      top: 30,
       bottom: 50
     },
     // title: {
@@ -182,7 +182,7 @@ const AStats = () => {
     grid: {
       left: 30,
       right: 0,
-      top: 40,
+      top: 30,
       bottom: 50
     },
     // title: {
@@ -231,7 +231,7 @@ const AStats = () => {
     grid: {
       left: 30,
       right: 0,
-      top: 40,
+      top: 30,
       bottom: 50
     },
     // title: {
@@ -288,58 +288,58 @@ const AStats = () => {
   return (
     <>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5  ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5 ">
         <TitCard
-          contentClassName="flex flex-col  justify-center !items-center"
+          contentClassName="flex flex-col  !items-start"
           tit={'24H Uptime'}
-          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+          className={cn("h-[15rem]  w-full text-xs !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}
 
         >
           <div className="!w-full " style={{ height: '10rem' }} ref={ref}>
-            <EChartsReact style={{ height: '10rem' }} className="!w-full" option={option} />
+            <EChartsReact style={{ height: '10rem' }} className="!w-full  !h-[12.5rem]" option={option} />
           </div>
         </TitCard>
 
         <TitCard
-          contentClassName="flex flex-col  justify-center !items-center"
+          contentClassName="flex flex-col !items-start"
           tit={'24H Upload Volume'}
-          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+          className={cn("h-[15rem]  w-full text-xs !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}
         >
           <div className="w-full" style={{ height: '10rem' }} ref={ref}>
-            <EChartsReact style={{ height: '10rem' }} className="w-full" option={option4} />
+            <EChartsReact style={{ height: '10rem' }} className="w-full  !h-[12.5rem]" option={option4} />
           </div>
         </TitCard>
 
         <TitCard
-          contentClassName="flex flex-col  justify-center !items-center"
+          contentClassName="flex flex-col !items-start"
           tit={'24H Package Loss'}
-          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+          className={cn("h-[15rem]  w-full text-xs  !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}
         >
           <div className="w-full" style={{ height: '10rem' }} ref={ref}>
 
-            <EChartsReact style={{ height: '10rem' }} className="w-full" option={option2} />
+            <EChartsReact style={{ height: '10rem' }} className="w-full  !h-[12.5rem]" option={option2} />
           </div>
         </TitCard>
 
         <TitCard
-          contentClassName="flex flex-col  justify-center !items-center"
+          contentClassName="flex flex-col !items-start"
           tit={'24H Average Delay'}
-          className={cn("h-[15rem]  w-full text-xs !gap-[.625rem] !bg-[#6D6D6D66] ")}
+          className={cn("h-[15rem]  w-full text-xs !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab ")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}
         >
           <div className="w-full" style={{ height: '10rem' }} ref={ref}>
-            <EChartsReact style={{ height: '10rem' }} className="w-full" option={option3} />
+            <EChartsReact style={{ height: '10rem' }} className="w-full  !h-[12.5rem]" option={option3} />
           </div>
         </TitCard>
 

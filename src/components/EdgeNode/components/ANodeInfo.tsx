@@ -30,6 +30,35 @@ import { ConfirmDialog } from "@/components/dialogimpls";
 import { useSearchParams } from "next/navigation";
 import AStats from "../AStats";
 
+const InfoRow = ({
+  label,
+  value,
+}: {
+  label: React.ReactNode;
+  value: React.ReactNode;
+}) => (
+  <div className="flex justify-between pl-[.625rem]">
+    <span>{label}</span>
+    <span className="text-[#FFFFFF80]">{value}</span>
+  </div>
+);
+
+const InfoCard = ({
+  title,
+  children,
+  height = "h-[240px]",
+}: {
+  title: string;
+  children: React.ReactNode;
+  height?: string;
+}) => (
+  <div className={`smd:my-0 p-5 rounded-[12px] w-full ${height} smd:h-full`}>
+    <div className="text-base font-semibold titleBg">{title}</div>
+    <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">{children}</div>
+  </div>
+);
+
+
 const ANodeInfo: FC<{
   nodeInfo: (arg0: any) => void;
   onBack: () => void
@@ -106,7 +135,9 @@ const ANodeInfo: FC<{
     if (!width) return {};
     const datas = result.data || [];
 
-    const xData = datas.map((item: { date: string }) => item.date);
+    const xData = datas.map((item: { date: string }) =>
+      dayjs(item.date).format("MMM") + dayjs(item.date).format("D")
+    );
     const yData = datas.map((item: { total: number }) =>
       _.toNumber(item.total)
     );
@@ -130,7 +161,17 @@ const ANodeInfo: FC<{
           )}${formatNumber(params[0].data)}</div>`;
         },
       },
-      grid: { left: 40, top: 10, bottom: 30, right: 20, show: false },
+      // grid: { left: 40, top: 10, bottom: 30, right: 20, },
+
+
+      grid: {
+        left: 30,
+        right: 0,
+        top: 10,
+        bottom: 50,
+        show: false
+
+      },
       // toolbox: { show: false },
       dataZoom: [
         {
@@ -149,7 +190,7 @@ const ANodeInfo: FC<{
       xAxis: {
         type: "category",
         data: xData,
-        axisLabel: { fontSize: 10, color: "rgba(255,255,255,0.5)" },
+        axisLabel: { fontSize: 10, color: "rgba(255,255,255,0.5)", interval: 0, },
       },
       yAxis: {
         type: "value",
@@ -244,6 +285,7 @@ const ANodeInfo: FC<{
     }
   };
 
+
   const onSubmitEdit = () => {
     if (
       !nodeName ||
@@ -264,49 +306,50 @@ const ANodeInfo: FC<{
   const isIpv6 = isMobile && isIPv6(detailInfo?.detail.ip as string)
 
 
+
   return (
     <>
       {!isFetching ? (
 
-        <div className=" mx-auto w-full mt-5 text-white mb-5 flex justify-between smd:flex-col gap-5 ">
-          <div className="w-[60%] smd:w-full">
-            <div className="flex w-full gap-5 smd:flex-wrap">
-              <div className="flex rounded-[1.25rem] w-full p-5  h-[9.375rem] smd:h-full flex-col   gap-[.625rem] smd:gap-5 bg-[#6D6D6D66]">
-                <div className="flex w-full justify-between">
-                  <span className="font-semibold text-base  ">Rewards</span>
-                  {/* <Btn disabled className="h-5 font-normal">
-                  Go to Claim Page
-                </Btn> */}
+        <div className=" mx-auto w-full mt-5 text-white  flex justify-between smd:flex-col gap-5 ">
+          <div className="w-[calc(100%-378px-20px)] smd:w-full h-fit ">
+
+
+            <div className=" w-full smd:flex-wrap bg-[url(/rewardsBg.svg)] bg-repeat bg-cover smd:object-cover smd:bg-top rounded-[12px]  border-b-2 smd:border-b-0   border-b-[#00E42A59] ">
+              <div className="flex rounded-[12px] w-full p-[20px]  h-[149px] smd:h-full flex-col   gap-[10px] smd:gap-5">
+                <div className="flex w-full justify-between " >
+                  <span className="font-semibold text-[16px]  ">Rewards</span>
+
                 </div>
-                <div className="flex justify-between smd:flex-wrap h-full smd:w-full">
-                  <div className="text-sm  flex flex-col justify-between xsl:justify-start    gap-[.625rem] smd:w-full flex-wrap">
-                    <span className="font-normal text-sm text-[#FFFFFF80]">
+                <div className="flex justify-between smd:flex-wrap h-full smd:w-full smd:gap-5 ">
+                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] smd:w-full flex-wrap ">
+                    <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Total
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-3xl">
+                      <span className="text-[42px]">
                         {formatNumber(Number(detailInfo?.countRewards.total || 0))}
                       </span>
                       <span>Jades</span>
                     </div>
                   </div>
-                  <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem]  flex-wrap smd:pt-5 ">
-                    <span className="font-normal text-sm text-[#FFFFFF80]">
+                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] smd:w-full flex-wrap">
+                    <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Today
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-3xl">
+                      <span className="text-[42px]">
                         + {formatNumber(Number(detailInfo?.countRewards.today || 0))}
                       </span>
                       <span>Jades</span>
                     </div>
                   </div>
-                  <div className="text-sm  flex flex-col justify-between xsl:justify-start  gap-[.625rem] smd:pt-5 flex-wrap ">
-                    <span className="font-normal text-sm text-[#FFFFFF80]">
+                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] smd:w-full flex-wrap">
+                    <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Yesterday
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-3xl">
+                      <span className="text-[42px]">
                         +{" "}
                         {formatNumber(Number(detailInfo?.countRewards.yesterday || 0))}
                       </span>
@@ -320,7 +363,7 @@ const ANodeInfo: FC<{
             <TitCard
               tit="Rewards History"
               className={cn(
-                "col-span-1 h-[19.375rem]   bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4 "
+                "col-span-1 h-[278px] smd:h-auto rewardsTab  !rounded-xl  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4 "
               )}
               contentClassName={(' smd:flex-wrap smd:gap-[.625rem]')}
               right={
@@ -348,29 +391,26 @@ const ANodeInfo: FC<{
             <AStats />
 
           </div>
-          <div className="w-[40%] smd:w-full">
-            <div className="flex rounded-[1.25rem] flex-col w-full p-5 gap-[.625rem] h-[9.375rem]  smd:h-full  bg-[#6D6D6D66]">
+          <div className="w-[378px] rightTab h-fit smd:w-full ">
+            <div className="flex rounded-[12px] flex-col w-full p-[20px] gap-[.625rem] h-[149px] smd:h-auto ">
               <div className="font-semibold text-base ">
-                <span>Node Info</span>
+                <span className=" text-nowrap">Node Info</span>
               </div>
-              <div className="flex w-full gap-[.625rem] md:gap-5 h-full  ">
-                <div className="smd:w-[40%]">
-                  {!detailInfo?.detail?.nodeType ?
-                    <Skeleton className="rounded-2xl"><div className="w-[5.4375rem] rounded-3xl" /></Skeleton> :
-                    <img
-                      src={`../${detailInfo?.detail?.nodeType}.png`}
-                      className="w-[5.4375rem] h-full"
-                      alt={`${detailInfo?.detail?.nodeType}`}
-                    />
-                  }
+              <div className="flex w-full gap-[10px] md:gap-5  h-[68px]">
+                <img
+                  width={68}
+                  height={68}
+                  src={`../${detailInfo?.detail?.nodeType}.png`}
+                  className=" object-contain"
+                  alt={`${detailInfo?.detail?.nodeType}`}
+                />
 
-                </div>
+
                 <div className="flex flex-col justify-between w-full smd:py-[.625rem] ">
-                  <div className="text-sm  flex   gap-[.625rem]  items-center">
-                    <span>Node Name:</span>
+                  <div className="text-sm  flex w-full  gap-[.625rem]  items-center">
+                    <span className=" text-nowrap">Node Name:</span>
                     <div
-                      style={{ alignItems: "anchor-center" }}
-                      className="text-[#FFFFFF80]  flex  gap-[.625rem] nodeName "
+                      className="text-[#FFFFFF80]  flex   gap-[.625rem] nodeName  "
                     >
                       {isEdit && !isMobile ? (
                         <input
@@ -398,7 +438,7 @@ const ANodeInfo: FC<{
                       ) : (
                         <div >
                           <HelpTip content={detailInfo?.detail?.nodeName}>
-                            {shortenMiddle(detailInfo?.detail.nodeName || "-", isMobile ? 12 : 15)}
+                            {shortenMiddle(detailInfo?.detail.nodeName || "-", 15)}
                           </HelpTip>
                         </div>
 
@@ -406,7 +446,7 @@ const ANodeInfo: FC<{
                       {isEdit && isMobile && <ConfirmDialog
                         tit=""
                         btnClassName='flex '
-                        confirmClassName='w-full !bg-[#F5F5F51A] text-white'
+                        confirmClassName='w-full !bg-[#F5F5F51A] !border-white border text-white'
                         cancelClassName="w-full"
                         confirmText='Cancel'
                         cancelText='Confirm'
@@ -442,10 +482,10 @@ const ANodeInfo: FC<{
                     </div>
                   </div>
                   <div className="text-sm  mt-1 w-full flex   gap-[.625rem]">
-                    <span className="w-auto">Serial Number:</span>
-                    <div className="text-[#FFFFFF80] " >
+                    <span className=" text-nowrap">Serial Number:</span>
+                    <div className="text-[#FFFFFF80] truncate shrink-0" >
                       <HelpTip content={detailInfo?.detail?.nodeUUID} >
-                        {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", isMobile ? 12 : 18)}
+                        {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", 15)}
                       </HelpTip>
                     </div>
                   </div>
@@ -460,124 +500,66 @@ const ANodeInfo: FC<{
 
 
             </div>
-
-            <div className="flex justify-between w-full gap-5 flex-col mt-5  ">
-              <div className=" smd:mb-0  p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full  h-[19.375rem] smd:h-full   ">
-                <span className=" text-base font-semibold">Basics</span>
-                <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-                  <div className="flex justify-between">
-                    <span>Create Date</span>
-                    <span className="text-[#FFFFFF80]">
-                      {dayjs(
-                        Number(detailInfo?.detail.createTimestamp || 0) * 1000
-                      ).format("YYYY-MM-DD")}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span>Device</span>
-                    <span className="text-[#FFFFFF80] capitalize">
+            <div className="flex justify-between w-full gap-5 flex-col mt-5">
+              <InfoCard title="Basics" height="h-[278px]">
+                <InfoRow
+                  label="Create Date"
+                  value={dayjs(Number(detailInfo?.detail.createTimestamp || 0) * 1000).format("YYYY-MM-DD")}
+                />
+                <InfoRow
+                  label="Device"
+                  value={
+                    <span className="capitalize">
                       {covertText(detailInfo?.detail.nodeChainInfo.Node.deviceType as "box" | "x86" | "Box") || "-"}
                     </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Registered Region</span>
-                    <span className="text-[#FFFFFF80]">
-                      {detailInfo?.detail.nodeChainInfo.Node.regionCode || "-"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="flex gap-[.375rem] items-center">
-                      Reputation Point
-                    </span>
-                    <span className="text-[#FFFFFF80]">
-                      {detailInfo?.detail.nodeChainInfo.Node.reputationPoint || "-"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="flex gap-[.375rem] items-center">
-                      {" "}
-                      Cheat Status{" "}
-                    </span>
-                    <span className="text-[#FFFFFF80]">
-                      {detailInfo?.detail.nodeChainInfo.Node.cheatStatus || "-"}
-                    </span>
-                  </div>
-                </div>
-              </div>
+                  }
+                />
+                <InfoRow
+                  label="Registered Region"
+                  value={detailInfo?.detail.nodeChainInfo.Node.regionCode || "-"}
+                />
+                <InfoRow
+                  label="Reputation Point"
+                  value={detailInfo?.detail.nodeChainInfo.Node.reputationPoint || "-"}
+                />
+                <InfoRow
+                  label="Cheat Status"
+                  value={detailInfo?.detail.nodeChainInfo.Node.cheatStatus || "-"}
+                />
+              </InfoCard>
 
-              <div className=" smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full h-[15rem] smd:h-full">
-                <span className=" text-base font-semibold">Network Info</span>
-                <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-                  <div className="flex justify-between">
-                    <span>Public IP</span>
-                    {isIpv6 ? <HelpTip content={detailInfo?.detail.ip} >
-                      <span className={cn('text-[#FFFFFF80] text-sm   text-center ')}>
-                        {shortenMiddle(detailInfo?.detail.ip as string)}
-                      </span>
-                    </HelpTip>
-                      :
-                      <span className="text-[#FFFFFF80]">{detailInfo?.detail.ip}</span>}
-                  </div>
-                  <div className="flex justify-between">
-                    <span>IP Location</span>
-                    <span className="text-[#FFFFFF80]">{"-"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Local IP</span>
-                    <span className="text-[#FFFFFF80]">
-                      {newResult()![0]?.ip || "-"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>MAC Address</span>
-                    <span className="text-[#FFFFFF80]">
-                      {newResult()![0]?.mac || "-"}
-                    </span>
-                  </div>
-                  {/* <div className="flex justify-between">
-                          <span >NAT Type</span>
-                          <span className="text-[#FFFFFF80]">{nodeData.natType}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span >Packet Loss Rate</span>
-                          <span className="text-[#FFFFFF80]">{nodeData.upnp}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span >Delay</span>
-                          <span className="text-[#FFFFFF80]">{nodeData.delay}</span>
-                        </div> */}
-                </div>
-              </div>
+              <InfoCard title="Network Info">
+                <InfoRow
+                  label="Public IP"
+                  value={
+                    isIpv6 ? (
+                      <HelpTip content={detailInfo?.detail.ip}>
+                        <span className="text-[#FFFFFF80] text-sm text-center">
+                          {shortenMiddle(detailInfo?.detail.ip as string)}
+                        </span>
+                      </HelpTip>
+                    ) : (
+                      detailInfo?.detail.ip || "-"
+                    )
+                  }
+                />
+                <InfoRow label="IP Location" value="-" />
+                <InfoRow label="Local IP" value={newResult()?.[0]?.ip || "-"} />
+                <InfoRow label="MAC Address" value={newResult()?.[0]?.mac || "-"} />
+              </InfoCard>
 
-              <div className=" smd:my-0 p-5 bg-[#6D6D6D66] rounded-[1.25rem] w-full  h-[15rem] smd:h-full">
-                <span className=" text-base font-semibold">Device States</span>
-                <div className="flex flex-col gap-[.5rem] mt-[1.125rem] text-sm">
-                  <div className="flex justify-between">
-                    <span>CPU Cores</span>
-                    <span className="text-[#FFFFFF80]">
-                      {detailInfo?.detail.deviceInfo.cpuCores || "-"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>CPU Use</span>
-                    <span className="text-[#FFFFFF80]">
-                      {((detailInfo?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2) +
-                        "%" || "-"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>RAM</span>
-                    <span className="text-[#FFFFFF80]">
-                      {memUseGB + "GB /" + memTotalGB + "GB"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>ROM</span>
-                    <span className="text-[#FFFFFF80]">-</span>
-                  </div>
-                </div>
-              </div>
+              <InfoCard title="Device States">
+                <InfoRow label="CPU Cores" value={detailInfo?.detail.deviceInfo.cpuCores || "-"} />
+                <InfoRow
+                  label="CPU Use"
+                  value={`${((detailInfo?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2)}%`}
+                />
+                <InfoRow
+                  label="RAM"
+                  value={`${memUseGB}GB / ${memTotalGB}GB`}
+                />
+                <InfoRow label="ROM" value="-" />
+              </InfoCard>
             </div>
 
           </div>

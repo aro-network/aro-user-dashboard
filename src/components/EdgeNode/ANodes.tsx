@@ -25,6 +25,12 @@ const ANodes = () => {
   const ac = useAuthContext();
   const nId = params.get("nId") || ''
 
+  const showAdd = params.get("type") === 'add';
+  const showDetail = params.get("type") === 'detail';
+  const showDel = params.get("type") === 'del';
+  const showLink = params.get("type") === 'link';
+  const type = params.get("chooseType");
+
 
 
   const title =
@@ -53,7 +59,7 @@ const ANodes = () => {
             <img
               src={`./${item.nodeType}.png`}
               alt={`${item.nodeType}`}
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "130px", width: "136px" }}
             />
           ),
           nodeUUID: item.nodeUUID,
@@ -83,6 +89,7 @@ const ANodes = () => {
   };
 
   const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
+    if (isFetching) return
     params.delete('chooseType')
     updateURL('type', 'detail')
     updateURL('nId', `${e.nodeUUID}`)
@@ -90,13 +97,9 @@ const ANodes = () => {
   }
 
   useEffect(() => {
-    const showAdd = params.get("type") === 'add';
-    const showDetail = params.get("type") === 'detail';
-    const showDel = params.get("type") === 'del';
-    const showLink = params.get("type") === 'link';
 
 
-    const type = params.get("chooseType");
+
     const obj: { [key: 'box' | 'x86' | string]: string } = {
       box: 'Hardware',
       x86: 'Software'
@@ -139,10 +142,13 @@ const ANodes = () => {
     refetch();
   }
 
+  console.log('ddddddd', showDetail || (showAdd && !type));
+
+
   return (
     <>
-      <div className={` flex justify-between  items-center  ${nId && 'smd:flex-wrap smd:w-full'}`}>
-        <div className="text-[#FFFFFF] text-xs smd:text-base font-medium smd:w-full " >
+      <div className={` flex justify-between items-center  ${nId && 'smd:flex-wrap smd:w-full'}`}>
+        <div className="text-[#FFFFFF]  text-xs smd:text-base font-medium smd:w-full " >
           {!nId && !isOpen && !unbindInfo ? (
             <>
               <span className="text-base">{title}</span>
@@ -167,7 +173,7 @@ const ANodes = () => {
 
                 }}
                 className={cn({
-                  "text-[#FFFFFF80] text-white": !selectedType,
+                  "text-[#FFFFFF80] ": !selectedType,
                   "text-[#FFFFFF] cursor-pointer": selectedType,
                 })}
               >
@@ -216,82 +222,83 @@ const ANodes = () => {
                   updateURL('type', 'del')
 
                 }}
-                className="bg-[#F5F5F51A] text-white smd:!h-[1.875rem] h-[1.875rem] rounded-lg  hover:!bg-default"
+                className="bg-[#F5F5F51A] border-white text-white smd:!h-[1.875rem] h-[1.875rem] rounded-lg  hover:!bg-default"
               >
                 Delete
               </Btn>
             </div>
           )
         )}
-      </div>
-      {unbindInfo ? (
-        <AUnbind
-          nodeId={unbindInfo}
-          onBack={() => {
-            setUnbingInfo("");
-            params.delete('nId')
-            setOpenAddNode(false);
-            refetch();
-            setSelectedType("");
-            params.delete('type')
-            params.delete('chooseType')
+      </div >
+      {
+        unbindInfo ? (
+          <AUnbind
+            nodeId={unbindInfo}
+            onBack={() => {
+              setUnbingInfo("");
+              params.delete('nId')
+              setOpenAddNode(false);
+              refetch();
+              setSelectedType("");
+              params.delete('type')
+              params.delete('chooseType')
 
-            r.push(`?${params.toString()}`);
-          }}
-        />
-      ) : !nId && !isOpen ? (
-        (!data || !data.length) && !isFetching ? (
-          <div className="w-full flex justify-center items-center mt-[6.5625rem]  ">
-            <div className="w-[37.5rem] m-auto text-center gap-5 flex flex-col">
-              <div className=" text-lg ">Add Your Edge Node</div>
-              <div className="text-sm text-[#FFFFFF80]">
-                ARO supports both hardware and software Edge Nodes on various platforms. Check <button onClick={() => window.open('https://docs.aro.network/edge-node/types', '_blank')} className="underline underline-offset-1 hover:text-[#00E42A]">our guide</button> to choose the best node type for you.
-
-
-              </div>
-              <Btn
-                className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
-                onPress={() => {
-                  setOpenAddNode(!isOpen);
-                  updateURL('type', 'add')
-                }}
-              >
-                Add New Node
-              </Btn>
-            </div>
-          </div>
-        ) : (
-          <ACommonNodes
-            isLoading={isFetching}
-            data={data}
-            onOpenModal={handleToggleNodeInfo}
+              r.push(`?${params.toString()}`);
+            }}
           />
-        )
-      ) : isOpen ? (
-        <AAddNewNodes
-          addRef={addRef}
-          onSelectedType={setSelectedType}
-          onBack={() => {
-            params.delete('nId')
-            setOpenAddNode(!isOpen);
-            refetch();
-            setSelectedType("");
-            params.delete('type')
-            params.delete('chooseType')
-            r.push(`?${params.toString()}`);
-          }}
-        />
-      ) : (
-        <ANodeInfo
-          nodeInfo={setNodeInfo}
-          onBack={() => {
-            params.delete('nId')
-            params.delete('type')
-            params.delete('chooseType')
-            r.replace(`?${params.toString()}`);
-          }}
-        />
-      )}
+        ) : !nId && !isOpen ? (
+          (!data || !data.length) && !isFetching ? (
+            <div className="w-full flex justify-center items-center mt-[6.5625rem]  ">
+              <div className="w-[37.5rem] m-auto text-center gap-5 flex flex-col">
+                <div className=" text-lg ">Add Your Edge Node</div>
+                <div className="text-sm text-[#FFFFFF80]">
+                  ARO supports both hardware and software Edge Nodes on various platforms. Check <button onClick={() => window.open('https://docs.aro.network/edge-node/types', '_blank')} className="underline underline-offset-1 hover:text-[#00E42A]">our guide</button> to choose the best node type for you.
+
+
+                </div>
+                <Btn
+                  className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                  onPress={() => {
+                    setOpenAddNode(!isOpen);
+                    updateURL('type', 'add')
+                  }}
+                >
+                  Add New Node
+                </Btn>
+              </div>
+            </div>
+          ) : (
+            <ACommonNodes
+              isLoading={isFetching}
+              data={data}
+              onOpenModal={handleToggleNodeInfo}
+            />
+          )
+        ) : isOpen ? (
+          <AAddNewNodes
+            addRef={addRef}
+            onSelectedType={setSelectedType}
+            onBack={() => {
+              params.delete('nId')
+              setOpenAddNode(!isOpen);
+              refetch();
+              setSelectedType("");
+              params.delete('type')
+              params.delete('chooseType')
+              r.push(`?${params.toString()}`);
+            }}
+          />
+        ) : (
+          <ANodeInfo
+            nodeInfo={setNodeInfo}
+            onBack={() => {
+              params.delete('nId')
+              params.delete('type')
+              params.delete('chooseType')
+              r.replace(`?${params.toString()}`);
+            }}
+          />
+        )}
     </>
   );
 };

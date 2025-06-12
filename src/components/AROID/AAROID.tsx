@@ -39,9 +39,9 @@ const AAROID = () => {
     toggleShowInputReferral(false)
   }
 
-  return <div className="w-full justify-center flex mt-5 ">
+  return <div className="w-full justify-center flex mt-10 ">
 
-    <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] p-5 rounded-3xl flex-col w-[37.875rem]">
+    <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] p-5 rounded-xl flex-col w-[37.875rem]">
 
       <div className="flex items-center justify-start w-full gap-5 smd:gap-[.625rem] mb-[.625rem] ">
         <div className="w-[3.75rem] smd:w-8  ">
@@ -107,7 +107,7 @@ const AAROID = () => {
         <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{AllText.aroId.addReferrer.content}</p>
         <InputSplitCode onChange={setReferalCode} />
         <div className="flex w-full gap-[.625rem]">
-          <Btn color='default' className="w-full  bg-default text-white hover:bg-l1" onPress={() => {
+          <Btn color='default' className="w-full  bg-default border !border-white text-white hover:bg-l1" onPress={() => {
             setReferalCode('')
             toggleShowInputReferral(false)
           }} >

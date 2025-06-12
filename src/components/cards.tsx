@@ -10,7 +10,7 @@ export function IconCard({ icon, className, iconSize = 24, tit, content }: Other
   const leftSizeRem = pxToRem(120 - iconSize);
   const pl = pxToRem((40 - iconSize) / 2);
   return (
-    <Card className={cn("bg-gray-1 bg-no-repeat rounded-3xl flex flex-col p-6 gap-[2.8125rem] smd:gap-10 relative", className)}>
+    <Card className={cn("bg-gray-1 bg-no-repeat rounded-xl flex flex-col p-6 gap-[2.8125rem] smd:gap-10 relative", className)}>
       <SVGS.SvgBgIconCard className="absolute left-0 top-0 text-[6.5rem] z-0" />
       <div className="flex items-center whitespace-nowrap " style={{ height: pxToRem(40) }}>
         <div
@@ -40,7 +40,7 @@ export function IconCard({ icon, className, iconSize = 24, tit, content }: Other
 
 export function TitCard(p: PropsWithChildren & OtherTypes.TitCardProps) {
   return (
-    <Card className={cn("bg-gray-1 bg-no-repeat rounded-3xl flex p-6 gap-5", p.className)}>
+    <Card className={cn("bg-gray-1 bg-no-repeat rounded-xl flex p-5 gap-5", p.className)}>
       {p.tit && (
         <div className={cn("flex items-center justify-between w-full", p.contentClassName)}>
           <span className="text-base font-semibold font-Alexandria">{p.tit}</span>
