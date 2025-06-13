@@ -36,7 +36,7 @@ export function TitModal({
 }) {
   return (
     <Modal hideCloseButton backdrop="blur" className={className} classNames={{ backdrop: "backdrop-blur-[6px]", wrapper: 'py-5' }} {...props}>
-      <ModalContent className={cn('w-[31.25rem] bg-[#404040] gap-6 p-6 rounded-3xl !my-auto', className)} {...(contentProps || {})}>
+      <ModalContent className={cn('w-[31.25rem] h-[220px] bg-[#404040] gap-6 p-6 rounded-3xl !my-auto', className)} {...(contentProps || {})}>
         {(onClose) => (
           <>
             {typeof onClose == 'function' || tit &&
@@ -47,7 +47,7 @@ export function TitModal({
                 </div>}
               </ModalHeader>
             }
-            <ModalBody className="flex flex-col justify-start items-center w-full gap-6 p-0" {...(bodyProps || {})}>
+            <ModalBody className="flex flex-col justify-center items-center w-full gap-6 p-0" {...(bodyProps || {})}>
               {children}
             </ModalBody>
           </>

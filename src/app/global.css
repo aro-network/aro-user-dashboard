@@ -16,9 +16,10 @@ body {
    touch-action: manipulation;
   -webkit-text-size-adjust: 100%;
   /* background: #222222; */
-  background-size: cover;
   color: white;
   font-size: 16px; /* width 1512 */
+  background: linear-gradient(109.5deg, #000000 29.09%, #3A3A3A 72.28%, #3A3A3A 76.65%, #000000 95%);
+
 }
 
 
@@ -241,8 +242,22 @@ background: linear-gradient(1.66deg, #141414 1.41%, #383838 91.74%);
   background: linear-gradient(167.25deg, #616161 -5.37%, #383838 29.21%);
   border-radius: 12px;
   border: 1px solid none;
+  box-shadow: 0px 2px 0px 0px #6D6D6D66;
+}
+.rewards{
+  box-shadow: 0px 2px 0px 0px #00E42A59;
 
 }
+@media (min-width: 1001px) {
+
+.rewards{
+  box-shadow: 0px 2px 0px 0px #00E42A59;
+
+}
+}
+
+
+
 
 .titleBg{
   background-color: #4F4F4F;
@@ -253,4 +268,8 @@ background: linear-gradient(1.66deg, #141414 1.41%, #383838 91.74%);
   align-items: center;
   padding-left: 10px;
   height: 27px;
+}
+
+.vi__character--selected{
+  outline: 2px solid #00E42A !important;
 }

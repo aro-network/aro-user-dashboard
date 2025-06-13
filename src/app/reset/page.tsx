@@ -71,9 +71,9 @@ export default function Page() {
           <InputEmail value={email} setEmail={setEmail} />
           <InputPassword label="New Password" setPassword={setPassword} />
           <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
-          <div className="flex gap-5 items-center">
+          <div className="flex gap-5 items-center w-full">
             <InputVerifyCode setVerifyCode={setVerifyCode} />
-            <Btn type="button" isDisabled={disableSend} isLoading={isPendingSend} onClick={onSend as any}>
+            <Btn className="!w-[75px] " type="button" isDisabled={disableSend} isLoading={isPendingSend} onClick={onSend as any}>
               {isPendingSend ? "" : isIdleSend ? "Send" : sendCount > 0 ? `${sendCount}s` : "Resend"}
             </Btn>
           </div>

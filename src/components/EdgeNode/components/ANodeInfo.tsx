@@ -317,12 +317,12 @@ const ANodeInfo: FC<{
     <>
       {!isFetching ? (
 
-        <div className=" mx-auto w-full mt-5 text-white  flex justify-between smd:flex-col gap-5 ">
+        <div className=" mx-auto w-full mt-5 text-white  flex justify-between smd:flex-col gap-5  smd:gap-0">
           <div className="w-[calc(100%-378px-20px)] smd:w-full h-fit ">
 
 
-            <div className=" w-full smd:flex-wrap bg-[url(/rewardsBg.svg)] bg-repeat bg-cover smd:object-cover smd:bg-top rounded-[12px]  border-b-2 smd:border-b-0   border-b-[#00E42A59] ">
-              <div className="flex rounded-[12px] w-full p-[20px]  h-[149px] smd:h-full flex-col   gap-[10px] smd:gap-5">
+            <div className=" w-full smd:flex-wrap bg-[url(/rewardsBg.svg)] bg-repeat bg-cover smd:object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  rewards ">
+              <div className="flex  w-full p-[20px]  h-[139px] smd:h-fit    flex-col   gap-[10px] smd:gap-5">
                 <div className="flex w-full justify-between " >
                   <span className="font-semibold text-[16px]  ">Rewards</span>
 
@@ -333,29 +333,29 @@ const ANodeInfo: FC<{
                       Total
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[42px]">
+                      <span className="text-[42px] smd:text-[38px]">
                         {formatNumber(Number(detailInfo?.countRewards.total || 0))}
                       </span>
                       <span>Jades</span>
                     </div>
                   </div>
-                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] smd:w-full flex-wrap">
+                  <div className="text-sm  flex flex-col   gap-[20px] flex-wrap">
                     <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Today
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[42px]">
+                      <span className="text-[42px] smd:text-[38px]">
                         + {formatNumber(Number(detailInfo?.countRewards.today || 0))}
                       </span>
                       <span>Jades</span>
                     </div>
                   </div>
-                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] smd:w-full flex-wrap">
+                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] flex-wrap">
                     <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Yesterday
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[42px]">
+                      <span className="text-[42px] smd:text-[38px]">
                         +{" "}
                         {formatNumber(Number(detailInfo?.countRewards.yesterday || 0))}
                       </span>
@@ -374,21 +374,20 @@ const ANodeInfo: FC<{
               contentClassName={(' smd:flex-wrap smd:gap-[.625rem]')}
               right={
                 <div className=" !text-sm ">
-                  <I18nProvider locale="en-US">
-                    <DateRangePicker
-                      className="!w-full !text-2xl custom-date-picker"
-                      showMonthAndYearPickers={true}
-                      value={chooseDate as any}
-                      onChange={handleChange as any}
-                      maxValue={today(getLocalTimeZone())}
-                    />
-                  </I18nProvider>
+                  <DateRangePicker
+                    className="!w-full !text-2xl custom-date-picker"
+                    showMonthAndYearPickers={true}
+                    value={chooseDate as any}
+                    onChange={handleChange as any}
+                    maxValue={today(getLocalTimeZone())}
+                  />
                 </div>
               }
             >
-              <div className="w-full" ref={ref}>
+              <div className="w-full smd:h-[10rem]" ref={ref}>
                 <EChartsReact
-                  className="w-full  !h-[12.5rem]"
+                  className="w-full  !h-[13.125rem] "
+
                   option={chartOpt}
                 />
               </div>
@@ -398,7 +397,7 @@ const ANodeInfo: FC<{
 
           </div>
           <div className="w-[378px] rightTab h-fit smd:w-full ">
-            <div className="flex rounded-[12px] flex-col w-full p-[20px] gap-[.625rem] h-[149px] smd:h-auto ">
+            <div className="flex rounded-[12px] flex-col w-full p-[20px] gap-[.625rem] h-[139px] smd:h-auto">
               <div className="font-semibold text-base ">
                 <span className=" text-nowrap">Node Info</span>
               </div>
@@ -412,7 +411,7 @@ const ANodeInfo: FC<{
                 />
 
 
-                <div className="flex flex-col justify-between w-full smd:py-[.625rem] ">
+                <div className="flex flex-col justify-between w-full  ">
                   <div className="text-sm  flex w-full  gap-[.625rem]  items-center">
                     <span className=" text-nowrap">Node Name:</span>
                     <div
@@ -431,7 +430,7 @@ const ANodeInfo: FC<{
                           onBlur={(e) => {
                             onSubmitEdit()
                           }}
-                          className="rounded-sm !bg-[#FFFFFFCC] smd:w-[7.5rem] text-black"
+                          className="rounded-sm w-[130px] !bg-[#FFFFFFCC] smd:w-[7.5rem] text-black"
                           onChange={(e) =>
                             setNodeName(
                               e.target.value
@@ -444,7 +443,7 @@ const ANodeInfo: FC<{
                       ) : (
                         <div >
                           <HelpTip content={detailInfo?.detail?.nodeName}>
-                            {shortenMiddle(detailInfo?.detail.nodeName || "-", 15)}
+                            {shortenMiddle(detailInfo?.detail.nodeName || "-", isMobile ? 12 : 15)}
                           </HelpTip>
                         </div>
 
@@ -482,7 +481,7 @@ const ANodeInfo: FC<{
                         onCancel={() => onSubmitEdit()}
                       />}
 
-                      <button onClick={() => setIsEdit(true)}>
+                      <button onClick={() => setIsEdit(!isEdit)}>
                         <FiEdit className="text-white text-xs" />
                       </button>
                     </div>
@@ -491,7 +490,7 @@ const ANodeInfo: FC<{
                     <span className=" text-nowrap">Serial Number:</span>
                     <div className="text-[#FFFFFF80] truncate shrink-0" >
                       <HelpTip content={detailInfo?.detail?.nodeUUID} >
-                        {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", 15)}
+                        {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", isMobile ? 12 : 17)}
                       </HelpTip>
                     </div>
                   </div>

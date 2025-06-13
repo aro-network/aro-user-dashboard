@@ -39,7 +39,7 @@ const AAROID = () => {
     toggleShowInputReferral(false)
   }
 
-  return <div className="w-full justify-center flex mt-10 ">
+  return <div className="w-full justify-center flex mt-5 ">
 
     <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] p-5 rounded-xl flex-col w-[37.875rem]">
 
@@ -91,8 +91,8 @@ const AAROID = () => {
             </div>
           </div>
           <div className="flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center">
-            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem] bg-default">Bind</Btn>
-            <Btn disabled={true} className="h-[2.125rem] smd:!h-[2.125rem] bg-default ">Unbind</Btn>
+            <Btn disabled={true} className="h-[2.125rem]  bg-default">Bind</Btn>
+            <Btn disabled={true} className="h-[2.125rem]  bg-default ">Unbind</Btn>
           </div>
         </div>
 

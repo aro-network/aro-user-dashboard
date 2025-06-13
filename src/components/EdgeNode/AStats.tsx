@@ -50,7 +50,7 @@ const AStats = () => {
       nameTextStyle: { color: '#FFFFFF80', fontSize: 10, top: 100 },
       axisLabel: { color: '#FFFFFF80', fontSize: 10 },
       axisLine: { lineStyle: { color: '#FFFFFF0D' } },
-      splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.5 } },
+      splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.05 } },
 
     },
 
@@ -140,7 +140,7 @@ const AStats = () => {
       nameTextStyle: { color: '#FFFFFF80', fontSize: 10 },
       axisLabel: { color: '#FFFFFF80', fontSize: 10 },
       axisLine: { lineStyle: { color: '#FFFFFF0D' } },
-      splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.5 } },
+      splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.05 } },
 
     },
 
@@ -176,7 +176,7 @@ const AStats = () => {
       axisLine: { lineStyle: { color: '#FFFFFF0D' } },
       axisTick: { show: true },
 
-      splitLine: { show: true, lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.5 } },
+      splitLine: { show: true, lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.05 } },
 
     },
     grid: {
@@ -224,7 +224,7 @@ const AStats = () => {
       nameTextStyle: { color: '#FFFFFF80', fontSize: 10, top: 100 },
       axisLabel: { color: '#FFFFFF80', fontSize: 10 },
       axisLine: { lineStyle: { color: '#FFFFFF0D' } },
-      splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.5 } },
+      splitLine: { lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.05 } },
 
     },
 
