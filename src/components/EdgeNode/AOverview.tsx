@@ -211,7 +211,7 @@ const AOverview = () => {
                 subClassName="smd:text-xs"
                 sub={
                   <>
-                    <div className="text-[#34D399]  flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
+                    <div className="text-[#00E42A]  flex items-center gap-1"><IoIosCheckmarkCircle /> Online</div>
                   </>
                 }
               />

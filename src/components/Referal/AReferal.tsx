@@ -115,7 +115,7 @@ Share your idle internet, earn rewards, build a smarter web, together.
 
                     </div>
                     : (data?.rewardsInfo.referred || 0)}
-                subClassName="text-[#34D399]  smd:text-xs "
+                subClassName="text-[#00E42A]  smd:text-xs "
                 titClassName=" smd:text-2xl"
                 sub={
                   <>
