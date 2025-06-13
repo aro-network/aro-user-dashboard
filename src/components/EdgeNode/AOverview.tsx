@@ -18,6 +18,7 @@ import { FaGift } from "react-icons/fa6";
 import { formatNumber, generateDateList, generateLast15DaysRange, getCurrentDate } from "@/lib/utils";
 import { AllText } from "@/lib/allText";
 import { currentENVName } from "../ADashboard";
+import dayjs from "dayjs";
 const options = ["Total Rewards", "Network Rewards", "Referral Bonus"] as const;
 export function DupleSplit({ className }: { className?: string }) {
   return <div className={cn("bg-white opacity-30 w-[1px] h-6 shrink-0", className)} />;
@@ -83,7 +84,10 @@ const AOverview = () => {
   const chartOpt = useMemo(() => {
     if (!width) return {};
     const datas = data?.trending || []
-    const xData = datas.map((item) => item.date);
+    // const xData = datas.map((item) => item.date);
+    const xData = datas.map((item) =>
+      dayjs(item.date).format("MMM") + dayjs(item.date).format("D")
+    );
 
     const yData = datas.map((item) => _.toNumber(item.total));
     console.log('xData', xData, yData);
