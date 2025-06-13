@@ -386,7 +386,7 @@ const ANodeInfo: FC<{
             >
               <div className="w-full smd:h-[10rem]" ref={ref}>
                 <EChartsReact
-                  className="w-full  !h-[13.125rem] "
+                  className="w-full  !h-[13.125rem] smd:!h-[12.5rem] "
 
                   option={chartOpt}
                 />

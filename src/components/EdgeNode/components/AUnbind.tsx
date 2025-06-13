@@ -79,7 +79,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
+            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
               <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
                 <img src={`./${delDetail?.nodeType}.png`} className=" object-contain rounded-lg bg-white  w-full h-full" alt={`${delDetail?.nodeType}`} />
               </div>

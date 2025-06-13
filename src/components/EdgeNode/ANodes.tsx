@@ -24,6 +24,11 @@ const ANodes = () => {
 
   const ac = useAuthContext();
   const nId = params.get("nId") || ''
+  const isType = params.get("type")
+
+
+  console.log('isTypeisType', !isType);
+
 
 
 
@@ -54,7 +59,7 @@ const ANodes = () => {
             <img
               src={`./${item.nodeType}.png`}
               alt={`${item.nodeType}`}
-              style={{ height: "130px", width: "136px" }}
+              className="w-[135px] h-[130px] smd:w-[104px] smd:h-[100px]"
             />
           ),
           nodeUUID: item.nodeUUID,
@@ -146,7 +151,7 @@ const ANodes = () => {
   return (
     <>
       <div className={` flex justify-between items-center  ${nId && 'smd:flex-wrap smd:w-full'}`}>
-        <div className="text-[#FFFFFF]  text-xs smd:text-base font-medium smd:w-full " >
+        <div className="text-[#FFFFFF] h-[30px]   text-xs smd:text-base font-medium smd:w-full " >
           {!nId && !isOpen && !unbindInfo ? (
             <>
               <span className="text-base">{title}</span>
@@ -200,7 +205,7 @@ const ANodes = () => {
         ) : (
           !isOpen &&
           !unbindInfo && (
-            <div className="flex gap-[.625rem] smd:justify-end smd:pt-5   font-medium text-xs leading-3  smd:w-full">
+            <div className="flex gap-[.625rem] smd:justify-end smd:pt-[10px]   font-medium text-xs leading-3  smd:w-full">
 
               {nodeInfo?.nodeType === 'box' && <Btn
                 onPress={() => {

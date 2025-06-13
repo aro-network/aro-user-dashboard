@@ -8,12 +8,12 @@ import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, className, isLoading }) => {
   const isMobile = useMobileDetect()
   return <div>
-    <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(25rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
+    <div className={cn(`grid grid-cols-[repeat(auto-fit,minmax(0,25.625rem))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
         return <div
           key={`nodes_${index}`}
           onClick={() => onOpenModal(node)}
-          className="bg-[#6D6D6D66] commonTab cursor-pointer hover:bg-[#6D6D6DCC] rounded-[1.25rem] flex items-center gap-[1.0625rem] px-4 py-5">
+          className="bg-[#6D6D6D66] commonTab cursor-pointer hover:bg-[#6D6D6DCC] rounded-xl flex items-center gap-[1.0625rem] px-4 py-5">
           <div >
             {node.icon}
           </div>
@@ -49,7 +49,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
         </div>
       })}
       {isLoading &&
-        <Skeleton className="rounded-2xl"><div className="h-[13.75rem] rounded-3xl" /></Skeleton>
+        <Skeleton className="rounded-xl"><div className="h-[13.75rem] rounded-3xl" /></Skeleton>
       }
     </div>
   </div>

@@ -251,7 +251,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="flex w-full  font-normal text-lg leading-5 justify-center font-Alexandria">
               {AllText.AAddNewNodes.type.step2.title}
             </div>
-            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
+            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
 
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
                 <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg  bg-white  w-full h-full" alt={`${data?.nodeType}`} />
@@ -391,7 +391,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.type.step2.title}
             </div>
 
-            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-[1.25rem]">
+            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
 
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
                 <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg  bg-white   w-full h-full" alt={`${data?.nodeType}`} />
@@ -495,7 +495,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   params.set("chooseType", item?.value as 'box' | 'box');
                   r.push(`?${params.toString()}`);
                 }} key={`device_${index}`}
-                  className={cn(`  text-center cursor-pointer w-full  hover:border-[#00E42A]  border-[#404040] border smd:rounded-2xl rounded-[1.25rem] bg-[#404040] pt-5 px-5 flex items-center flex-col`,
+                  className={cn(`  text-center cursor-pointer w-full  hover:border-[#00E42A]  border-[#404040] border smd:rounded-2xl rounded-xl bg-[#404040] pt-5 px-5 flex items-center flex-col`,
                   )}>
                   <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] smd:w-full smd:h-full h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
                   <div className="flex items-baseline gap-1">

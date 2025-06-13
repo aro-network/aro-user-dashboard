@@ -175,7 +175,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="/enreach-logo.svg" className={`  smd:w-[4.6875rem] smd:h-7  lg:ml-0 w-[4.5625rem] h-[26px] lg:rotate-0 `} alt="Logo" />
+          <img src="https://aro.network/aro-logo.svg" className={`  smd:w-[6.25rem] smd:h-[2.5rem]    w-[12.8125rem]  `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
@@ -397,7 +397,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         }
         {isLink && ac.link ?
           <ALinkOther /> :
-          <div className=" w-container m-auto flex justify-center xs:w-full smd:w-full xs:px-[50px] smd:px-5 ">
+          <div className=" w-container m-auto flex justify-center xs:w-full smd:w-full xs:px-[104px] px-[3.125rem] smd:px-5 ">
             <AnimatePresence mode="wait">
               <motion.div
                 className=" pt-5 smd:pb-10  flex flex-col w-full "

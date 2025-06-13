@@ -271,7 +271,7 @@ const ANewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, a
     setIsConfirmInfo({ open: true, type })
   }
 
-  return <div className="w-full mt-[4.5625rem] ">
+  return <div className="w-full mt-[73px] bg-fuchsia-400 ">
     <div className=" flex justify-center flex-col items-center  w-[55.625rem] m-auto h-full ">
       {chooseedType?.value
         ?
