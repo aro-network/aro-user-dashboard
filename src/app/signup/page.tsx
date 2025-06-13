@@ -110,7 +110,7 @@ export default function Page() {
     <>
       <PageUnlogin headerClassNmae=" smd:!flex-[2] " >
 
-        <AutoFlip className="mx-auto p-5 md:min-h-full flex h-full flex-col gap-5 items-center w-full max-w-[25rem]">
+        <AutoFlip className="mx-auto p-5 md:min-h-full flex h-full flex-col gap-5 items-center w-full smd:max-w-[32rem]">
           <div className={loginTitleClassName + ' flex items-center gap-2'} >
             {envText('signUp')}
             <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
@@ -119,7 +119,7 @@ export default function Page() {
           </div>
           {/* <img src="logo.svg" alt="Logo" className="mt-auto h-[4.9375rem]" /> */}
           {showToVerify ? (
-            <div className="flex flex-col items-center gap-5 w-full mb-auto ">
+            <div className="flex flex-col items-center gap-5 smd:w-full mb-auto  w-[400px] smd:px-5">
               <div className="text-center md:whitespace-nowrap  w-full mx-auto">
                 Verify your email
                 <br />
