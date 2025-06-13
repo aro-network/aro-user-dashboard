@@ -1,6 +1,6 @@
 import { Btn } from "../btns";
 import { useToggle } from "react-use";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ANodeInfo from "./components/ANodeInfo";
 import ACommonNodes from "./components/ACommonNodes";
 import AAddNewNodes from "./components/AAddNewNodes";
@@ -25,7 +25,6 @@ const ANodes = () => {
   const ac = useAuthContext();
   const nId = params.get("nId") || ''
 
-  const isType = params.get("type")
 
 
 
@@ -38,26 +37,9 @@ const ANodes = () => {
           ? "Delete"
           : "All Nodes";
 
-
-
-
-  const updateURL = (key: string, value: string) => {
-    params.set(key, value);
-    r.push(`?${params.toString()}`);
-
-  };
-
-  const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
-    if (isFetching) return
-    params.delete('chooseType')
-    updateURL('type', 'detail')
-    updateURL('nId', `${e.nodeUUID}`)
-    setOpenAddNode(false);
-  }
-
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     queryKey: ["NodeList"],
-    enabled: !isType,
+    enabled: true,
     refetchOnWindowFocus: true,
     queryFn: async ({ pageParam: pageNum }) => {
       const pageSize = 10;
@@ -95,6 +77,20 @@ const ANodes = () => {
 
 
 
+  const updateURL = (key: string, value: string) => {
+    params.set(key, value);
+    r.push(`?${params.toString()}`);
+
+  };
+
+  const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
+    if (isFetching) return
+    params.delete('chooseType')
+    updateURL('type', 'detail')
+    updateURL('nId', `${e.nodeUUID}`)
+    setOpenAddNode(false);
+  }
+
   useEffect(() => {
 
     const showAdd = params.get("type") === 'add';
@@ -128,10 +124,9 @@ const ANodes = () => {
     }
     else {
       addRef.current?.switchTo();
-
+      refetch()
       setSelectedType('');
     }
-
   }, [nId, searchParams, params]);
 
 
@@ -144,6 +139,7 @@ const ANodes = () => {
     params.delete('chooseType')
     params.delete('nId')
     r.push(`?${params.toString()}`);
+    refetch();
   }
 
 
@@ -240,6 +236,7 @@ const ANodes = () => {
               setUnbingInfo("");
               params.delete('nId')
               setOpenAddNode(false);
+              refetch();
               setSelectedType("");
               params.delete('type')
               params.delete('chooseType')
@@ -282,6 +279,7 @@ const ANodes = () => {
             onBack={() => {
               params.delete('nId')
               setOpenAddNode(!isOpen);
+              refetch();
               setSelectedType("");
               params.delete('type')
               params.delete('chooseType')
