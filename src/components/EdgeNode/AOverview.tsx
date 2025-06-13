@@ -188,7 +188,7 @@ const AOverview = () => {
     <div className="">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  mt-5">
         <IconCard
-          className="flip_item bg-[#6D6D6D66]"
+          className="flip_item bg-[#6D6D6D66] "
           icon={SVGS.SvgNodes}
           iconSize={24}
           tit={
@@ -259,7 +259,7 @@ const AOverview = () => {
           tit="Trending"
           className={cn("col-span-1 h-full bg-[#6D6D6D66]   lg:col-span-2  gap-4",)}
         >
-          <div className="w-full" style={{ height: '14.125rem' }} ref={ref}>
+          <div className="w-full  smd:h-[10rem]" style={{ height: '14.125rem' }} ref={ref}>
 
             <EChartsReact style={{ height: '14.125rem' }} className="w-full" option={chartOpt} />
           </div>

@@ -229,7 +229,8 @@ button[data-slot="trigger"] {
 
 }
 
-.rewardsTab{
+
+.commonTab{
 background: linear-gradient(1.66deg, #141414 1.41%, #383838 91.74%);
   box-shadow: 0px 2px 0px 0px #6D6D6D66;
 

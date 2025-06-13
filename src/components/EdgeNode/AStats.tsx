@@ -292,7 +292,7 @@ const AStats = () => {
         <TitCard
           contentClassName="flex flex-col  !items-start"
           tit={'24H Uptime'}
-          className={cn("h-[15rem]  w-full text-xs !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
+          className={cn("h-[15rem]  w-full text-xs !rounded-xl commonTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}
@@ -306,7 +306,7 @@ const AStats = () => {
         <TitCard
           contentClassName="flex flex-col !items-start"
           tit={'24H Upload Volume'}
-          className={cn("h-[15rem]  w-full text-xs !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
+          className={cn("h-[15rem]  w-full text-xs !rounded-xl commonTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}
@@ -319,7 +319,7 @@ const AStats = () => {
         <TitCard
           contentClassName="flex flex-col !items-start"
           tit={'24H Package Loss'}
-          className={cn("h-[15rem]  w-full text-xs  !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
+          className={cn("h-[15rem]  w-full text-xs  !rounded-xl commonTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}
@@ -333,7 +333,7 @@ const AStats = () => {
         <TitCard
           contentClassName="flex flex-col !items-start"
           tit={'24H Average Delay'}
-          className={cn("h-[15rem]  w-full text-xs !rounded-xl rewardsTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab ")}
+          className={cn("h-[15rem]  w-full text-xs !rounded-xl commonTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab ")}
         // right={<label className={` font-normal text-xs mt-1 flex justify-center flex-wrap w-full text-[#FFFFFF80]`}>
         //   2025-01-20 16:20:00 Updated
         // </label>}

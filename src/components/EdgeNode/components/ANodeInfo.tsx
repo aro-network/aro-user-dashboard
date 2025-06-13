@@ -369,7 +369,7 @@ const ANodeInfo: FC<{
             <TitCard
               tit="Rewards History"
               className={cn(
-                "col-span-1 h-[278px] smd:h-auto rewardsTab  !rounded-xl  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4 "
+                "col-span-1 h-[278px] smd:h-auto commonTab  !rounded-xl  bg-[#6D6D6D66] w-full mt-5 !p-5 lg:col-span-2  gap-4 "
               )}
               contentClassName={(' smd:flex-wrap smd:gap-[.625rem]')}
               right={
