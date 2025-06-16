@@ -173,11 +173,11 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           <FiMenu className="text-2xl" />
         </button>
 
-        <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  smd:w-[9.375rem] smd:h-7 `} alt="Logo" />
+        <div className="flex  gap-5 smd:gap-[.625rem]  smd:w-full smd:justify-center">
+          <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  smd:w-[9.375rem] h-7 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <div className={cn(`bg-[#FFFFFF33] rounded-md  px-2 smd:h-7 items-center flex `, {
-            'flex items-center gap-2': ENV === 'prod'
+          <div className={cn(`bg-[#FFFFFF33] items-center  rounded-md  px-2 h-7 py-2 flex `, {
+            'flex gap-2': ENV === 'prod'
           })}>
             {selectedTab.label}
             <div hidden={ENV !== 'prod'}>

@@ -61,7 +61,7 @@ export default function Page() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
           <InputEmail setEmail={setEmail} />
           <InputPassword setPassword={setPassword} validate={() => null} />
-          <Btn type="submit" isDisabled={disableSignIn} isLoading={isPendingSignIn} >
+          <Btn className="smd:!h-12" type="submit" isDisabled={disableSignIn} isLoading={isPendingSignIn} >
             Sign In
           </Btn>
           <SignInWithGoogle />
