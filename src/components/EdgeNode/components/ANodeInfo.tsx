@@ -373,42 +373,49 @@ const ANodeInfo: FC<{
 
 
             <div className=" w-full smd:flex-wrap bg-[url(/rewardsBg.svg)] bg-repeat bg-cover smd:object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  rewards ">
-              <div className="flex  w-full p-[20px]  h-[139px] smd:h-fit    flex-col   gap-[10px] smd:gap-5">
+              <div className="flex  w-full p-[20px] h-fit    flex-col   gap-[10px] smd:gap-5">
                 <div className="flex w-full justify-between " >
                   <span className="font-semibold text-[16px]  ">Rewards</span>
 
                 </div>
-                <div className="flex justify-between smd:flex-wrap h-full smd:w-full smd:gap-5 ">
-                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] smd:w-full flex-wrap ">
+                <div className="flex justify-between flex-wrap h-full w-full gap-5 ">
+                  <div className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
                     <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Total
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                       <span className="text-[30px] smd:text-[33px]">
-                        {formatNumber(Number(detailInfo?.countRewards.total || 0))}
+                        {formatNumber(Number(100000))}
+                        {/* {formatNumber(Number(detailInfo?.countRewards.total || 0))} */}
                       </span>
                       <span>Jades</span>
                     </div>
                   </div>
-                  <div className="text-sm  flex flex-col   gap-[20px] flex-wrap">
+                  <div className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
+
                     <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Today
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                       <span className="text-[30px] smd:text-[33px]">
-                        + {formatNumber(Number(detailInfo?.countRewards.today || 0))}
+                        {formatNumber(Number(100000))}
+
+                        {/* + {formatNumber(Number(detailInfo?.countRewards.today || 0))} */}
                       </span>
                       <span>Jades</span>
                     </div>
                   </div>
-                  <div className="text-sm  flex flex-col xsl:justify-start    gap-[20px] flex-wrap">
+                  <div className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
+
                     <span className="font-normal text-[14px] text-[#FFFFFF80]">
                       Yesterday
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                       <span className="text-[30px] smd:text-[33px]">
                         +{" "}
-                        {formatNumber(Number(detailInfo?.countRewards.yesterday || 0))}
+                        {formatNumber(Number(100000))}
+
+                        {/* {formatNumber(Number(detailInfo?.countRewards.yesterday || 0))} */}
                       </span>
                       <span>Jades</span>
                     </div>

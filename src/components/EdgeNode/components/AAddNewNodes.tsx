@@ -258,7 +258,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               </div>
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
-            <div className={cn(' text-sm  text-center', {
+            <div className={cn(' text-sm smd:text-left  text-center', {
               "text-[#FFFFFF80]": deviceInfo?.bindState === 'N/A',
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
@@ -401,7 +401,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
-            <div className={cn(' text-sm  text-center', {
+            <div className={cn(' text-sm smd:text-left   text-center', {
               "text-[#FFFFFF80]": deviceInfo?.bindState === 'N/A',
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }

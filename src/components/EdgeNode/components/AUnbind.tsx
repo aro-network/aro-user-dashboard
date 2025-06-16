@@ -91,7 +91,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               </div>
               {foundDeviceList(delDetail, isMobile)}
             </div>
-            <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5  text-center">
+            <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5 smd:text-left   text-center">
               {AllText.deviceInfo["Please confirm you want to delete this device. This action cannot be undone."]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">

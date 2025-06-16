@@ -148,6 +148,7 @@ body {
 div[data-slot="input-wrapper"] {
   backdrop-filter: blur(20px);
   box-shadow: 0px 0px 2px 0px #FFFFFF1A inset;
+  background-color: #444444;
 
 }
 
@@ -185,6 +186,8 @@ button[data-slot="trigger"] {
 .nodeName input {
   font-size: 16px;
   padding-left: 5px;
+  padding-right: 5px;
+
 }
 
 
