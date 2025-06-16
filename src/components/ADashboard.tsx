@@ -18,7 +18,7 @@ import AMyReferral from "./Referal/AReferal";
 import { CiCircleQuestion } from "react-icons/ci";
 import { ENV } from "@/lib/env";
 import { HelpTip } from "./tips";
-import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter } from "@heroui/drawer";
+import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, } from "@heroui/drawer";
 import { Btn } from "./btns";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
@@ -162,6 +162,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
 
 
+
   return (
     <div className="  overflow-hidden m-auto flex justify-center flex-col xs:w-full ">
       <div className={cn(` flex h-[3.75rem] bg-[#373737]   smd:fixed  top-0 flex-row w-full justify-between items-center py-5   px-[50px] smd:px-5 `, {
@@ -173,9 +174,9 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         </button>
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  smd:w-[6.25rem] smd:h-7 `} alt="Logo" />
+          <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  smd:w-[9.375rem] smd:h-7 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
+          <div className={cn(`bg-[#FFFFFF33] rounded-md  px-2 smd:h-7 items-center flex smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
           })}>
             {selectedTab.label}
@@ -294,7 +295,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       </div>
 
       <div className="relative z-[10000] bg-[#404040]">
-        <Drawer isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]  z-[1000] bg-[#404040]" hideCloseButton>
+        <Drawer backdrop="blur" isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]  z-[1000] bg-[#404040]" hideCloseButton>
           <DrawerContent>
             {(onClose) => (
               <>
