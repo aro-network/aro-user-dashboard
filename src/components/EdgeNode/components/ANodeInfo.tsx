@@ -333,7 +333,7 @@ const ANodeInfo: FC<{
                       Total
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[42px] smd:text-[38px]">
+                      <span className="text-[30px] smd:text-[33px]">
                         {formatNumber(Number(detailInfo?.countRewards.total || 0))}
                       </span>
                       <span>Jades</span>
@@ -344,7 +344,7 @@ const ANodeInfo: FC<{
                       Today
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[42px] smd:text-[38px]">
+                      <span className="text-[30px] smd:text-[33px]">
                         + {formatNumber(Number(detailInfo?.countRewards.today || 0))}
                       </span>
                       <span>Jades</span>
@@ -355,7 +355,7 @@ const ANodeInfo: FC<{
                       Yesterday
                     </span>
                     <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[42px] smd:text-[38px]">
+                      <span className="text-[30px] smd:text-[33px]">
                         +{" "}
                         {formatNumber(Number(detailInfo?.countRewards.yesterday || 0))}
                       </span>

@@ -35,13 +35,15 @@ const AAROID = () => {
 
   const onConfrim = async () => {
     await backendApi.addInviteCode(referalCode)
+    setReferalCode('')
+
     queryClient.invalidateQueries({ queryKey: ["QueryUserInfo"] });
     toggleShowInputReferral(false)
   }
 
   return <div className="w-full justify-center flex mt-5 ">
 
-    <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] commonTab p-5 rounded-xl flex-col w-[37.875rem]">
+    <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] commonTab p-5 rounded-xl flex-col w-[37.875rem] smd:w-full">
 
       <div className="flex items-center justify-start w-full gap-5 smd:gap-[.625rem] mb-[.625rem] ">
         <div className="w-[3.75rem] smd:w-8  ">
@@ -114,7 +116,6 @@ const AAROID = () => {
             Cancel
           </Btn>
           <Btn isDisabled={referalCode.length !== 6} className="w-full" onPress={() => {
-            setReferalCode('')
             onConfrim()
           }
 
