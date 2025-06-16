@@ -22,7 +22,7 @@ export default function Page() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [verifyCode, setVerifyCode] = useState("");
-  const [sendCount, actionSendCount] = useCounter(0, 6, 0);
+  const [sendCount, actionSendCount] = useCounter(0, 60, 0);
   useInterval(() => {
     actionSendCount.dec(1);
   }, 1000);
