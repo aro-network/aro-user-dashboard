@@ -5,14 +5,42 @@ import { LoginResult } from "@/types/user";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useDisclosure } from "@nextui-org/react";
 
 
-
+interface UseDisclosureProps {
+  isOpen?: boolean;
+  defaultOpen?: boolean;
+  onClose?(): void;
+  onOpen?(): void;
+  onChange?(isOpen: boolean | undefined): void;
+  id?: string;
+}
 export const AuthContext = createContext<OtherTypes.AuthContextProps>({
   login: async () => { },
   setUser: () => { },
   logout: () => { },
   setLink: () => { },
+  useDisclosure: {
+    isOpen: false,
+    onOpen: function (): void {
+      throw new Error("Function not implemented.");
+    },
+    onClose: function (): void {
+      throw new Error("Function not implemented.");
+    },
+    onOpenChange: function (): void {
+      throw new Error("Function not implemented.");
+    },
+    isControlled: false,
+    getButtonProps: function (props?: any) {
+      throw new Error("Function not implemented.");
+    },
+    getDisclosureProps: function (props?: any) {
+      throw new Error("Function not implemented.");
+    }
+  }
+
 });
 
 interface AuthProviderProps {
@@ -41,7 +69,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [link, setLink] = useState<string>()
   const params = useSearchParams()
   const redirect = params.get("redirect");
+  const disclosure = useDisclosure();
+
   console.info('redirect:', redirect)
+
 
 
   const wrapSetUser = (u?: Opt<LoginResult>) => {
@@ -80,7 +111,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     queryFn: () => backendApi.userInfo(),
   });
   // const queryUserInfo = useSWR(["QueryUserInfo", user?.token, location.href], () => (user?.token ? backendApi.userInfo() : undefined));
-  return <AuthContext.Provider value={{ user, setLink, link, login, logout, setUser: wrapSetUser, queryUserInfo }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, setLink, link, login, useDisclosure: disclosure, logout, setUser: wrapSetUser, queryUserInfo }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthContext = () => {

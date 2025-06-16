@@ -85,6 +85,15 @@ declare namespace OtherTypes {
     content: React.ReactNode;
     children?: React.ReactNode;
   };
+  interface UseDisclosureProps {
+    isOpen: boolean;
+    onOpen: () => void;
+    onClose: () => void;
+    onOpenChange: () => void;
+    isControlled: boolean;
+    getButtonProps: (props?: any) => any;
+    getDisclosureProps: (props?: any) => any;
+  }
   interface AuthContextProps {
     user?: Opt<LoginResult>;
     link?: string;
@@ -93,5 +102,6 @@ declare namespace OtherTypes {
     logout: () => void;
     setLink: (link?: string) => void;
     queryUserInfo?: UseQueryResult<User | undefined>;
+    useDisclosure: UseDisclosureProps;
   }
 }

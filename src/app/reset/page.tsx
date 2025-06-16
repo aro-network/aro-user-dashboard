@@ -22,7 +22,7 @@ export default function Page() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [verifyCode, setVerifyCode] = useState("");
-  const [sendCount, actionSendCount] = useCounter(0, 60, 0);
+  const [sendCount, actionSendCount] = useCounter(0, 6, 0);
   useInterval(() => {
     actionSendCount.dec(1);
   }, 1000);
@@ -72,8 +72,10 @@ export default function Page() {
           <InputPassword label="New Password" setPassword={setPassword} />
           <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
           <div className="flex gap-5 items-center w-full">
-            <InputVerifyCode setVerifyCode={setVerifyCode} />
-            <Btn className="!w-[75px] " type="button" isDisabled={disableSend} isLoading={isPendingSend} onClick={onSend as any}>
+            <div className="flex-1">
+              <InputVerifyCode setVerifyCode={setVerifyCode} />
+            </div>
+            <Btn className="!w-[100px] text-center relative shrink-0" type="button" isDisabled={disableSend} isLoading={isPendingSend} onClick={onSend as any}>
               {isPendingSend ? "" : isIdleSend ? "Send" : sendCount > 0 ? `${sendCount}s` : "Resend"}
             </Btn>
           </div>

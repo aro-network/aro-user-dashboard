@@ -36,11 +36,11 @@ export function TitModal({
 }) {
   return (
     <Modal hideCloseButton backdrop="blur" className={className} classNames={{ backdrop: "backdrop-blur-[6px]", wrapper: 'py-5' }} {...props}>
-      <ModalContent className={cn('w-[31.25rem] h-[220px] bg-[#404040] gap-6 p-6 rounded-3xl !my-auto', className)} {...(contentProps || {})}>
+      <ModalContent className={cn('w-[31.25rem] bg-[#404040] gap-6 p-6 rounded-3xl !my-auto ', className)} {...(contentProps || {})}>
         {(onClose) => (
           <>
             {typeof onClose == 'function' || tit &&
-              <ModalHeader className="justify-between p-0  ">
+              <ModalHeader className="justify-between p-0 bg-fuchsia-300  ">
                 {tit && <span className="text-base font-semibold text-left text-white">{tit}</span>}
                 {typeof onClose == 'function' && <div className="p-0 rounded-full w-6 h-6 flex justify-center items-center text-xs cursor-pointer bg-white/10 hover:bg-white/30" onClick={onClose}>
                   <FiX />
