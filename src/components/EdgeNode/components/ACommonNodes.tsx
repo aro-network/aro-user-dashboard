@@ -6,9 +6,8 @@ import { FC } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 
 const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, className, isLoading }) => {
-  const isMobile = useMobileDetect()
   return <div>
-    <div className={cn(`grid grid-cols-[repeat(auto-fit,minmax(0,26.25rem))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
+    <div className={cn(`grid grid-cols-[repeat(auto-fit,minmax(24.375rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
         return <div
           key={`nodes_${index}`}
@@ -22,7 +21,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
               <div className="flex items-center  gap-[10px] ">
                 <HelpTip content={node.deviceName}>
 
-                  <label className="text-[#FFFFFF] text-lg  truncate">{shortenMiddle(node.deviceName, isMobile ? 12 : 15)} </label>
+                  <label className="text-[#FFFFFF] text-lg  truncate">{shortenMiddle(node.deviceName, 14)} </label>
                 </HelpTip>
                 <div className="flex items-center gap-1 ">
                   {node.status ? <IoIosCheckmarkCircle className="text-[#00E42A] text-base " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-base" />}
@@ -49,7 +48,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
         </div>
       })}
       {isLoading &&
-        <Skeleton className="rounded-xl"><div className="h-[12.5rem] rounded-3xl" /></Skeleton>
+        <Skeleton className="rounded-xl max-w-[24.375rem]"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
       }
     </div>
   </div>
