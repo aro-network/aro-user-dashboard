@@ -41,8 +41,8 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
     { name: AllText.deviceInfo["Serial Number"], value: nodeUUID },
     {
       name: AllText.deviceInfo["Network Status"], value: <div className="flex items-center">
-        {online ? <IoIosCheckmarkCircle className="text-[#34D399] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
-        <label className={`ml-1 text-sm ${online ? 'text-[#34D399]' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
+        {online ? <IoIosCheckmarkCircle className="text-[#00E42A] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
+        <label className={`ml-1 text-sm ${online ? 'text-[#00E42A]' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
       </div>
     },
     { name: 'Device IP', value: ip },
