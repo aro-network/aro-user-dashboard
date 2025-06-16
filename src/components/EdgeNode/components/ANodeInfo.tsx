@@ -38,7 +38,7 @@ const InfoRow = ({
   label: React.ReactNode;
   value: React.ReactNode;
 }) => (
-  <div className="flex justify-between pl-[.625rem]">
+  <div className="flex justify-between px-[.625rem]">
     <span>{label}</span>
     <span className="text-[#FFFFFF80]">{value}</span>
   </div>
@@ -89,10 +89,12 @@ const ANodeInfo: FC<{
 
 
   const isUserOwner = useQuery({
-    queryKey: ["TrendingChart", chooseDate],
-    enabled: false,
+    queryKey: ["isOwner", nId],
+    enabled: true,
     staleTime: 0,
     refetchOnMount: false,
+    refetchOnWindowFocus: 'always',
+
     queryFn: async () => {
       const isOwner = await backendApi.currentOwner(nId)
       if (isOwner?.owner === false) {
@@ -151,9 +153,9 @@ const ANodeInfo: FC<{
   });
 
 
-  useEffect(() => {
-    refetchRes()
-  }, []);
+  // useEffect(() => {
+  //   refetchRes()
+  // }, []);
 
 
 
@@ -435,7 +437,7 @@ const ANodeInfo: FC<{
             >
               <div className="w-full smd:h-[10rem]" ref={ref}>
                 <EChartsReact
-                  className="w-full  !h-[13.125rem] smd:!h-[12.5rem] "
+                  className="w-full  !h-[13.125rem] smd:!h-[11.875rem] "
 
                   option={chartOpt}
                 />

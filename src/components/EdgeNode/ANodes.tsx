@@ -43,7 +43,7 @@ const ANodes = () => {
   const { data = [], isFetching, refetch, isLoading } = useQuery({
     queryKey: ["NodeList"],
     enabled: false,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: 'always',
     staleTime: 0,
     refetchOnMount: false,
     queryFn: async ({ pageParam: pageNum }) => {

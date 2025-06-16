@@ -298,7 +298,7 @@ const AStats = () => {
         // </label>}
 
         >
-          <div className="!w-full " style={{ height: '10rem' }} ref={ref}>
+          <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
             <EChartsReact style={{ height: '10rem' }} className="!w-full  !h-[12.5rem]" option={option} />
           </div>
         </TitCard>

@@ -52,7 +52,7 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
 
   return <div className="w-full device flex justify-between flex-col py-[.625rem]">
     <div className="text-lg smd:text-base font-Alexandria">{AllText.deviceInfo["Device found"]}</div>
-    <div className="text-sm w-full pr-6  flex  flex-col gap-2 pt-4 ">
+    <div className="text-sm w-full pr-6 smd:pr-0  flex  flex-col gap-2 pt-4 ">
       {list.map((item) => {
         const isOpen = item.name === 'Device IP' && isMobile && isIPv6(item.value as string)
         return <div key={item.name} className="flex justify-between  ">
@@ -258,7 +258,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               </div>
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
-            <div className={cn(' text-sm smd:text-left  text-center', {
+            <div className={cn(' text-sm  text-center', {
               "text-[#FFFFFF80]": deviceInfo?.bindState === 'N/A',
               "text-[#FF6A6C]": deviceInfo?.bindState === 'Detected',
             }
