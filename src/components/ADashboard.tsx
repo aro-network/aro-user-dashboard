@@ -176,7 +176,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
           <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  smd:w-[9.375rem] smd:h-7 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
-          <div className={cn(`bg-[#FFFFFF33] rounded-md  px-2 smd:h-7 items-center flex smd:text-xs `, {
+          <div className={cn(`bg-[#FFFFFF33] rounded-md  px-2 smd:h-7 items-center flex `, {
             'flex items-center gap-2': ENV === 'prod'
           })}>
             {selectedTab.label}
@@ -294,19 +294,19 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         </div>
       </div>
 
-      <div className="relative z-[10000] bg-[#404040]">
-        <Drawer backdrop="blur" isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]  z-[1000] bg-[#404040]" hideCloseButton>
+      <div className="relative z-[10000] bg-[#373737]">
+        <Drawer backdrop="blur" isOpen={isVisable} placement={'left'} onOpenChange={onOpenChange} className="w-[70%]  z-[1000] bg-[#373737]" hideCloseButton>
           <DrawerContent>
             {(onClose) => (
               <>
                 <DrawerBody>
-                  <div className={` flex flex-col gap-4  pt-[1.875rem] border-[#404040]`}>
+                  <div className={` flex flex-col gap-4  pt-[1.875rem]`}>
                     {selectedTab.children.map((m) => {
                       const selected = m.name === currentTab.name;
                       return (
                         <button
                           key={m.name}
-                          className={cn(" h-12 flex  bg-[#373737] justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-6 rounded-lg cursor-pointer select-none",
+                          className={cn(" h-12 flex  bg-[#FFFFFF1A] justify-start items-center  self-stretch flex-grow-0 flex-shrink-0  gap-2.5 px-6 rounded-lg cursor-pointer select-none",
 
                             {
                               " text-[#00E42A] ": selected,
@@ -389,7 +389,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       <div className="h-full  nodes mb-5 smd:mt-[3.75rem]">
         {currentTab.tab === 'referral' && user?.invited === false &&
           <div className="bg-[#00E42A]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
-            <span className="text-black">You have not set your Referrer Information. Being referred by an ARO user will give you extra boost! </span>
+            <span className="text-black text-sm">You have not set your Referrer Information. Being referred by an ARO user will give you extra boost! </span>
             <button onClick={() => r.push(`?mode=${currentENVName}&tab=aroId`)} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>
 
           </div>
