@@ -27,7 +27,7 @@ const ALinkOther = () => {
       {AllText["To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect."]}
     </div>
     <div className="w-full flex justify-between gap-[10px] mt-5">
-      <Btn className="w-full  !bg-[#F5F5F51A] text-white border border-white" onPress={onCancel}>
+      <Btn className="w-full   bg-default border !border-white text-white hover:bg-l1 " onPress={onCancel}>
         Cancel
       </Btn>
       <Btn className="w-full" onPress={onConfirm}>

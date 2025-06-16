@@ -95,12 +95,13 @@ export function InputVerifyCode({ setVerifyCode }: { setVerifyCode: (code: strin
   );
 }
 
-export function InputSplitCode({ onComplete, onChange }: { onComplete?: (value: string) => void; onChange?: (value: string) => void }) {
+export function InputSplitCode({ onComplete, onChange, value }: { value?: string, onComplete?: (value: string) => void; onChange?: (value: string) => void }) {
   return (
     <VerificationInput
       placeholder=""
       onChange={onChange}
       onComplete={onComplete}
+      value={value}
       classNames={{
         container: "flip_item w-full justify-between h-[2.625rem]  ",
         character: "rounded-lg max-w-[2.625rem]  w-[2.625rem]  bg-l1 bg-transparent backdrop-blur-[20px] text-white text-xl leading-[2.625rem] uppercase border-0",

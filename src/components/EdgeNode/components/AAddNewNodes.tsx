@@ -209,7 +209,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     } else {
       onBack()
     }
-
   }
 
 
@@ -231,7 +230,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               classNames={{ 'inputWrapper': '!rounded-lg smd:!h-12' }}
               value={serialNum?.num}
               onChange={(e) => {
-                setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'box' })
+                const onlyLetters = e.target.value.replace(/[^a-zA-Z0-9]/g, '').trim();
+                setSerialNum({ num: onlyLetters, type: 'box' });
               }}
 
             />
@@ -372,7 +372,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               classNames={{ 'inputWrapper': '!rounded-lg smd:!h-12' }}
               value={serialNum?.num}
               onChange={(e) => {
-                setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim(), type: 'x86' })
+                const onlyLetters = e.target.value.replace(/[^a-zA-Z0-9]/g, '').trim();
+                setSerialNum({ num: onlyLetters, type: 'x86' });
               }} />
             <div className="flex justify-center items-center mt-[.75rem] flex-col  gap-[.625rem]">
               <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onX86Continue} className="w-full rounded-lg" >

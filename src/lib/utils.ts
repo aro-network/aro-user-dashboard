@@ -98,7 +98,7 @@ export const covertText = (type: "box" | "x86" | "Box") => {
   const list = {
     box: "ARO Pod",
     Box: "ARO Pod",
-    x86: "X86 Server",
+    x86: "ARO Client",
     router: "ARO Link",
   };
   return list[type] || "-";

@@ -67,19 +67,23 @@ export default function Page() {
 
   const { mutate: handlerVerify, isPending: isPendingVerify } = useMutation({
     mutationFn: async () => {
-      if (!verifyCode || validateVerifyCode(verifyCode) !== true) throw new Error("Please enter verify code");
-      if (!refRegisterUser.current) throw new Error("Please sign up");
-      const res = await backendApi.verifyRegisterCode(refRegisterUser.current.userId, verifyCode.trim());
-      if (res && res.token) {
-        ac.setUser(res);
-      } else {
-        // try sign
-        const res = await backendApi.loginApi({ email, password });
-        if (res.token) {
+      try {
+        if (!verifyCode || validateVerifyCode(verifyCode) !== true) throw new Error("Please enter verify code");
+        if (!refRegisterUser.current) throw new Error("Please sign up");
+        const res = await backendApi.verifyRegisterCode(refRegisterUser.current.userId, verifyCode.trim());
+        if (res && res.token) {
           ac.setUser(res);
         } else {
-          r.push("/signin");
+          // try sign
+          const res = await backendApi.loginApi({ email, password });
+          if (res.token) {
+            ac.setUser(res);
+          } else {
+            r.push("/signin");
+          }
         }
+      } catch (e) {
+        setVerifyCode('')
       }
     },
   });
@@ -125,7 +129,7 @@ export default function Page() {
                 <br />
                 Enter the 6-digit verification code we sent to your inbox below:
               </div>
-              <InputSplitCode onChange={setVerifyCode} />
+              <InputSplitCode onChange={setVerifyCode} value={verifyCode} />
               <Btn className="w-full" onPress={() => handlerVerify()} isDisabled={disableVerifyEmail} isLoading={isPendingVerify}>
                 Verify Email
               </Btn>

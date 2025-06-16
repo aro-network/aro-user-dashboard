@@ -126,7 +126,8 @@ const ANewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, a
               className=" mt-5 rounded-lg"
               value={serialNum?.num}
               onChange={(e) => {
-                setSerialNum({ num: e.target.value.replace(/[\u4e00-\u9fa5]/g, '').trim() })
+                const onlyLetters = e.target.value.replace(/[^a-zA-Z]/g, '').trim();
+                setSerialNum({ num: onlyLetters });
               }}
 
             />

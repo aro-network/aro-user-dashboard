@@ -55,7 +55,7 @@ const AStats = () => {
     },
 
     grid: {
-      left: 30,
+      left: 40,
       right: 0,
       top: 30,
       bottom: 50
@@ -115,7 +115,7 @@ const AStats = () => {
 
   const option2 = {
     grid: {
-      left: 30,
+      left: 40,
       right: 0,
       top: 30,
       bottom: 50
@@ -180,7 +180,7 @@ const AStats = () => {
 
     },
     grid: {
-      left: 30,
+      left: 40,
       right: 0,
       top: 30,
       bottom: 50
@@ -229,7 +229,7 @@ const AStats = () => {
     },
 
     grid: {
-      left: 30,
+      left: 40,
       right: 0,
       top: 30,
       bottom: 50
@@ -263,27 +263,27 @@ const AStats = () => {
   const value = status ? '今日' : '昨日'
 
 
-  const { data, isFetching, refetch } = useQuery({
-    queryKey: ["NodeList"],
-    enabled: true,
-    queryFn: async ({ pageParam: pageNum }) => {
-      const pageSize = 10
-      const pageParams = { pageSize, pageNum }
-      const data = await backendApi.getNodeList()
-      const list = data.map((item) => {
-        return {
-          deviceName: item.nodeName,
-          icon: <img src={`./${item.nodeType}.png`} alt={`${item.nodeType}`} style={{ height: '100%', width: '100%' }} />,
-          nodeUUID: item.nodeUUID,
-          when: 'Today',
-          experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">{item.rewards}</label><label>$Jades</label></>,
-          status: item.online,
-          nodeId: item.nodeId
-        }
-      })
-      return list
-    }
-  });
+  // const { data, isFetching, refetch } = useQuery({
+  //   queryKey: ["NodeList"],
+  //   enabled: true,
+  //   queryFn: async ({ pageParam: pageNum }) => {
+  //     const pageSize = 10
+  //     const pageParams = { pageSize, pageNum }
+  //     const data = await backendApi.getNodeList()
+  //     const list = data.map((item) => {
+  //       return {
+  //         deviceName: item.nodeName,
+  //         icon: <img src={`./${item.nodeType}.png`} alt={`${item.nodeType}`} style={{ height: '100%', width: '100%' }} />,
+  //         nodeUUID: item.nodeUUID,
+  //         when: 'Today',
+  //         experience: <><label className="text-[#4281FF] text-2xl font-semibold leading-6">{item.rewards}</label><label>$Jades</label></>,
+  //         status: item.online,
+  //         nodeId: item.nodeId
+  //       }
+  //     })
+  //     return list
+  //   }
+  // });
 
   return (
     <>

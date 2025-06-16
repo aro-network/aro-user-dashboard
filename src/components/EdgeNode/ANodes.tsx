@@ -11,6 +11,7 @@ import { cn } from "@nextui-org/react";
 import { formatNumber, sortIp } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/app/context/AuthContext";
+import { debounce } from "lodash";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -21,17 +22,9 @@ const ANodes = () => {
   const r = useRouter()
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
-
   const ac = useAuthContext();
   const nId = params.get("nId") || ''
-  const isType = params.get("type")
-
-
-  console.log('isTypeisType', !isType);
-
-
-
-
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const title =
     nId && !unbindInfo
@@ -42,10 +35,17 @@ const ANodes = () => {
           ? "Delete"
           : "All Nodes";
 
-  const { data, isFetching, refetch } = useQuery({
+
+  const refetchRes = debounce(() => {
+    refetch();
+  }, 1300);
+
+  const { data = [], isFetching, refetch, isLoading } = useQuery({
     queryKey: ["NodeList"],
-    enabled: true,
+    enabled: false,
     refetchOnWindowFocus: true,
+    staleTime: 0,
+    refetchOnMount: false,
     queryFn: async ({ pageParam: pageNum }) => {
       const pageSize = 10;
       const pageParams = { pageSize, pageNum };
@@ -76,10 +76,11 @@ const ANodes = () => {
           nodeId: item.nodeId,
         };
       });
+
+      setIsInitialLoading(false)
       return list;
     },
   });
-
 
 
   const updateURL = (key: string, value: string) => {
@@ -89,7 +90,7 @@ const ANodes = () => {
   };
 
   const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
-    if (isFetching) return
+    if (isInitialLoading) return
     params.delete('chooseType')
     updateURL('type', 'detail')
     updateURL('nId', `${e.nodeUUID}`)
@@ -97,11 +98,12 @@ const ANodes = () => {
   }
 
   useEffect(() => {
+    const typeParam = params.get("type");
 
-    const showAdd = params.get("type") === 'add';
-    const showDetail = params.get("type") === 'detail';
-    const showDel = params.get("type") === 'del';
-    const showLink = params.get("type") === 'link';
+    const showAdd = typeParam === 'add';
+    const showDetail = typeParam === 'detail';
+    const showDel = typeParam === 'del';
+    const showLink = typeParam === 'link';
     const type = params.get("chooseType");
 
 
@@ -121,21 +123,18 @@ const ANodes = () => {
       updateURL('type', 'del')
     } else if (showLink) {
       updateURL('type', 'link')
+    } else if (type) {
+      setSelectedType(obj[type]);
     } else {
       closeAll()
     }
-    if (type) {
-      setSelectedType(obj[type]);
-    }
-    else {
-      addRef.current?.switchTo();
-      refetch()
-      setSelectedType('');
-    }
+
   }, [nId, searchParams, params]);
 
 
   const closeAll = () => {
+    setIsInitialLoading(true)
+
     addRef.current?.switchTo();
     setUnbingInfo('')
     setSelectedType("");
@@ -144,9 +143,9 @@ const ANodes = () => {
     params.delete('chooseType')
     params.delete('nId')
     r.push(`?${params.toString()}`);
-    refetch();
-  }
+    refetchRes()
 
+  }
 
   return (
     <>
@@ -241,7 +240,7 @@ const ANodes = () => {
               setUnbingInfo("");
               params.delete('nId')
               setOpenAddNode(false);
-              refetch();
+              // refetch();
               setSelectedType("");
               params.delete('type')
               params.delete('chooseType')
@@ -250,7 +249,7 @@ const ANodes = () => {
             }}
           />
         ) : !nId && !isOpen ? (
-          (!data || !data.length) && !isFetching ? (
+          (!data || !data.length) && !isInitialLoading ? (
             <div className="w-full flex justify-center items-center mt-[6.5625rem]  ">
               <div className="w-[37.5rem] m-auto text-center gap-5 flex flex-col">
                 <div className=" text-lg ">Add Your Edge Node</div>
@@ -272,7 +271,7 @@ const ANodes = () => {
             </div>
           ) : (
             <ACommonNodes
-              isLoading={isFetching}
+              isLoading={isInitialLoading}
               data={data}
               onOpenModal={handleToggleNodeInfo}
             />
@@ -284,7 +283,7 @@ const ANodes = () => {
             onBack={() => {
               params.delete('nId')
               setOpenAddNode(!isOpen);
-              refetch();
+              // refetch();
               setSelectedType("");
               params.delete('type')
               params.delete('chooseType')

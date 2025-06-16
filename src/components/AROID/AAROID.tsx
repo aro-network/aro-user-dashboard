@@ -34,12 +34,19 @@ const AAROID = () => {
   const queryClient = useQueryClient();
 
   const onConfrim = async () => {
-    await backendApi.addInviteCode(referalCode)
-    setReferalCode('')
+    try {
+      await backendApi.addInviteCode(referalCode)
+      queryClient.invalidateQueries({ queryKey: ["QueryUserInfo"] });
+      toggleShowInputReferral(false)
+    } catch (res) {
+      setReferalCode('')
 
-    queryClient.invalidateQueries({ queryKey: ["QueryUserInfo"] });
-    toggleShowInputReferral(false)
+    }
   }
+
+
+  console.log('referalCodereferalCodereferalCodereferalCode', referalCode);
+
 
   return <div className="w-full justify-center flex mt-5 ">
 
@@ -107,7 +114,7 @@ const AAROID = () => {
       <ForceModal isOpen={showInputReferral} className="!w-[650px] smd:!w-full smd:!mx-5">
         <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base text-center  text-white">Add Referrer</p>
         <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{AllText.aroId.addReferrer.content}</p>
-        <InputSplitCode onChange={setReferalCode} />
+        <InputSplitCode onChange={setReferalCode} value={referalCode} />
         <div className="flex w-full gap-[.625rem]">
           <Btn color='default' className="w-full  bg-default border !border-white text-white hover:bg-l1" onPress={() => {
             setReferalCode('')

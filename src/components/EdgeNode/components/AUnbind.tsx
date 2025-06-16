@@ -9,6 +9,7 @@ import { foundDeviceList } from "./AAddNewNodes"
 import useMobileDetect from "@/hooks/useMobileDetect"
 import { useSearchParams } from "next/navigation"
 import { AllText } from "@/lib/allText"
+import { debounce } from "lodash"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => {
@@ -40,6 +41,11 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   });
 
 
+  const refetchRes = debounce(() => {
+    isUserOwner()
+  }, 1300);
+
+
   const isUserOwner = async () => {
     const isOwner = await backendApi.currentOwner(nId)
 
@@ -52,7 +58,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
 
   useEffect(() => {
-    isUserOwner()
+    refetchRes()
   }, [])
 
   const onUnbindingConfig = async () => {
@@ -117,7 +123,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     }
   ]
 
-  return <div className=" pt-[73px]">
+  return <div className=" pt-[73px] smd:pt-5">
     {isFetching ? <div className="flex justify-center w-full pt-[4.5625rem] items-center h-full">
       <CircularProgress label="Loading..." />
     </div> :

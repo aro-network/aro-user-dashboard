@@ -16,7 +16,7 @@ import {
   shortenMiddle,
 } from "@/lib/utils";
 import numbro from "numbro";
-import _ from "lodash";
+import _, { debounce } from "lodash";
 import { HelpTip } from "@/components/tips";
 import dayjs from "dayjs";
 import {
@@ -69,40 +69,90 @@ const ANodeInfo: FC<{
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const nId = params.get("nId") || ''
-  const [detailInfo, setDetailInfo] = useState<{ detail: Nodes.NodeInfoList, countRewards: { today: string; total: string; yesterday: string } }>()
-  const [isFetching, setIsFetching] = useState(true)
+  // const [detailInfo, setDetailInfo] = useState<{ detail: Nodes.NodeInfoList, countRewards: { today: string; total: string; yesterday: string } }>()
+  // const [isFetching, setIsFetching] = useState(true)
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [chooseDate, setChooseDate] = useState<{
     start: DateValue;
     end: DateValue;
   }>(generateLast15DaysRange());
 
 
-  const isUserOwner = async () => {
-    const isOwner = await backendApi.currentOwner(nId)
-    if (isOwner?.owner === false) {
-      onBack();
-    } else {
-      getCurrentDetail()
+  const refetchRes = debounce(() => {
+    isUserOwner.refetch()
+  }, 1300);
+
+  const refetchdetailRes = debounce(() => {
+    refetch()
+  }, 1300);
+
+
+
+  const isUserOwner = useQuery({
+    queryKey: ["TrendingChart", chooseDate],
+    enabled: false,
+    staleTime: 0,
+    refetchOnMount: false,
+    queryFn: async () => {
+      const isOwner = await backendApi.currentOwner(nId)
+      if (isOwner?.owner === false) {
+        onBack();
+      } else {
+        refetchdetailRes()
+      }
     }
-  }
+  });
 
 
-  const getCurrentDetail = async () => {
-    const [detail, countRewards] = await Promise.all([
-      backendApi.getNodeInfoByNodeId(nId),
-      backendApi.countRewards(nId),
-    ]);
-    setIsFetching(false)
+  // const isUserOwner = async () => {
+  //   const isOwner = await backendApi.currentOwner(nId)
+  //   if (isOwner?.owner === false) {
+  //     onBack();
+  //   } else {
+  //     getCurrentDetail()
+  //   }
+  // }
 
-    nodeInfo(detail);
-    setNodeName(detail.nodeName);
-    setDetailInfo({ detail, countRewards })
 
-  }
+  // const getCurrentDetail = async () => {
+  //   const [detail, countRewards] = await Promise.all([
+  //     backendApi.getNodeInfoByNodeId(nId),
+  //     backendApi.countRewards(nId),
+  //   ]);
+  //   setIsFetching(false)
+
+  //   nodeInfo(detail);
+  //   setNodeName(detail.nodeName);
+  //   setDetailInfo({ detail, countRewards })
+
+  // }
+
+
+
+
+  const { data: detailInfo, isFetching, refetch, isLoading, error } = useQuery({
+    queryKey: ["NodeDetailList", nId],
+    enabled: false,
+    queryFn: async () => {
+
+      const [detail, countRewards] = await Promise.all([
+        backendApi.getNodeInfoByNodeId(nId),
+        backendApi.countRewards(nId),
+      ]);
+      setNodeName(detail.nodeName);
+      nodeInfo(detail);
+      setIsInitialLoading(false)
+      return { detail, countRewards };
+    },
+    refetchOnWindowFocus: true,
+
+
+
+  });
 
 
   useEffect(() => {
-    isUserOwner()
+    refetchRes()
   }, []);
 
 
@@ -112,9 +162,8 @@ const ANodeInfo: FC<{
   const onSubmit = async (value: string) => {
 
     await backendApi.editCurrentNodeName(detailInfo?.detail.nodeUUID, value);
-    setIsFetching(true)
 
-    getCurrentDetail()
+    refetch()
     setIsEdit(false);
   };
 
@@ -166,7 +215,7 @@ const ANodeInfo: FC<{
 
 
       grid: {
-        left: 30,
+        left: 40,
         right: 0,
         top: 10,
         bottom: 50,
@@ -315,7 +364,7 @@ const ANodeInfo: FC<{
   }
   return (
     <>
-      {!isFetching ? (
+      {!isInitialLoading ? (
 
         <div className=" mx-auto w-full mt-5 text-white  flex justify-between smd:flex-col gap-5  smd:gap-0">
           <div className="w-[calc(100%-378px-20px)] smd:w-full h-fit ">
@@ -515,7 +564,7 @@ const ANodeInfo: FC<{
                   label="Device"
                   value={
                     <span className="capitalize">
-                      {covertText(info?.deviceType as "box" | "x86" | "Box") || "-"}
+                      {info?.deviceType === 'x86' ? 'X86 Server' : covertText(info?.deviceType as "box" | "x86" | "Box") || "-"}
                     </span>
                   }
                 />
