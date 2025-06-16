@@ -348,7 +348,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.type2.first["Make sure you have followed the guidance and complete initial network configurations on your Software Node CLI before continue."].replaceAll('xx', chooseedType?.iconName ?? '')}
             </div>
             <div className="flex justify-center items-center mt-[.75rem]  flex-col  gap-[.625rem]">
-              <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg" >
+              <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg smd:!h-12" >
                 Continue
               </Btn>
             </div>
@@ -376,7 +376,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                 setSerialNum({ num: onlyLetters, type: 'x86' });
               }} />
             <div className="flex justify-center items-center mt-[.75rem] flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onX86Continue} className="w-full rounded-lg" >
+              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onX86Continue} className="w-full rounded-lg smd:!h-12" >
                 Continue
               </Btn>
             </div>
@@ -409,7 +409,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {deviceInfo?.bindState === 'N/A' ? AllText.AAddNewNodes.type.step2.error[1] : AllText.AAddNewNodes.type.step2.error[0]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onPress={() => onX86StepNext()} className="w-full rounded-lg " >
+              <Btn onPress={() => onX86StepNext()} className="w-full rounded-lg smd:!h-12" >
                 Continue
               </Btn>
             </div>
@@ -446,7 +446,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
-              <Btn isLoading={bind.isFetching} isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} onClick={() => onBindingConfig()} className="w-full rounded-lg" >
+              <Btn isLoading={bind.isFetching} isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} onClick={() => onBindingConfig()} className="w-full rounded-lg smd:!h-12" >
                 Add
               </Btn>
             </div>
@@ -466,7 +466,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full rounded-lg" onPress={() => onX86StepNext(true)} >
+              <Btn type="submit" className="w-full rounded-lg smd:!h-12" onPress={() => onX86StepNext(true)} >
                 OK
               </Btn>
             </div>
