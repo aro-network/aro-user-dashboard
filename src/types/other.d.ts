@@ -19,6 +19,7 @@ declare namespace OtherTypes {
     right?: React.ReactNode;
     className?: string;
     contentClassName?: string;
+    titClassName?: string;
   };
 
   type BGProps = {

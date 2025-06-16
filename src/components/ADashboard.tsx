@@ -173,7 +173,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         </button>
 
         <div className="flex items-center  gap-5   smd:w-full smd:justify-center">
-          <img src="https://aro.network/aro-logo.svg" className={`  smd:w-[6.25rem] smd:h-[3.75rem]    w-[12.8125rem]  `} alt="Logo" />
+          <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] rounded-md py-1 px-2 smd:h-6 smd:text-xs `, {
             'flex items-center gap-2': ENV === 'prod'
