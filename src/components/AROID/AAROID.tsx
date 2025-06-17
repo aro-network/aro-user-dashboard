@@ -52,7 +52,7 @@ const AAROID = () => {
       <div className="flex items-center justify-start w-full gap-5 smd:gap-[.625rem] mb-[.625rem] ">
         <div className="w-[3.75rem] smd:w-12  ">
           {/* <MAvatar name={user?.email} /> */}
-          <MAvatar name={user?.email} size={120} />
+          <MAvatar name={user?.email} size={60} />
         </div>
         <div>
           <div className="flex items-center gap-2">
