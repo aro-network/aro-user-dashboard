@@ -45,18 +45,14 @@ const AAROID = () => {
   }
 
 
-  console.log('referalCodereferalCodereferalCodereferalCode', referalCode);
-
-
   return <div className="w-full justify-center flex mt-5 ">
 
     <div className="flex items-center gap-[.625rem] bg-[#6D6D6D66] commonTab p-5 rounded-xl flex-col w-[37.875rem] smd:w-full">
 
       <div className="flex items-center justify-start w-full gap-5 smd:gap-[.625rem] mb-[.625rem] ">
-        <div className="w-[3.75rem] smd:w-8  ">
+        <div className="w-[3.75rem] smd:w-12  ">
           {/* <MAvatar name={user?.email} /> */}
-          <MAvatar name={user?.email} size={120} className="smd:hidden" />
-          <MAvatar name={user?.email} size={36} className="md:hidden" />
+          <MAvatar name={user?.email} size={120} />
         </div>
         <div>
           <div className="flex items-center gap-2">
@@ -115,20 +111,17 @@ const AAROID = () => {
         <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base text-center  text-white">Add Referrer</p>
         <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{AllText.aroId.addReferrer.content}</p>
         <InputSplitCode onChange={setReferalCode} value={referalCode} />
-        <div className="flex w-full gap-[.625rem]">
-          <Btn color='default' className="w-full  bg-default border !border-white text-white hover:bg-l1" onPress={() => {
+        <div className="flex w-full gap-[.625rem] smd:gap-5 smd:flex-col">
+          <Btn isDisabled={referalCode.length !== 6} className="w-full smd:h-12" onPress={onConfrim}  >
+            Confirm
+          </Btn>
+          <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
             setReferalCode('')
             toggleShowInputReferral(false)
           }} >
             Cancel
           </Btn>
-          <Btn isDisabled={referalCode.length !== 6} className="w-full" onPress={() => {
-            onConfrim()
-          }
 
-          }  >
-            Confirm
-          </Btn>
         </div>
 
       </ForceModal>
