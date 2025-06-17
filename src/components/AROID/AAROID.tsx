@@ -111,7 +111,7 @@ const AAROID = () => {
         <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base text-center  text-white">Add Referrer</p>
         <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{AllText.aroId.addReferrer.content}</p>
         <InputSplitCode onChange={setReferalCode} value={referalCode} />
-        <div className="flex w-full gap-[.625rem] smd:gap-5 smd:flex-col">
+        <div className="flex w-full gap-[.625rem] smd:gap-5 ">
           <Btn isDisabled={referalCode.length !== 6} className="w-full smd:h-12" onPress={onConfrim}  >
             Confirm
           </Btn>

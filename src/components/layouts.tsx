@@ -8,7 +8,7 @@ export function PageUnlogin(p: PropsWithChildren & { childrenClassName?: string,
     return <div className="w-full h-full flex smd:flex-col ">
         <div className={cn("flex-[4] smd:flex-[1] md:min-h-full smd:h-full basis-0 flex flex-col justify-center items-center overflow-auto gap-16 lg:gap-32 md:bg-[#535252]  text-base", p.headerClassNmae)}>
             {!isMobile && <SVGS.SvgLogin />}
-            <SVGS.SvgAROLogo />
+            <img src="https://aro.network/aro-logo.svg" alt="Logo" />
 
         </div>
         <div className={cn("flex-[6] smd:flex-[9] smd:mb-5  md:min-h-full basis-0 overflow-y-auto md:bg-[#272727]", p.childrenClassName)}>{p.children}</div>
