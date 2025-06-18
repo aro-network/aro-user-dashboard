@@ -140,6 +140,7 @@ const ANodeInfo: FC<{
       const [detail, countRewards] = await Promise.all([
         backendApi.getNodeInfoByNodeId(nId),
         backendApi.countRewards(nId),
+
       ]);
       setNodeName(detail.nodeName);
       nodeInfo(detail);
@@ -147,9 +148,6 @@ const ANodeInfo: FC<{
       return { detail, countRewards };
     },
     refetchOnWindowFocus: true,
-
-
-
   });
 
 
@@ -303,6 +301,7 @@ const ANodeInfo: FC<{
     (detailInfo?.detail.deviceInfo.memTotal || 0) /
     (1024 * 1024 * 1024)
   ).toFixed(2);
+
   const memUseGB = (
     (detailInfo?.detail.deviceInfo.memUse || 0) /
     (1024 * 1024 * 1024)
@@ -580,10 +579,7 @@ const ANodeInfo: FC<{
                   label="Reputation Point"
                   value={info?.reputationPoint || "-"}
                 />
-                <InfoRow
-                  label="Cheat Status"
-                  value={info?.cheatStatus || "-"}
-                />
+
               </InfoCard>
 
               <InfoCard title="Network Info">
