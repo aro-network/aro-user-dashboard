@@ -12,6 +12,8 @@ import { formatNumber, sortIp } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/app/context/AuthContext";
 import { debounce } from "lodash";
+import { AllText } from "@/lib/allText";
+import { ForceModal } from "../dialogs";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -25,6 +27,7 @@ const ANodes = () => {
   const ac = useAuthContext();
   const nId = params.get("nId") || ''
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [openLink, setOpenLink] = useState('')
 
   const title =
     nId && !unbindInfo
@@ -208,16 +211,14 @@ const ANodes = () => {
 
               {nodeInfo?.nodeType === 'box' && <Btn
                 onPress={() => {
-                  params.delete('nId')
-                  updateURL('type', 'link')
-                  ac.setLink(sortIp(nodeInfo?.deviceInfo.networkInterfaces || [])[0].ip)
+                  setOpenLink(sortIp(nodeInfo?.deviceInfo.networkInterfaces || [])[0].ip)
                 }
-
                 }
                 className="h-[1.875rem] rounded-lg smd:!h-[1.875rem]"
               >
                 Go to Web Console
               </Btn>
+
               }
               <Btn
                 onPress={() => {
@@ -301,6 +302,30 @@ const ANodes = () => {
             }}
           />
         )}
+
+
+
+      <ForceModal isOpen={!!openLink} className="!w-[650px] smd:!w-full smd:!mx-5">
+        <div className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-lg text-center  text-white">  {AllText["Access Your Device’s Web Console"]}</div>
+        <div className="text-[#FFFFFF80] text-center">
+          {AllText["To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect."]}
+        </div>
+        <div className="flex w-full gap-[.625rem] smd:gap-5 ">
+          <Btn className="w-full smd:h-12" onPress={() => {
+            window.open(`http://${openLink}:40001`)
+            setOpenLink('')
+          }}  >
+            Confirm
+          </Btn>
+          <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
+            setOpenLink('')
+          }} >
+            Cancel
+          </Btn>
+
+        </div>
+
+      </ForceModal>
     </>
   );
 };

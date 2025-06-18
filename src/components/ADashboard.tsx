@@ -394,24 +394,20 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
           </div>
         }
-        {isLink && ac.link ?
-          <ALinkOther /> :
-          <div className=" w-container m-auto flex justify-center xs:w-full smd:w-full xs:px-[104px] px-[3.125rem] smd:px-5 ">
-            <AnimatePresence mode="wait">
-              <motion.div
-                className=" pt-5 smd:pb-10  flex flex-col w-full "
-                key={currentTab.name + refreshKey}
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -10, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                {currentTab.content}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-        }
+        <div className=" w-container m-auto flex justify-center xs:w-full smd:w-full xs:px-[104px] px-[3.125rem] smd:px-5 ">
+          <AnimatePresence mode="wait">
+            <motion.div
+              className=" pt-5 smd:pb-10  flex flex-col w-full "
+              key={currentTab.name + refreshKey}
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentTab.content}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
       </div>
 
