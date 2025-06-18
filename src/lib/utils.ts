@@ -238,3 +238,68 @@ export const sortIp = (network: any[]) => {
     return getPriority(a.name) - getPriority(b.name);
   });
 };
+
+const FOUR_HOURS = 4 * 60 * 60;
+const ONE_HOUR = 60 * 60;
+
+export function covertCurrentUpTime<T extends Record<string, any>>(
+  data: T[] = [],
+  dateFiled: string,
+  countFiled: string
+) {
+  const grouped: Record<
+    number,
+    Record<number, { totalUpCount: number; dataPoints: number }>
+  > = {};
+
+  data.forEach((item) => {
+    const dateValue = item[dateFiled] as number;
+    const uptimeCount = item[countFiled] as number;
+
+    const fourHourStart = Math.floor(dateValue / FOUR_HOURS) * FOUR_HOURS;
+    const hourStart = Math.floor(dateValue / ONE_HOUR) * ONE_HOUR; // 这里改成 dateValue
+
+    if (!grouped[fourHourStart]) {
+      grouped[fourHourStart] = {};
+    }
+
+    if (!grouped[fourHourStart][hourStart]) {
+      grouped[fourHourStart][hourStart] = {
+        totalUpCount: 0,
+        dataPoints: 0,
+      };
+    }
+
+    grouped[fourHourStart][hourStart].totalUpCount += Number(uptimeCount);
+    grouped[fourHourStart][hourStart].dataPoints += 1;
+  });
+
+  const resultList = Object.entries(grouped).map(([fourHourTs, hourData]) => {
+    const fourHourStart = Number(fourHourTs);
+
+    const hours = Array.from({ length: 4 }, (_, i) => {
+      const hourTs = fourHourStart + i * ONE_HOUR;
+
+      const hour = dayjs.unix(hourTs).format("HH:00");
+
+      const stats = hourData[hourTs] || { totalUpCount: 0, dataPoints: 0 };
+
+      return {
+        hour,
+        totalUpCount: stats.totalUpCount,
+        dataPoints: stats.dataPoints,
+      };
+    });
+
+    return {
+      // timeRange: `${dayjs
+      //   .unix(fourHourStart)
+      //   .format("YYYY-MM-DD HH:00")} - ${dayjs
+      //   .unix(fourHourStart + 3 * ONE_HOUR)
+      //   .format("HH:00")}`,
+      hours,
+    };
+  });
+
+  return resultList;
+}

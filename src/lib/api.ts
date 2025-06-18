@@ -314,6 +314,58 @@ const backendApi = {
     );
     return response.data.data;
   },
+
+  // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/uptime/list
+
+  currentUpTime: async (nodeId?: string) => {
+    if (!nodeId) return;
+    const response = await Api.get<
+      RES<{
+        lastUpdateTimestamp: string;
+        list: { timestamp: number; uptimeCount: number }[];
+      }>
+    >(`${prefixUrl}${nodeId}/uptime/list`);
+    return response.data.data;
+  },
+  // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/volume/list
+
+  currentUpVolume: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<
+      RES<{
+        lastUpdateTimestamp: string;
+        list: { timestamp: number; volume: number }[];
+      }>
+    >(`${prefixUrl}${nodeId}/volume/list`);
+    return response.data.data;
+  },
+  // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/packageLoss/list
+
+  currentUpPackageLoss: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<
+      RES<{
+        lastUpdateTimestamp: string;
+        list: { timestamp: number; packageLostPercent: number }[];
+      }>
+    >(`${prefixUrl}${nodeId}/packageLoss/list`);
+    return response.data.data;
+  },
+
+  // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/averageDelay/list
+  currentUpAverageDelay: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<
+      RES<{
+        lastUpdateTimestamp: string;
+        list: { timestamp: number; averageDelay: number }[];
+      }>
+    >(`${prefixUrl}${nodeId}/averageDelay/list`);
+    return response.data.data;
+  },
 };
 
 export default backendApi;

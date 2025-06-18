@@ -7,11 +7,13 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import {
+  covertCurrentUpTime,
   covertText,
   formatNumber,
   generateDateList,
   generateLast15DaysRange,
   getCurrentDate,
+  groupByHourBlocks,
   isIPv6,
   shortenMiddle,
 } from "@/lib/utils";
@@ -137,15 +139,18 @@ const ANodeInfo: FC<{
     enabled: false,
     queryFn: async () => {
 
-      const [detail, countRewards] = await Promise.all([
+      const [detail, countRewards, upTime, upVolume, upPackageLoss, upAverageDelay] = await Promise.all([
         backendApi.getNodeInfoByNodeId(nId),
         backendApi.countRewards(nId),
-
+        backendApi.currentUpTime(nId),
+        backendApi.currentUpVolume(nId),
+        backendApi.currentUpPackageLoss(nId),
+        backendApi.currentUpAverageDelay(nId),
       ]);
       setNodeName(detail.nodeName);
       nodeInfo(detail);
       setIsInitialLoading(false)
-      return { detail, countRewards };
+      return { detail, countRewards, upTime, upVolume, upPackageLoss, upAverageDelay };
     },
     refetchOnWindowFocus: true,
   });
@@ -181,13 +186,17 @@ const ANodeInfo: FC<{
   });
 
 
+
   const chartOpt = useMemo(() => {
     if (!width) return {};
     const datas = result.data || [];
 
     const xData = datas.map((item: { date: string }) =>
       dayjs(item.date).format("MMM") + dayjs(item.date).format("D")
+
     );
+
+
     const yData = datas.map((item: { total: number }) =>
       _.toNumber(item.total)
     );
@@ -445,7 +454,7 @@ const ANodeInfo: FC<{
               </div>
             </TitCard>
 
-            <AStats />
+            <AStats detailInfo={detailInfo} />
 
           </div>
           <div className="w-[378px] rightTab h-fit smd:w-full ">
