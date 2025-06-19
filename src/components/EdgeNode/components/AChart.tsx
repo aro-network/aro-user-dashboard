@@ -23,6 +23,11 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
   const endValue = xData.length - 1;
   const startValue = Math.max(0, endValue - showCount);
 
+  const currentUnit: any = {
+    '#FDB600': '%',
+    '#4281FF': 'ms',
+    '#34A853': '%',
+  }
   const chartOpt = useMemo(() => {
     return {
 
@@ -36,6 +41,8 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
         trigger: "axis",
 
         formatter: (params: any,) => {
+          console.log('asdasdasdasdasdasdas', params);
+
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
             "background-color:#00E42A",
@@ -43,9 +50,9 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
             "flex-direction: column-reverse "
 
           )}
-          ${formatNumber(params[0].data)}
+          ${formatNumber(params[0].data)} ${currentUnit[params[0].color] || ''} 
           <div>
-          ${params[0].axisValue}
+           ${params[0].axisValue}
           </div>
 
           </div>`;
@@ -58,6 +65,9 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
         type: 'category',
         data: xData,
         boundaryGap: [0, "10%"],
+        axisTick: {
+          alignWithLabel: true
+        },
         axisLabel: {
           color: '#FFFFFF80', fontSize: 10, interval: 0,
           formatter: (value: string) => dayjs(value).format('HH:00')
@@ -67,18 +77,23 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
       yAxis: {
         type: "value",
         name,
-        boundaryGap: [0, "10%"],
+        boundaryGap: [0, "20%"],
         splitLine: {
           lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.05 }
         },
         axisLabel: {
-          color: "rgba(255,255,255,0.5)", formatter: (value: number) => numbro(value)
-            .format({
+          color: "rgba(255,255,255,0.5)",
+          formatter: (value: number) => {
+            console.log('cadasdasdasda', value);
+
+            return numbro(value).format({
               mantissa: 2,
               trimMantissa: true,
               average: value >= 1000,
             })
-            .toUpperCase(),
+              .toUpperCase()
+          }
+          ,
         },
       },
       grid: {
@@ -86,7 +101,7 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
         right: 0,
         top: 30,
         bottom: 70,
-        show: false
+        show: false,
 
       },
       dataZoom: [
@@ -135,7 +150,7 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
     }
   }, [width, groupedData]);
 
-  return <EChartsReact style={{ height: '10rem' }} className="!w-full  !h-[12.5rem]" option={chartOpt} />
+  return <EChartsReact style={{ height: '12.5rem' }} className="!w-full  !h-[12.5rem]" option={chartOpt} />
 };
 
 
