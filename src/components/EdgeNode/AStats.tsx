@@ -3,7 +3,7 @@ import { TitCard } from "../cards";
 import { useDebounceMeasureWidth } from "./AOverview";
 import { FC, useState } from "react";
 import AChart from "./components/AChart";
-import { covertCurrentUpTime } from "@/lib/utils";
+import { groupByHour } from "@/lib/utils";
 import dayjs from "dayjs";
 
 const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
@@ -13,27 +13,27 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
 
 
 
-  const upTime = covertCurrentUpTime(detailInfo?.upTime?.list,
+  const upTime = groupByHour(detailInfo?.upTime?.list,
     'timestamp',
     'uptimeCount',
   )
-  const upLoadVol = covertCurrentUpTime(detailInfo?.upVolume?.list, 'timestamp',
+  const upLoadVol = groupByHour(detailInfo?.upVolume?.list, 'timestamp',
     'volume'
   )
 
-  const packageLoss = covertCurrentUpTime(detailInfo?.upPackageLoss?.list, 'timestamp',
+  const packageLoss = groupByHour(detailInfo?.upPackageLoss?.list, 'timestamp',
     'packageLostPercent')
 
-  const averageDelay = covertCurrentUpTime(detailInfo?.upAverageDelay?.list, 'timestamp', 'averageDelay')
+  const averageDelay = groupByHour(detailInfo?.upAverageDelay?.list, 'timestamp', 'averageDelay')
 
-  console.log('asdasdasdas', upTime, upLoadVol, packageLoss, averageDelay);
+
 
 
 
   return (
     <>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5 ">
+      <div className="grid grid-cols-1  lg:grid-cols-2  gap-5 py-5 ">
         <TitCard
           contentClassName="flex flex-col  !items-start"
           tit={'24H Uptime'}

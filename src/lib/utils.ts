@@ -303,3 +303,32 @@ export function covertCurrentUpTime<T extends Record<string, any>>(
 
   return resultList;
 }
+
+type HourlyGroup = {
+  hour: string; // 格式: YYYY-MM-DD HH:00:00
+  total: number;
+};
+
+export function groupByHour<T extends Record<string, any>>(
+  data: T[],
+  dateFiled: string,
+  countFiled: string
+): HourlyGroup[] {
+  const grouped: Record<string, number> = {};
+
+  data.forEach((item) => {
+    const hourStr = dayjs(item[dateFiled] * 1000)
+      .startOf("hour")
+      .format("YYYY-MM-DD HH:00:00");
+    if (!grouped[hourStr]) {
+      grouped[hourStr] = 0;
+    }
+    grouped[hourStr] += item[countFiled];
+  });
+
+  const result: HourlyGroup[] = Object.entries(grouped)
+    .map(([hour, total]) => ({ hour, total }))
+    .sort((a, b) => new Date(a.hour).getTime() - new Date(b.hour).getTime());
+
+  return result;
+}

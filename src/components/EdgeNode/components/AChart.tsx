@@ -3,35 +3,32 @@ import EChartsReact from "echarts-for-react";
 import _ from "lodash";
 import numbro from "numbro";
 import { formatNumber } from "@/lib/utils";
-import { useDebounceMeasureWidth } from "../AOverview";
+import dayjs from "dayjs";
 
-const AChart = ({ groupedData, color, name, width }: { groupedData: any[], color: string, name: string, width: number }) => {
+const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], color: string, name: string, width: number }) => {
 
-
-  console.log('widthwidthwidthwidth', width);
-
-  const data = groupedData.flatMap((item) => {
-    return item.hours
-  }) || []
+  const data = groupedData
 
 
   const xData = data.map((item: { hour: string }) =>
-    item.hour
+    dayjs(item.hour).format('MM-DD HH:00')
   );
-  const yData = data.map((item: { totalUpCount: number }) =>
-    _.toNumber(item.totalUpCount)
+  const yData = data.map((item: { total: number }) =>
+    _.toNumber(item.total)
   );
 
 
 
 
-  const showCount = Math.floor(width / 30);
+  const showCount = Math.floor(width / 90);
   const endValue = xData.length - 1;
   const startValue = Math.max(0, endValue - showCount);
 
   const chartOpt = useMemo(() => {
     return {
 
+      animation: true,
+      animationDuration: 200,
       legend: {
         textStyle: { color: '#FFFFFF' }
       },
@@ -61,7 +58,7 @@ const AChart = ({ groupedData, color, name, width }: { groupedData: any[], color
       yAxis: {
         type: "value",
         name,
-
+        boundaryGap: [0, "10%"],
         splitLine: {
           lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.05 }
         },
@@ -79,7 +76,9 @@ const AChart = ({ groupedData, color, name, width }: { groupedData: any[], color
         left: 40,
         right: 0,
         top: 30,
-        bottom: 70
+        bottom: 70,
+        show: false
+
       },
       dataZoom: [
         {
@@ -107,7 +106,12 @@ const AChart = ({ groupedData, color, name, width }: { groupedData: any[], color
           symbolSize: 8,
           itemStyle: {
             color
+
           },
+
+          barWidth: 30,
+          barMinWidth: 30,
+          barCategoryGap: 30,
           // areaStyle: {}
 
 
