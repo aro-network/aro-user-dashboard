@@ -323,7 +323,7 @@ export function groupByHour<T extends Record<string, any>>(
     if (!grouped[hourStr]) {
       grouped[hourStr] = 0;
     }
-    grouped[hourStr] += item[countFiled];
+    grouped[hourStr] += Number(item[countFiled]);
   });
 
   const result: HourlyGroup[] = Object.entries(grouped)

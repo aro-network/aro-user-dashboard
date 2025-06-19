@@ -7,7 +7,6 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import {
-  covertCurrentUpTime,
   covertText,
   formatNumber,
   generateDateList,
@@ -25,7 +24,6 @@ import {
   getLocalTimeZone,
   today,
 } from "@internationalized/date";
-import { I18nProvider } from "@react-aria/i18n";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { ConfirmDialog } from "@/components/dialogimpls";
 import { useSearchParams } from "next/navigation";
@@ -211,17 +209,12 @@ const ANodeInfo: FC<{
           type: "shadow",
         },
         formatter: (params: any) => {
-          // console.info("params:", params)
-          // <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0,0,0,0);"></span>
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
             "background-color:#00E42A"
           )}${formatNumber(params[0].data)}</div>`;
         },
       },
-      // grid: { left: 40, top: 10, bottom: 30, right: 20, },
-
-
       grid: {
         left: 40,
         right: 0,
@@ -256,7 +249,8 @@ const ANodeInfo: FC<{
         // max: (value: number) => value * 1.2,
 
         axisLabel: {
-          color: "rgba(255,255,255,0.5)", formatter: (value: number) => numbro(value)
+          color: "rgba(255,255,255,0.5)",
+          formatter: (value: number) => numbro(value)
             .format({
               mantissa: 2,
               trimMantissa: true,

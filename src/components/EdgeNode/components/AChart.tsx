@@ -13,14 +13,13 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
   const xData = data.map((item: { hour: string }) =>
     dayjs(item.hour).format('MM-DD HH:00')
   );
+
   const yData = data.map((item: { total: number }) =>
     _.toNumber(item.total)
   );
 
 
-
-
-  const showCount = Math.floor(width / 90);
+  const showCount = Math.floor(width / 60);
   const endValue = xData.length - 1;
   const startValue = Math.max(0, endValue - showCount);
 
@@ -36,13 +35,20 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
       tooltip: {
         trigger: "axis",
 
-        formatter: (params: any) => {
-          // console.info("params:", params)
-          // <span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:rgba(0,0,0,0);"></span>
+        formatter: (params: any,) => {
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
-            "background-color:#00E42A"
-          )}${formatNumber(params[0].data)}</div>`;
+            "background-color:#00E42A",
+            "display: flex",
+            "flex-direction: column-reverse "
+
+          )}
+          ${formatNumber(params[0].data)}
+          <div>
+          ${params[0].axisValue}
+          </div>
+
+          </div>`;
         },
       },
       // dataset: {
@@ -51,10 +57,13 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
       xAxis: {
         type: 'category',
         data: xData,
-        axisLabel: { color: '#FFFFFF80', fontSize: 10, interval: 0, },
+        boundaryGap: [0, "10%"],
+        axisLabel: {
+          color: '#FFFFFF80', fontSize: 10, interval: 0,
+          formatter: (value: string) => dayjs(value).format('HH:00')
+        },
         axisLine: { lineStyle: { color: '#FFFFFF0D' } }
       },
-
       yAxis: {
         type: "value",
         name,
