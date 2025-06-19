@@ -13,7 +13,6 @@ import {
   generateDateList,
   generateLast15DaysRange,
   getCurrentDate,
-  groupByHourBlocks,
   isIPv6,
   shortenMiddle,
 } from "@/lib/utils";
