@@ -305,7 +305,7 @@ export function covertCurrentUpTime<T extends Record<string, any>>(
 }
 
 type HourlyGroup = {
-  hour: string; // 格式: YYYY-MM-DD HH:00:00
+  hour: string;
   total: number;
 };
 
@@ -323,6 +323,7 @@ export function groupByHour<T extends Record<string, any>>(
     if (!grouped[hourStr]) {
       grouped[hourStr] = 0;
     }
+
     grouped[hourStr] += Number(item[countFiled]);
   });
 

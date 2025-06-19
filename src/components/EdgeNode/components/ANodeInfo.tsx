@@ -212,7 +212,13 @@ const ANodeInfo: FC<{
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
             "background-color:#00E42A"
-          )}${formatNumber(params[0].data)}</div>`;
+          )}
+          ${formatNumber(params[0].data)}
+          <div>
+          ${params[0].axisValue} ( UTC0 Time )
+          </div>
+
+          </div>`;
         },
       },
       grid: {
@@ -428,13 +434,15 @@ const ANodeInfo: FC<{
               contentClassName={(' smd:flex-wrap smd:gap-[.625rem]')}
               right={
                 <div className=" !text-sm ">
-                  <DateRangePicker
-                    className="!w-full !text-2xl custom-date-picker"
-                    showMonthAndYearPickers={true}
-                    value={chooseDate as any}
-                    onChange={handleChange as any}
-                    maxValue={today(getLocalTimeZone())}
-                  />
+                  <HelpTip content={'UTC0 Time'} >
+                    <DateRangePicker
+                      className="!w-full !text-2xl custom-date-picker"
+                      showMonthAndYearPickers={true}
+                      value={chooseDate as any}
+                      onChange={handleChange as any}
+                      maxValue={today(getLocalTimeZone())}
+                    />
+                  </HelpTip>
                 </div>
               }
             >
@@ -563,7 +571,11 @@ const ANodeInfo: FC<{
               <InfoCard title="Basics" height="h-[278px]">
                 <InfoRow
                   label="Create Date"
-                  value={dayjs(Number(detailInfo?.detail.createTimestamp || 0) * 1000).format("YYYY-MM-DD")}
+                  value={
+                    <HelpTip content={'UTC0 Time'} >
+                      {dayjs(Number(detailInfo?.detail.createTimestamp || 0) * 1000).format("YYYY-MM-DD")}
+                    </HelpTip>
+                  }
                 />
                 <InfoRow
                   label="Device"

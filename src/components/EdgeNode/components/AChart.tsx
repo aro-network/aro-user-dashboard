@@ -41,8 +41,6 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
         trigger: "axis",
 
         formatter: (params: any,) => {
-          console.log('asdasdasdasdasdasdas', params);
-
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
             "background-color:#00E42A",
@@ -50,9 +48,9 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
             "flex-direction: column-reverse "
 
           )}
-          ${formatNumber(params[0].data)} ${currentUnit[params[0].color] || ''} 
+          ${parseFloat(formatNumber(params[0].data))}${currentUnit[params[0].color] || ''}  
           <div>
-           ${params[0].axisValue}
+           ${params[0].axisValue} ( UTC0 Time )
           </div>
 
           </div>`;
@@ -84,14 +82,8 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
         axisLabel: {
           color: "rgba(255,255,255,0.5)",
           formatter: (value: number) => {
-            console.log('cadasdasdasda', value);
 
-            return numbro(value).format({
-              mantissa: 2,
-              trimMantissa: true,
-              average: value >= 1000,
-            })
-              .toUpperCase()
+            return name === 'Volume(MB)' ? parseFloat(formatNumber(value)) : value
           }
           ,
         },
