@@ -5,7 +5,7 @@ import numbro from "numbro";
 import { formatNumber } from "@/lib/utils";
 import dayjs from "dayjs";
 
-const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], color: string, name: string, width: number }) => {
+const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { groupedData: any[], filed?: string, color: string, name: string, width: number }) => {
 
   const data = groupedData
 
@@ -15,8 +15,9 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
 
   );
 
-  const yData = data.map((item: { total: number }) =>
-    _.toNumber(item.total)
+
+
+  const yData = data.map((item) => item[filed]
   );
 
 
@@ -24,11 +25,6 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
   const endValue = xData.length - 1;
   const startValue = Math.max(0, endValue - showCount);
 
-  const currentUnit: any = {
-    '#FDB600': '%',
-    '#4281FF': 'ms',
-    '#34A853': '%',
-  }
   const chartOpt = useMemo(() => {
     return {
 

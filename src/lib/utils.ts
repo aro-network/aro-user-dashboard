@@ -239,71 +239,6 @@ export const sortIp = (network: any[]) => {
   });
 };
 
-const FOUR_HOURS = 4 * 60 * 60;
-const ONE_HOUR = 60 * 60;
-
-export function covertCurrentUpTime<T extends Record<string, any>>(
-  data: T[] = [],
-  dateFiled: string,
-  countFiled: string
-) {
-  const grouped: Record<
-    number,
-    Record<number, { totalUpCount: number; dataPoints: number }>
-  > = {};
-
-  data.forEach((item) => {
-    const dateValue = item[dateFiled] as number;
-    const uptimeCount = item[countFiled] as number;
-
-    const fourHourStart = Math.floor(dateValue / FOUR_HOURS) * FOUR_HOURS;
-    const hourStart = Math.floor(dateValue / ONE_HOUR) * ONE_HOUR; // 这里改成 dateValue
-
-    if (!grouped[fourHourStart]) {
-      grouped[fourHourStart] = {};
-    }
-
-    if (!grouped[fourHourStart][hourStart]) {
-      grouped[fourHourStart][hourStart] = {
-        totalUpCount: 0,
-        dataPoints: 0,
-      };
-    }
-
-    grouped[fourHourStart][hourStart].totalUpCount += Number(uptimeCount);
-    grouped[fourHourStart][hourStart].dataPoints += 1;
-  });
-
-  const resultList = Object.entries(grouped).map(([fourHourTs, hourData]) => {
-    const fourHourStart = Number(fourHourTs);
-
-    const hours = Array.from({ length: 4 }, (_, i) => {
-      const hourTs = fourHourStart + i * ONE_HOUR;
-
-      const hour = dayjs.unix(hourTs).format("HH:00");
-
-      const stats = hourData[hourTs] || { totalUpCount: 0, dataPoints: 0 };
-
-      return {
-        hour,
-        totalUpCount: stats.totalUpCount,
-        dataPoints: stats.dataPoints,
-      };
-    });
-
-    return {
-      // timeRange: `${dayjs
-      //   .unix(fourHourStart)
-      //   .format("YYYY-MM-DD HH:00")} - ${dayjs
-      //   .unix(fourHourStart + 3 * ONE_HOUR)
-      //   .format("HH:00")}`,
-      hours,
-    };
-  });
-
-  return resultList;
-}
-
 type HourlyGroup = {
   hour: string;
   total: number;
@@ -332,4 +267,118 @@ export function groupByHour<T extends Record<string, any>>(
     .sort((a, b) => new Date(a.hour).getTime() - new Date(b.hour).getTime());
 
   return result;
+}
+
+export function groupPackageOrDelayByHour(
+  data: {
+    timestamp: number | string;
+    packageLostPercent?: string;
+    averageDelay?: number;
+  }[]
+) {
+  const result: {
+    hour: string;
+    averagePackageLostPercent: string;
+    averageDelay: number;
+  }[] = [];
+
+  const grouped: Record<
+    string,
+    {
+      totalLoss: number;
+      lossCount: number;
+      totalDelay: number;
+      delayCount: number;
+    }
+  > = {};
+
+  for (const item of data) {
+    const timestamp = Number(item.timestamp);
+    const date = new Date(timestamp * 1000);
+    const hourKey = `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:00`;
+
+    if (!grouped[hourKey]) {
+      grouped[hourKey] = {
+        totalLoss: 0,
+        lossCount: 0,
+        totalDelay: 0,
+        delayCount: 0,
+      };
+    }
+
+    if (typeof item.packageLostPercent === "string") {
+      const loss = Number(item.packageLostPercent);
+      if (!isNaN(loss)) {
+        grouped[hourKey].totalLoss += loss;
+        grouped[hourKey].lossCount += 1;
+      }
+    }
+
+    if (typeof item.averageDelay === "number") {
+      grouped[hourKey].totalDelay += item.averageDelay;
+      grouped[hourKey].delayCount += 1;
+    }
+  }
+
+  for (const [
+    hour,
+    { totalLoss, lossCount, totalDelay, delayCount },
+  ] of Object.entries(grouped)) {
+    const avgLoss = lossCount > 0 ? totalLoss / lossCount : 0;
+    const avgDelay = delayCount > 0 ? totalDelay / delayCount : 0;
+
+    const formattedLoss =
+      avgLoss <= 0.01 ? "0" : `${parseFloat(avgLoss.toFixed(1))}`;
+
+    result.push({
+      hour,
+      averagePackageLostPercent: formattedLoss,
+      averageDelay: Math.round(avgDelay),
+    });
+  }
+
+  return result.sort(
+    (a, b) => new Date(a.hour).getTime() - new Date(b.hour).getTime()
+  );
+}
+
+export function groupVolumeByHourInMB(
+  data: { timestamp: number; volume: number }[]
+) {
+  const result: { hour: string; totalVolumeMB: string }[] = [];
+  const grouped: Record<string, number> = {};
+
+  for (const item of data) {
+    const date = new Date(item.timestamp * 1000);
+    const hourKey = `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:00`;
+
+    if (!grouped[hourKey]) {
+      grouped[hourKey] = 0;
+    }
+
+    grouped[hourKey] += Number(item.volume);
+    console.log("adasdasda", item.volume);
+  }
+
+  for (const [hour, totalBytes] of Object.entries(grouped)) {
+    const totalMB = totalBytes / (1024 * 1024);
+    result.push({
+      hour,
+      totalVolumeMB: `${totalMB.toFixed(2)}`,
+    });
+  }
+
+  return result.sort(
+    (a, b) => new Date(a.hour).getTime() - new Date(b.hour).getTime()
+  );
 }
