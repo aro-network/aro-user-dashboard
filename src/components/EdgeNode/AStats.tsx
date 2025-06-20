@@ -48,14 +48,14 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
       tit: '24H Package Loss',
       rightTit: <>{dayjs(Number(detailInfo.upPackageLoss.lastUpdateTimestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss")} Updated</>,
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
-        <AChart groupedData={packageLoss} color={'#4281FF'} name="Delay(ms)" width={width} />
+        <AChart groupedData={packageLoss} color={'#4281FF'} name="Loss(%)" width={width} />
       </div>
     },
     {
       tit: '24H Average Delay',
       rightTit: <>{dayjs(Number(detailInfo.upAverageDelay.lastUpdateTimestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss")} Updated</>,
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
-        <AChart groupedData={averageDelay} color={'#34A853'} name="Loss(%)" width={width} />
+        <AChart groupedData={averageDelay} color={'#34A853'} name="Delay(ms)" width={width} />
       </div>
     },
   ]

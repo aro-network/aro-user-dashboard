@@ -51,7 +51,7 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
           )}
           
           
-          ${parseFloat(formatNumber(params[0].data))}${currentUnit[params[0].color] || ''}  
+          ${parseFloat(formatNumber(params[0].data))}
           <div>
                
           
