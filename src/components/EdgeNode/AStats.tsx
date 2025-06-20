@@ -20,9 +20,13 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
   const packageLoss = groupByHour(detailInfo?.upPackageLoss?.list, 'timestamp',
     'packageLostPercent')
 
-  const averageDelay = groupByHour(detailInfo?.upAverageDelay?.list, 'timestamp', 'averageDelay')
+  const mock = () => {
+    return packageLoss.map((item) => {
+      return { ...item, total: 0 }
+    })
+  }
 
-
+  const averageDelay = !detailInfo?.upAverageDelay?.list.length ? mock() : groupByHour(detailInfo?.upAverageDelay?.list, 'timestamp', 'averageDelay') || []
 
 
   const chartCardList = [
