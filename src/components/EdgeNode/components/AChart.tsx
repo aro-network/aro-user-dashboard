@@ -12,6 +12,7 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
 
   const xData = data.map((item: { hour: string }) =>
     dayjs(item.hour).format('MM-DD HH:00')
+
   );
 
   const yData = data.map((item: { total: number }) =>
@@ -48,13 +49,18 @@ const AChart = ({ groupedData = [], color, name, width }: { groupedData: any[], 
             "flex-direction: column-reverse "
 
           )}
+          
+          
           ${parseFloat(formatNumber(params[0].data))}${currentUnit[params[0].color] || ''}  
           <div>
-           ${params[0].axisValue} ( UTC0 Time )
+               
+          
+           ${dayjs(params[0].axisValue).format("MMM") + dayjs(params[0].axisValue).format("D")} ( UTC0 Time )
           </div>
 
           </div>`;
         },
+        confine: true,
       },
       // dataset: {
       //   source: datasetSource
