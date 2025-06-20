@@ -47,10 +47,8 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
           )}
           
           
-          ${parseFloat(formatNumber(params[0].data))}
+          ${params[0].data}
           <div>
-               
-          
            ${dayjs(params[0].axisValue).format("MMM") + dayjs(params[0].axisValue).format("D")} ( UTC0 Time )
           </div>
 

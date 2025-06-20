@@ -3,7 +3,7 @@ import { TitCard } from "../cards";
 import { useDebounceMeasureWidth } from "./AOverview";
 import { FC, useState } from "react";
 import AChart from "./components/AChart";
-import { groupByHour, groupPackageOrDelayByHour, groupVolumeByHourInMB } from "@/lib/utils";
+import { groupByHour, groupPackageByHour, groupPackageOrDelayByHour, groupVolumeByHourInMB } from "@/lib/utils";
 import dayjs from "dayjs";
 
 const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
@@ -12,7 +12,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
   const upTime = groupByHour(detailInfo?.upTime?.list, 'timestamp', 'uptimeCount')
   const upLoadVol = groupVolumeByHourInMB(detailInfo?.upVolume?.list)
 
-  const packageLoss = groupPackageOrDelayByHour(detailInfo?.upPackageLoss?.list)
+  const packageLoss = groupPackageByHour(detailInfo?.upPackageLoss?.list)
 
 
   const mock = () => {
@@ -20,6 +20,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
       return { ...item, total: 0 }
     })
   }
+
 
   const averageDelay = !detailInfo?.upAverageDelay?.list.length ? mock() : groupPackageOrDelayByHour(detailInfo?.upAverageDelay?.list) || []
 

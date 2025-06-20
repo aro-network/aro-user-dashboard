@@ -347,6 +347,34 @@ export function groupPackageOrDelayByHour(
   );
 }
 
+export function groupPackageByHour(
+  data: {
+    timestamp: number;
+    packageLostPercent: string;
+  }[]
+) {
+  const grouped: Record<string, { total: number; count: number }> = {};
+
+  data.forEach((item) => {
+    const loss = parseFloat(item.packageLostPercent);
+    if (loss === 0) return;
+
+    const hourKey = dayjs.unix(item.timestamp).format("YYYY-MM-DD HH:00:00");
+
+    if (!grouped[hourKey]) {
+      grouped[hourKey] = { total: 0, count: 0 };
+    }
+
+    grouped[hourKey].total += loss;
+    grouped[hourKey].count += 1;
+  });
+
+  return Object.entries(grouped).map(([hour, { total, count }]) => ({
+    hour,
+    averagePackageLostPercent: count > 0 ? (total / count).toFixed(2) : "0.00",
+  }));
+}
+
 export function groupVolumeByHourInMB(
   data: { timestamp: number; volume: number }[]
 ) {
@@ -367,7 +395,6 @@ export function groupVolumeByHourInMB(
     }
 
     grouped[hourKey] += Number(item.volume);
-    console.log("adasdasda", item.volume);
   }
 
   for (const [hour, totalBytes] of Object.entries(grouped)) {
