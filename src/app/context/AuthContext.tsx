@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useDisclosure } from "@nextui-org/react";
+import { getInjectAROAI } from "@/lib/ext";
 
 
 interface UseDisclosureProps {
@@ -93,6 +94,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     wrapSetUser();
   };
 
+  useEffect(() => {
+    let e: NodeJS.Timeout;
+    console.info('useruseruseruser', user);
+
+    if (user && user.token) {
+      e = setInterval(() => {
+        const injectedEnReachAI = getInjectAROAI();
+
+        console.log('adsadasdasdasdasdads', injectedEnReachAI);
+
+        if (!injectedEnReachAI) {
+          console.warn(`Extension not installed`);
+          return;
+        }
+        injectedEnReachAI
+          .request({
+            name: "getStat",
+          })
+          .then((stat: { logined: boolean; userLogout: boolean }) => {
+
+            console.info('statstatstatstat', stat);
+
+
+            if (!stat.logined) {
+              console.info("sync logout from ext");
+              logout();
+            }
+          })
+          .catch((e) => {
+            console.log('eeeqeqweqweq', e);
+
+          })
+      }, 1000);
+    }
+    return () => clearInterval(e);
+  }, [user]);
 
   const login = async (credentials: { email: string; password: string }) => {
     try {
