@@ -81,11 +81,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       refIsLogout.current = true;
       setUser(null);
       removeItem(storageKey);
+      getInjectAROAI()?.request({ name: "clearAccessToken" }).catch(console.error);
       r.push("/signin");
     } else {
       refIsLogout.current = false;
       setUser(u);
       setItem(storageKey, JSON.stringify(u));
+      if (u.token) {
+        getInjectAROAI()?.request({ name: "setAccessToken", body: u.token }).catch(console.error);
+      }
       r.push(redirect ? redirect : "/");
     }
   };
