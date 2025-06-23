@@ -1,10 +1,11 @@
 import { cn } from "@nextui-org/react";
 import { TitCard } from "../cards";
 import { useDebounceMeasureWidth } from "./AOverview";
-import { FC, useState } from "react";
+import { FC } from "react";
 import AChart from "./components/AChart";
 import { groupByHour, groupPackageByHour, groupPackageOrDelayByHour, groupVolumeByHourInMB } from "@/lib/utils";
 import dayjs from "dayjs";
+
 
 const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
@@ -17,10 +18,9 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
 
   const mock = () => {
     return packageLoss.map((item) => {
-      return { ...item, total: 0 }
+      return { ...item, averageDelay: 0 }
     })
   }
-
 
   const averageDelay = !detailInfo?.upAverageDelay?.list.length ? mock() : groupPackageOrDelayByHour(detailInfo?.upAverageDelay?.list) || []
 
@@ -63,7 +63,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
 
       <div className="grid grid-cols-1  lg:grid-cols-2  gap-5 py-5 ">
         {chartCardList.map((item) => {
-          return <TitCard
+          return <TitCard key={item.tit}
             contentClassName="flex flex-wrap !items-start"
             tit={item.tit}
             titClassName="text-sm"
