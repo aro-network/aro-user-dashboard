@@ -6,16 +6,12 @@ import AChart from "./components/AChart";
 import { groupByHour, groupPackageByHour, groupPackageOrDelayByHour, groupVolumeByHourInMB } from "@/lib/utils";
 import dayjs from "dayjs";
 
-
 const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
 
   const upTime = groupByHour(detailInfo?.upTime?.list, 'timestamp', 'uptimeCount')
   const upLoadVol = groupVolumeByHourInMB(detailInfo?.upVolume?.list)
-
   const packageLoss = groupPackageByHour(detailInfo?.upPackageLoss?.list)
-
-
   const mock = () => {
     return packageLoss.map((item) => {
       return { ...item, averageDelay: 0 }
@@ -30,7 +26,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
       tit: '24H Uptime',
       rightTit: <>{dayjs(Number(detailInfo.upTime.lastUpdateTimestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss")} Updated</>,
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
-        <AChart groupedData={upTime} color={'#FDB600'} name={'Uptime(h)'} width={width} />
+        <AChart groupedData={upTime} color={'#FDB600'} name={'Uptime(H)'} width={width} />
       </div>
     },
     {
@@ -51,7 +47,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
       tit: '24H Average Delay',
       rightTit: <>{dayjs(Number(detailInfo.upAverageDelay.lastUpdateTimestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss")} Updated</>,
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
-        <AChart groupedData={averageDelay} color={'#34A853'} name="Delay(ms)" width={width} filed="averageDelay" />
+        <AChart groupedData={averageDelay} color={'#34A853'} name="Delay(MS)" width={width} filed="averageDelay" />
       </div>
     },
   ]
