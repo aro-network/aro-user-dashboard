@@ -15,8 +15,6 @@ import { debounce } from "lodash";
 import { AllText } from "@/lib/allText";
 import { ForceModal } from "../dialogs";
 
-
-
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>("");
@@ -26,7 +24,6 @@ const ANodes = () => {
   const r = useRouter()
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
-  const ac = useAuthContext();
   const nId = params.get("nId") || ''
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [openLink, setOpenLink] = useState('')
@@ -112,10 +109,12 @@ const ANodes = () => {
     const type = params.get("chooseType");
     const obj: { [key: 'box' | 'x86' | string]: string } = {
       box: 'Aro Pod',
-      x86: 'Aro Client',
+      client: 'Aro Client',
       lite: 'Aro Lite',
       link: 'Aro Link'
     }
+
+
 
     if (showAdd) {
       setOpenAddNode(showAdd);
@@ -140,7 +139,6 @@ const ANodes = () => {
 
   const closeAll = () => {
     setIsInitialLoading(true)
-
     addRef.current?.switchTo();
     setUnbingInfo('')
     setSelectedType("");
@@ -152,7 +150,6 @@ const ANodes = () => {
     refetchRes()
 
   }
-
 
   return (
     <>
@@ -260,8 +257,6 @@ const ANodes = () => {
                 <div className=" text-lg ">Add Your Edge Node</div>
                 <div className="text-sm text-[#FFFFFF80]">
                   ARO supports both hardware and software Edge Nodes on various platforms. Check <button onClick={() => window.open('https://docs.aro.network/edge-node/types', '_blank')} className="underline underline-offset-1 hover:text-[#00E42A]">our guide</button> to choose the best node type for you.
-
-
                 </div>
                 <Btn
                   className="h-10 w-[11.875rem] flex justify-center text-center rounded-lg text-xs font-medium m-auto"
