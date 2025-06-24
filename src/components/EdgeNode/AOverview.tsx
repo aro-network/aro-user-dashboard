@@ -90,9 +90,6 @@ const AOverview = () => {
     );
 
     const yData = datas.map((item) => _.toNumber(item.total));
-    console.log('xData', xData, yData);
-
-    console.info("width:", width);
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
     const startValue = Math.max(0, endValue - showCount);

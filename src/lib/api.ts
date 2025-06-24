@@ -218,7 +218,7 @@ const backendApi = {
     nodeId?: string,
     nodeName?: string,
     regionCode?: string,
-    deviceType?: "box" | "x86"
+    deviceType?: "box" | "x86" | string
   ) => {
     const response = await Api.post(
       `${prefixUrl}${nodeId}/bind?deviceType=${deviceType}`,

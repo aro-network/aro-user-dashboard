@@ -8,12 +8,14 @@ import backendApi from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
-import { formatNumber, sortIp } from "@/lib/utils";
+import { covertName, formatNumber, sortIp } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/app/context/AuthContext";
 import { debounce } from "lodash";
 import { AllText } from "@/lib/allText";
 import { ForceModal } from "../dialogs";
+
+
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -55,14 +57,15 @@ const ANodes = () => {
       const data = await backendApi.getNodeList();
 
       const list = data.map((item) => {
+
         return {
           nodeType: item.nodeType,
           deviceName: item.nodeName,
           icon: (
             <img
-              src={`./${item.nodeType}.png`}
-              alt={`${item.nodeType}`}
-              className="w-[135px] h-[130px] smd:w-[104px] smd:h-[100px]"
+              src={`./${covertName[item.nodeType]}.png`}
+              alt={`${covertName[item.nodeType]}`}
+              className="w-[135px] h-[130px] smd:w-[104px] smd:h-[100px] object-cover rounded-lg"
             />
           ),
           nodeUUID: item.nodeUUID,
@@ -102,22 +105,24 @@ const ANodes = () => {
 
   useEffect(() => {
     const typeParam = params.get("type");
-
     const showAdd = typeParam === 'add';
     const showDetail = typeParam === 'detail';
     const showDel = typeParam === 'del';
     const showLink = typeParam === 'link';
     const type = params.get("chooseType");
-
-
     const obj: { [key: 'box' | 'x86' | string]: string } = {
-      box: 'Hardware',
-      x86: 'Software'
+      box: 'Aro Pod',
+      x86: 'Aro Client',
+      lite: 'Aro Lite',
+      link: 'Aro Link'
     }
 
     if (showAdd) {
       setOpenAddNode(showAdd);
       updateURL('type', 'add')
+      if (type) {
+        setSelectedType(obj[type]);
+      }
     } else if (showDetail && nId) {
       setUnbingInfo('')
       updateURL('type', 'detail')
@@ -126,8 +131,6 @@ const ANodes = () => {
       updateURL('type', 'del')
     } else if (showLink) {
       updateURL('type', 'link')
-    } else if (type) {
-      setSelectedType(obj[type]);
     } else {
       closeAll()
     }
@@ -149,6 +152,7 @@ const ANodes = () => {
     refetchRes()
 
   }
+
 
   return (
     <>

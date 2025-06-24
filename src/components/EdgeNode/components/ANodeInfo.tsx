@@ -7,6 +7,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useDebounceMeasureWidth } from "../AOverview";
 import {
+  covertName,
   covertText,
   formatNumber,
   generateDateList,
@@ -371,6 +372,12 @@ const ANodeInfo: FC<{
   } else if (chainInfo) {
     info = chainInfo;
   }
+
+  const rewardsList = [
+    { title: 'Total', count: formatNumber(Number(detailInfo?.countRewards.total || 0)) },
+    { title: 'Today', count: + formatNumber(Number(detailInfo?.countRewards.today || 0)) },
+    { title: 'Yesterday', count: + formatNumber(Number(detailInfo?.countRewards.yesterday || 0)) }
+  ]
   return (
     <>
       {!isInitialLoading ? (
@@ -383,45 +390,22 @@ const ANodeInfo: FC<{
               <div className="flex  w-full p-[20px] h-fit    flex-col   gap-[10px] smd:gap-5">
                 <div className="flex w-full justify-between " >
                   <span className="font-semibold text-[16px]  ">Rewards</span>
-
                 </div>
                 <div className="flex justify-between flex-wrap h-full w-full gap-5 ">
-                  <div className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
-                    <span className="font-normal text-[14px] text-[#FFFFFF80]">
-                      Total
-                    </span>
-                    <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[30px]">
-                        {formatNumber(Number(detailInfo?.countRewards.total || 0))}
-                      </span>
-                      <span>Jades</span>
-                    </div>
-                  </div>
-                  <div className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
+                  {rewardsList.map((item) => {
 
-                    <span className="font-normal text-[14px] text-[#FFFFFF80]">
-                      Today
-                    </span>
-                    <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[30px]">
-                        + {formatNumber(Number(detailInfo?.countRewards.today || 0))}
+                    return <div key={`rewards_${item.title}`} className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
+                      <span className="font-normal text-[14px] text-[#FFFFFF80]">
+                        Total
                       </span>
-                      <span>Jades</span>
+                      <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
+                        <span className="text-[30px]">
+                          {formatNumber(Number(detailInfo?.countRewards.total || 0))}
+                        </span>
+                        <span>Jades</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
-
-                    <span className="font-normal text-[14px] text-[#FFFFFF80]">
-                      Yesterday
-                    </span>
-                    <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                      <span className="text-[30px]">
-                        +{" "}
-                        {formatNumber(Number(detailInfo?.countRewards.yesterday || 0))}
-                      </span>
-                      <span>Jades</span>
-                    </div>
-                  </div>
+                  })}
                 </div>
               </div>
             </div>
@@ -467,9 +451,9 @@ const ANodeInfo: FC<{
                 <img
                   width={68}
                   height={68}
-                  src={`../${detailInfo?.detail?.nodeType}.png`}
-                  className=" object-contain"
-                  alt={`${detailInfo?.detail?.nodeType}`}
+                  src={`../${covertName[detailInfo!.detail.nodeType]}.png`}
+                  className=" object-cover rounded-lg"
+                  alt={`${covertName[detailInfo!.detail.nodeType]}`}
                 />
 
 
@@ -620,7 +604,7 @@ const ANodeInfo: FC<{
                 <InfoRow label="CPU Cores" value={detailInfo?.detail.deviceInfo.cpuCores || "-"} />
                 <InfoRow
                   label="CPU Use"
-                  value={`${((detailInfo?.detail.deviceInfo.cpuUse || 0) * 100).toFixed(2)}%`}
+                  value={`${((detailInfo?.detail.deviceInfo.cpuUse || 0)).toFixed(2)}%`}
                 />
                 <InfoRow
                   label="RAM"

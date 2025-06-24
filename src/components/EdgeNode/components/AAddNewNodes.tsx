@@ -4,7 +4,7 @@ import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useEffect, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
-import { covertText, isIPv6, shortenMiddle } from "@/lib/utils"
+import { covertName, covertText, isIPv6, shortenMiddle } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
 import { HelpTip } from "@/components/tips"
@@ -12,25 +12,27 @@ import useMobileDetect from "@/hooks/useMobileDetect"
 import { useRouter, useSearchParams } from "next/navigation";
 import { ENV } from "@/lib/env"
 import { AllText } from "@/lib/allText"
-import { env } from "node:process"
 
 
 const deviceList: Nodes.DeviceType[] = [
-  { iconName: 'Hardware', name: 'Home Box', value: 'box' },
-  { iconName: 'Software', name: 'X86 Server', value: 'x86' },
-]
+  { name: 'ARO Pod', iconName: 'aro-pod', value: 'box' },
+  { name: 'ARO Link', iconName: 'aro-link', value: 'link' },
+  { name: 'ARO Client', iconName: 'aro-client', value: 'client' },
+  { name: 'ARO Lite', iconName: 'aro-lite', value: 'lite' },
 
-const deviceTypeList: { [key: 'box' | 'x86' | string]: Nodes.DeviceType } = {
-  box: { iconName: 'Hardware', name: 'Home Box', value: 'box' },
-  x86: { iconName: 'Software', name: 'X86 Server', value: 'x86' },
+];
+
+const deviceTypeList: { [key: 'box' | 'client' | 'link' | 'lite' | string]: Nodes.DeviceType } = {
+  box: deviceList[0],
+  link: deviceList[1],
+  client: deviceList[2],
+  lite: deviceList[3],
 }
-const HomeBox = ({ stepIndex, homeBoxStep }: { stepIndex: number, homeBoxStep: { content: ReactNode }[] }) => (
-  <div>{homeBoxStep[stepIndex].content}</div>
+
+const CurrentNode = ({ step, typeStep }: { step: number, typeStep: { content: ReactNode }[] }) => (
+  <div>{typeStep[step].content}</div>
 );
 
-const X86 = ({ stepIndex, x86Step }: { stepIndex: number, x86Step: { content: ReactNode }[] }) => (
-  <div>{x86Step[stepIndex].content}</div>
-);
 
 export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMobile: boolean) => {
   const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
@@ -76,9 +78,10 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
 
 
 const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<Nodes.AddType> }> = ({ onBack, onSelectedType, addRef }) => {
-  const [chooseedType, setChooseedType] = useState<Omit<Nodes.DeviceType, 'name'> | undefined>(undefined)
+  const [chooseedType, setChooseedType] = useState<Nodes.DeviceType | undefined>(undefined)
   const [stepIndex, setStepIndex] = useState(0)
   const [stepX86Index, setX86StepIndex] = useState(0)
+  const [stepLiteIndex, setLiteStepIndex] = useState(0)
   const [serialNum, setSerialNum] = useState<{ type?: 'x86' | 'box', num?: string }>()
   const [deviceInfo, setDeviceInfo] = useState<Nodes.DevicesInfo>()
   const [bindInfo, setBindInfo] = useState<{ deviceName: string, regions: Set<string> }>({ deviceName: '', regions: new Set() })
@@ -86,8 +89,19 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const isMobile = useMobileDetect()
   const r = useRouter();
   const searchParams = useSearchParams();
-
   const params = new URLSearchParams(searchParams.toString());
+
+
+  const isMobileDevice = () => {
+    if (typeof window === "undefined") return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  }
+
+
+
+
   const onStepNext = (over?: boolean) => {
     if (!over && deviceInfo?.online === false || deviceInfo?.bindState === "Detected") {
       setStepIndex(0)
@@ -124,6 +138,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setSerialNum({})
         setStepIndex(0);
         setX86StepIndex(0)
+        setLiteStepIndex(0)
+
       },
     }),
     []
@@ -134,7 +150,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     queryKey: ["Regions"],
     queryFn: async () => {
       const res = await backendApi.getRegions()
-
       const result = ENV === 'staging' ? res : res.filter((item: { code: string }) => {
         return item.code === 'AS'
       })
@@ -153,7 +168,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setStepIndex(stepIndex + 1)
       }
     } else if (data?.online === false) {
-      toast.error(AllText.AAddNewNodes.type.step1.error[0].replaceAll('xx', chooseedType?.iconName ?? '-'))
+      toast.error(AllText.AAddNewNodes.type.step1.error[0].replaceAll('xx', chooseedType?.name ?? '-'))
     }
   }
 
@@ -173,7 +188,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         setX86StepIndex(stepX86Index + 1)
       }
     } else if (data?.online === false) {
-      toast.error(AllText.AAddNewNodes.type.step1.error[0].replaceAll('xx', chooseedType?.iconName ?? '-'))
+      toast.error(AllText.AAddNewNodes.type.step1.error[0].replaceAll('xx', chooseedType?.name ?? '-'))
     }
   }
 
@@ -222,7 +237,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
             </div>
             <button className="mt-5 flex w-full justify-center smd:text-left text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
-              {AllText.AAddNewNodes.type.step1.subtitle.replaceAll('xx', chooseedType?.iconName ?? '')}
+              {AllText.AAddNewNodes.type.step1.subtitle.replaceAll('xxx', chooseedType?.name ?? '')}
             </button>
             <Input
               maxLength={30}
@@ -254,7 +269,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
 
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg  bg-white  w-full h-full" alt={`${data?.nodeType}`} />
+                <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-contain rounded-lg  bg-white  w-full h-full" alt={`${covertName[deviceInfo?.nodeType || 'box']}`} />
               </div>
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
@@ -317,7 +332,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              {AllText.AAddNewNodes.type.step4.content.replace('xxx', chooseedType?.iconName ?? '-')}
+              {AllText.AAddNewNodes.type.step4.content.replace('xxx', chooseedType?.name ?? '-')}
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -338,14 +353,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
             <div className="flex w-full font-normal justify-center text-center text-sm leading-5 ">
-              {AllText.AAddNewNodes.type2.first.title.replace('xx', chooseedType?.iconName ?? '-')}
+              {AllText.AAddNewNodes.type2.first.title.replace('xx', chooseedType?.name ?? '-')}
             </div>
             <button onClick={() => window.open('https://docs.aro.network/user-guides/software-setup', '_blank')} className="mt-5  text-center smd:flex justify-center w-full text-sm underline underline-offset-1">
-              {chooseedType?.iconName + AllText.AAddNewNodes.type2.first["Node Installation Guidance"]}
+              {chooseedType?.name + AllText.AAddNewNodes.type2.first["Node Installation Guidance"]}
             </button>
             <div className="mt-5 text-[#FFFFFF80] text-sm text-center">
 
-              {AllText.AAddNewNodes.type2.first["Make sure you have followed the guidance and complete initial network configurations on your Software Node CLI before continue."].replaceAll('xx', chooseedType?.iconName ?? '')}
+              {AllText.AAddNewNodes.type2.first["Make sure you have followed the guidance and complete initial network configurations on your Software Node CLI before continue."].replaceAll('xx', chooseedType?.name ?? '')}
             </div>
             <div className="flex justify-center items-center mt-[.75rem]  flex-col  gap-[.625rem]">
               <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg smd:!h-12" >
@@ -461,7 +476,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               Congratulations!
             </div>
             <div className="text-center text-sm ">
-              {AllText.AAddNewNodes.type.step4.content.replace('xxx', chooseedType?.iconName ?? '-')}
+              {AllText.AAddNewNodes.type.step4.content.replace('xxx', chooseedType?.name ?? '-')}
 
             </div>
 
@@ -476,38 +491,99 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   ]
 
 
+  const liteStep = [
+    {
+      content:
+        <div className="flex w-full flex-col items-center">
+          <div className="w-[37.5rem] smd:w-full">
+            <div className="flex w-full font-normal justify-center text-center text-sm leading-5 ">
+              {AllText.AAddNewNodes.lite.step1.title}
+            </div>
 
-  return <div className="w-full mt-[4.5625rem] smd:mt-12 smd:mb-5 ">
-    <div className=" flex justify-center flex-col md:items-center smd:w-full  w-[55.625rem] m-auto h-full ">
-      {chooseedType?.value === 'x86'
-        ? <div>  <X86 stepIndex={stepX86Index} x86Step={x86Step} /></div>
-        : chooseedType?.value === 'box' ?
-          <HomeBox stepIndex={stepIndex} homeBoxStep={homeBoxStep} /> :
-          <div className="w-full text-center flex flex-col m-auto">
-            <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">
-              {AllText.AAddNewNodes.title}
-            </label>
-            <div className="flex  gap-10 smd:gap-4 mt-10 smd:mt-4 w-full justify-center smd:flex-col  m-auto smd:px-0 px-[3.75rem]">
-              {deviceList.map((item, index) => {
-                return <div onClick={() => {
-                  // if (index && ENV !== 'staging') return
-                  onSelectedType(item.iconName)
-                  setChooseedType(item)
-                  params.set("chooseType", item?.value as 'box' | 'box');
-                  r.push(`?${params.toString()}`);
-                }} key={`device_${index}`}
-                  className={cn(`  text-center cursor-pointer w-full  hover:border-[#00E42A]  border-[#404040] border smd:rounded-2xl rounded-xl bg-[#404040] pt-5 px-5 flex items-center flex-col`,
-                  )}>
-                  <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-[18.75rem] smd:w-full smd:h-full h-[9.375rem] object-contain ' }} width={'100%'} height={'100%'} alt={item.iconName} />
-                  <div className="flex items-baseline gap-1">
-                    <div className="text-lg smd:text-base py-5 smd:py-4 w-full justify-center flex">{item.iconName}</div>
-                    {/* <img src="../commingSoon.svg" hidden={!index} className="h-[10px]" /> */}
-                  </div>
-                </div>
-
-              })}
+            <div className="mt-5 text-[#FFFFFF80] text-sm text-center">
+              {AllText.AAddNewNodes.lite.step1.subTitle}
+            </div>
+            <div className="flex justify-center items-center mt-[.75rem] gap-[.625rem]">
+              <Btn onPress={() => onBack()} className="w-full rounded-lg !h-12  bg-default border  !border-white text-white hover:bg-l1" >
+                Cancel
+              </Btn>
+              <Btn onPress={() => onLiteContinue()} className="w-full rounded-lg !h-12" >
+                Go Install
+              </Btn>
             </div>
           </div>
+        </div>,
+    },
+    {
+      content:
+        <div className="flex w-full flex-col items-center">
+          <div className="w-[37.5rem] smd:w-full">
+            <div className="flex w-full font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
+              {AllText.AAddNewNodes.lite.step2.title}
+            </div>
+            <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
+              {AllText.AAddNewNodes.lite.step2.subTitle}
+            </div>
+
+            <div className="flex justify-center items-center mt-[.75rem] flex-col  gap-[.625rem]">
+              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onPress={() => onLiteContinue()} className="w-full rounded-lg smd:!h-12" >
+                Go to Node Detail page
+              </Btn>
+            </div>
+          </div>
+        </div>,
+    },
+
+  ]
+
+
+  const onLiteContinue = async () => {
+    if (stepLiteIndex < liteStep.length - 1) {
+      setLiteStepIndex(stepLiteIndex + 1)
+    } else {
+      onBack()
+    }
+  }
+  const type = chooseedType?.value;
+
+  const typeMap: Record<string, JSX.Element> = {
+    client: <CurrentNode step={stepX86Index} typeStep={x86Step} />,
+    box: <CurrentNode step={stepIndex} typeStep={homeBoxStep} />,
+    link: <CurrentNode step={stepIndex} typeStep={homeBoxStep} />,
+    lite: <CurrentNode step={stepLiteIndex} typeStep={liteStep} />,
+  };
+
+
+
+
+  return <div className="w-full mt-[4.5625rem] smd:mt-12 smd:mb-5 ">
+    <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full ">
+      {type && typeMap[type] ? typeMap[type] :
+        <div className="w-full text-center flex flex-col m-auto">
+          <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">
+            {AllText.AAddNewNodes.title}
+          </label>
+          <div className=" gap-5  smd:gap-4 mt-10 smd:mt-4 w-full  grid grid-cols-[repeat(auto-fill,minmax(19.375rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]   m-auto smd:px-0">
+            {deviceList.map((item, index) => {
+              return <div onClick={() => {
+                if (item.name === 'ARO Lite') return
+                onSelectedType(item.name)
+                setChooseedType(item)
+                params.set("chooseType", item?.value as 'box' | 'box');
+                r.push(`?${params.toString()}`);
+              }} key={`device_${index}`}
+                className={cn(`  text-center cursor-pointer w-full hover:border-[#00E42A]  border-[#404040] border smd:rounded-2xl rounded-xl bg-[#404040] pt-5 px-5 flex items-center flex-col`,
+                  { 'hidden': item.name === 'ARO Lite' && isMobileDevice() }
+                )}>
+                <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-full smd:w-full smd:h-full h-[9.375rem] object-cover ' }} width={'100%'} height={'100%'} alt={item.iconName} />
+                <div className="flex items-baseline gap-1">
+                  <div className="text-lg smd:text-base py-5 smd:py-4 w-full justify-center flex">{item.name}</div>
+                </div>
+              </div>
+
+            })}
+          </div>
+        </div>
       }
       <ConfirmDialog
         tit="Add this device"

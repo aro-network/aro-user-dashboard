@@ -145,6 +145,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const handleTabChange = (tab: Dashboard.TabItem) => {
     params.delete('type')
     params.delete('nId')
+    params.delete('chooseType')
     setCurrentTab(tab);
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {

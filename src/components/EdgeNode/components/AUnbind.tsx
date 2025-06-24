@@ -1,7 +1,7 @@
 import { Btn } from "@/components/btns"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import backendApi from "@/lib/api"
-import { covertText } from "@/lib/utils"
+import { covertName, covertText } from "@/lib/utils"
 import { CircularProgress, cn, Image, Skeleton, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, useEffect, useState } from "react"
@@ -87,7 +87,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           <div className="w-[37.5rem] smd:w-full">
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
               <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
-                <img src={`./${delDetail?.nodeType}.png`} className=" object-contain rounded-lg bg-white  w-full h-full" alt={`${delDetail?.nodeType}`} />
+                <img src={`./${covertName[delDetail?.nodeType || 'box']}.png`} className=" object-contain rounded-lg bg-white  w-full h-full" alt={`${delDetail?.nodeType || 'box'}`} />
               </div>
               {foundDeviceList(delDetail, isMobile)}
             </div>

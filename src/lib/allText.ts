@@ -82,6 +82,18 @@ export const AllText = {
       },
       step2: {},
     },
+    lite: {
+      step1: {
+        title: "Get ARO Lite Chrome Extension",
+        subTitle:
+          "Please make sure you are using Chrome browser (version x.x.x above) before installation. Install and run the ARO Lite Extension. Your ARO Lite will be automatically set up and added to your dashboard.",
+      },
+      step2: {
+        title: "Get Ready For Your ARO Lite!",
+        subTitle:
+          "Your ARO Lite node has been successfully installed and added to your dashboard. You will be redirected to the Node Details page. (10s)",
+      },
+    },
   },
   deviceInfo: {
     "Device found": "Device found:",

@@ -1,6 +1,6 @@
 declare namespace Nodes {
   type DevicesInfo = {
-    nodeType: string;
+    nodeType: "x86" | "box";
     nodeUUID: string;
     online: boolean;
     ip: string;
@@ -75,9 +75,9 @@ declare namespace Nodes {
   }
 
   type DeviceType = {
-    iconName: "Software" | "Hardware";
-    name: string;
-    value?: "box" | "x86";
+    iconName: "aro-pod" | "aro-link" | "aro-client" | "aro-lite";
+    value?: "box" | "client" | "link" | "lite";
+    name: "ARO Pod" | "ARO Link" | "ARO Client" | "ARO Lite";
   };
 
   type AddType = {

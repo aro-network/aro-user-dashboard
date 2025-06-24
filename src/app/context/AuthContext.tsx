@@ -105,9 +105,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (user && user.token) {
       e = setInterval(() => {
         const injectedEnReachAI = getInjectAROAI();
-
-        console.log('adsadasdasdasdasdads', injectedEnReachAI);
-
         if (!injectedEnReachAI) {
           console.warn(`Extension not installed`);
           return;
@@ -117,8 +114,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             name: "getStat",
           })
           .then((stat: { logined: boolean; userLogout: boolean }) => {
-
-            console.info('statstatstatstat', stat);
 
 
             if (!stat.logined) {

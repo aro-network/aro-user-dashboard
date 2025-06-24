@@ -409,3 +409,10 @@ export function groupVolumeByHourInMB(
     (a, b) => new Date(a.hour).getTime() - new Date(b.hour).getTime()
   );
 }
+
+export const covertName = {
+  router: "aro-link",
+  x86: "x86",
+  box: "aro-pod",
+  lite: "aro-lite",
+};
