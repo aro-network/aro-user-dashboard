@@ -566,7 +566,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
           <div className=" gap-5  smd:gap-4 mt-10 smd:mt-4 w-full  grid grid-cols-[repeat(auto-fill,minmax(19.375rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]   m-auto smd:px-0">
             {deviceList.map((item, index) => {
               return <div onClick={() => {
-                // if (item.name === 'ARO Lite') return
+                if (item.name === 'ARO Lite') return
                 onSelectedType(item.name)
                 setChooseedType(item)
                 params.set("chooseType", item?.value as 'box' | 'box');
