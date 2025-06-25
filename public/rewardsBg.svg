@@ -1,11 +1,10 @@
-<svg width="834" height="141" viewBox="0 0 834 141" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<svg width="834" height="138" viewBox="0 0 834 138" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <style>
-    /* 优化动画：使用 transform 进行位移，减少重排 */
     .star {
       animation: fall linear infinite;
       transform-origin: center;
     }
-    /* 减少星星数量（从 50 个减到 30 个），并随机化动画时间 */
     .star:nth-child(1) { animation-duration: 3s; animation-delay: 0s; }
     .star:nth-child(2) { animation-duration: 4.2s; animation-delay: 0.3s; }
     .star:nth-child(3) { animation-duration: 2.7s; animation-delay: 0.6s; }
@@ -43,12 +42,11 @@
         opacity: 1;
       }
       100% {
-        transform: translateY(161px); /* 覆盖 SVG 高度 */
+        transform: translateY(161px); 
         opacity: 0;
       }
     }
 
-    /* 降级方案：低性能设备禁用动画 */
     @media (prefers-reduced-motion: reduce) {
       .star {
         animation: none;
@@ -62,13 +60,11 @@
   <g mask="url(#mask0_18108_3682)">
     <path d="M0 12C0 5.37259 5.37258 0 12 0H822C828.627 0 834 5.37258 834 12V127C834 133.627 828.627 140 822 139H12C5.37259 140 0 133.627 0 127V12Z" fill="url(#paint0_linear_18108_3682)" shape-rendering="crispEdges"/>
     <g opacity="0.7">
-      <!-- 定义简单的星星形状 -->
       <defs>
         <path id="star1" d="M0 0.756V1.527L-0.388 1.912H0.388L0.775 2.297V1.912L1.551 1.527L0.775 1.141V0.756L0.388 1.141L0 0.756Z"/>
         <path id="star2" d="M0 0.357L-0.388 -0.0281L0 0.5868H-0.388L-0.776 -0.7984V0.5868L-1.551 -0.0281H-0.776V0.7422L-0.388 0.357H0Z"/>
         <path id="star3" d="M0 0.135L0.775 -1.0204H1.938L1.163 -1.7759L1.551 -2.9313L0 -2.5461L-1.164 -3.3164V-1.7759L-1.939 -1.0204L-0.776 -0.6352L0 0.135Z"/>
       </defs>
-      <!-- 减少星星数量，随机分布在整个 SVG 宽度，垂直方向从 -20 开始 -->
       <use class="star" xlink:href="#star1" x="20" y="-20" fill="white"/>
       <use class="star" xlink:href="#star2" x="60" y="-20" fill="#659549"/>
       <use class="star" xlink:href="#star3" x="100" y="-20" fill="#2BBD34"/>
@@ -108,3 +104,4 @@
     </linearGradient>
   </defs>
 </svg>
+

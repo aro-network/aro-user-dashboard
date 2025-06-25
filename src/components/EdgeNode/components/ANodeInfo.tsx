@@ -375,7 +375,7 @@ const ANodeInfo: FC<{
 
   const rewardsList = [
     { title: 'Total', count: formatNumber(Number(detailInfo?.countRewards.total || 0)) },
-    { title: 'Today', count: `+ ${formatNumber(Number(detailInfo?.countRewards.today || 0))}` },
+    // { title: 'Today', count: `+ ${formatNumber(Number(detailInfo?.countRewards.today || 0))}` },
     { title: 'Yesterday', count: `+ ${formatNumber(Number(detailInfo?.countRewards.yesterday || 0))} ` }
   ]
   return (
@@ -384,12 +384,10 @@ const ANodeInfo: FC<{
 
         <div className=" mx-auto w-full mt-5 text-white  flex justify-between smd:flex-col gap-5  smd:gap-0">
           <div className="w-[calc(100%-378px-20px)] smd:w-full h-fit ">
-
-
             <div className=" w-full smd:flex-wrap bg-[url(/rewardsBg.svg)] bg-repeat bg-cover smd:object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  rewards ">
               <div className="flex  w-full p-[20px] h-fit    flex-col   gap-[10px] smd:gap-5">
                 <div className="flex w-full justify-between " >
-                  <span className="font-semibold text-[16px]  ">Rewards</span>
+                  <span className="font-semibold text-[16px]  ">Highlights</span>
                 </div>
                 <div className="flex justify-between flex-wrap h-full w-full gap-5 ">
                   {rewardsList.map((item) => {

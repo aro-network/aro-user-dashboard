@@ -17,7 +17,6 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo }) => {
       return { ...item, averageDelay: 0 }
     })
   }
-
   const averageDelay = !detailInfo?.upAverageDelay?.list.length ? mock() : groupPackageOrDelayByHour(detailInfo?.upAverageDelay?.list) || []
 
 

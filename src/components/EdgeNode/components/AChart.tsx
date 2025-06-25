@@ -73,19 +73,17 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
         axisLine: { lineStyle: { color: '#FFFFFF0D' } }
       },
       yAxis: {
+
         type: "value",
         name,
         boundaryGap: [0, "20%"],
         splitLine: {
           lineStyle: { type: "solid", color: "#FFFFFF80", opacity: 0.05 }
         },
+
         axisLabel: {
           color: "rgba(255,255,255,0.5)",
-          formatter: (value: number) => {
-
-            return name === 'Volume(MB)' ? parseFloat(formatNumber(value)) : value
-          }
-          ,
+          formatter: (value: number) => value
         },
       },
       grid: {
@@ -142,7 +140,9 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
     }
   }, [width, groupedData]);
 
-  return <EChartsReact style={{ height: '12.5rem' }} className="!w-full  !h-[12.5rem]" option={chartOpt} />
+
+
+  return !data.length ? <div className="w-full h-full flex justify-center items-center"> No data yet. Please check back later.</div> : <EChartsReact style={{ height: '12.5rem' }} className="!w-full  !h-[12.5rem]" option={chartOpt} />
 };
 
 

@@ -12,6 +12,7 @@ declare namespace OtherTypes {
     iconSize?: number;
     tit: React.ReactNode;
     content: React.ReactNode;
+    isNeed?: boolean;
   };
 
   type TitCardProps = {

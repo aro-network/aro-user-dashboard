@@ -4,13 +4,15 @@ import { Card, cn } from "@nextui-org/react";
 import _ from "lodash";
 import React, { PropsWithChildren, ReactNode } from "react";
 
-export function IconCard({ icon, className, iconSize = 24, tit, content }: OtherTypes.IconCardProps) {
+export function IconCard({ icon, className, iconSize = 24, tit, content, isNeed = true }: OtherTypes.IconCardProps) {
   const Micon = icon;
   const sizeRem = pxToRem(iconSize);
   const leftSizeRem = pxToRem(120 - iconSize);
   const pl = pxToRem((40 - iconSize) / 2);
   return (
-    <Card className={cn("bg-gray-1 bg-no-repeat rounded-xl  commonTab flex flex-col p-6 gap-[2.8125rem] smd:gap-10 relative", className)}>
+    <Card className={cn(" flex flex-col p-6 gap-[2.8125rem] smd:gap-10 relative", className, {
+      'commonTab': isNeed
+    })}>
       <SVGS.SvgBgIconCard className="absolute left-0 top-0 text-[6.5rem] z-0" />
       <div className="flex items-center whitespace-nowrap " style={{ height: pxToRem(40) }}>
         <div

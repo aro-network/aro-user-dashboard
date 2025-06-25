@@ -10,10 +10,13 @@ import AUnbind from "./components/AUnbind";
 import { cn } from "@nextui-org/react";
 import { covertName, formatNumber, sortIp } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuthContext } from "@/app/context/AuthContext";
+import { getLastLoginUser, useAuthContext } from "@/app/context/AuthContext";
 import { debounce } from "lodash";
 import { AllText } from "@/lib/allText";
 import { ForceModal } from "../dialogs";
+import { getItem } from "@/lib/storage";
+import { getInjectAROAI } from "@/lib/ext";
+import { toast } from "sonner";
 
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
@@ -27,6 +30,7 @@ const ANodes = () => {
   const nId = params.get("nId") || ''
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [openLink, setOpenLink] = useState('')
+  const ac = useAuthContext()
 
   const title =
     nId && !unbindInfo
@@ -45,7 +49,7 @@ const ANodes = () => {
   const { data = [], isFetching, refetch, isLoading } = useQuery({
     queryKey: ["NodeList"],
     enabled: false,
-    refetchOnWindowFocus: 'always',
+    refetchOnWindowFocus: false,
     staleTime: 0,
     refetchOnMount: false,
     queryFn: async ({ pageParam: pageNum }) => {
@@ -66,7 +70,7 @@ const ANodes = () => {
             />
           ),
           nodeUUID: item.nodeUUID,
-          when: "Today",
+          when: "Yesterday",
           experience: (
             <>
               <label className="text-[#00E42A] text-2xl font-semibold leading-6">
@@ -93,6 +97,8 @@ const ANodes = () => {
   };
 
   const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
+    refetchRes.cancel();
+
     if (isInitialLoading) return
     params.delete('chooseType')
     updateURL('type', 'detail')
@@ -114,8 +120,6 @@ const ANodes = () => {
       link: 'Aro Link'
     }
 
-
-
     if (showAdd) {
       setOpenAddNode(showAdd);
       updateURL('type', 'add')
@@ -134,6 +138,10 @@ const ANodes = () => {
       closeAll()
     }
 
+    return () => {
+      refetchRes.cancel();
+    };
+
   }, [nId, searchParams, params]);
 
 
@@ -150,6 +158,9 @@ const ANodes = () => {
     refetchRes()
 
   }
+
+
+
 
   return (
     <>
@@ -195,6 +206,7 @@ const ANodes = () => {
             </>
           )}
         </div>
+
         {!nId && !isOpen ? (
           <Btn
             className="h-[1.875rem] smd:p-2 smd:!h-[1.875rem]  rounded-lg"

@@ -222,7 +222,8 @@ const AOverview = () => {
           }
         />
         <IconCard
-          className="flip_item bg-[#6D6D6D66]"
+          className="flip_item  !bg-[url(/rewardsBg.svg)] bg-repeat bg-cover object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  rewards"
+          isNeed={false}
           icon={() => <FaGift />}
           iconSize={24}
           tit={
