@@ -396,7 +396,7 @@ const ANodeInfo: FC<{
 
                     return <div key={`rewards_${item.title}`} className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
                       <span className="font-normal text-[14px] text-[#FFFFFF80]">
-                        Total
+                        {item.title}
                       </span>
                       <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                         <span className="text-[30px]">
