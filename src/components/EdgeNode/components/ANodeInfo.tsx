@@ -375,8 +375,8 @@ const ANodeInfo: FC<{
 
   const rewardsList = [
     { title: 'Total', count: formatNumber(Number(detailInfo?.countRewards.total || 0)) },
-    { title: 'Today', count: + formatNumber(Number(detailInfo?.countRewards.today || 0)) },
-    { title: 'Yesterday', count: + formatNumber(Number(detailInfo?.countRewards.yesterday || 0)) }
+    { title: 'Today', count: `+ ${formatNumber(Number(detailInfo?.countRewards.today || 0))}` },
+    { title: 'Yesterday', count: `+ ${formatNumber(Number(detailInfo?.countRewards.yesterday || 0))} ` }
   ]
   return (
     <>
