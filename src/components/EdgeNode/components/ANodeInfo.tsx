@@ -400,7 +400,7 @@ const ANodeInfo: FC<{
                       </span>
                       <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                         <span className="text-[30px]">
-                          {formatNumber(Number(detailInfo?.countRewards.total || 0))}
+                          {item.count}
                         </span>
                         <span>Jades</span>
                       </div>
