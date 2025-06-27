@@ -11,7 +11,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
           key={`nodes_${index}`}
           onClick={() => onOpenModal(node)}
           className="bg-[#6D6D6D66] commonTab cursor-pointer hover:bg-[#6D6D6DCC] rounded-xl flex items-center gap-[1.0625rem] px-4 py-5">
-          <div >
+          <div className="flex justify-center">
             {node.icon}
           </div>
           <div className="flex flex-col justify-between pb-[.3125rem] w-[60%] h-full ">
@@ -35,7 +35,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
               <label className="text-[#FFFFFF80] text-sm break-words">{node.nodeUUID}</label>
 
             </div>
-            <div className="w-full flex gap-[.625rem] text-sm items-center ">
+            <div className="w-full flex gap-[.625rem] smd:gap-[5px] text-sm items-center ">
               <div className="text-[#FFFFFF80]">
                 {node.when}
               </div>

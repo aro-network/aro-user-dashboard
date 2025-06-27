@@ -77,6 +77,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 
   const wrapSetUser = (u?: Opt<LoginResult>) => {
+    console.log('wrapSetUserwrapSetUser', u);
+
     if (!u) {
       refIsLogout.current = true;
       setUser(null);
@@ -89,6 +91,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setItem(storageKey, JSON.stringify(u));
       if (u.token) {
         getInjectAROAI()?.request({ name: "setAccessToken", body: u.token }).catch(console.error);
+        getInjectAROAI()?.request({ name: "clearUserStatus", body: false }).catch(console.error);
+
       }
       r.push(redirect ? redirect : "/");
     }
@@ -103,8 +107,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     console.info('useruseruseruser', user);
 
     if (user && user.token) {
+      const injectedEnReachAI = getInjectAROAI();
+
       e = setInterval(() => {
-        const injectedEnReachAI = getInjectAROAI();
         if (!injectedEnReachAI) {
           console.warn(`Extension not installed`);
           return;
@@ -113,12 +118,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           .request({
             name: "getStat",
           })
-          .then((stat: { logined: boolean; userLogout: boolean }) => {
+          .then((stat: { logined: boolean; userLogout: boolean, userClick: boolean }) => {
 
+            console.log('statstatstatstatstat', stat);
 
-            if (!stat.logined) {
-              console.info("sync logout from ext");
-              logout();
+            if (stat.userClick) {
+              const user = getLastLoginUser()
+              wrapSetUser(user)
             }
           })
           .catch((e) => {

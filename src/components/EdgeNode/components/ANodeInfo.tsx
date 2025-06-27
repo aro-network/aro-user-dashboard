@@ -165,6 +165,7 @@ const ANodeInfo: FC<{
   const onSubmit = async (value: string) => {
 
     await backendApi.editCurrentNodeName(detailInfo?.detail.nodeUUID, value);
+    setIsInitialLoading(true)
 
     refetch()
     setIsEdit(false);
@@ -373,34 +374,44 @@ const ANodeInfo: FC<{
     info = chainInfo;
   }
 
+
+
   const rewardsList = [
-    { title: 'Total', count: formatNumber(Number(detailInfo?.countRewards.total || 0)) },
-    // { title: 'Today', count: `+ ${formatNumber(Number(detailInfo?.countRewards.today || 0))}` },
-    { title: 'Yesterday', count: `+ ${formatNumber(Number(detailInfo?.countRewards.yesterday || 0))} ` }
+    {
+      title:
+        <div className={`flex items-center gap-3 mt-3 font-medium text-2xl
+       ${detailInfo?.detail.online ? 'text-[#02B421]' : 'text-[#F5A524]'} `} >
+          <Image src={`./${detailInfo?.detail.online ? 'online' : 'offline'}.svg`} />
+          Online
+        </div>
+      , count: <span className="text-sm font-medium"> {detailInfo?.detail.online ? ' Your Node is collecting Jades for you.' : 'Oops! Your Nodes is offline. Turn it on to earn Jades.'}</span>
+    },
+    { title: 'Total', count: <span className="text-[30px]"> {formatNumber(Number(detailInfo?.countRewards.total || 0))}</span> },
+    { title: 'Yesterday', count: <span className="text-[30px]">{`+ ${formatNumber(Number(detailInfo?.countRewards.yesterday || 0))} `}</span> }
   ]
   return (
     <>
       {!isInitialLoading ? (
 
-        <div className=" mx-auto w-full mt-5 text-white  flex justify-between smd:flex-col gap-5  smd:gap-0">
+        <div className=" mx-auto w-full mt-5 text-white   flex justify-between smd:flex-col gap-5  smd:gap-0">
           <div className="w-[calc(100%-378px-20px)] smd:w-full h-fit ">
-            <div className=" w-full smd:flex-wrap bg-[url(/rewardsBg.svg)] bg-repeat bg-cover smd:object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  rewards ">
+            <div className={` w-full smd:flex-wrap  bg-repeat bg-cover smd:object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  ${detailInfo?.detail.online ? 'rewards bg-[url(/rewardsBg-online.svg)]' : 'rewards-offline bg-[url(/rewardsBg-offline.svg)]'} `}>
               <div className="flex  w-full p-[20px] h-fit    flex-col   gap-[10px] smd:gap-5">
                 <div className="flex w-full justify-between " >
                   <span className="font-semibold text-[16px]  ">Highlights</span>
+
+
                 </div>
-                <div className="flex justify-between flex-wrap h-full w-full gap-5 ">
-                  {rewardsList.map((item) => {
+                <div className="flex justify-between flex-wrap h-full w-full gap-5 items-end ">
+                  {rewardsList.map((item, index) => {
 
                     return <div key={`rewards_${item.title}`} className="text-sm  flex flex-col xsl:justify-start  gap-[20px] smd:w-full flex-wrap ">
                       <span className="font-normal text-[14px] text-[#FFFFFF80]">
                         {item.title}
                       </span>
                       <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
-                        <span className="text-[30px]">
-                          {item.count}
-                        </span>
-                        <span>Jades</span>
+                        {item.count}
+                        <span hidden={index === 0}>Jades</span>
                       </div>
                     </div>
                   })}
@@ -429,6 +440,7 @@ const ANodeInfo: FC<{
               }
             >
               <div className="w-full smd:h-[10rem]" ref={ref}>
+
                 <EChartsReact
                   className="w-full  !h-[13.125rem] smd:!h-[11.875rem] "
 

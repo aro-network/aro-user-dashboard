@@ -222,7 +222,7 @@ const AOverview = () => {
           }
         />
         <IconCard
-          className="flip_item  !bg-[url(/rewardsBg.svg)] bg-repeat bg-cover object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  rewards"
+          className="flip_item  !bg-[url(/rewardsBg-online.svg)] bg-repeat bg-cover object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  rewards"
           isNeed={false}
           icon={() => <FaGift />}
           iconSize={24}
@@ -234,7 +234,7 @@ const AOverview = () => {
               </div>
               <div hidden={!user?.inviteUserEmail}>
                 <HelpTip className={`  w-[12.5rem] `} content={AllText.stats.inviteTips} >
-                  <div className="bg-[#FF8748] rounded-[1.875rem] text-white text-xs py-1 px-2">
+                  <div className="bg-[#FF8849] rounded-[1.875rem] text-white text-xs py-1 px-2">
                     +20% Boosted
                   </div>
                 </HelpTip>

@@ -416,3 +416,57 @@ export const covertName = {
   box: "aro-pod",
   lite: "aro-lite",
 };
+
+export const addNewNodeList = [
+  {
+    icon: "aro-pod.png",
+    name: "ARO Pod",
+    value: "box",
+    description: [
+      `• A plug-and-play device that runs 24/7 with low energy use.`,
+      `• Best for household runners.`,
+    ],
+    cost: "$",
+    Rewards: "⭐️⭐️⭐️",
+    "User-friendly": "⭐️⭐️⭐️",
+    docs: "https://docs.aro.network/user-guides/device-setup",
+  },
+  {
+    icon: "aro-link.png",
+    name: "ARO Link",
+    value: "link",
+    description: [
+      `• A Wi-Fi router with a built-in ARO node.`,
+      `• Ideal for business use`,
+    ],
+    cost: "$$",
+    Rewards: "⭐️⭐️⭐️",
+    "User-friendly": "⭐️⭐️⭐️",
+    docs: "https://docs.aro.network/user-guides/device-setup",
+  },
+  {
+    icon: "aro-lite.png",
+    name: "ARO Lite",
+    value: "lite",
+    description: [
+      `• A lightweight browser extension.`,
+      `• Runs with zero cost and minimal effort.`,
+    ],
+    cost: "0",
+    Rewards: "⭐️",
+    "User-friendly": "⭐️⭐️⭐️",
+  },
+  {
+    icon: "aro-client.png",
+    name: "ARO Client",
+    value: "client",
+    description: [
+      `• A software image for your server or PC.`,
+      `• Perfect for pro users with strong internet.`,
+    ],
+    cost: "you device",
+    Rewards: "Flexible",
+    "User-friendly": "⭐️",
+    docs: " https://docs.aro.network/user-guides/software-setup",
+  },
+];

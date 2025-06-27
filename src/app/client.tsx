@@ -66,7 +66,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
           }
         }}
         icons={{
-          error: <div className=""><img src='./error.svg' className="text-[#FF3A3D] " /></div>,
+          error: <div><img src='./error.svg' className="text-[#FF3A3D] " /></div>,
           warning: <CiWarning className="text-[#FFF]  " />
         }}
       />

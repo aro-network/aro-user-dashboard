@@ -26,9 +26,13 @@ export const AllText = {
   },
   edgeNodes: {
     "All Nodes": "All Nodes",
-    noData:
-      "ARO supports both hardware and software Edge Nodes on various platforms. Check our guide to choose the best node type for you.",
+    "Please choose which type of Edge Node you want to add to your Dashboard:":
+      "Please choose which type of Edge Node you want to add to your Dashboard:",
     "Add Your Edge Node": "Add Your Edge Node",
+    "Pick Your ARO Node to Start": "Pick Your ARO Node to Start",
+    "Welcome aboard, new Aronauts! ": "Welcome aboard, new Aronauts! ",
+    "Explore ARO Network’s diverse nodes—hardware, software, and browser extensions—then choose the perfect ARO Node for you.":
+      "Explore ARO Network’s diverse nodes—hardware, software, and browser extensions—then choose the perfect ARO Node for you.",
   },
   AAddNewNodes: {
     title: "Please choose which type of Edge Node you want to add:",
@@ -39,7 +43,7 @@ export const AllText = {
       step1: {
         title: "Step 1: Connect your device",
         subtitle:
-          "Make sure your xx is powered on and connected to the internet. Locate the 19-digit serial number on your xxx and enter it below:",
+          "Make sure your xxx is powered on and connected to the internet. Locate the 19-digit serial number on your xxx and enter it below:",
         error: [
           "Sorry, we cannot find your xx. Please make sure your xx is powered on and connected to the internet.",
         ],

@@ -4,7 +4,7 @@ import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, ReactNode, Ref, useEffect, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
-import { covertName, covertText, isIPv6, shortenMiddle } from "@/lib/utils"
+import { addNewNodeList, covertName, covertText, isIPv6, shortenMiddle } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
 import { toast } from "sonner"
 import { HelpTip } from "@/components/tips"
@@ -378,7 +378,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.type.step1.title}
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
-              {AllText.AAddNewNodes.type2.step1.subTitle.replaceAll('xx', chooseedType?.iconName ?? '-')}
+              {AllText.AAddNewNodes.type2.step1.subTitle.replaceAll('xx', chooseedType?.name ?? '-')}
             </div>
             <Input
               maxLength={30}
@@ -554,36 +554,98 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   };
 
 
+  const onSwitch = (index: number) => {
+    window.open(index !== 3 ? 'https://shop.aro.network/' : 'https://download.aro.network/images/aro-client-latest.iso')
+
+  }
+
+  const onOpen = (url?: string) => {
+    if (!url) return
+    window.open(url)
+  }
 
 
   return <div className="w-full mt-[4.5625rem] smd:mt-12 smd:mb-5 ">
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full ">
       {type && typeMap[type] ? typeMap[type] :
-        <div className="w-full text-center flex flex-col m-auto">
-          <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">
-            {AllText.AAddNewNodes.title}
-          </label>
-          <div className=" gap-5  smd:gap-4 mt-10 smd:mt-4 w-full  grid grid-cols-[repeat(auto-fill,minmax(19.375rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]   m-auto smd:px-0">
-            {deviceList.map((item, index) => {
-              return <div onClick={() => {
-                if (item.name === 'ARO Lite') return
-                onSelectedType(item.name)
-                setChooseedType(item)
-                params.set("chooseType", item?.value as 'box' | 'box');
-                r.push(`?${params.toString()}`);
-              }} key={`device_${index}`}
-                className={cn(`  text-center cursor-pointer w-full hover:border-[#00E42A]  border-[#404040] border smd:rounded-2xl rounded-xl bg-[#404040] pt-5 px-5 flex items-center flex-col`,
-                  { 'hidden': item.name === 'ARO Lite' && isMobileDevice() }
-                )}>
-                <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-full smd:w-full smd:h-full h-[9.375rem] object-cover ' }} width={'100%'} height={'100%'} alt={item.iconName} />
-                <div className="flex items-baseline gap-1">
-                  <div className="text-lg smd:text-base py-5 smd:py-4 w-full justify-center flex">{item.name}</div>
-                </div>
-              </div>
+        // <div className="w-full text-center flex flex-col m-auto">
+        //   <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">
+        //     {AllText.AAddNewNodes.title}
+        //   </label>
+        //   <div className=" gap-5  smd:gap-4 mt-10 smd:mt-4 w-full  grid grid-cols-[repeat(auto-fill,minmax(19.375rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]   m-auto smd:px-0">
+        //     {deviceList.map((item, index) => {
+        //       return <div onClick={() => {
+        //         // if (item.name === 'ARO Lite') return
+        //         onSelectedType(item.name)
+        //         setChooseedType(item)
+        //         params.set("chooseType", item?.value as 'box' | 'box');
+        //         r.push(`?${params.toString()}`);
+        //       }} key={`device_${index}`}
+        //         className={cn(`  text-center cursor-pointer w-full hover:border-[#00E42A]  border-[#404040] border smd:rounded-2xl rounded-xl bg-[#404040] pt-5 px-5 flex items-center flex-col`,
+        //           { 'hidden': item.name === 'ARO Lite' && isMobileDevice() }
+        //         )}>
+        //         <Image src={`../${item.iconName}.png`} classNames={{ 'wrapper': 'w-full smd:w-full smd:h-full h-[9.375rem] object-cover ' }} width={'100%'} height={'100%'} alt={item.iconName} />
+        //         <div className="flex items-baseline gap-1">
+        //           <div className="text-lg smd:text-base py-5 smd:py-4 w-full justify-center flex">{item.name}</div>
+        //         </div>
+        //       </div>
 
+        //     })}
+        //   </div>
+        // </div>
+        <div className="w-full m-auto text-center gap-5 flex flex-col">
+          <div className=" text-lg ">{AllText.edgeNodes["Pick Your ARO Node to Start"]}</div>
+          <div className="text-sm text-[#FFFFFF80]">
+            {AllText.edgeNodes["Welcome aboard, new Aronauts! "]} <br />
+            {AllText.edgeNodes["Explore ARO Network’s diverse nodes—hardware, software, and browser extensions—then choose the perfect ARO Node for you."]}
+          </div>
+          <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(540px,1fr))] h-full   smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `)}>
+            {addNewNodeList.map((item, index) => {
+              return <div
+                key={`nodes_${index}`}
+                className="bg-[#6D6D6D66]  commonTab  hover:bg-[#6D6D6DCC] rounded-xl  flex  gap-10 smd:gap-[30px] p-5 smd:flex-wrap">
+                <div className="flex flex-col  justify-between smd:justify-start smd:w-full ">
+                  <div className="md:w-[218px] smd:!w-full  h-[130px]">
+                    <img src={`../${item.icon}`} alt={item.name} className=" w-full h-full object-contain bg-white rounded-lg" />
+                  </div>
+                  <div className="smd:mt-4">
+                    <Btn
+                      className="h-10 w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                      onPress={() => {
+                        onSelectedType(item.name)
+                        // setChooseedType(item)
+                        params.set("chooseType", item?.value as 'box' | 'box');
+                        r.push(`?${params.toString()}`);
+
+                      }}
+                    >
+                      Add an {item.name}
+
+                    </Btn>
+                  </div>
+                </div>
+
+                <div className="text-left flex flex-col justify-between smd:justify-start ">
+                  <div className="text-xl ">{item.name}</div>
+                  <div className="mt-[10px] h-[80px] flex flex-col justify-center">
+                    {item.description.map((item) => {
+                      return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
+                    })}
+                  </div>
+                  <div className="text-sm">Cost: {item.cost}</div>
+                  <div className="text-sm">Rewards: {item.Rewards}</div>
+                  <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
+                  <div className=" mt-3 flex gap-5 text-xs">
+                    <button onClick={() => onSwitch(index)} className="text-[#568AFF] underline underline-offset-1">{index !== 3 ? `Order ${item.name}` : 'Download .ISO'}</button>
+                    <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
+                  </div>
+                </div>
+
+              </div>
             })}
           </div>
         </div>
+
       }
       <ConfirmDialog
         tit="Add this device"

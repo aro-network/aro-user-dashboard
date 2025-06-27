@@ -193,8 +193,11 @@ button[data-slot="trigger"] {
 
 .rewards-bg{
    background-color: #00E42A14;
-            box-shadow: 0px 2px 0px 0px #00E42A99;
+   box-shadow: 0px 2px 0px 0px #00E42A99;
 }
+
+
+
 
 .falling-stars-container {
   width: 100%;
@@ -263,6 +266,19 @@ background: linear-gradient(1.66deg, #141414 1.41%, #383838 91.74%);
 
 }
 }
+
+.rewards-offline{
+  box-shadow: 0px 2px 0px 0px #F5A524E5;
+
+}
+@media (min-width: 1001px) {
+
+.rewards-offline{
+  box-shadow: 0px 2px 0px 0px #F5A524E5;
+
+}
+}
+
 
 
 
