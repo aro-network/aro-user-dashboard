@@ -414,7 +414,7 @@ export const covertName = {
   router: "aro-link",
   x86: "x86",
   box: "aro-pod",
-  lite: "aro-lite",
+  lite_node: "aro-lite",
 };
 
 export const addNewNodeList = [
