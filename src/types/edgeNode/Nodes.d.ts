@@ -10,7 +10,7 @@ declare namespace Nodes {
   interface NodeInfoList {
     nodeUUID: string;
     online: boolean;
-    nodeType: "x86" | "box";
+    nodeType: "x86" | "box" | "lite_node";
     rewards: string;
     todayRewards: string;
     nodeName: string;
@@ -18,6 +18,15 @@ declare namespace Nodes {
     nodeID: string;
     ip?: string;
     createTimestamp: number;
+
+    ipList?: [{ ipAddress: string; countryCode?: number }];
+    lastDayNetworkQuality?: number;
+    lastDayUptime?: number;
+    nodeId?: string;
+    nodeName?: string;
+    totalNetworkQuality?: number;
+    totalUptime?: number;
+
     deviceInfo: {
       ip: string;
       date: string;

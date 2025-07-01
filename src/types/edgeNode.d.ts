@@ -10,7 +10,7 @@ declare namespace EdgeNodeMode {
     deviceName: string;
     icon: React.ReactNode;
     nodeUUID: string;
-    when: string;
+    when?: string;
     experience: React.ReactNode;
     status: string | boolean;
     nodeId?: string;

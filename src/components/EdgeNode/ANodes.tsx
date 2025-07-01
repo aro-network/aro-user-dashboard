@@ -28,7 +28,6 @@ const ANodes = () => {
   const nId = params.get("nId") || ''
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [openLink, setOpenLink] = useState('')
-  const ac = useAuthContext()
 
   const title =
     nId && !unbindInfo
@@ -57,6 +56,10 @@ const ANodes = () => {
 
       const list = data.map((item) => {
 
+
+        console.log('itemitemitemadsada', item);
+
+
         return {
           nodeType: item.nodeType,
           deviceName: item.nodeName,
@@ -68,7 +71,6 @@ const ANodes = () => {
             />
           ),
           nodeUUID: item.nodeUUID,
-          when: "Yesterday",
           experience: (
             <>
               <label className="text-[#00E42A] text-2xl smd:text-[19px] font-semibold smd:font-extrabold leading-6">
@@ -96,10 +98,10 @@ const ANodes = () => {
 
   const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
     refetchRes.cancel();
-
     if (isInitialLoading) return
     params.delete('chooseType')
-    updateURL('type', 'detail')
+    params.set('type', 'detail')
+    params.set('nodeType', e.nodeType)
     updateURL('nId', `${e.nodeUUID}`)
     setOpenAddNode(false);
   }
@@ -152,6 +154,7 @@ const ANodes = () => {
     params.delete('type')
     params.delete('chooseType')
     params.delete('nId')
+    params.delete('nodeType')
     r.push(`?${params.toString()}`);
     refetchRes()
 
@@ -243,6 +246,7 @@ const ANodes = () => {
               }
               <Btn
                 onPress={() => {
+
                   updateURL('type', 'del')
 
                 }}
@@ -266,7 +270,7 @@ const ANodes = () => {
               setSelectedType("");
               params.delete('type')
               params.delete('chooseType')
-
+              params.delete('nodeType')
               r.push(`?${params.toString()}`);
             }}
           />
@@ -344,6 +348,7 @@ const ANodes = () => {
               setSelectedType("");
               params.delete('type')
               params.delete('chooseType')
+              params.delete('nodeType')
               r.push(`?${params.toString()}`);
             }}
           />
@@ -354,6 +359,8 @@ const ANodes = () => {
               params.delete('nId')
               params.delete('type')
               params.delete('chooseType')
+              params.delete('nodeType')
+
               r.replace(`?${params.toString()}`);
             }}
           />

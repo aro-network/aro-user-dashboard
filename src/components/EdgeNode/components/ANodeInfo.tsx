@@ -33,12 +33,14 @@ import { ENV } from "@/lib/env";
 
 const InfoRow = ({
   label,
-  value,
+  value = '-',
+  show = true
 }: {
   label: React.ReactNode;
   value: React.ReactNode;
+  show?: boolean
 }) => (
-  <div className="flex justify-between px-[.625rem]">
+  show && <div className="flex justify-between px-[.625rem]">
     <span>{label}</span>
     <span className="text-[#FFFFFF80]">{value}</span>
   </div>
@@ -60,9 +62,11 @@ const InfoCard = ({
 );
 
 
+type nodeType = 'router' | 'x86' | 'box' | 'lite_node'
+
 const ANodeInfo: FC<{
   nodeInfo: (arg0: any) => void;
-  onBack: () => void
+  onBack: () => void;
 }> = ({ nodeInfo, onBack }) => {
   const [isEdit, setIsEdit] = useState(false);
   const isMobile = useMobileDetect(1100)
@@ -78,14 +82,11 @@ const ANodeInfo: FC<{
   }>(generateLast15DaysRange());
 
 
-  const refetchRes = debounce(() => {
-    isUserOwner.refetch()
-  }, 1300);
+  const chooseType = params.get("nodeType") || '';
 
   const refetchdetailRes = debounce(() => {
     refetch()
   }, 1300);
-
 
 
   const isUserOwner = useQuery({
@@ -97,13 +98,15 @@ const ANodeInfo: FC<{
 
     queryFn: async () => {
       const isOwner = await backendApi.currentOwner(nId)
-      if (isOwner?.owner === false) {
+      if (isOwner?.owner === false && chooseType !== 'lite_node') {
         onBack();
       } else {
         refetchdetailRes()
       }
     }
   });
+
+
 
 
   // const isUserOwner = async () => {
@@ -132,23 +135,49 @@ const ANodeInfo: FC<{
 
 
 
+
+
+
   const { data: detailInfo, isFetching, refetch, isLoading, error } = useQuery({
-    queryKey: ["NodeDetailList", nId],
+    queryKey: ["NodeDetailList", nId, chooseType],
     enabled: false,
     queryFn: async () => {
 
-      const [detail, countRewards, upTime, upVolume, upPackageLoss, upAverageDelay] = await Promise.all([
-        backendApi.getNodeInfoByNodeId(nId),
-        backendApi.countRewards(nId),
-        backendApi.currentUpTime(nId),
-        backendApi.currentUpVolume(nId),
-        backendApi.currentUpPackageLoss(nId),
-        backendApi.currentUpAverageDelay(nId),
-      ]);
-      setNodeName(detail.nodeName);
-      nodeInfo(detail);
-      setIsInitialLoading(false)
-      return { detail, countRewards, upTime, upVolume, upPackageLoss, upAverageDelay };
+
+      if (chooseType === 'lite_node') {
+
+        const [detail, countRewards, getExtensionNetworkQuality, getExtensionUptime] = await Promise.all([
+          backendApi.getNodeInfoByNodeId(nId, chooseType),
+          backendApi.currentExtensionRewards(nId),
+          backendApi.currentExtensionNetworkQuality(nId),
+          backendApi.currentExtensionUptime(nId),
+
+        ]);
+        setNodeName(detail.nodeName);
+        nodeInfo(detail);
+        setIsInitialLoading(false)
+
+        return { detail, countRewards, getExtensionNetworkQuality, getExtensionUptime };
+
+
+      } else {
+        const [detail, countRewards, upTime, upVolume, upPackageLoss, upAverageDelay] = await Promise.all([
+          backendApi.getNodeInfoByNodeId(nId, chooseType),
+          backendApi.countRewards(nId, chooseType),
+          backendApi.currentUpTime(nId, chooseType),
+          backendApi.currentUpVolume(nId, chooseType),
+          backendApi.currentUpPackageLoss(nId, chooseType),
+          backendApi.currentUpAverageDelay(nId, chooseType),
+        ]);
+        setNodeName(detail.nodeName);
+        nodeInfo(detail);
+        setIsInitialLoading(false)
+
+        return { detail, countRewards, upTime, upVolume, upPackageLoss, upAverageDelay, };
+
+      }
+
+
     },
     refetchOnWindowFocus: true,
   });
@@ -159,12 +188,19 @@ const ANodeInfo: FC<{
   // }, []);
 
 
+  console.log('detailInfodetailInfodetailInfo', detailInfo);
+
+
 
   const [nodeName, setNodeName] = useState("");
 
   const onSubmit = async (value: string) => {
+    if (chooseType === 'lite_node') {
+      await backendApi.editExtensionCurrentNodeName(nId, value);
+    } else {
+      await backendApi.editCurrentNodeName(nId, value);
+    }
 
-    await backendApi.editCurrentNodeName(detailInfo?.detail.nodeUUID, value);
     setIsInitialLoading(true)
 
     refetch()
@@ -178,7 +214,7 @@ const ANodeInfo: FC<{
     enabled: !!chooseDate.start && !!chooseDate.end,
     queryFn: async () => {
       const result = getCurrentDate(chooseDate)
-      const res = await backendApi.rewardHistory(nId, result);
+      const res = chooseType === 'lite_node' ? await backendApi.getExtensionRewardsHistory(nId, result) : await backendApi.rewardHistory(nId, result);
       const list = generateDateList(result.startTime, result.endTime);
       return !res.length ? list : res;
     },
@@ -307,17 +343,18 @@ const ANodeInfo: FC<{
   }, [width, result.data]);
 
 
+
   const memTotalGB = (
-    (detailInfo?.detail.deviceInfo.memTotal || 0) /
+    (detailInfo?.detail.deviceInfo?.memTotal || 0) /
     (1024 * 1024 * 1024)
   ).toFixed(2);
 
   const memUseGB = (
-    (detailInfo?.detail.deviceInfo.memUse || 0) /
+    (detailInfo?.detail.deviceInfo?.memUse || 0) /
     (1024 * 1024 * 1024)
   ).toFixed(2);
 
-  const network = detailInfo?.detail.deviceInfo.networkInterfaces || [];
+  const network = detailInfo?.detail.deviceInfo?.networkInterfaces || [];
 
   const newResult = (): EdgeNodeMode.IpInfo[] => {
     return network.sort((a, b) => {
@@ -375,6 +412,10 @@ const ANodeInfo: FC<{
   }
 
 
+  const covertNetQuality = (netQualityDeg = 0) => {
+    return netQualityDeg < 60 ? "Poor" : netQualityDeg < 120 ? "Good" : "Superb";
+  }
+
 
   const rewardsList = [
     {
@@ -382,12 +423,12 @@ const ANodeInfo: FC<{
         <div className={`flex items-center gap-3 mt-3 font-medium text-2xl
        ${detailInfo?.detail.online ? 'text-[#02B421]' : 'text-[#F5A524]'} `} >
           <Image src={`./${detailInfo?.detail.online ? 'online' : 'offline'}.svg`} />
-          Online
+          {detailInfo?.detail.online ? 'Online' : 'Offline'}
         </div>
       , count: <span className="text-sm font-medium"> {detailInfo?.detail.online ? ' Your Node is collecting Jades for you.' : 'Oops! Your Nodes is offline. Turn it on to earn Jades.'}</span>
     },
-    { title: 'Total', count: <span className="text-[30px]"> {formatNumber(Number(detailInfo?.countRewards.total || 0))}</span> },
-    { title: 'Yesterday', count: <span className="text-[30px]">{`+ ${formatNumber(Number(detailInfo?.countRewards.yesterday || 0))} `}</span> }
+    { title: 'Total', count: <span className="text-[30px]"> {formatNumber(Number(detailInfo?.countRewards?.total || 0))}</span> },
+    { title: 'Yesterday', count: <span className="text-[30px]">{`+ ${formatNumber(Number(detailInfo?.countRewards!.yesterday || 0))} `}</span> }
   ]
   return (
     <>
@@ -453,7 +494,7 @@ const ANodeInfo: FC<{
 
           </div>
           <div className="w-[378px] rightTab h-fit smd:w-full ">
-            <div className="flex rounded-[12px] flex-col w-full p-[20px] gap-[.625rem] h-[139px] smd:h-auto">
+            <div className="flex rounded-[12px] flex-col w-full p-[20px] gap-[.625rem] h-[158px] smd:h-auto">
               <div className="font-semibold text-base ">
                 <span className=" text-nowrap">Node Info</span>
               </div>
@@ -461,9 +502,9 @@ const ANodeInfo: FC<{
                 <img
                   width={68}
                   height={68}
-                  src={`../${covertName[detailInfo!.detail.nodeType]}.png`}
+                  src={`../${covertName[chooseType as nodeType]}.png`}
                   className=" object-cover rounded-lg"
-                  alt={`${covertName[detailInfo!.detail.nodeType]}`}
+                  alt={`${covertName[chooseType as nodeType]}`}
                 />
 
 
@@ -545,15 +586,15 @@ const ANodeInfo: FC<{
                   <div className="text-sm  mt-1 w-full flex   gap-[.625rem]">
                     <span className=" text-nowrap">Serial Number:</span>
                     <div className="text-[#FFFFFF80] truncate shrink-0" >
-                      <HelpTip content={detailInfo?.detail?.nodeUUID} >
-                        {shortenMiddle(detailInfo?.detail?.nodeUUID || "-", isMobile ? 12 : 17)}
+                      <HelpTip content={detailInfo?.detail?.nodeUUID || detailInfo?.detail?.nodeId} >
+                        {shortenMiddle(detailInfo?.detail?.nodeUUID || detailInfo?.detail?.nodeId || "-", isMobile ? 12 : 17)}
                       </HelpTip>
                     </div>
                   </div>
                   <div className="text-sm   mt-1 flex  gap-[.625rem]">
                     <span>Node Type:</span>
                     <div className="text-[#FFFFFF80]">
-                      {covertText(detailInfo?.detail?.nodeType as "x86" | "box")}
+                      {covertText(chooseType as nodeType)}
                     </div>
                   </div>
                 </div>
@@ -562,7 +603,7 @@ const ANodeInfo: FC<{
 
             </div>
             <div className="flex justify-between w-full gap-5 flex-col mt-5">
-              <InfoCard title="Basics" height="h-[278px]">
+              <InfoCard title="Basics" height={`${chooseType === 'lite_node' ? 'h-[248px]' : 'h-[278px]'}`} >
                 <InfoRow
                   label="Create Date"
                   value={
@@ -575,7 +616,7 @@ const ANodeInfo: FC<{
                   label="Device"
                   value={
                     <span className="capitalize">
-                      {info?.deviceType === 'x86' ? 'X86 Server' : covertText(info?.deviceType as "box" | "x86" | "Box") || "-"}
+                      {info?.deviceType === 'x86' ? 'X86 Server' : covertText(info?.deviceType as "box" | "x86" | "Box" || chooseType) || "-"}
                     </span>
                   }
                 />
@@ -584,37 +625,44 @@ const ANodeInfo: FC<{
                   value={info?.regionCode || "-"}
                 />
                 <InfoRow
+                  show={chooseType !== 'lite_node'}
                   label="Reputation Point"
                   value={info?.reputationPoint || "-"}
                 />
 
               </InfoCard>
 
-              <InfoCard title="Network Info">
+              <InfoCard height={`${chooseType === 'lite_node' ? 'h-[270px]' : 'h-[240px]'}`} title={chooseType === 'lite_node' ? `Network & Status` : `Network Info`}>
                 <InfoRow
                   label="Public IP"
                   value={
                     isIpv6 ? (
-                      <HelpTip content={detailInfo?.detail.ip}>
+                      <HelpTip content={chooseType === 'lite_node' ? detailInfo?.detail?.ipList![0].ipAddress : detailInfo?.detail.ip}>
                         <span className="text-[#FFFFFF80] text-sm text-center">
                           {shortenMiddle(detailInfo?.detail.ip as string)}
                         </span>
                       </HelpTip>
                     ) : (
-                      detailInfo?.detail.ip || "-"
+                      chooseType === 'lite_node' ? detailInfo?.detail?.ipList![0].ipAddress : detailInfo?.detail.ip || "-"
                     )
                   }
                 />
                 <InfoRow label="IP Location" value="-" />
-                <InfoRow label="Local IP" value={newResult()?.[0]?.ip || "-"} />
-                <InfoRow label="MAC Address" value={newResult()?.[0]?.mac || "-"} />
+                <InfoRow show={chooseType !== 'lite_node'} label="Local IP" value={newResult()?.[0]?.ip || "-"} />
+                <InfoRow show={chooseType !== 'lite_node'} label="MAC Address" value={newResult()?.[0]?.mac} />
+                <InfoRow show={chooseType === 'lite_node'} label="Total Uptime" value={detailInfo?.detail.totalUptime} />
+                <InfoRow show={chooseType === 'lite_node'} label="Last Day Uptime" value={detailInfo?.detail.lastDayUptime} />
+                <InfoRow show={chooseType === 'lite_node'} label="Total Network Quality" value={covertNetQuality(detailInfo?.detail.totalNetworkQuality)} />
+                <InfoRow show={chooseType === 'lite_node'} label="Last Day Network Quality" value={covertNetQuality(detailInfo?.detail.lastDayNetworkQuality)} />
+
+
               </InfoCard>
 
-              <InfoCard title="Device States">
-                <InfoRow label="CPU Cores" value={detailInfo?.detail.deviceInfo.cpuCores || "-"} />
+              {chooseType !== 'lite_node' ? <InfoCard title="Device States">
+                <InfoRow label="CPU Cores" value={detailInfo?.detail.deviceInfo?.cpuCores || "-"} />
                 <InfoRow
                   label="CPU Use"
-                  value={`${((detailInfo?.detail.deviceInfo.cpuUse || 0)).toFixed(2)}%`}
+                  value={`${((detailInfo?.detail.deviceInfo?.cpuUse || 0)).toFixed(2)}%`}
                 />
                 <InfoRow
                   label="RAM"
@@ -622,6 +670,7 @@ const ANodeInfo: FC<{
                 />
                 <InfoRow label="ROM" value="-" />
               </InfoCard>
+                : null}
             </div>
 
           </div>

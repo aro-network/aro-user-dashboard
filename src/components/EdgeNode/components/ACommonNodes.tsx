@@ -1,9 +1,14 @@
 import { HelpTip } from "@/components/tips"
 import { cn, Skeleton } from "@nextui-org/react"
+import { useSearchParams } from "next/navigation"
 import { FC } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 
 const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, className, isLoading }) => {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+  const chooseType = params.get("nodeType") || '';
+
   return <div>
     <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
@@ -32,13 +37,11 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
                   >{node.status ? 'Online' : 'Offline'}</label>
                 </div>
               </div>
-              <label className="text-[#FFFFFF80] text-sm break-words">{node.nodeUUID}</label>
+              <label className="text-[#FFFFFF80] text-sm break-words">{chooseType === 'lite_node' ? node.nodeId : node.nodeUUID}</label>
 
             </div>
             <div className="w-full flex gap-[.625rem] smd:gap-[5px] text-sm items-center ">
-              <div className="text-[#FFFFFF80]">
-                {node.when}
-              </div>
+
               <div className="flex gap-1 items-center">
                 {node.experience}
               </div>

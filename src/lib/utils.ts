@@ -94,12 +94,15 @@ export const formatStr = (address?: string, start = 0, end = 10) => {
   return `${prefix}${ellipsis}${suffix}`;
 };
 
-export const covertText = (type: "box" | "x86" | "Box") => {
+export const covertText = (
+  type: "box" | "x86" | "Box" | "router" | "lite_node"
+) => {
   const list = {
     box: "ARO Pod",
     Box: "ARO Pod",
     x86: "ARO Client",
     router: "ARO Link",
+    lite_node: "ARO Lite",
   };
   return list[type] || "-";
 };
@@ -249,6 +252,7 @@ export function groupByHour<T extends Record<string, any>>(
   dateFiled: string,
   countFiled: string
 ): HourlyGroup[] {
+  if (!data) return [];
   const grouped: Record<string, number> = {};
 
   data.forEach((item) => {
@@ -353,6 +357,8 @@ export function groupPackageByHour(
     packageLostPercent: string;
   }[]
 ) {
+  if (!data) return;
+
   const grouped: Record<string, { total: number; count: number }> = {};
 
   data.forEach((item) => {
@@ -378,6 +384,7 @@ export function groupPackageByHour(
 export function groupVolumeByHourInMB(
   data: { timestamp: number; volume: number }[]
 ) {
+  if (!data) return;
   const result: { hour: string; totalVolumeMB: string }[] = [];
   const grouped: Record<string, number> = {};
 

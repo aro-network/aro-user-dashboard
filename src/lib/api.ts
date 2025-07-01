@@ -16,6 +16,8 @@ export const BASE_API = API_MAP[ENV];
 
 const prefixUrl = "/edgeNode/node/";
 
+const extensionPrefixUrl = "/edgeNode/liteNode/";
+
 const Api = axios.create({
   baseURL: BASE_API,
   headers: {
@@ -236,10 +238,14 @@ const backendApi = {
     return response.data.data;
   },
 
-  getNodeInfoByNodeId: async (nodeId?: string) => {
-    const response = await Api.get<RES<Nodes.NodeInfoList>>(
-      `${prefixUrl}${nodeId}/details`
-    );
+  getNodeInfoByNodeId: async (nodeId?: string, chooseType?: string) => {
+    let url;
+    if (chooseType === "lite_node") {
+      url = `${extensionPrefixUrl}${nodeId}/details`;
+    } else {
+      url = `${prefixUrl}${nodeId}/details`;
+    }
+    const response = await Api.get<RES<Nodes.NodeInfoList>>(url);
     return response.data.data;
   },
 
@@ -250,10 +256,17 @@ const backendApi = {
     return response.data.data;
   },
 
-  countRewards: async (nodeId?: string) => {
+  countRewards: async (nodeId?: string, chooseType?: string) => {
+    let url;
+    if (chooseType === "lite_node") {
+      url = `${extensionPrefixUrl}${nodeId}/rewards`;
+    } else {
+      url = `${prefixUrl}${nodeId}/rewards`;
+    }
+
     const response = await Api.get<
       RES<{ today: string; total: string; yesterday: string }>
-    >(`${prefixUrl}${nodeId}/rewards`);
+    >(url);
     return response.data.data;
   },
   rewardHistory: async (
@@ -305,8 +318,6 @@ const backendApi = {
   currentOwner: async (nodeId?: string) => {
     if (!nodeId) return;
 
-    console.log("nodenodeIdId", nodeId);
-
     const response = await Api.get<RES<{ owner: boolean }>>(
       `${prefixUrl}${nodeId}/owner`
     );
@@ -315,8 +326,8 @@ const backendApi = {
 
   // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/uptime/list
 
-  currentUpTime: async (nodeId?: string) => {
-    if (!nodeId) return;
+  currentUpTime: async (nodeId?: string, chooseType?: string) => {
+    if (chooseType === "lite_node" || !nodeId) return;
     const response = await Api.get<
       RES<{
         lastUpdateTimestamp: string;
@@ -327,8 +338,8 @@ const backendApi = {
   },
   // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/volume/list
 
-  currentUpVolume: async (nodeId?: string) => {
-    if (!nodeId) return;
+  currentUpVolume: async (nodeId?: string, chooseType?: string) => {
+    if (chooseType === "lite_node" || !nodeId) return;
 
     const response = await Api.get<
       RES<{
@@ -340,8 +351,8 @@ const backendApi = {
   },
   // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/packageLoss/list
 
-  currentUpPackageLoss: async (nodeId?: string) => {
-    if (!nodeId) return;
+  currentUpPackageLoss: async (nodeId?: string, chooseType?: string) => {
+    if (chooseType === "lite_node" || !nodeId) return;
 
     const response = await Api.get<
       RES<{
@@ -353,8 +364,8 @@ const backendApi = {
   },
 
   // https://staging-api.aro.network/api/edgeNode/node/{nodeId}/averageDelay/list
-  currentUpAverageDelay: async (nodeId?: string) => {
-    if (!nodeId) return;
+  currentUpAverageDelay: async (nodeId?: string, chooseType?: string) => {
+    if (chooseType === "lite_node" || !nodeId) return;
 
     const response = await Api.get<
       RES<{
@@ -362,6 +373,86 @@ const backendApi = {
         list: { timestamp: number; averageDelay: number }[];
       }>
     >(`${prefixUrl}${nodeId}/averageDelay/list`);
+    return response.data.data;
+  },
+
+  // http://localhost:30002/edgeNode/liteNode/e4e72c44-b863-5ff8-b288-afc10369b31e/details
+
+  currentExtensionDetail: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<
+      RES<{
+        lastUpdateTimestamp: string;
+        list: { timestamp: number; averageDelay: number }[];
+      }>
+    >(`${extensionPrefixUrl}${nodeId}/details`);
+    return response.data.data;
+  },
+
+  // /edgeNode/liteNode/{clientId}/rewards
+
+  currentExtensionRewards: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<
+      RES<{
+        total: number;
+        today: number;
+        yesterday: number;
+      }>
+    >(`${extensionPrefixUrl}${nodeId}/rewards`);
+    return response.data.data;
+  },
+
+  currentExtensionNetworkQuality: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<
+      RES<{
+        list: { total: number; today: number; yesterday: number }[];
+      }>
+    >(`${extensionPrefixUrl}${nodeId}/networkQuality/list`);
+    return response.data.data;
+  },
+
+  // /edgeNode/liteNode/{clientId}/uptime/list
+
+  currentExtensionUptime: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<
+      RES<{
+        list: { total: number; today: number; yesterday: number }[];
+      }>
+    >(`${extensionPrefixUrl}${nodeId}/uptime/list`);
+    return response.data.data;
+  },
+
+  // /node/rename/{clientId}/{name}
+
+  editExtensionCurrentNodeName: async (nodeId?: string, nickName?: string) => {
+    const response = await Api.post<RES<Nodes.RewardsHistory[]>>(
+      `/node/rename/${nodeId}/${nickName}`
+    );
+    return response.data.data;
+  },
+
+  // /edgeNode/liteNode/{clientId}/rewardHistory
+
+  getExtensionRewardsHistory: async (
+    nodeId?: string,
+    chooseDate?: { startTime: number; endTime: number }
+  ) => {
+    const params = chooseDate?.startTime
+      ? {
+          params: chooseDate,
+        }
+      : {};
+    const response = await Api.get<RES<Nodes.RewardsHistory[]>>(
+      `${extensionPrefixUrl}${nodeId}/rewardHistory`,
+      params
+    );
     return response.data.data;
   },
 };
