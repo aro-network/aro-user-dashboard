@@ -652,8 +652,8 @@ const ANodeInfo: FC<{
                 <InfoRow show={chooseType !== 'lite_node'} label="MAC Address" value={newResult()?.[0]?.mac} />
                 <InfoRow show={chooseType === 'lite_node'} label="Total Uptime" value={formatNumber(detailInfo?.detail.totalUptime || 0)} />
                 <InfoRow show={chooseType === 'lite_node'} label="Last Day Uptime" value={detailInfo?.detail.lastDayUptime} />
-                <InfoRow show={chooseType === 'lite_node'} label="Total Network Quality" value={covertNetQuality(detailInfo?.detail.totalNetworkQuality)} />
-                <InfoRow show={chooseType === 'lite_node'} label="Last Day Network Quality" value={covertNetQuality(detailInfo?.detail.lastDayNetworkQuality)} />
+                <InfoRow show={chooseType === 'lite_node'} label="Total Network Quality" value={detailInfo?.detail.totalNetworkQuality} />
+                <InfoRow show={chooseType === 'lite_node'} label="Last Day Network Quality" value={detailInfo?.detail.lastDayNetworkQuality} />
 
 
               </InfoCard>
