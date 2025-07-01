@@ -15,7 +15,7 @@ declare namespace EdgeNodeMode {
     status: string | boolean;
     nodeId?: string;
     ip?: string;
-    nodeType: "box" | "x86";
+    nodeType: "box" | "x86" | "lite_node";
     [key: string]: any;
   };
 
