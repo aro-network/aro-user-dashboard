@@ -616,7 +616,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                         // setChooseedType(item)
                         params.set("chooseType", item?.value as 'box' | 'box');
                         r.push(`?${params.toString()}`);
-
                       }}
                     >
                       Add an {item.name}

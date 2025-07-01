@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import numbro from "numbro";
 import EChartsReact from "echarts-for-react";
+import _ from "lodash";
 
 const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
   const searchParams = useSearchParams();
