@@ -255,7 +255,7 @@ const AOverview = () => {
                 }
               />
               <DupleSplit />
-              <DupleInfo subClassName="smd:text-xs" tit={`${formatNumber(data?.rewards?.today || 0)}`} sub="Today" />
+              <DupleInfo subClassName="smd:text-xs" tit={`${formatNumber(data?.rewards?.today || 0)}`} sub="Yesterday" />
             </div>
           }
         />

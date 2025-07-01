@@ -28,6 +28,8 @@ const ANodes = () => {
   const nId = params.get("nId") || ''
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [openLink, setOpenLink] = useState('')
+  const chooseType = params.get("nodeType") || '';
+
 
   const title =
     nId && !unbindInfo
@@ -244,7 +246,7 @@ const ANodes = () => {
               </Btn>
 
               }
-              <Btn
+              {chooseType === 'lite_node' ? null : <Btn
                 onPress={() => {
 
                   updateURL('type', 'del')
@@ -254,6 +256,7 @@ const ANodes = () => {
               >
                 Delete
               </Btn>
+              }
             </div>
           )
         )}

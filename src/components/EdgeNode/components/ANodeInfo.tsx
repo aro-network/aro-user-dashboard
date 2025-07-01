@@ -62,7 +62,7 @@ const InfoCard = ({
 );
 
 
-type nodeType = 'router' | 'x86' | 'box' | 'lite_node'
+export type nodeType = 'router' | 'x86' | 'box' | 'lite_node'
 
 const ANodeInfo: FC<{
   nodeInfo: (arg0: any) => void;
@@ -650,7 +650,7 @@ const ANodeInfo: FC<{
                 <InfoRow label="IP Location" value="-" />
                 <InfoRow show={chooseType !== 'lite_node'} label="Local IP" value={newResult()?.[0]?.ip || "-"} />
                 <InfoRow show={chooseType !== 'lite_node'} label="MAC Address" value={newResult()?.[0]?.mac} />
-                <InfoRow show={chooseType === 'lite_node'} label="Total Uptime" value={detailInfo?.detail.totalUptime} />
+                <InfoRow show={chooseType === 'lite_node'} label="Total Uptime" value={formatNumber(detailInfo?.detail.totalUptime || 0)} />
                 <InfoRow show={chooseType === 'lite_node'} label="Last Day Uptime" value={detailInfo?.detail.lastDayUptime} />
                 <InfoRow show={chooseType === 'lite_node'} label="Total Network Quality" value={covertNetQuality(detailInfo?.detail.totalNetworkQuality)} />
                 <InfoRow show={chooseType === 'lite_node'} label="Last Day Network Quality" value={covertNetQuality(detailInfo?.detail.lastDayNetworkQuality)} />

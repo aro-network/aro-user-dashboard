@@ -1,6 +1,6 @@
 declare namespace Nodes {
   type DevicesInfo = {
-    nodeType: "x86" | "box";
+    nodeType: "x86" | "box" | "lite_node";
     nodeUUID: string;
     online: boolean;
     ip: string;
