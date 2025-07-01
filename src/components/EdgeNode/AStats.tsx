@@ -14,73 +14,61 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const chooseType = params.get("nodeType") || '';
-
-
-
-
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
 
+  const upTime = groupByHour(detailInfo?.upTime?.list, 'timestamp', 'uptimeCount') || []
+  const upLoadVol = groupVolumeByHourInMB(detailInfo?.upVolume?.list) || []
+  const packageLoss = groupPackageByHour(detailInfo?.upPackageLoss?.list) || []
+  const mock = () => {
+    return packageLoss?.map((item) => {
+      return { ...item, averageDelay: 0 }
+    })
+  }
+  const averageDelay = !detailInfo?.upAverageDelay?.list?.length ? mock() : groupPackageOrDelayByHour(detailInfo?.upAverageDelay?.list) || []
 
 
+  const formatTime = (timestamp: number | undefined) =>
+    dayjs(Number(timestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss");
 
 
-  const chartCardList = useMemo(() => {
-
-    if (chooseType === 'lite_node') return [];
-
-    const upTime = groupByHour(detailInfo?.upTime?.list, 'timestamp', 'uptimeCount') || []
-    const upLoadVol = groupVolumeByHourInMB(detailInfo?.upVolume?.list) || []
-    const packageLoss = groupPackageByHour(detailInfo?.upPackageLoss?.list) || []
-    const mock = () => {
-      return packageLoss?.map((item) => {
-        return { ...item, averageDelay: 0 }
-      })
-    }
-    const averageDelay = !detailInfo?.upAverageDelay?.list?.length ? mock() : groupPackageOrDelayByHour(detailInfo?.upAverageDelay?.list) || []
-
-
-    const formatTime = (timestamp: number | undefined) =>
-      dayjs(Number(timestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss");
-
-    return [
-      {
-        tit: '24H Uptime',
-        rightTit: <>{formatTime(detailInfo.upTime?.lastUpdateTimestamp)} Updated</>,
-        chart: (
-          <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
-            <AChart groupedData={upTime} color="#FDB600" name="Uptime(H)" width={width} />
-          </div>
-        )
-      },
-      {
-        tit: '24H Upload Volume',
-        rightTit: <>{formatTime(detailInfo.upVolume?.lastUpdateTimestamp)} Updated</>,
-        chart: (
-          <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
-            <AChart groupedData={upLoadVol} color="#AC8EDC" name="Volume(MB)" width={width} filed="totalVolumeMB" />
-          </div>
-        )
-      },
-      {
-        tit: '24H Package Loss',
-        rightTit: <>{formatTime(detailInfo.upPackageLoss?.lastUpdateTimestamp)} Updated</>,
-        chart: (
-          <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
-            <AChart groupedData={packageLoss} color="#4281FF" name="Loss(%)" width={width} filed="averagePackageLostPercent" />
-          </div>
-        )
-      },
-      {
-        tit: '24H Average Delay',
-        rightTit: <>{formatTime(detailInfo.upAverageDelay?.lastUpdateTimestamp)} Updated</>,
-        chart: (
-          <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
-            <AChart groupedData={averageDelay} color="#34A853" name="Delay(MS)" width={width} filed="averageDelay" />
-          </div>
-        )
-      },
-    ];
-  }, [chooseType, detailInfo]);
+  const chartList = [
+    {
+      tit: '24H Uptime',
+      rightTit: <>{formatTime(detailInfo.upTime?.lastUpdateTimestamp)} Updated</>,
+      chart: (
+        <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
+          <AChart groupedData={upTime} color="#FDB600" name="Uptime(H)" width={width} />
+        </div>
+      )
+    },
+    {
+      tit: '24H Upload Volume',
+      rightTit: <>{formatTime(detailInfo.upVolume?.lastUpdateTimestamp)} Updated</>,
+      chart: (
+        <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
+          <AChart groupedData={upLoadVol} color="#AC8EDC" name="Volume(MB)" width={width} filed="totalVolumeMB" />
+        </div>
+      )
+    },
+    {
+      tit: '24H Package Loss',
+      rightTit: <>{formatTime(detailInfo.upPackageLoss?.lastUpdateTimestamp)} Updated</>,
+      chart: (
+        <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
+          <AChart groupedData={packageLoss} color="#4281FF" name="Loss(%)" width={width} filed="averagePackageLostPercent" />
+        </div>
+      )
+    },
+    {
+      tit: '24H Average Delay',
+      rightTit: <>{formatTime(detailInfo.upAverageDelay?.lastUpdateTimestamp)} Updated</>,
+      chart: (
+        <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
+          <AChart groupedData={averageDelay} color="#34A853" name="Delay(MS)" width={width} filed="averageDelay" />
+        </div>
+      )
+    },
+  ];
 
 
 
@@ -354,12 +342,11 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
   ]
 
 
-
   return (
     <>
 
       <div className="grid grid-cols-1  lg:grid-cols-2  gap-5 py-5 ">
-        {(chooseType === 'lite_node' ? extensionChartList : chartCardList).map((item) => {
+        {(chooseType === 'lite_node' ? extensionChartList : chartList).map((item) => {
           return <TitCard key={item.tit}
             contentClassName="flex flex-wrap !items-start"
             tit={item.tit}
