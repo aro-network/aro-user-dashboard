@@ -142,6 +142,9 @@ export const formatNumber = (num: number) => {
     const scaled = num / Math.pow(1000, index);
     return scaled.toFixed(2) + units[index];
   }
+  if (num < 1) {
+    return num.toFixed(2);
+  }
   return Math.round(num).toString();
 };
 
@@ -437,6 +440,8 @@ export const addNewNodeList = [
     Rewards: "⭐️⭐️⭐️",
     "User-friendly": "⭐️⭐️⭐️",
     docs: "https://docs.aro.network/user-guides/device-setup",
+    url: "https://shop.aro.network/",
+    goToText: "Order ARO Pod",
   },
   {
     icon: "aro-link.png",
@@ -450,6 +455,24 @@ export const addNewNodeList = [
     Rewards: "⭐️⭐️⭐️",
     "User-friendly": "⭐️⭐️⭐️",
     docs: "https://docs.aro.network/user-guides/device-setup",
+    url: "https://shop.aro.network/",
+    goToText: "Order ARO Link",
+  },
+
+  {
+    icon: "aro-client.png",
+    name: "ARO Client",
+    value: "client",
+    description: [
+      `• A software image for your server or PC.`,
+      `• Perfect for pro users with strong internet.`,
+    ],
+    cost: "You device",
+    Rewards: "Flexible",
+    "User-friendly": "⭐️",
+    docs: " https://docs.aro.network/user-guides/software-setup",
+    url: "https://download.aro.network/images/aro-client-latest.iso",
+    goToText: "Download .ISO",
   },
   {
     icon: "aro-lite.png",
@@ -462,18 +485,7 @@ export const addNewNodeList = [
     cost: "0",
     Rewards: "⭐️",
     "User-friendly": "⭐️⭐️⭐️",
-  },
-  {
-    icon: "aro-client.png",
-    name: "ARO Client",
-    value: "client",
-    description: [
-      `• A software image for your server or PC.`,
-      `• Perfect for pro users with strong internet.`,
-    ],
-    cost: "you device",
-    Rewards: "Flexible",
-    "User-friendly": "⭐️",
-    docs: " https://docs.aro.network/user-guides/software-setup",
+    url: "",
+    goToText: "Download ARO Lite",
   },
 ];

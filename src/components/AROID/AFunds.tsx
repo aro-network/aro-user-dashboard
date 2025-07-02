@@ -3,8 +3,12 @@ import { Btn } from "../btns";
 import { TitCard } from "../cards";
 import { STable } from "../tables";
 import { AllText } from "@/lib/allText";
+import { currentENVName } from "../ADashboard";
+import { useRouter } from "next/navigation";
 
 const AFunds = () => {
+  const r = useRouter();
+
 
   const rewardsList = [
     ['180 $REACH', <Btn className="h-5">Claim</Btn>, '180 $REACH',],
@@ -18,6 +22,13 @@ const AFunds = () => {
 
   ]
 
+  const emptyText = () => {
+    return <div>
+      Your Jade shards are auto-credited to your account. Visit <button onClick={() => {
+        r.push(`?mode=${currentENVName}&tab=stats`)
+      }}
+        className="underline underline-offset-1">Stats</button> to view your rewards.</div>
+  }
 
   return <div className="flex gap-5 mt-5 flex-col">
     <TitCard
@@ -27,7 +38,7 @@ const AFunds = () => {
       <STable
         isLoading={false}
         loadingContent={<Spinner />}
-        empty={AllText.Funds["Claiming rewards is not available at the current stage. Stay tuned for updates!"]}
+        empty={emptyText()}
         head={[
           "Total Claimable",
           "Claim to Address",
@@ -48,7 +59,7 @@ const AFunds = () => {
       <STable
         isLoading={false}
         loadingContent={<Spinner />}
-        empty={AllText.Funds["Claiming rewards is not available at the current stage. Stay tuned for updates!"]}
+        empty={emptyText()}
         head={[
           "Date",
           "Time",

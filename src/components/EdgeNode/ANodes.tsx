@@ -58,10 +58,6 @@ const ANodes = () => {
 
       const list = data.map((item) => {
 
-
-        console.log('itemitemitemadsada', item);
-
-
         return {
           nodeType: item.nodeType,
           deviceName: item.nodeName,
@@ -116,10 +112,10 @@ const ANodes = () => {
     const showLink = typeParam === 'link';
     const type = params.get("chooseType");
     const obj: { [key: 'box' | 'x86' | string]: string } = {
-      box: 'Aro Pod',
-      client: 'Aro Client',
-      lite: 'Aro Lite',
-      link: 'Aro Link'
+      box: 'ARO Pod',
+      client: 'ARO Client',
+      lite: 'ARO Lite',
+      link: 'ARO Link'
     }
 
     if (showAdd) {
@@ -297,7 +293,7 @@ const ANodes = () => {
                         </div>
                         <div className="smd:mt-4">
                           <Btn
-                            className="h-10 w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                            className="h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
                             onPress={() => {
                               setOpenAddNode(!isOpen);
                               params.set("type", 'add');
@@ -322,11 +318,10 @@ const ANodes = () => {
                         <div className="text-sm">Rewards: {item.Rewards}</div>
                         <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
                         <div className=" mt-3 flex gap-5 text-xs">
-                          <button onClick={() => onSwitch(index)} className="text-[#568AFF] underline underline-offset-1">{index !== 3 ? `Order ${item.name}` : 'Download .ISO'}</button>
+                          <button onClick={() => window.open(item.url)} className="text-[#568AFF] underline underline-offset-1">{item.goToText}</button>
                           <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
                         </div>
                       </div>
-
                     </div>
                   })}
                 </div>

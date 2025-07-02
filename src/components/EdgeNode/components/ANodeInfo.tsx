@@ -188,9 +188,6 @@ const ANodeInfo: FC<{
   // }, []);
 
 
-  console.log('detailInfodetailInfodetailInfo', detailInfo);
-
-
 
   const [nodeName, setNodeName] = useState("");
 
@@ -411,12 +408,6 @@ const ANodeInfo: FC<{
     info = chainInfo;
   }
 
-
-  const covertNetQuality = (netQualityDeg = 0) => {
-    return netQualityDeg < 60 ? "Poor" : netQualityDeg < 120 ? "Good" : "Superb";
-  }
-
-
   const rewardsList = [
     {
       title:
@@ -602,8 +593,8 @@ const ANodeInfo: FC<{
 
 
             </div>
-            <div className="flex justify-between w-full gap-5 flex-col mt-5">
-              <InfoCard title="Basics" height={`${chooseType === 'lite_node' ? 'h-[248px]' : 'h-[278px]'}`} >
+            <div className="flex justify-between w-full gap-5 flex-col mt-5 ">
+              <InfoCard title="Basics" height={`${chooseType === 'lite_node' ? 'pt-[25px] h-[278px]' : 'h-[278px] '}`} >
                 <InfoRow
                   label="Create Date"
                   value={
@@ -632,7 +623,7 @@ const ANodeInfo: FC<{
 
               </InfoCard>
 
-              <InfoCard height={`${chooseType === 'lite_node' ? 'h-[270px]' : 'h-[240px]'}`} title={chooseType === 'lite_node' ? `Network & Status` : `Network Info`}>
+              <InfoCard height={`${chooseType === 'lite_node' ? 'h-[240px]' : 'h-[240px]'}`} title={chooseType === 'lite_node' ? `Network & Status` : `Network Info`}>
                 <InfoRow
                   label="Public IP"
                   value={
@@ -651,9 +642,9 @@ const ANodeInfo: FC<{
                 <InfoRow show={chooseType !== 'lite_node'} label="Local IP" value={newResult()?.[0]?.ip || "-"} />
                 <InfoRow show={chooseType !== 'lite_node'} label="MAC Address" value={newResult()?.[0]?.mac} />
                 <InfoRow show={chooseType === 'lite_node'} label="Total Uptime" value={formatNumber(detailInfo?.detail.totalUptime || 0)} />
-                <InfoRow show={chooseType === 'lite_node'} label="Last Day Uptime" value={detailInfo?.detail.lastDayUptime} />
-                <InfoRow show={chooseType === 'lite_node'} label="Total Network Quality" value={detailInfo?.detail.totalNetworkQuality} />
-                <InfoRow show={chooseType === 'lite_node'} label="Last Day Network Quality" value={detailInfo?.detail.lastDayNetworkQuality} />
+                <InfoRow show={chooseType === 'lite_node'} label="Last Day Uptime" value={formatNumber(detailInfo?.detail.lastDayUptime || 0)} />
+                <InfoRow show={chooseType === 'lite_node'} label="Total Network Quality" value={formatNumber(detailInfo?.detail.totalNetworkQuality || 0)} />
+                <InfoRow show={chooseType === 'lite_node'} label="Last Day Network Quality" value={formatNumber(detailInfo?.detail.lastDayNetworkQuality || 0)} />
 
 
               </InfoCard>

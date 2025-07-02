@@ -38,7 +38,7 @@ const Modes: Dashboard.ModesType[] = [
     children: [
 
       {
-        name: "Edge Nodes",
+        name: "ARO Nodes",
         content: <ANodes />,
         tab: 'nodes'
       },
@@ -49,15 +49,15 @@ const Modes: Dashboard.ModesType[] = [
       },
 
       {
-        name: "Funds",
+        name: "Cliaim",
         content: <AFunds />,
-        tab: 'funds'
+        tab: 'cliaim'
       },
 
       {
-        name: "Referral",
+        name: "Campaigns",
         content: <AMyReferral />,
-        tab: 'referral'
+        tab: 'campaigns'
       },
       {
         name: "ARO ID",

@@ -105,7 +105,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     {
       content:
         <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] smd:w-full mt-[4.5625rem]  flex flex-col gap-5 ">
+          <div className="w-[37.5rem] smd:w-full mt-10  flex flex-col gap-5 ">
             <div className="flex w-full justify-center font-normal text-lg leading-5">
               Congratulations!
             </div>

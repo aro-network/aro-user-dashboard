@@ -254,7 +254,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onPress={onContinue} className="w-full rounded-lg smd:!h-12" >
                 Continue
               </Btn>
-              <button onClick={() => window.open('https://youtu.be/YtjHVk2KA9w', '_blank')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
+              <button onClick={() => window.open('https://www.youtube.com/watch?v=ok8RW8hhYAw', '_blank')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
             </div>
           </div>
         </div>,
@@ -554,10 +554,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   };
 
 
-  const onSwitch = (index: number) => {
-    window.open(index !== 3 ? 'https://shop.aro.network/' : 'https://download.aro.network/images/aro-client-latest.iso')
-
-  }
 
   const onOpen = (url?: string) => {
     if (!url) return
@@ -565,7 +561,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
 
-  return <div className="w-full mt-[4.5625rem] smd:mt-12 smd:mb-5 ">
+  return <div className="w-full mt-10 smd:mt-12 smd:mb-5 ">
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full ">
       {type && typeMap[type] ? typeMap[type] :
         // <div className="w-full text-center flex flex-col m-auto">
@@ -593,7 +589,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
         //     })}
         //   </div>
         // </div>
-        <div className="w-full m-auto text-center gap-5 flex flex-col">
+        <div className="w-full m-auto text-center gap-[10px] flex flex-col">
           <div className=" text-lg ">{AllText.edgeNodes["Pick Your ARO Node to Start"]}</div>
           <div className="text-sm text-[#FFFFFF80]">
             {AllText.edgeNodes["Welcome aboard, new Aronauts! "]} <br />
@@ -610,7 +606,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   </div>
                   <div className="smd:mt-4">
                     <Btn
-                      className="h-10 w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                      className="h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
                       onPress={() => {
                         onSelectedType(item.name)
                         // setChooseedType(item)
@@ -635,7 +631,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   <div className="text-sm">Rewards: {item.Rewards}</div>
                   <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
                   <div className=" mt-3 flex gap-5 text-xs">
-                    <button onClick={() => onSwitch(index)} className="text-[#568AFF] underline underline-offset-1">{index !== 3 ? `Order ${item.name}` : 'Download .ISO'}</button>
+                    <button onClick={() => window.open(item.url)} className="text-[#568AFF] underline underline-offset-1">{item.goToText}</button>
                     <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
                   </div>
                 </div>

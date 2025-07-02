@@ -321,7 +321,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
 
         <EChartsReact
-          className="w-full  !h-[13.125rem] smd:!h-[11.875rem] "
+          className="w-full  !h-[12.5rem] smd:!h-[11.875rem] "
           option={extensionUpTimeChartOpt}
         />
       </div>
@@ -332,7 +332,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
 
         <EChartsReact
-          className="w-full  !h-[13.125rem] smd:!h-[11.875rem] "
+          className="w-full  !h-[12.5rem] smd:!h-[11.875rem] "
 
           option={chartNQOpt}
         />

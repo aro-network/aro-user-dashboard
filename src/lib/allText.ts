@@ -144,8 +144,8 @@ export const AllText = {
     Amount: "Amount",
     Address: "Address",
     TXID: "TXID",
-    "Claiming rewards is not available at the current stage. Stay tuned for updates!":
-      "Claiming rewards is not available at the current stage. Stay tuned for updates!",
+    "Your Jade shards are auto-credited to your account. Visit Stats to view your rewards.":
+      "Your Jade shards are auto-credited to your account. Visit Stats to view your rewards.",
   },
 
   referral: {

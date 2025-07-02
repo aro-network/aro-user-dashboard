@@ -67,7 +67,9 @@ const AOverview = () => {
   const r = useRouter()
   const ac = useAuthContext();
   const user = ac.queryUserInfo?.data;
-  const connectedNodes = user?.node.connected || 0;
+  const now = dayjs().unix();
+  const isShow = now > (user?.boostedExpireDuration + user?.inviteTimestamp)
+
   const { data, isLoading } = useQuery({
     queryKey: ["TrendingChart"],
     enabled: true,
@@ -185,8 +187,6 @@ const AOverview = () => {
     };
   }, [width, data?.trending]);
 
-
-
   return (
     <div className="">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 h-full  mt-5">
@@ -232,7 +232,7 @@ const AOverview = () => {
                 <span className="text-xl smd:text-base font-Alexandria">Rewards - All Nodes</span>
                 <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
               </div>
-              <div hidden={!user?.inviteUserEmail}>
+              <div hidden={isShow}>
                 <HelpTip className={`  w-[12.5rem] `} content={AllText.stats.inviteTips} >
                   <div className="bg-[#FF8849] rounded-[1.875rem] text-white text-xs py-1 px-2">
                     +20% Boosted
