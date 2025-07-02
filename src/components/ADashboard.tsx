@@ -29,11 +29,11 @@ import AAROID from "./AROID/AAROID";
 import { AFunds } from "./AROID";
 import ALinkOther from "./EdgeNode/components/ALinkOther";
 
-export const currentENVName = ENV === 'staging' ? 'testnet' : 'devnet'
+export const currentENVName = ENV === 'staging' ? 'testnet' : 'previewnet'
 const Modes: Dashboard.ModesType[] = [
 
   {
-    label: ENV === 'staging' ? 'Testnet' : 'Devnet',
+    label: ENV === 'staging' ? 'Testnet' : 'Previewnet',
     name: currentENVName,
     children: [
 

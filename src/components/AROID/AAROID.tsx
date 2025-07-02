@@ -82,7 +82,7 @@ const AAROID = () => {
               Bind Your EVM Address
               <div className="text-[#FFFFFF80] " >
 
-                <HelpTip content='This function is not available in Devnet.'>
+                <HelpTip content={AllText.aroId.evmAddressTips}>
                   <div>
                     <SVGS.SvgQuesiton />
                   </div>

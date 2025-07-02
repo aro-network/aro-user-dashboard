@@ -109,6 +109,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (user && user.token) {
       const injectedEnReachAI = getInjectAROAI();
 
+      console.log('injectedEnReachAIinjectedEnReachAIinjectedEnReachAI', injectedEnReachAI);
+
+
       e = setInterval(() => {
         if (!injectedEnReachAI) {
           console.warn(`Extension not installed`);

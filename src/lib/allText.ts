@@ -7,16 +7,16 @@ export const AllText = {
     "ARO ID": "ARO ID",
   },
   signIn: {
-    title: "Sign In For Devnet",
+    title: "Sign In For Previewnet",
     titleTips:
-      "Devnet is a private testing environment, not the Testnet. No mining rewards are available in Devnet. Testnet will launch soon. To join Devnet, check out the // for details.",
+      "Previewnet is a private testing environment, not the Testnet. No mining rewards are available in Previewnet. Testnet will launch soon. To join Previewnet, check out the // for details.",
     signUp: "Sign Up",
     forgetPwd: "Forget Password?",
   },
   signUp: {
-    title: "Sign Up For Devnet",
+    title: "Sign Up For Previewnet",
     titleTips:
-      "Devnet is a private testing environment, not the Testnet. No mining rewards are available in Devnet. Testnet will launch soon. To join Devnet, check out the Pioneers Program for details.",
+      "Previewnet is a private testing environment, not the Testnet. No mining rewards are available in Previewnet. Testnet will launch soon. To join Previewnet, check out the Pioneers Program for details.",
     agreeText: "I agree to the ARO Terms of Service and Privacy Policy",
     haveAccount: "Already have an account? Sign In",
   },
@@ -160,7 +160,7 @@ export const AllText = {
     subTitle: `Referrers earn a 15% commission on their referees' Edge Node rewards. Contact us to get whitelisted for an additional second-tier commission.`,
   },
   aroId: {
-    evmAddressTips: "This function is not available in Devnet.",
+    evmAddressTips: "This function is not available in Previewnet.",
     notReferredTips: "You are not referred by anyone.",
     addReferrer: {
       title: "Add Referrer",
@@ -172,7 +172,7 @@ export const AllText = {
   },
   devnet: {
     title:
-      "Devnet is for closed test only. Devnet is not Testnet. No mining rewards will be generated in Devnet. Testnet is coming soon. To join Devnet, please refer to the xxx",
+      "Previewnet is for closed test only. Previewnet is not Testnet. No mining rewards will be generated in Previewnet. Testnet is coming soon. To join Previewnet, please refer to the xxx",
   },
   nodeDetails: {
     "Node Info": {

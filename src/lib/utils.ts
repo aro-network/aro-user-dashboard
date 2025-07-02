@@ -192,9 +192,9 @@ export const envText = (module?: string) => {
   const env = ENV;
   const config: Record<string, Record<string, string>> = {
     prod: {
-      sign: "Sign In For Devnet",
-      signUp: "Sign Up For Devnet",
-      mode: "Devnet",
+      sign: "Sign In For Previewnet",
+      signUp: "Sign Up For Previewnet",
+      mode: "Previewnet",
     },
     beta: {
       sign: "Sign In",
