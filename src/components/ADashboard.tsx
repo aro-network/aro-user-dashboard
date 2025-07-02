@@ -49,9 +49,9 @@ const Modes: Dashboard.ModesType[] = [
       },
 
       {
-        name: "Cliaim",
+        name: "Claim",
         content: <AFunds />,
-        tab: 'cliaim'
+        tab: 'claim'
       },
 
       {
