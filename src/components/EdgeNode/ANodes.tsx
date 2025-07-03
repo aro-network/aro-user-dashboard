@@ -123,6 +123,8 @@ const ANodes = () => {
       updateURL('type', 'add')
       if (type) {
         setSelectedType(obj[type]);
+      } else {
+        setSelectedType('');
       }
     } else if (showDetail && nId) {
       setUnbingInfo('')
@@ -168,7 +170,6 @@ const ANodes = () => {
     if (!url) return
     window.open(url)
   }
-
 
 
   return (

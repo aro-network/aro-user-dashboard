@@ -27,7 +27,7 @@ const AFunds = () => {
       Your Jade shards are auto-credited to your account. Visit <button onClick={() => {
         r.push(`?mode=${currentENVName}&tab=stats`)
       }}
-        className="underline underline-offset-1">Stats</button> to view your rewards.</div>
+        className="underline underline-offset-1 hover:text-primary">Stats</button> to view your rewards.</div>
   }
 
   return <div className="flex gap-5 mt-5 flex-col">

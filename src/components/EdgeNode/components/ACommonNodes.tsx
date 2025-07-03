@@ -28,11 +28,11 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
                   </label>
                 </HelpTip>
                 <div className="flex items-center gap-1 ">
-                  {node.status ? <IoIosCheckmarkCircle className="text-[#00E42A] text-base " /> : <IoIosCloseCircle className="text-[#FF6A6C] text-base" />}
+                  {node.status ? <IoIosCheckmarkCircle className="text-status-0 text-base " /> : <IoIosCloseCircle className="text-status-1 text-base" />}
                   <label
                     className={cn('text-base ', {
-                      "text-[#00E42A]": node.status,
-                      "text-[#FF6A6C]": !node.status
+                      "text-status-0": node.status,
+                      "text-status-1": !node.status
                     })}
                   >{node.status ? 'Online' : 'Offline'}</label>
                 </div>

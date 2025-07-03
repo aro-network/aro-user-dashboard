@@ -412,7 +412,7 @@ const ANodeInfo: FC<{
     {
       title:
         <div className={`flex items-center gap-3 mt-3 font-medium text-2xl
-       ${detailInfo?.detail.online ? 'text-[#02B421]' : 'text-[#F5A524]'} `} >
+       ${detailInfo?.detail.online ? 'text-status-0' : 'text-status-1'} `} >
           <Image src={`./${detailInfo?.detail.online ? 'online' : 'offline'}.svg`} />
           {detailInfo?.detail.online ? 'Online' : 'Offline'}
         </div>

@@ -33,9 +33,14 @@ const config: Config = {
         xs: [{ min: "1001px", max: "1440px" }],
         md: { min: "1000px" },
       },
+
       colors: {
         primary: {
           DEFAULT: "#00E42A",
+        },
+        status: {
+          0: "#00E42A",
+          1: "#F5A524",
         },
         default: {
           DEFAULT: "rgba(255, 255, 255, 0.15)",

@@ -43,8 +43,8 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
     { name: AllText.deviceInfo["Serial Number"], value: nodeUUID },
     {
       name: AllText.deviceInfo["Network Status"], value: <div className="flex items-center">
-        {online ? <IoIosCheckmarkCircle className="text-[#00E42A] text-sm" /> : <IoIosCloseCircle className="text-[#FF6A6C] text-sm" />}
-        <label className={`ml-1 text-sm ${online ? 'text-[#00E42A]' : 'text-[#FF6A6C]'} `}>{online ? 'Online' : 'Offline'}</label>
+        {online ? <IoIosCheckmarkCircle className="text-status-0 text-sm" /> : <IoIosCloseCircle className="text-status-1 text-sm" />}
+        <label className={`ml-1 text-sm ${online ? 'text-status-0' : 'text-status-1'} `}>{online ? 'Online' : 'Offline'}</label>
       </div>
     },
     { name: 'Device IP', value: ip },
@@ -269,7 +269,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
 
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-contain rounded-lg  bg-white  w-full h-full" alt={`${covertName[deviceInfo?.nodeType || 'box']}`} />
+                <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-cover rounded-lg  bg-white  w-full h-full" alt={`${covertName[deviceInfo?.nodeType || 'box']}`} />
               </div>
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
