@@ -249,7 +249,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onPress={onContinue} className="w-full rounded-lg smd:!h-12" >
                 Continue
               </Btn>
-              <button onClick={() => window.open('https://www.youtube.com/watch?v=ok8RW8hhYAw', '_blank')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
+              <button hidden={searchType === 'link'} onClick={() => window.open('https://www.youtube.com/watch?v=ok8RW8hhYAw', '_blank')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
             </div>
           </div>
         </div>,
@@ -489,7 +489,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const liteStep = [
     {
       content:
-        <div className="flex w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center justify-center">
           <div className="w-[37.5rem] smd:w-full">
             <div className="flex w-full font-normal justify-center text-center text-sm leading-5 ">
               {AllText.AAddNewNodes.lite.step1.title}
@@ -556,18 +556,15 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     window.open(url)
   }
 
-
-  const rightTabList = addNewNodeList.find((item, index) => item.value === searchType || '')
-  console.log('typetypetypetype', searchType, typeObj[searchType], addNewNodeList, rightTabList);
+  const rightTabList = addNewNodeList.find((item) => item.value === searchType || '')
 
   return <div className="w-full mt-10 smd:mt-12 smd:mb-5 ">
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full">
       {type && typeMap[type] ?
-        <div className="flex gap-5">
-          <div className="  commonTab rounded-xl px-10 py-[71px]">
+        <div className="flex gap-5 smd:flex-col">
+          <div className="  commonTab rounded-xl p-5 flex items-center">
             {typeMap[type]}
           </div>
-
 
           {firstShow && <div className="commonTab  rounded-xl p-5 w-[270px] smd:w-full">
             <img src={rightTabList?.icon} />
@@ -583,9 +580,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                 <div className="text-sm">Cost: {rightTabList?.cost}</div>
                 <div className="text-sm">Rewards: {rightTabList?.Rewards}</div>
                 <div className="text-sm">User-friendly: {rightTabList && rightTabList!["User-friendly"]}</div>
-                <div className=" mt-3 flex gap-5 text-xs">
-                  <button onClick={() => window.open(rightTabList?.url)} className="text-[#568AFF] underline underline-offset-1">{rightTabList?.goToText}</button>
-                  <button onClick={() => onOpen(rightTabList?.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
+                <div className=" mt-3 flex gap-5 text-xs ">
+                  <button onClick={() => window.open(rightTabList?.url)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">{rightTabList?.goToText}</button>
+                  <button onClick={() => onOpen(rightTabList?.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">Learn more in docs</button>
                 </div>
               </div>
 
