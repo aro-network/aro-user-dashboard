@@ -12,6 +12,7 @@ import useMobileDetect from "@/hooks/useMobileDetect"
 import { useRouter, useSearchParams } from "next/navigation";
 import { ENV } from "@/lib/env"
 import { AllText } from "@/lib/allText"
+import { typeObj } from "../ANodes"
 
 
 const deviceList: Nodes.DeviceType[] = [
@@ -91,13 +92,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
 
+  const searchType = params.get('chooseType') || ''
 
-  const isMobileDevice = () => {
-    if (typeof window === "undefined") return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-  }
 
 
 
@@ -120,9 +116,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
 
   useEffect(() => {
-    const type = params.get('chooseType')
-    if (type) {
-      setChooseedType(deviceTypeList[type])
+    if (searchType) {
+      setChooseedType(deviceTypeList[searchType])
     } else {
       setChooseedType(undefined)
     }
@@ -553,6 +548,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     lite: <CurrentNode step={stepLiteIndex} typeStep={liteStep} />,
   };
 
+  const firstShow = stepX86Index === 0 && stepIndex === 0 && stepLiteIndex === 0
 
 
   const onOpen = (url?: string) => {
@@ -561,9 +557,44 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
 
+  const rightTabList = addNewNodeList.find((item, index) => item.value === searchType || '')
+  console.log('typetypetypetype', searchType, typeObj[searchType], addNewNodeList, rightTabList);
+
   return <div className="w-full mt-10 smd:mt-12 smd:mb-5 ">
-    <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full ">
-      {type && typeMap[type] ? typeMap[type] :
+    <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full">
+      {type && typeMap[type] ?
+        <div className="flex gap-5">
+          <div className="  commonTab rounded-xl px-10 py-[71px]">
+            {typeMap[type]}
+          </div>
+
+
+          {firstShow && <div className="commonTab  rounded-xl p-5 w-[270px] smd:w-full">
+            <img src={rightTabList?.icon} />
+            <div
+              className="rounded-xl  flex  gap-10 smd:gap-[30px]  smd:flex-wrap">
+              <div className="text-left flex flex-col justify-between smd:justify-start ">
+                <div className="text-xl text-white mt-5">{rightTabList?.name}</div>
+                <div className="mt-[10px] h-[80px] flex flex-col justify-center">
+                  {rightTabList?.description.map((item) => {
+                    return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
+                  })}
+                </div>
+                <div className="text-sm">Cost: {rightTabList?.cost}</div>
+                <div className="text-sm">Rewards: {rightTabList?.Rewards}</div>
+                <div className="text-sm">User-friendly: {rightTabList && rightTabList!["User-friendly"]}</div>
+                <div className=" mt-3 flex gap-5 text-xs">
+                  <button onClick={() => window.open(rightTabList?.url)} className="text-[#568AFF] underline underline-offset-1">{rightTabList?.goToText}</button>
+                  <button onClick={() => onOpen(rightTabList?.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>}
+        </div>
+
+        :
         // <div className="w-full text-center flex flex-col m-auto">
         //   <label className="font-normal text-lg leading-5 smd:text-base smd:text-left ">
         //     {AllText.AAddNewNodes.title}
@@ -639,6 +670,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               </div>
             })}
           </div>
+
         </div>
 
       }

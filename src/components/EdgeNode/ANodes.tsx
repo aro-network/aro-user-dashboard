@@ -16,6 +16,14 @@ import { AllText } from "@/lib/allText";
 import { ForceModal } from "../dialogs";
 
 
+export const typeObj: { [key: 'box' | 'x86' | string]: string } = {
+  box: 'ARO Pod',
+  client: 'ARO Client',
+  lite: 'ARO Lite',
+  link: 'ARO Link'
+}
+
+
 const ANodes = () => {
   const [isOpen, setOpenAddNode] = useToggle(false);
   const [unbindInfo, setUnbingInfo] = useState<string | undefined>("");
@@ -111,18 +119,13 @@ const ANodes = () => {
     const showDel = typeParam === 'del';
     const showLink = typeParam === 'link';
     const type = params.get("chooseType");
-    const obj: { [key: 'box' | 'x86' | string]: string } = {
-      box: 'ARO Pod',
-      client: 'ARO Client',
-      lite: 'ARO Lite',
-      link: 'ARO Link'
-    }
+
 
     if (showAdd) {
       setOpenAddNode(showAdd);
       updateURL('type', 'add')
       if (type) {
-        setSelectedType(obj[type]);
+        setSelectedType(typeObj[type]);
       } else {
         setSelectedType('');
       }
