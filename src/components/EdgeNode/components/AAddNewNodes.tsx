@@ -548,8 +548,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     lite: <CurrentNode step={stepLiteIndex} typeStep={liteStep} />,
   };
 
-  const firstShow = stepX86Index === 0 && stepIndex === 0 && stepLiteIndex === 0
-
+  const firstShow = (searchType === 'client' && stepX86Index === 1) || stepIndex === 0 && stepLiteIndex === 0
 
   const onOpen = (url?: string) => {
     if (!url) return
@@ -562,7 +561,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full">
       {type && typeMap[type] ?
         <div className="flex gap-5 smd:flex-col">
-          <div className="  commonTab rounded-xl p-5 flex items-center">
+          <div className="  commonTab rounded-xl p-10 flex items-center">
             {typeMap[type]}
           </div>
 
