@@ -95,7 +95,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
               {AllText.deviceInfo["Please confirm you want to delete this device. This action cannot be undone."]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isLoading={getStatus.isFetching} onPress={() => setIsConfirm(true)} className="w-full rounded-lg smd:h-12 " >
+              <Btn isLoading={getStatus.isFetching} onPress={() => setIsConfirm(true)} className="w-full rounded-lg h-12 " >
                 Confirm Delete
               </Btn>
             </div>
@@ -114,7 +114,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full rounded-lg smd:h-12" onPress={onDeviceStep} >
+              <Btn type="submit" className="w-full rounded-lg h-12" onPress={onDeviceStep} >
                 OK
               </Btn>
             </div>

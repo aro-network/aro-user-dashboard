@@ -237,7 +237,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <Input
               maxLength={30}
               className=" mt-5 "
-              classNames={{ 'inputWrapper': '!rounded-lg smd:!h-12' }}
+              classNames={{ 'inputWrapper': '!rounded-lg h-12' }}
               value={serialNum?.num}
               onChange={(e) => {
                 const onlyLetters = e.target.value.replace(/[^a-zA-Z0-9]/g, '').trim();
@@ -246,7 +246,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
             />
             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onPress={onContinue} className="w-full rounded-lg smd:!h-12" >
+              <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onPress={onContinue} className="w-full rounded-lg  min-h-12" >
                 Continue
               </Btn>
               <button hidden={searchType === 'link'} onClick={() => window.open('https://www.youtube.com/watch?v=ok8RW8hhYAw', '_blank')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
@@ -276,7 +276,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {deviceInfo?.bindState === 'N/A' ? AllText.AAddNewNodes.type.step2.error[1] : AllText.AAddNewNodes.type.step2.error[0]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5 ">
-              <Btn onPress={() => onStepNext()} className="w-full rounded-lg smd:h-12" >
+              <Btn onPress={() => onStepNext()} className="w-full rounded-lg h-12  min-h-12" >
                 Continue
               </Btn>
             </div>
@@ -291,7 +291,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
             </div>
             <div className="text-xs w-full mt-5 font-Alexandria smd:text-sm">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
-            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg smd:h-12' }} className="mt-[.3125rem]" />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg h-12' }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs smd:text-sm mt-[.625rem]">{AllText.AAddNewNodes.type.step3["You can change the name anytime later."]}</label>
             <div className="text-xs smd:text-sm mt-[.9375rem] font-Alexandria ">Select Service Region</div>
             <Select
@@ -300,7 +300,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                 setBindInfo({ ...bindInfo, regions: new Set(keys as Set<string>) });
               }}
               placeholder="Select an regions"
-              classNames={{ 'base': '!rounded-lg !w-full smd:!h-12 ', 'popoverContent': '!w-full', 'innerWrapper': 'smd:!h-12 ', 'trigger': 'smd:!h-12', 'value': 'smd:text-base' }}
+              classNames={{ 'base': '!rounded-lg !w-full !h-12 ', 'popoverContent': '!w-full', 'innerWrapper': '!h-12 ', 'trigger': '!h-12', 'value': 'smd:text-base' }}
               className=" mt-[.3125rem] "
               selectedKeys={new Set(bindInfo.regions)}
             >
@@ -312,7 +312,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[1.375rem] ">
-              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onPress={() => onBindingConfig('box')} className="w-full rounded-lg smd:!h-12 " >
+              <Btn isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} isLoading={bind.isFetching} onPress={() => onBindingConfig('box')} className="w-full rounded-lg  min-h-12 " >
                 Add
               </Btn>
             </div>
@@ -331,7 +331,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn onPress={() => onStepNext(true)} type="submit" className="w-full rounded-lg smd:h-12" >
+              <Btn onPress={() => onStepNext(true)} type="submit" className="w-full rounded-lg  min-h-12" >
                 OK
               </Btn>
             </div>
@@ -358,7 +358,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.type2.first["Make sure you have followed the guidance and complete initial network configurations on your Software Node CLI before continue."].replaceAll('xx', chooseedType?.name ?? '')}
             </div>
             <div className="flex justify-center items-center mt-[.75rem]  flex-col  gap-[.625rem]">
-              <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg smd:!h-12" >
+              <Btn onClick={() => onX86StepNext()} className="w-full rounded-lg  min-h-12" >
                 Continue
               </Btn>
             </div>
@@ -379,14 +379,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               maxLength={30}
               errorMessage="Please enter"
               className=" mt-5  w-full"
-              classNames={{ 'inputWrapper': '!rounded-lg smd:!h-12' }}
+              classNames={{ 'inputWrapper': '!rounded-lg !h-12' }}
               value={serialNum?.num}
               onChange={(e) => {
                 const onlyLetters = e.target.value.replace(/[^a-zA-Z0-9]/g, '').trim();
                 setSerialNum({ num: onlyLetters, type: 'x86' });
               }} />
             <div className="flex justify-center items-center mt-[.75rem] flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onX86Continue} className="w-full rounded-lg smd:!h-12" >
+              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onClick={onX86Continue} className="w-full rounded-lg  min-h-12" >
                 Continue
               </Btn>
             </div>
@@ -419,7 +419,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {deviceInfo?.bindState === 'N/A' ? AllText.AAddNewNodes.type.step2.error[1] : AllText.AAddNewNodes.type.step2.error[0]}
             </div>
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn onPress={() => onX86StepNext()} className="w-full rounded-lg smd:!h-12" >
+              <Btn onPress={() => onX86StepNext()} className="w-full rounded-lg  min-h-12" >
                 Continue
               </Btn>
             </div>
@@ -435,7 +435,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="text-xs mt-5 ">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
-            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg smd:h-12' }} />
+            <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg h-12' }} />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">{AllText.AAddNewNodes.type.step3["You can change the name anytime later."]}</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
             <Select
@@ -445,7 +445,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               }}
               placeholder="Select an regions"
               className=" mt-[.3125rem]"
-              classNames={{ 'base': '!rounded-lg !w-full smd:!h-12 ', 'popoverContent': '!w-full !rounded-lg', 'innerWrapper': 'smd:!h-12 ', 'trigger': 'smd:!h-12', 'value': 'smd:text-base' }}
+              classNames={{ 'base': '!rounded-lg !w-full !h-12 ', 'popoverContent': '!w-full !rounded-lg', 'innerWrapper': '!h-12 ', 'trigger': '!h-12', 'value': 'smd:text-base' }}
               selectedKeys={new Set(bindInfo.regions)}
             >
               {(animal: { code: string, name: string }) => <SelectItem key={animal.code}>{animal.name}</SelectItem>}
@@ -456,7 +456,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
-              <Btn isLoading={bind.isFetching} isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} onClick={() => onBindingConfig()} className="w-full rounded-lg smd:!h-12" >
+              <Btn isLoading={bind.isFetching} isDisabled={!bindInfo.deviceName || !Array.from(bindInfo.regions)[0]?.length} onClick={() => onBindingConfig()} className="w-full rounded-lg  min-h-12" >
                 Add
               </Btn>
             </div>
@@ -476,7 +476,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full rounded-lg smd:!h-12" onPress={() => onX86StepNext(true)} >
+              <Btn type="submit" className="w-full rounded-lg  min-h-12" onPress={() => onX86StepNext(true)} >
                 OK
               </Btn>
             </div>
@@ -499,10 +499,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.lite.step1.subTitle}
             </div>
             <div className="flex justify-center items-center mt-[.75rem] gap-[.625rem]">
-              <Btn onPress={() => onBack()} className="w-full rounded-lg !h-12  bg-default border  !border-white text-white hover:bg-l1" >
+              <Btn onPress={() => onBack()} className="w-full rounded-lg  min-h-12  bg-default border  !border-white text-white hover:bg-l1" >
                 Cancel
               </Btn>
-              <Btn onPress={() => onLiteContinue()} className="w-full rounded-lg !h-12" >
+              <Btn onPress={() => onLiteContinue()} className="w-full rounded-lg  min-h-12" >
                 Go Install
               </Btn>
             </div>
@@ -521,7 +521,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex justify-center items-center mt-[.75rem] flex-col  gap-[.625rem]">
-              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onPress={() => onLiteContinue()} className="w-full rounded-lg smd:!h-12" >
+              <Btn isDisabled={!serialNum} isLoading={allStatus.isFetching} onPress={() => onLiteContinue()} className="w-full rounded-lg  min-h-12" >
                 Go to Node Detail page
               </Btn>
             </div>
