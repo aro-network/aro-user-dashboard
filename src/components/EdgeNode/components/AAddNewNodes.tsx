@@ -227,7 +227,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full font-normal smd:text-base text-lg leading-5 justify-center font-Alexandria smd:justify-start ">
+            <div className="flex w-full font-normal smd:text-base text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start ">
               {AllText.AAddNewNodes.type.step1.title}
 
             </div>
@@ -258,7 +258,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full ">
-            <div className="flex w-full  font-normal text-lg leading-5 justify-center font-Alexandria">
+            <div className="flex w-full  font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria">
               {AllText.AAddNewNodes.type.step2.title}
             </div>
             <div className=" py-5 my-5 md:p-5 md:bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
@@ -287,7 +287,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="md:flex md:w-full justify-center flex-col md:items-center">
           <div className="w-[37.5rem] smd:w-full  ">
-            <div className="flex w-full font-normal  smd:justify-start text-lg leading-5 justify-center font-Alexandria">
+            <div className="flex w-full font-normal  smd:justify-start text-lg smd:text-base leading-5 justify-center font-Alexandria">
               {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
             </div>
             <div className="text-xs w-full mt-5 font-Alexandria smd:text-sm">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
@@ -398,7 +398,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full  font-normal text-lg  smd:text-baseleading-5 justify-center smd:justify-start">
+            <div className="flex w-full  font-normal text-lg  smd:text-base leading-5 justify-center smd:justify-start">
               {AllText.AAddNewNodes.type.step2.title}
             </div>
 
@@ -657,7 +657,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                 key={`nodes_${index}`}
                 className="bg-[#6D6D6D66]  commonTab  hover:bg-[#6D6D6DCC] rounded-xl  flex  gap-10 smd:gap-[30px] p-5 smd:flex-wrap">
                 <div className="flex flex-col  justify-between smd:justify-start smd:w-full ">
-                  <div className="md:w-[218px] smd:!w-full  h-[130px]">
+                  <div className="md:w-[218px] smd:!w-full  h-[130px] smd:h-[170px]">
                     <img src={`../${item.icon}`} alt={item.name} className=" w-full h-full object-contain bg-white rounded-lg" />
                   </div>
                   <div className="smd:mt-4">

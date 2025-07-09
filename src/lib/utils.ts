@@ -449,7 +449,7 @@ export const addNewNodeList = [
     value: "link",
     description: [
       `• A Wi-Fi router with a built-in ARO node.`,
-      `• Ideal for business use`,
+      `• Ideal for business use.`,
     ],
     cost: "$$",
     Rewards: "⭐️⭐️⭐️",
