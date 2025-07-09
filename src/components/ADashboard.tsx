@@ -10,24 +10,17 @@ import { useDisconnect } from "wagmi";
 import { useCopy } from "@/hooks/useCopy";
 import { useToggle } from "react-use";
 import { ConfirmDialog } from "./dialogimpls";
-import { ANodes, AOverview, AStats } from "./EdgeNode";
-import { AEdgeNode, ALeaderboard } from "./NetworkExplorer";
+import { ANodes, AOverview } from "./EdgeNode";
 import { AnimatePresence } from "motion/react"
 import * as motion from "motion/react-client"
 import AMyReferral from "./Referal/AReferal";
-import { CiCircleQuestion } from "react-icons/ci";
 import { ENV } from "@/lib/env";
 import { HelpTip } from "./tips";
-import { Drawer, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, } from "@heroui/drawer";
-import { Btn } from "./btns";
-import useMobileDetect from "@/hooks/useMobileDetect";
+import { Drawer, DrawerContent, DrawerBody, DrawerFooter, } from "@heroui/drawer";
 import { SVGS } from "@/svg";
-import { getItem, removeItem } from "@/lib/storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { AllText } from "@/lib/allText";
 import AAROID from "./AROID/AAROID";
-import { AFunds } from "./AROID";
-import ALinkOther from "./EdgeNode/components/ALinkOther";
 
 export const currentENVName = ENV === 'staging' ? 'testnet' : 'previewnet'
 const Modes: Dashboard.ModesType[] = [
@@ -61,7 +54,7 @@ const Modes: Dashboard.ModesType[] = [
 
 
       {
-        name: "My ARO Account",
+        name: "ARO Account",
         content: <AAROID />,
         tab: 'aroId'
       },
@@ -368,7 +361,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 {
                   "bg-[#373737] text-white ": selected,
                   "text-white/50 hover:bg-default": !selected,
-                  'ml-auto': m.name === 'My ARO Account'
+                  'ml-auto': m.name === 'ARO Account'
                 }
               )}
               onClick={() => {

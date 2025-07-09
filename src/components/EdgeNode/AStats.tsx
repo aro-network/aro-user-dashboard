@@ -352,7 +352,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
             tit={item.tit}
             titClassName="text-sm"
             className={cn("h-[15rem]  w-full text-xs !rounded-xl commonTab  !gap-[.625rem] !bg-[#6D6D6D66] newTab")}
-            right={<label className={` font-normal text-xs mt-1 text-[#FFFFFF80]`}>
+            right={<label className={` font-normal smd:w-full smd:text-center smd:mt-2 text-xs mt-1 text-[#FFFFFF80]`}>
               {item.rightTit}
             </label>}
           >

@@ -81,7 +81,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const [chooseedType, setChooseedType] = useState<Nodes.DeviceType | undefined>(undefined)
   const [stepIndex, setStepIndex] = useState(0)
   const [stepX86Index, setX86StepIndex] = useState(0)
-  const [stepLiteIndex, setLiteStepIndex] = useState(1)
+  const [stepLiteIndex, setLiteStepIndex] = useState(0)
   const [serialNum, setSerialNum] = useState<{ type?: 'x86' | 'box', num?: string }>()
   const [deviceInfo, setDeviceInfo] = useState<Nodes.DevicesInfo>()
   const [bindInfo, setBindInfo] = useState<{ deviceName: string, regions: Set<string> }>({ deviceName: '', regions: new Set() })
@@ -573,14 +573,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
+            <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
               {AllText.AAddNewNodes.lite.step3["Congratulations!"]}
             </div>
             <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
               {AllText.AAddNewNodes.lite.step3["Your ARO Lite has been added to your Dashboard successfully."]}
             </div>
 
-            <div className="flex  items-center mt-[.75rem]  gap-[.625rem] justify-between w-full">
+            <div className="flex  items-center mt-[.75rem] smd:flex-col  gap-[.625rem] justify-between w-full">
               <Btn onPress={() => setLiteStepIndex(0)} className="w-full rounded-lg  min-h-12" >
                 {AllText.AAddNewNodes.lite.step3["Add Another Node"]}
               </Btn>
@@ -713,7 +713,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
                 <div className="text-left flex flex-col justify-between smd:justify-start ">
                   <div className="text-xl ">{item.name}</div>
-                  <div className="mt-[10px] h-[80px] flex flex-col justify-center">
+                  <div className="mt-[10px] h-[80px] smd:h-auto smd:mb-[10px] flex flex-col justify-center">
                     {item.description.map((item) => {
                       return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
                     })}
@@ -721,7 +721,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
                   <div className="text-sm">Cost: {item.cost}</div>
                   <div className="text-sm">Rewards: {item.Rewards}</div>
                   <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
-                  <div className=" mt-3 flex gap-5 text-xs">
+                  <div className=" mt-3 flex gap-5 smd:gap-[10px] text-xs">
                     <button onClick={() => window.open(item.url)} className="text-[#568AFF] underline underline-offset-1">{item.goToText}</button>
                     <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
                   </div>
