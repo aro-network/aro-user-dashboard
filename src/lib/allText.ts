@@ -5,18 +5,16 @@ export const AllText = {
     Funds: "Funds",
     Referral: "Referral",
     "ARO ID": "ARO ID",
+    tips: "Welcome to ARO Previewnet. Register an account, complete tasks for Jade rewards, and try running ARO nodes. No mining rewards yet—real competition starts in ARO Testnet!",
   },
+
   signIn: {
     title: "Sign In For Previewnet",
-    titleTips:
-      "Previewnet is a private testing environment, not the Testnet. No mining rewards are available in Previewnet. Testnet will launch soon. To join Previewnet, check out the // for details.",
     signUp: "Sign Up",
     forgetPwd: "Forget Password?",
   },
   signUp: {
     title: "Sign Up For Previewnet",
-    titleTips:
-      "Previewnet is a private testing environment, not the Testnet. No mining rewards are available in Previewnet. Testnet will launch soon. To join Previewnet, check out the Pioneers Program for details.",
     agreeText: "I agree to the ARO Terms of Service and Privacy Policy",
     haveAccount: "Already have an account? Sign In",
   },

@@ -261,7 +261,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             <div className="flex w-full  font-normal text-lg leading-5 justify-center font-Alexandria">
               {AllText.AAddNewNodes.type.step2.title}
             </div>
-            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
+            <div className=" py-5 my-5 md:p-5 md:bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
 
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
                 <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-cover rounded-lg  bg-white  w-full h-full" alt={`${covertName[deviceInfo?.nodeType || 'box']}`} />
@@ -285,7 +285,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     },
     {
       content:
-        <div className="flex w-full justify-center flex-col md:items-center">
+        <div className="md:flex md:w-full justify-center flex-col md:items-center">
           <div className="w-[37.5rem] smd:w-full  ">
             <div className="flex w-full font-normal  smd:justify-start text-lg leading-5 justify-center font-Alexandria">
               {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
@@ -402,7 +402,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.type.step2.title}
             </div>
 
-            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
+            <div className=" py-5 my-5 pl-5 smd:pr-5 md:bg-[#6D6D6D66]  smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
 
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
                 <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg  bg-white   w-full h-full" alt={`${data?.nodeType}`} />
@@ -486,6 +486,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   ]
 
 
+  const onBindSn = async () => {
+    // const res = await backendApi.bindExtensionSN(serialNum?.num)
+
+
+  }
+
+
   const liteStep = [
     {
       content:
@@ -499,12 +506,30 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
               {AllText.AAddNewNodes.lite.step1.subTitle}
             </div>
             <div className="flex justify-center items-center mt-[.75rem] gap-[.625rem]">
-              <Btn onPress={() => onBack()} className="w-full rounded-lg  min-h-12  bg-default border  !border-white text-white hover:bg-l1" >
+
+
+              <Input
+                maxLength={30}
+                className=" mt-5 "
+                classNames={{ 'inputWrapper': '!rounded-lg h-12' }}
+                value={serialNum?.num}
+                onChange={(e) => {
+                  const onlyLetters = e.target.value.replace(/[^a-zA-Z0-9]/g, '').trim();
+                  setSerialNum({ num: onlyLetters, type: 'box' });
+                }}
+
+              />
+
+              <Btn isDisabled={!serialNum?.num} onPress={onBindSn} className="w-full rounded-lg  min-h-12" >
+                Continue
+              </Btn>
+
+              {/* <Btn onPress={() => onBack()} className="w-full rounded-lg  min-h-12  bg-default border  !border-white text-white hover:bg-l1" >
                 Cancel
               </Btn>
               <Btn onPress={() => onLiteContinue()} className="w-full rounded-lg  min-h-12" >
                 Go Install
-              </Btn>
+              </Btn> */}
             </div>
           </div>
         </div>,
@@ -548,7 +573,11 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     lite: <CurrentNode step={stepLiteIndex} typeStep={liteStep} />,
   };
 
-  const firstShow = (searchType === 'client' && stepX86Index === 1) || stepIndex === 0 && stepLiteIndex === 0
+  const firstShow = stepX86Index === 1 && stepIndex === 0 && stepLiteIndex === 0
+
+
+  console.log('firstShowfirstShowfirstShow', firstShow, stepX86Index, stepIndex, stepLiteIndex);
+
 
   const onOpen = (url?: string) => {
     if (!url) return
@@ -561,7 +590,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full">
       {type && typeMap[type] ?
         <div className="flex gap-5 smd:flex-col">
-          <div className="  commonTab rounded-xl p-10 flex items-center">
+          <div className="  commonTab rounded-xl p-10 smd:p-5 md:flex items-center">
             {typeMap[type]}
           </div>
 

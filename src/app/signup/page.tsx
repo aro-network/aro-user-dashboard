@@ -117,9 +117,6 @@ export default function Page() {
         <AutoFlip className="mx-auto p-5 md:min-h-full flex h-full flex-col gap-5 items-center w-full max-w-[25rem]">
           <div className={loginTitleClassName + ' flex items-center gap-2'} >
             {envText('signUp')}
-            <div hidden={ENV !== 'prod'} ref={helpTipRef} className="text-[#FFFFFF80] " onClick={() => setIsOpen(!isOpen)} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-              <Devnet placement={isMobile ? 'top' : 'bottom'} />
-            </div>
           </div>
           {/* <img src="logo.svg" alt="Logo" className="mt-auto h-[4.9375rem]" /> */}
           {showToVerify ? (

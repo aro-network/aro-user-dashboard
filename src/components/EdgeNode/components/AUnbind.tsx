@@ -25,6 +25,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
   const params = new URLSearchParams(searchParams.toString());
   const nId = params.get("nId") || ''
+  const chooseType = params.get("nodeType") || '';
 
 
   const currentStatus = async () => {
@@ -37,7 +38,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const getStatus = useQuery({
     queryKey: ["NodeStatuList"],
     enabled: false,
-    queryFn: () => backendApi.unbingDevice(nId)
+    queryFn: () => backendApi.unbingDevice(nId,)
   });
 
 
@@ -49,7 +50,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const isUserOwner = async () => {
     const isOwner = await backendApi.currentOwner(nId)
 
-    if (isOwner?.owner === false) {
+    if (isOwner?.owner === false && chooseType !== 'lite_node') {
       onBack();
     } else {
       currentStatus()

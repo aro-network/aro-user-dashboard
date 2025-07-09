@@ -74,19 +74,12 @@ const Modes: Dashboard.ModesType[] = [
 type OverlayPlacement = "top" | "bottom" | "right" | "left" | "top-start" | "top-end" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end";
 type Placement = { placement?: OverlayPlacement }
 export const Devnet: FC<Placement> = ({ placement = 'bottom' }) => {
-  const parts = AllText.signIn.titleTips.split('//');
-  const openPage = () => {
-    window.open("https://aro.network/#target-section", "_blank");
-  };
+
   const align = placement as OverlayPlacement ?? 'bottom'
   return <HelpTip className=" w-[12.5rem]" placement={align}
     content={
       <span>
-        {parts[0]}
-        <button onClick={openPage} className="underline underline-offset-1 hover:text-[#00E42A]">
-          Pioneer Program
-        </button>
-        {parts[1]}
+        {AllText.tab.tips}
       </span>
     }>
     <div>

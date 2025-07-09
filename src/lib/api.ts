@@ -455,6 +455,13 @@ const backendApi = {
     );
     return response.data.data;
   },
+
+  bindExtensionSN: async (serialNumber?: string) => {
+    const response = await Api.post(`liteNode/${serialNumber}/bind`, {
+      serialNumber,
+    });
+    return response.data.data;
+  },
 };
 
 export default backendApi;

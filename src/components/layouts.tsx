@@ -9,6 +9,6 @@ export function PageUnlogin(p: PropsWithChildren & { childrenClassName?: string,
             <div className="text-[42px] smd:text-lg  leading-normal text-center">Don’t Just Pay for the Internet.<br /> Get Paid for it.</div>
 
         </div>
-        <div className={cn("flex-[6] smd:flex-[9]   md:min-h-full basis-0 mo:overflow-y-auto md:bg-[#272727]", p.childrenClassName)}>{p.children}</div>
+        <div className={cn("flex-[6] smd:flex-[9]   md:min-h-full basis-0 mo:overflow-y-auto", p.childrenClassName)}>{p.children}</div>
     </div>
 }

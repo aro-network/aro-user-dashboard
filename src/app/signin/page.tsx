@@ -53,9 +53,6 @@ export default function Page() {
         {/* <img src="logo.svg" alt="Logo" className="flip_item mt-auto h-[4.9375rem]" /> */}
         <span className={loginTitleClassName + ' flex items-center gap-2 smd:justify-center'}>
           {envText('sign')}
-          <div hidden={ENV !== 'prod'} className="text-[#FFFFFF80] " >
-            <Devnet placement={isMobile ? 'top' : 'bottom'} />
-          </div>
         </span>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
