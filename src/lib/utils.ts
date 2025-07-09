@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
 import { ENV } from "./env";
 import { DateValue } from "@nextui-org/react";
+import { AllText } from "./allText";
 dayjs.extend(plugDur);
 
 export function strToSearchParams(str: string) {
@@ -487,5 +488,22 @@ export const addNewNodeList = [
     "User-friendly": "⭐️⭐️⭐️",
     url: "",
     goToText: "Download ARO Lite",
+  },
+];
+
+export const installStep = [
+  {
+    icon: "./extension.svg",
+    title: AllText.AAddNewNodes.lite.step1["Install from Chrome Web Store"],
+    Recommended: AllText.AAddNewNodes.lite.step1.Recommended,
+    version: "ARO Lite ver. 1.0.5",
+  },
+  {
+    icon: "./instsllExtension.svg",
+    title:
+      AllText.AAddNewNodes.lite.step1[
+        "Manually install extension in Developer Mode"
+      ],
+    version: "ARO Lite ver. 1.0.5",
   },
 ];

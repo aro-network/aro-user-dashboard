@@ -36,6 +36,11 @@ const Modes: Dashboard.ModesType[] = [
     label: ENV === 'staging' ? 'Testnet' : 'Previewnet',
     name: currentENVName,
     children: [
+      {
+        name: "Campaigns",
+        content: <AMyReferral />,
+        tab: 'campaigns'
+      },
 
       {
         name: "ARO Nodes",
@@ -43,24 +48,20 @@ const Modes: Dashboard.ModesType[] = [
         tab: 'nodes'
       },
       {
-        name: "Stats",
+        name: "Mining Stats",
         content: <AOverview />,
         tab: 'stats'
       },
 
-      {
-        name: "Claim",
-        content: <AFunds />,
-        tab: 'claim'
-      },
+      // {
+      //   name: "Claim",
+      //   content: <AFunds />,
+      //   tab: 'claim'
+      // },
+
 
       {
-        name: "Campaigns",
-        content: <AMyReferral />,
-        tab: 'campaigns'
-      },
-      {
-        name: "ARO ID",
+        name: "My ARO Account",
         content: <AAROID />,
         tab: 'aroId'
       },
@@ -154,6 +155,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
+
 
 
 
@@ -366,7 +368,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 {
                   "bg-[#373737] text-white ": selected,
                   "text-white/50 hover:bg-default": !selected,
-                  'ml-auto': m.name === 'ARO ID'
+                  'ml-auto': m.name === 'My ARO Account'
                 }
               )}
               onClick={() => {
