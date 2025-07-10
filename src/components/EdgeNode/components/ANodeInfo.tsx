@@ -142,6 +142,7 @@ const ANodeInfo: FC<{
   const { data: detailInfo, isFetching, refetch, isLoading, error } = useQuery({
     queryKey: ["NodeDetailList", nId, chooseType],
     enabled: false,
+    refetchInterval: 60 * 1000 * 2,
     queryFn: async () => {
 
 
@@ -209,6 +210,7 @@ const ANodeInfo: FC<{
 
   const result = useQuery({
     queryKey: ["TrendingChart", chooseDate],
+    refetchInterval: 60 * 1000 * 2,
     enabled: !!chooseDate.start && !!chooseDate.end,
     queryFn: async () => {
       const result = getCurrentDate(chooseDate)
