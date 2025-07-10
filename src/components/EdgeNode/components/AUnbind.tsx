@@ -10,6 +10,7 @@ import useMobileDetect from "@/hooks/useMobileDetect"
 import { useSearchParams } from "next/navigation"
 import { AllText } from "@/lib/allText"
 import { debounce } from "lodash"
+import { nodeType } from "./ANodeInfo"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => {
@@ -21,7 +22,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const isMobile = useMobileDetect()
   const searchParams = useSearchParams();
   const [isFetching, setIsFetching] = useState(true)
-  const [delDetail, setDelDetail] = useState<Nodes.DevicesInfo>()
+  const [delDetail, setDelDetail] = useState<Nodes.DevicesInfo | Nodes.NodeInfoList>()
 
   const params = new URLSearchParams(searchParams.toString());
   const nId = params.get("nId") || ''
@@ -29,8 +30,15 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
 
   const currentStatus = async () => {
-    const res = await backendApi.getDeviceStatusInfo(nId)
-    setDelDetail(res)
+
+    let res
+    if (chooseType !== 'lite_node') {
+      res = await backendApi.getDeviceStatusInfo(nId)
+    } else {
+      const result = await backendApi.getNodeInfoByNodeId(nId, chooseType)
+      res = { nodeType: chooseType, nodeUUID: result.nodeId, online: result.online, ip: result?.ipList?.length ? result?.ipList![0].ipAddress : '-', }
+    }
+    setDelDetail(res as Nodes.DevicesInfo | Nodes.NodeInfoList)
     setIsFetching(false)
 
   }
@@ -38,7 +46,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const getStatus = useQuery({
     queryKey: ["NodeStatuList"],
     enabled: false,
-    queryFn: () => backendApi.unbingDevice(nId,)
+    queryFn: () => chooseType === 'lite_node' ? backendApi.unbingExtension(nId) : backendApi.unbingDevice(nId,)
   });
 
 
@@ -48,9 +56,8 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
 
 
   const isUserOwner = async () => {
-    const isOwner = await backendApi.currentOwner(nId)
-
-    if (isOwner?.owner === false && chooseType !== 'lite_node') {
+    const isOwner = chooseType !== 'lite_node' ? await backendApi.currentOwner(nId) : await backendApi.ownerExtensionSN(nId)
+    if (isOwner?.owner === false) {
       onBack();
     } else {
       currentStatus()
@@ -80,7 +87,6 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   }
 
 
-
   const unbind = [
     {
       content:
@@ -88,9 +94,9 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
           <div className="w-[37.5rem] smd:w-full">
             <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
               <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
-                <img src={`./${covertName[delDetail?.nodeType || 'box']}.png`} className=" object-cover rounded-lg bg-white  w-full h-full" alt={`${delDetail?.nodeType || 'box'}`} />
+                <img src={`./${covertName[chooseType as nodeType]}.png`} className=" object-cover rounded-lg bg-white  w-full h-full" alt={`${chooseType || 'box'}`} />
               </div>
-              {foundDeviceList(delDetail, isMobile)}
+              {foundDeviceList(delDetail as any, isMobile)}
             </div>
             <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5 smd:text-left   text-center">
               {AllText.deviceInfo["Please confirm you want to delete this device. This action cannot be undone."]}

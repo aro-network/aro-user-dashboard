@@ -35,7 +35,7 @@ const CurrentNode = ({ step, typeStep }: { step: number, typeStep: { content: Re
 
 
 export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMobile: boolean) => {
-  const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', bindState = '-' } = deviceInfo || {}
+  const { nodeType = '-', nodeUUID = '-', online = '-', ip = '-', } = deviceInfo || {}
 
 
   const list = [
@@ -48,7 +48,6 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
       </div>
     },
     { name: 'Device IP', value: ip },
-    // { name: 'Current Binding', value: bindState },
 
   ]
 
@@ -92,8 +91,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const params = new URLSearchParams(searchParams.toString());
 
   const searchType = params.get('chooseType') || ''
-
-
 
 
 
@@ -225,7 +222,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
       content:
         <div className="flex w-full flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full font-normal smd:text-base text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start ">
+            <div className="flex w-full font-normal smd:text-base text-lg  leading-5 justify-center font-Alexandria smd:justify-start ">
               {AllText.AAddNewNodes.type.step1.title}
 
             </div>
@@ -484,18 +481,33 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   ]
 
 
-  const onBindSn = async () => {
-    const res = await backendApi.bindExtensionSN(serialNum?.num)
 
+
+
+  const bindExt = useQuery({
+    queryKey: ["bingExtension", serialNum],
+    enabled: false,
+    queryFn: () => backendApi.bindExtensionSN(serialNum?.num)
+  });
+
+  const onBindSn = async () => {
+    bindExt.refetch()
     if (stepLiteIndex < liteStep.length - 1) {
       setLiteStepIndex(stepLiteIndex + 1)
     }
   }
 
 
-  // const url = `?mode=testnet&tab=nodes&type=detail&nodeType=lite_node&nId=${serialNum?.num}`
+  const onAddAnother = () => {
+    setLiteStepIndex(0)
+    setSerialNum({})
+  }
 
+  const onGoToDetail = () => {
+    r.push(`?mode=testnet&tab=nodes&type=detail&nodeType=lite_node&nId=${bindExt.data?.nodeId}`)
+    onAddAnother()
 
+  }
 
 
   const liteStep = [
@@ -581,10 +593,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
             </div>
 
             <div className="flex  items-center mt-[.75rem] smd:flex-col  gap-[.625rem] justify-between w-full">
-              <Btn onPress={() => setLiteStepIndex(0)} className="w-full rounded-lg  min-h-12" >
+              <Btn onPress={onAddAnother} className="w-full rounded-lg  min-h-12" >
                 {AllText.AAddNewNodes.lite.step3["Add Another Node"]}
               </Btn>
-              <Btn onPress={() => onLiteContinue()} className="w-full rounded-lg  min-h-12" >
+              <Btn onPress={onGoToDetail} className="w-full rounded-lg  min-h-12" >
                 {AllText.AAddNewNodes.lite.step3["Go to Node Details Page"]}
 
               </Btn>
@@ -611,6 +623,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     link: <CurrentNode step={stepIndex} typeStep={homeBoxStep} />,
     lite: <CurrentNode step={stepLiteIndex} typeStep={liteStep} />,
   };
+
+
+  console.log('typeMaptypeMaptypeMaptypeMap', typeMap);
+
 
   const firstShow = stepX86Index === 1 && stepIndex === 0 && stepLiteIndex === 0
 

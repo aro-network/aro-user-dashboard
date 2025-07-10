@@ -119,7 +119,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       }
     } else {
 
-      updateURL(currentENVName, 'nodes')
+      updateURL(currentENVName, 'campaigns')
     }
   }, [searchParams]);
 

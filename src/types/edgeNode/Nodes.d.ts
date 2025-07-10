@@ -4,7 +4,6 @@ declare namespace Nodes {
     nodeUUID: string;
     online: boolean;
     ip: string;
-    bindState: string;
   };
 
   interface NodeInfoList {

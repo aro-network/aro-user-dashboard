@@ -1,26 +1,17 @@
 import React, { useMemo } from "react";
 import EChartsReact from "echarts-for-react";
 import _ from "lodash";
-import numbro from "numbro";
-import { formatNumber } from "@/lib/utils";
 import dayjs from "dayjs";
 
 const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { groupedData: any[], filed?: string, color: string, name: string, width: number }) => {
 
   const data = groupedData
-
-
   const xData = data.map((item: { hour: string }) =>
     dayjs(item.hour).format('MM-DD HH:00')
 
   );
-
-
-
   const yData = data.map((item) => item[filed]
   );
-
-
   const showCount = Math.floor(width / 60);
   const endValue = xData.length - 1;
   const startValue = Math.max(0, endValue - showCount);

@@ -97,8 +97,9 @@ const ANodeInfo: FC<{
     refetchOnWindowFocus: 'always',
 
     queryFn: async () => {
-      const isOwner = await backendApi.currentOwner(nId)
-      if (isOwner?.owner === false && chooseType !== 'lite_node') {
+      const isOwner = chooseType !== 'lite_node' ? await backendApi.currentOwner(nId) : await backendApi.ownerExtensionSN(nId)
+
+      if (isOwner?.owner === false) {
         onBack();
       } else {
         refetchdetailRes()
@@ -430,7 +431,7 @@ const ANodeInfo: FC<{
             <div className={` w-full smd:flex-wrap  bg-repeat bg-cover smd:object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  ${detailInfo?.detail.online ? 'rewards bg-[url(/rewardsBg-online.svg)]' : 'rewards-offline bg-[url(/rewardsBg-offline.svg)]'} `}>
               <div className="flex  w-full p-[20px] h-fit    flex-col   gap-[10px] smd:gap-5">
                 <div className="flex w-full justify-between " >
-                  <span className="font-semibold text-[16px]  ">Highlights</span>
+                  <span className="font-semibold text-[16px]  ">Preview Jade Rewards</span>
 
 
                 </div>
@@ -443,7 +444,7 @@ const ANodeInfo: FC<{
                       </span>
                       <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                         {item.count}
-                        <span hidden={index === 0}>Jades</span>
+                        <span hidden={index === 0}>Preview Jades</span>
                       </div>
                     </div>
                   })}
@@ -628,13 +629,13 @@ const ANodeInfo: FC<{
                   label="Public IP"
                   value={
                     isIpv6 ? (
-                      <HelpTip content={chooseType === 'lite_node' ? detailInfo?.detail?.ipList![0].ipAddress : detailInfo?.detail.ip}>
+                      <HelpTip content={chooseType === 'lite_node' && detailInfo?.detail?.ipList?.length ? detailInfo?.detail?.ipList![0].ipAddress : detailInfo?.detail.ip}>
                         <span className="text-[#FFFFFF80] text-sm text-center">
                           {shortenMiddle(detailInfo?.detail.ip as string)}
                         </span>
                       </HelpTip>
                     ) : (
-                      chooseType === 'lite_node' ? detailInfo?.detail?.ipList![0].ipAddress : detailInfo?.detail.ip || "-"
+                      chooseType === 'lite_node' && detailInfo?.detail?.ipList?.length ? detailInfo?.detail?.ipList![0].ipAddress : detailInfo?.detail.ip || "-"
                     )
                   }
                 />

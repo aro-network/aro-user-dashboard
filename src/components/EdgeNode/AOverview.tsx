@@ -229,7 +229,7 @@ const AOverview = () => {
           tit={
             <div className="flex w-full items-center justify-between smd:flex-col smd:items-start smd:gap-[.625rem]">
               <div className="flex justify-between items-center gap-2">
-                <span className="text-xl smd:text-base font-Alexandria">Rewards - All Nodes</span>
+                <span className="text-xl smd:text-base font-Alexandria">Preview Jade Rewards</span>
                 <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
               </div>
               <div hidden={isShow}>

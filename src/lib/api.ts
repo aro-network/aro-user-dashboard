@@ -203,8 +203,6 @@ const backendApi = {
     const url = deviceType
       ? `${prefixUrl}${nodeId}/stat/?deviceType=${deviceType}`
       : `${prefixUrl}${nodeId}/stat`;
-    console.log("nodeIdnodeIdnodeId", nodeId);
-
     const response = await Api.get<RES<Nodes.DevicesInfo>>(url);
     return response.data.data;
   },
@@ -457,9 +455,29 @@ const backendApi = {
   },
 
   bindExtensionSN: async (serialNumber?: string) => {
-    const response = await Api.post(`liteNode/${serialNumber}/bind`, {
-      serialNumber,
-    });
+    const response = await Api.post<RES<{ nodeId: string }>>(
+      `liteNode/${serialNumber}/bind`,
+      {
+        serialNumber,
+      }
+    );
+    return response.data.data;
+  },
+
+  ownerExtensionSN: async (nodeId?: string) => {
+    if (!nodeId) return;
+
+    const response = await Api.get<RES<{ owner: boolean }>>(
+      `liteNode/${nodeId}/owner`
+    );
+    return response.data.data;
+  },
+
+  // /api/liteNode/{serialNumber}/unbind
+  unbingExtension: async (nodeId?: string) => {
+    const response = await Api.post<RES<Nodes.NodeInfoList[]>>(
+      `liteNode/${nodeId}/unbind`
+    );
     return response.data.data;
   },
 };

@@ -246,7 +246,7 @@ const ANodes = () => {
               </Btn>
 
               }
-              {chooseType === 'lite_node' ? null : <Btn
+              <Btn
                 onPress={() => {
 
                   updateURL('type', 'del')
@@ -256,7 +256,7 @@ const ANodes = () => {
               >
                 Delete
               </Btn>
-              }
+
             </div>
           )
         )}

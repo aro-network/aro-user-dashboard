@@ -89,11 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       refIsLogout.current = false;
       setUser(u);
       setItem(storageKey, JSON.stringify(u));
-      if (u.token) {
-        getInjectAROAI()?.request({ name: "setAccessToken", body: u.token }).catch(console.error);
-        getInjectAROAI()?.request({ name: "clearUserStatus", body: false }).catch(console.error);
 
-      }
       r.push(redirect ? redirect : "/");
     }
   };
@@ -101,43 +97,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     wrapSetUser();
   };
-
-  useEffect(() => {
-    let e: NodeJS.Timeout;
-    console.info('useruseruseruser', user);
-
-    if (user && user.token) {
-      const injectedEnReachAI = getInjectAROAI();
-
-      console.log('injectedEnReachAIinjectedEnReachAIinjectedEnReachAI', injectedEnReachAI);
-
-
-      e = setInterval(() => {
-        if (!injectedEnReachAI) {
-          console.warn(`Extension not installed`);
-          return;
-        }
-        injectedEnReachAI
-          .request({
-            name: "getStat",
-          })
-          .then((stat: { logined: boolean; userLogout: boolean, userClick: boolean }) => {
-
-            console.log('statstatstatstatstat', stat);
-
-            if (stat.userClick) {
-              const user = getLastLoginUser()
-              wrapSetUser(user)
-            }
-          })
-          .catch((e) => {
-            console.log('eeeqeqweqweq', e);
-
-          })
-      }, 1000);
-    }
-    return () => clearInterval(e);
-  }, [user]);
 
   const login = async (credentials: { email: string; password: string }) => {
     try {
