@@ -11,7 +11,7 @@ export function fmtBerry(berry?: string | number | null, def: "-" | number = 0) 
           average: total >= 1000,
         })
         .toUpperCase()
-    : def;
+    : `${def}`;
 }
 
 export function fmtNetqulity(last?: string | number | number, def: "-" | `${number}%` = "-") {

@@ -1,5 +1,6 @@
 "use client";
 
+import "aos/dist/aos.css"
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Login from "@/app/signin/page";

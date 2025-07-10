@@ -27,6 +27,14 @@ import SvgQuesiton from "./question.svg";
 import SvgAROLogo from "./aro-logo.svg";
 
 import SvgShare from "./share.svg";
+import SvgJadeRewards from "./jadeRewards.svg";
+
+import SvgNodePod from "./nodes/Pod.svg";
+import SvgNodeLink from "./nodes/Link.svg";
+import SvgNodeClient from "./nodes/Client.svg";
+import SvgNodeLite from "./nodes/Lite.svg";
+
+import SvgClipboard from "./clipboard.svg";
 
 export const SVGS = {
   SvgOverview,
@@ -57,4 +65,11 @@ export const SVGS = {
   SvgXHomeBox,
   SvgQuesiton,
   SvgAROLogo,
+  SvgJadeRewards,
+
+  SvgNodePod,
+  SvgNodeLink,
+  SvgNodeClient,
+  SvgNodeLite,
+  SvgClipboard,
 };

@@ -1,8 +1,7 @@
 import { pxToRem } from "@/lib/utils";
 import { SVGS } from "@/svg";
 import { Card, cn } from "@nextui-org/react";
-import _ from "lodash";
-import React, { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
 export function IconCard({ icon, className, iconSize = 24, tit, content, isNeed = true }: OtherTypes.IconCardProps) {
   const Micon = icon;
@@ -29,7 +28,7 @@ export function IconCard({ icon, className, iconSize = 24, tit, content, isNeed 
         {tit}
       </div>
       <div className="w-full flex flex-row">
-        <div style={{ width: leftSizeRem, flexShrink: 100 }} />
+        {Boolean(tit) && <div style={{ width: leftSizeRem, flexShrink: 100 }} />}
         <div style={{ flexBasis: `calc(100% - ${leftSizeRem})`, flexGrow: 1 }} className="">
           {content}
         </div>

@@ -1,4 +1,4 @@
-import { validateEmail, validatePassword, validateReferralCode, validateVerifyCode } from "@/lib/validates";
+import { validateEmail, validatePassword, validateRedeemCode, validateReferralCode, validateVerifyCode } from "@/lib/validates";
 import { Input, InputSlots, SlotsToClasses } from "@nextui-org/react";
 import { RiEyeCloseLine, RiEyeLine } from "react-icons/ri";
 import { useToggle } from "react-use";
@@ -114,3 +114,21 @@ export function InputSplitCode({ onComplete, onChange, value }: { value?: string
 // export function InputName(){
 
 // }
+
+
+export function InputRedeemCode({ setValue, value }: { setValue: (code: string) => void; value?: string }) {
+  return (
+    <Input
+      value={value}
+      classNames={inputClassNames}
+      type="text"
+      // label="Referral code"
+      placeholder="Redeem code"
+      labelPlacement="inside"
+      variant="bordered"
+      isRequired
+      validate={validateRedeemCode}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+}

@@ -1,4 +1,4 @@
-import { LoginResult, SingUpResult, User, UserReward } from "@/types/user";
+import { LoginResult, SingUpResult, User, UserCampaignsRewards, UserReward } from "@/types/user";
 import axios from "axios";
 import { ENV } from "./env";
 import _ from "lodash";
@@ -480,6 +480,20 @@ const backendApi = {
     );
     return response.data.data;
   },
+
+  getCampaignsRewards: async () => {
+    const res = await Api.get<RES<UserCampaignsRewards>>("/compaigns/rewards");
+    return res.data.data;
+  },
+  redeemCampaignsByCode: async (code: string) => {
+    const res = await Api.post("/campaigns/redeem/rewards", { redeemCode: code });
+    return true
+  },
+  reportCampaignsSocails: async (type: 'followX'|'postX') => {
+    const typeMap = {followX: 7, postX: 10}
+    await Api.post(`/campaigns/set/rewards`, { type: typeMap[type] })
+    return true
+  }
 };
 
 export default backendApi;

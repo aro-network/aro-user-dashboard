@@ -33,3 +33,10 @@ export function validateVerifyCode(code?: string) {
   if (code.trim().length != 6) return "Invalid verification code";
   return true;
 }
+
+
+export function validateRedeemCode(code?: string) {
+  if (!code) return null;
+  if (code.trim().length != 6) return "Invalid redeem code!";
+  return true;
+}

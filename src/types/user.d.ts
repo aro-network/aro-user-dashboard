@@ -158,3 +158,35 @@ export interface UserRewardDetail {
   referral: number;
   [property: string]: any;
 }
+
+export interface UserCampaignsRewards {
+  jadeRewards: string;
+  lockedJadeRewards: string;
+  referredRewards: string;
+  bind: {
+    x: boolean;
+    followX: boolean;
+    postX: boolean;
+    tg: boolean;
+    joinTg: boolean;
+    discord: boolean;
+    joinDiscord: boolean;
+  };
+  inviteUserCount: number;
+  aroNode: {
+    pod: boolean;
+    link: boolean;
+    client: boolean;
+    liteNode: boolean;
+  };
+  referralTier1: {
+    count: number;
+    jadeRewards: string;
+    lockedJadeRwards: string;
+  };
+  referralTier2: {
+    count: number;
+    jadeRewards: string;
+    lockedJadeRwards: string;
+  };
+}
