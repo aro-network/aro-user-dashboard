@@ -34,7 +34,7 @@ import { HelpTip } from "../tips";
 import Link from "next/link";
 
 
-const DEF_ANIMITEM = true
+const DEF_ANIMITEM = false
 function ItemCard({ className, active, children, disableAnim = !DEF_ANIMITEM }: { className?: string, active?: boolean, disableAnim?: boolean } & PropsWithChildren) {
   const animProps = disableAnim ? {} : {
     'data-aos': "fade-up",
