@@ -13,9 +13,7 @@ import SvgX from "./x.svg";
 import SvgDiscord from "./discord.svg";
 import SvgTg from "./tg.svg";
 import SvgBgIconCard from "./bg-icon-card.svg";
-import SvgLogin from "./login.svg";
 import SvgMoLogin from "./mo-login.svg";
-import { SvgLogo } from "./logo";
 import SvgLike from "./like.svg";
 import SvgLiked from "./liked.svg";
 import SvgDevice from "./devices/device1.svg";
@@ -52,9 +50,7 @@ export const SVGS = {
   SvgDiscord,
   SvgTg,
   SvgBgIconCard,
-  SvgLogin,
   SvgMoLogin,
-  SvgLogo,
   SvgLike,
   SvgLiked,
   SvgShare,

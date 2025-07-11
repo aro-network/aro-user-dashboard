@@ -466,7 +466,7 @@ export default function AMyReferral() {
   }, []);
   const { data, isLoading } = useQuery({
     queryKey: ['getUserCampaignsRewards'],
-    queryFn: () => backendApi.getCampaignsRewards().catch(() => ({
+    queryFn: () => ({
       jadeRewards: "0",
       lockedJadeRewards: "0",
       referredRewards: "0",
@@ -482,7 +482,7 @@ export default function AMyReferral() {
         jadeRewards: '0',
         lockedJadeRwards: '0',
       }
-    }) as UserCampaignsRewards),
+    }) as UserCampaignsRewards,
     retry: true,
     retryDelay: (fcount) => fcount > 3 ? Math.min(fcount * 1000, 60000) : 1000,
   })
