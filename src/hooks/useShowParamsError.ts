@@ -1,6 +1,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export function handlerErrForBind(err?: string | null) {
   if (err === "handle_third_party_failed") {

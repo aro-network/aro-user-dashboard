@@ -6,13 +6,13 @@ import { FC, ReactNode, Ref, useEffect, useImperativeHandle, useState } from "re
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 import { addNewNodeList, covertName, covertText, installStep, isIPv6, shortenMiddle } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
-import { toast } from "sonner"
 import { HelpTip } from "@/components/tips"
 import useMobileDetect from "@/hooks/useMobileDetect"
 import { useRouter, useSearchParams } from "next/navigation";
 import { ENV } from "@/lib/env"
 import { AllText } from "@/lib/allText"
-
+import { toast } from 'react-toastify';
+import Link from "next/link"
 
 const deviceList: Nodes.DeviceType[] = [
   { name: 'ARO Pod', iconName: 'aro-pod', value: 'box' },
@@ -76,7 +76,7 @@ export const foundDeviceList = (deviceInfo: Nodes.DevicesInfo | undefined, isMob
 }
 
 
-const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void, addRef: Ref<Nodes.AddType> }> = ({ onBack, onSelectedType, addRef }) => {
+const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType: (e: string) => void, addRef: Ref<Nodes.AddType> }> = ({ onBack, onSelectedType, addRef, onClose }) => {
   const [chooseedType, setChooseedType] = useState<Nodes.DeviceType | undefined>(undefined)
   const [stepIndex, setStepIndex] = useState(0)
   const [stepX86Index, setX86StepIndex] = useState(0)
@@ -487,14 +487,21 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   const bindExt = useQuery({
     queryKey: ["bingExtension", serialNum],
     enabled: false,
+    refetchOnReconnect: false,
+    staleTime: 0,
+    refetchOnMount: false,
+    refetchOnWindowFocus: 'always',
     queryFn: () => backendApi.bindExtensionSN(serialNum?.num)
   });
 
   const onBindSn = async () => {
-    bindExt.refetch()
-    if (stepLiteIndex < liteStep.length - 1) {
-      setLiteStepIndex(stepLiteIndex + 1)
+    const res = await bindExt.refetch()
+    if (res.status === 'success') {
+      if (stepLiteIndex < liteStep.length - 1) {
+        setLiteStepIndex(stepLiteIndex + 1)
+      }
     }
+
   }
 
 
@@ -504,9 +511,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   }
 
   const onGoToDetail = () => {
+    onClose()
     r.push(`?mode=testnet&tab=nodes&type=detail&nodeType=lite_node&nId=${bindExt.data?.nodeId}`)
     onAddAnother()
-
   }
 
 
@@ -608,13 +615,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
   ]
 
 
-  const onLiteContinue = async () => {
-    if (stepLiteIndex < liteStep.length - 1) {
-      setLiteStepIndex(stepLiteIndex + 1)
-    } else {
-      onBack()
-    }
-  }
   const type = chooseedType?.value;
 
   const typeMap: Record<string, JSX.Element> = {
@@ -623,10 +623,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
     link: <CurrentNode step={stepIndex} typeStep={homeBoxStep} />,
     lite: <CurrentNode step={stepLiteIndex} typeStep={liteStep} />,
   };
-
-
-  console.log('typeMaptypeMaptypeMaptypeMap', typeMap);
-
 
   const firstShow = stepX86Index === 1 && stepIndex === 0 && stepLiteIndex === 0
 
@@ -637,7 +633,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onSelectedType: (e: string) => void
 
   const rightTabList = addNewNodeList.find((item) => item.value === searchType || '')
 
-  return <div className="w-full mt-10 smd:mt-12 smd:mb-5 ">
+
+  return <div className="w-full smd:mt-12 smd:mb-5 ">
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full">
       {type && typeMap[type] ?
         <div className="flex gap-5 smd:flex-col">

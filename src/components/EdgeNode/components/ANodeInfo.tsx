@@ -95,7 +95,7 @@ const ANodeInfo: FC<{
     staleTime: 0,
     refetchOnMount: false,
     refetchOnWindowFocus: 'always',
-
+    refetchInterval: 60 * 1000 * 2,
     queryFn: async () => {
       const isOwner = chooseType !== 'lite_node' ? await backendApi.currentOwner(nId) : await backendApi.ownerExtensionSN(nId)
 
@@ -142,12 +142,8 @@ const ANodeInfo: FC<{
   const { data: detailInfo, isFetching, refetch, isLoading, error } = useQuery({
     queryKey: ["NodeDetailList", nId, chooseType],
     enabled: false,
-    refetchInterval: 60 * 1000 * 2,
     queryFn: async () => {
-
-
       if (chooseType === 'lite_node') {
-
         const [detail, countRewards, getExtensionNetworkQuality, getExtensionUptime] = await Promise.all([
           backendApi.getNodeInfoByNodeId(nId, chooseType),
           backendApi.currentExtensionRewards(nId),
@@ -158,10 +154,7 @@ const ANodeInfo: FC<{
         setNodeName(detail.nodeName);
         nodeInfo(detail);
         setIsInitialLoading(false)
-
         return { detail, countRewards, getExtensionNetworkQuality, getExtensionUptime };
-
-
       } else {
         const [detail, countRewards, upTime, upVolume, upPackageLoss, upAverageDelay] = await Promise.all([
           backendApi.getNodeInfoByNodeId(nId, chooseType),

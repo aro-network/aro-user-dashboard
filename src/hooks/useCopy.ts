@@ -1,5 +1,5 @@
 import { useCopyToClipboard } from "react-use";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export function useCopy() {
   const [, copy] = useCopyToClipboard();

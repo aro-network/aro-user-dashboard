@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import dayjs from "dayjs";
 import plugDur from "dayjs/plugin/duration";
 import _ from "lodash";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
 import { ENV } from "./env";
 import { DateValue } from "@nextui-org/react";

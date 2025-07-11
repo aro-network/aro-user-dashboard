@@ -112,6 +112,7 @@ const ANodes = () => {
     setOpenAddNode(false);
   }
 
+
   useEffect(() => {
     const typeParam = params.get("type");
     const showAdd = typeParam === 'add';
@@ -119,6 +120,7 @@ const ANodes = () => {
     const showDel = typeParam === 'del';
     const showLink = typeParam === 'link';
     const type = params.get("chooseType");
+
 
 
     if (showAdd) {
@@ -343,6 +345,7 @@ const ANodes = () => {
           <AAddNewNodes
             addRef={addRef}
             onSelectedType={setSelectedType}
+            onClose={() => setOpenAddNode(false)}
             onBack={() => {
               params.delete('nId')
               setOpenAddNode(!isOpen);

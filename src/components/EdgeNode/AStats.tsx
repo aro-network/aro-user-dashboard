@@ -319,7 +319,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
 
 
-        {!detailInfo.getExtensionUptime.length ? <div className="w-full h-full flex justify-center items-center"> No data yet. Please check back later.</div> : <EChartsReact
+        {!detailInfo.getExtensionUptime?.length ? <div className="w-full h-full flex justify-center items-center"> No data yet. Please check back later.</div> : <EChartsReact
           className="w-full  !h-[12.5rem] smd:!h-[11.875rem] "
           option={extensionUpTimeChartOpt}
         />}
@@ -330,7 +330,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
       rightTit: '',
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
 
-        {!detailInfo.getExtensionNetworkQuality.length ? <div className="w-full h-full flex justify-center items-center"> No data yet. Please check back later.</div> :
+        {!detailInfo.getExtensionNetworkQuality?.length ? <div className="w-full h-full flex justify-center items-center"> No data yet. Please check back later.</div> :
           <EChartsReact
             className="w-full  !h-[12.5rem] smd:!h-[11.875rem] "
 

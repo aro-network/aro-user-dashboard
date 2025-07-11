@@ -2,13 +2,13 @@
 
 import { NextUIProvider } from "@nextui-org/react";
 import { ReactNode, useEffect, useState } from "react";
-import { Toaster } from "sonner";
 import { AuthProvider } from "./context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useThemeState } from "@/components/theme-mode";
 import { IoIosCloseCircle } from "react-icons/io";
 import { CiWarning } from "react-icons/ci";
+import { ToastContainer, toast } from 'react-toastify';
 const client = new QueryClient({
   defaultOptions: {
     queries: {
@@ -46,9 +46,12 @@ export function PageLayout({ children }: { children: ReactNode }) {
     console.error = function () { };
     console.warn = function () { };
   }
+
   return (
     <>
-      <Toaster
+      <ToastContainer style={{ top: '100px', right: '50px' }} />
+
+      {/* <Toaster
         richColors
         position="top-right"
         offset={100}
@@ -69,7 +72,7 @@ export function PageLayout({ children }: { children: ReactNode }) {
           error: <div><img src='./error.svg' className="text-[#FF3A3D] " /></div>,
           warning: <CiWarning className="text-[#FFF]  " />
         }}
-      />
+      /> */}
       <Providers>{children}</Providers>
     </>
   );

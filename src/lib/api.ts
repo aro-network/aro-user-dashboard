@@ -3,7 +3,7 @@ import axios from "axios";
 import { ENV } from "./env";
 import _ from "lodash";
 import { fmtBoost } from "@/components/fmtData";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { getItem, removeItem } from "./storage";
 
 const API_MAP: { [k in typeof ENV]: string } = {
@@ -66,7 +66,7 @@ Api.interceptors.response.use(
           window.location.href = "/";
           break;
         case 403:
-          toast.error("Access denied", { id: "error-toast" });
+          toast.error(message, { id: "error-toast" });
           break;
         case 500:
           toast.error("Server error, please try again later", {

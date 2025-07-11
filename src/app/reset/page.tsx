@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { useCounter, useInterval } from "react-use";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { useAuthContext } from "../context/AuthContext";
 import { AutoFlip } from "@/components/auto-flip";
 import { PageUnlogin } from "@/components/layouts";

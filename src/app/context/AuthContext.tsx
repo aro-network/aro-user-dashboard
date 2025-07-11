@@ -72,12 +72,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const redirect = params.get("redirect");
   const disclosure = useDisclosure();
 
-  console.info('redirect:', redirect)
-
 
 
   const wrapSetUser = (u?: Opt<LoginResult>) => {
-    console.log('wrapSetUserwrapSetUser', u);
 
     if (!u) {
       refIsLogout.current = true;
