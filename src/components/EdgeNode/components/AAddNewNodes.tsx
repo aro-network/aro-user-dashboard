@@ -532,10 +532,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
             {installStep.map((item, index) => (
               <Fragment key={`step_${item.title}`}>
                 <div className=" bg-[#FFFFFF14] text-sm text-center rounded-lg py-[15px] px-5 ">
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center smd:flex-col">
                     <div className="flex gap-5 items-center">
                       <img src={item.icon} className="w-[50px] h-[50px]" />
-                      <div className='text-sm flex gap-[5px] flex-col '>
+                      <div className='text-sm flex gap-[5px] flex-col smd:w-full '>
                         <div className="font-semibold text-left">
                           {item.title}
                         </div>
@@ -548,8 +548,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                       </div>
                     </div>
 
-                    <div>
-                      <Btn className="h-[30px]">DownLoad</Btn>
+                    <div className="smd:w-full smd:mt-5">
+                      <Btn className="h-[30px] smd:w-full">DownLoad</Btn>
                     </div>
                   </div>
                 </div>
@@ -629,7 +629,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     lite: <CurrentNode step={stepLiteIndex} typeStep={liteStep} />,
   };
 
-  const firstShow = stepX86Index === 1 && stepIndex === 0 && stepLiteIndex === 0
+  const firstShow = (type === 'client' && stepX86Index === 1) || ((type === 'box' || type === 'link') && stepIndex === 0)
+
 
   const onOpen = (url?: string) => {
     if (!url) return
@@ -637,11 +638,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
   }
 
   const rightTabList = addNewNodeList.find((item) => item.value === searchType || '')
-
-
-  console.log('typetypetypetypetypetype', type);
-
-
 
   return <div className="w-full smd:mt-12 smd:mb-5 ">
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full">

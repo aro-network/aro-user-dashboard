@@ -80,8 +80,6 @@ const ANodeInfo: FC<{
     start: DateValue;
     end: DateValue;
   }>(generateLast15DaysRange());
-
-
   const chooseType = params.get("nodeType") || '';
 
   const refetchdetailRes = debounce(() => {
