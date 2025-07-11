@@ -37,6 +37,7 @@ const ANodes = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [openLink, setOpenLink] = useState('')
   const chooseType = params.get("nodeType") || '';
+  const [isEnabled, setIsEnabled] = useState(false);
 
 
   const title =
@@ -50,15 +51,21 @@ const ANodes = () => {
 
 
   const refetchRes = debounce(() => {
-    refetch();
+    if (!isEnabled) {
+      setIsEnabled(true);
+    } else {
+      refetch();
+    }
   }, 1300);
+
 
   const { data = [], isFetching, refetch, isLoading } = useQuery({
     queryKey: ["NodeList"],
-    enabled: false,
+    enabled: isEnabled,
     refetchOnWindowFocus: false,
     staleTime: 0,
     refetchOnMount: false,
+    refetchInterval: 60000,
     queryFn: async ({ pageParam: pageNum }) => {
       const pageSize = 10;
       const pageParams = { pageSize, pageNum };

@@ -1,4 +1,10 @@
-import { LoginResult, SingUpResult, User, UserCampaignsRewards, UserReward } from "@/types/user";
+import {
+  LoginResult,
+  SingUpResult,
+  User,
+  UserCampaignsRewards,
+  UserReward,
+} from "@/types/user";
 import axios from "axios";
 import { ENV } from "./env";
 import _ from "lodash";
@@ -50,31 +56,25 @@ Api.interceptors.response.use(
       error.response?.data?.message || error.message || "Network Error";
 
     if (!error.response) {
-      toast.error("Network issue", {
-        id: "error-toast",
-      });
+      toast.error("Network issue");
     } else {
       switch (status) {
         case 400:
-          toast.error(message || "Bad Request", { id: "error-toast2" });
+          toast.error(message || "Bad Request");
           break;
         case 401:
-          toast.warning("Session expired, please log in again", {
-            id: "error-toast",
-          });
+          toast.warning("Session expired, please log in again");
           removeItem("last-login-user");
           window.location.href = "/";
           break;
         case 403:
-          toast.error(message, { id: "error-toast" });
+          toast.error(message);
           break;
         case 500:
-          toast.error("Server error, please try again later", {
-            id: "error-toast",
-          });
+          toast.error("Server error, please try again later");
           break;
         default:
-          toast.error(message || "Request failed", { id: "error-toast" });
+          toast.error(message || "Request failed");
       }
     }
 
@@ -486,14 +486,16 @@ const backendApi = {
     return res.data.data;
   },
   redeemCampaignsByCode: async (code: string) => {
-    const res = await Api.post("/campaigns/redeem/rewards", { redeemCode: code });
-    return true
+    const res = await Api.post("/campaigns/redeem/rewards", {
+      redeemCode: code,
+    });
+    return true;
   },
-  reportCampaignsSocails: async (type: 'followX'|'postX') => {
-    const typeMap = {followX: 7, postX: 10}
-    await Api.post(`/campaigns/set/rewards`, { type: typeMap[type] })
-    return true
-  }
+  reportCampaignsSocails: async (type: "followX" | "postX") => {
+    const typeMap = { followX: 7, postX: 10 };
+    await Api.post(`/campaigns/set/rewards`, { type: typeMap[type] });
+    return true;
+  },
 };
 
 export default backendApi;
