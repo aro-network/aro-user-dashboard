@@ -2,7 +2,7 @@ import { Btn } from "@/components/btns"
 import backendApi from "@/lib/api"
 import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
-import { FC, ReactNode, Ref, useEffect, useImperativeHandle, useState } from "react"
+import { FC, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useState } from "react"
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io"
 import { addNewNodeList, covertName, covertText, installStep, isIPv6, shortenMiddle } from "@/lib/utils"
 import { ConfirmDialog } from "@/components/dialogimpls"
@@ -510,6 +510,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     setSerialNum({})
   }
 
+  console.log('bindExtbindExtbindExtbindExt', bindExt);
+
+
   const onGoToDetail = () => {
     onClose()
     r.push(`?mode=testnet&tab=nodes&type=detail&nodeType=lite_node&nId=${bindExt.data?.nodeId}`)
@@ -520,50 +523,52 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
   const liteStep = [
     {
       content:
-        <div className="flex w-full flex-col items-center justify-center">
+        <div className="flex w-full flex-col items-center justify-center py-5 px-3">
           <div className="w-[37.5rem] smd:w-full">
-            <div className="flex w-full font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
+            <div className="flex w-full font-normal text-xl smd:text-base leading-5 mb-[30px] justify-center font-Alexandria smd:justify-start">
               {AllText.AAddNewNodes.lite.step1.title}
             </div>
 
-
-            {installStep.map((item) => {
-              return <div key={`step_${item.title}`} className="mt-5 bg-[#FFFFFF14] text-sm text-center rounded-lg py-[15px] px-5 ">
-
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-5 items-center">
-                    <img src={item.icon} className="w-[50px] h-[50px]" />
-                    <div className='text-sm flex gap-[5px] flex-col '>
-                      <div className=" font-semibold text-left ">
-                        {item.title}
+            {installStep.map((item, index) => (
+              <Fragment key={`step_${item.title}`}>
+                <div className=" bg-[#FFFFFF14] text-sm text-center rounded-lg py-[15px] px-5 ">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-5 items-center">
+                      <img src={item.icon} className="w-[50px] h-[50px]" />
+                      <div className='text-sm flex gap-[5px] flex-col '>
+                        <div className="font-semibold text-left">
+                          {item.title}
+                        </div>
+                        <div className="text-primary text-left">
+                          {item.Recommended}
+                        </div>
+                        <div className="text-left text-xs text-[#FFFFFF99]">
+                          {item.version}
+                        </div>
                       </div>
-                      <div className="text-primary text-left">
-                        {item.Recommended}
-                      </div>
-                      <div className="text-left text-xs text-[#FFFFFF99]">
-                        {item.version}
-                      </div>
+                    </div>
 
-
+                    <div>
+                      <Btn className="h-[30px]">DownLoad</Btn>
                     </div>
                   </div>
-
-                  <div>
-                    <Btn>DownLoad</Btn>
-                  </div>
-
                 </div>
-              </div>
-            })}
+                {index === 0 && (
+                  <div className=" py-[10px] text-center font-semibold text-sm text-[#FFFFFFCC]">or</div>
+                )}
+              </Fragment>
+            ))}
+
+
             <div className="flex justify-center mt-[10px]">
-              <button onClick={() => window.open('https://www.youtube.com/watch?v=ok8RW8hhYAw', '_blank')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
+              <button className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
             </div>
 
-            <div className="flex justify-center flex-col items-center mt-10 gap-[.625rem]">
-              <div className="flex w-full font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
+            <div className="flex justify-center flex-col items-center mt-10 ">
+              <div className="flex w-full font-normal text-xl smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
                 {AllText.AAddNewNodes.lite.step2.title}
               </div>
-              <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
+              <div className=" mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
                 {AllText.AAddNewNodes.lite.step2.subTitle}
               </div>
 
@@ -634,11 +639,15 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
   const rightTabList = addNewNodeList.find((item) => item.value === searchType || '')
 
 
+  console.log('typetypetypetypetypetype', type);
+
+
+
   return <div className="w-full smd:mt-12 smd:mb-5 ">
     <div className=" flex justify-center flex-col md:items-center smd:w-full m-auto h-full">
       {type && typeMap[type] ?
         <div className="flex gap-5 smd:flex-col">
-          <div className="  commonTab rounded-xl p-10 smd:p-5 md:flex items-center">
+          <div className={`  commonTab rounded-xl p-10 smd:p-5 md:flex items-center`}>
             {typeMap[type]}
           </div>
 
