@@ -312,17 +312,28 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
   }, [width, chooseType, detailInfo]);
 
 
+  //  {
+  //     tit: '24H Uptime',
+  //     rightTit: <>{formatTime(detailInfo.upTime?.lastUpdateTimestamp)} Updated</>,
+  //     chart: (
+  //       <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
+  //         <AChart groupedData={upTime} color="#FDB600" name="Uptime(H)" width={width} />
+  //       </div>
+  //     )
+  //   },
+
   const extensionChartList = [
     {
-      tit: 'Uptime',
+      tit: '24H Uptime',
       rightTit: '',
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
 
-
-        {!detailInfo.getExtensionUptime?.length ? <div className="w-full h-full flex justify-center items-center"> No data yet. Please check back later.</div> : <EChartsReact
+        {/* {!detailInfo.getExtensionUptime?.length ? <div className="w-full h-full flex justify-center items-center"> No data yet. Please check back later.</div> : <EChartsReact
           className="w-full  !h-[12.5rem] smd:!h-[11.875rem] "
           option={extensionUpTimeChartOpt}
-        />}
+        />} */}
+
+        <AChart groupedData={detailInfo.getExtensionUptime} color="#FDB600" name="Uptime(H)" width={width} />
       </div>
     },
     {

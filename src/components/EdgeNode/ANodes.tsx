@@ -235,6 +235,8 @@ const ANodes = () => {
             onClick={() => {
               setOpenAddNode(!isOpen);
               updateURL('type', 'add')
+              refetchRes.cancel();
+
             }}
           >
             Add New Node

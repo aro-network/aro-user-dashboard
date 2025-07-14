@@ -3,7 +3,7 @@ import { useCopy } from "@/hooks/useCopy";
 import { handlerErrForBind } from "@/hooks/useShowParamsError";
 import backendApi, { BASE_API } from "@/lib/api";
 import { retry } from "@/lib/async";
-import { handlerError } from "@/lib/utils";
+import { envText, handlerError } from "@/lib/utils";
 import { postX } from "@/lib/x";
 import { SVGS } from "@/svg";
 import { UserCampaignsRewards } from "@/types/user";
@@ -61,6 +61,9 @@ type StepData = { finished: boolean, tit: string, action: string, addJade?: numb
 function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData }, className?: string }) {
   const Micon = data.icon
   const finished = data.first.finished && (!data.secend || data.secend.finished)
+
+  console.log('finishedfinishedfinishedfinished', data);
+
   return (
     <div className={cn(" flex items-center gap-5 smd:flex-col", className)}>
       <div className="rounded-xl shrink-0 relative bg-no-repeat bg-cover bg-[url(/connectBg.svg)] flex justify-center items-center overflow-hidden w-[80px] h-[80px] smd:w-[100px] smd:h-[100px]">
@@ -198,13 +201,15 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
     mutationFn: async (type: 'x' | "telegram" | 'discord') => {
       const token = await backendApi.getAccessToken();
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
+      console.log('redirectUrlredirectUrlredirectUrlredirectUrl', redirectUrl, `${BASE_API}/user/auth/handler/${type}`);
+
       let url: string = "";
       switch (type) {
         case "x":
-          url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=M0hkaVBZaUZITHo2RmprZ19obEs6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
+          url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
           break;
         case "telegram":
-          const result = await telegramAuth("7324509153", { windowFeatures: { popup: true, width: 600, height: 800 } });
+          const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
           const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
           if (typeof res.request?.responseURL === 'string') {
             const err = new URL(res.request?.responseURL).searchParams.get("err");
@@ -242,6 +247,9 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
   }
   const activeJoin = !(data.bind.x && data.bind.tg && data.bind.discord && data.bind.followX && data.bind.joinDiscord && data.bind.joinTg)
   const activeSocial = !data.bind.postX
+
+  console.log('datadatadatadatadata', data);
+
   return <>
     <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeJoin })} active={activeJoin}>
       <Title text="Join ARO Community" />
@@ -253,7 +261,7 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
         }} />
         <SocialTaskItem data={{
           icon: FaTelegramPlane,
-          first: { tit: 'Connect X Account', action: 'Connect', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram") },
+          first: { tit: 'Connect X Account', action: 'Connect', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram") },
           secend: { tit: 'Join Telegram', action: 'Join', finished: data.bind.tg, onAction: onJoinTg }
         }} />
       </div>
@@ -466,7 +474,7 @@ export default function AMyReferral() {
   }, []);
   const { data, isLoading } = useQuery({
     queryKey: ['getUserCampaignsRewards'],
-    queryFn: () => ({
+    queryFn: () => backendApi.getCampaignsRewards().catch(() => ({
       jadeRewards: "0",
       lockedJadeRewards: "0",
       referredRewards: "0",
@@ -482,7 +490,7 @@ export default function AMyReferral() {
         jadeRewards: '0',
         lockedJadeRwards: '0',
       }
-    }) as UserCampaignsRewards,
+    }) as UserCampaignsRewards),
     retry: true,
     retryDelay: (fcount) => fcount > 3 ? Math.min(fcount * 1000, 60000) : 1000,
   })

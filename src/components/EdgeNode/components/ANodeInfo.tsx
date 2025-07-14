@@ -87,23 +87,7 @@ const ANodeInfo: FC<{
   }, 1300);
 
 
-  const isUserOwner = useQuery({
-    queryKey: ["isOwner", nId],
-    enabled: true,
-    staleTime: 0,
-    refetchOnMount: false,
-    refetchOnWindowFocus: 'always',
-    refetchInterval: 60000,
-    queryFn: async () => {
-      const isOwner = chooseType !== 'lite_node' ? await backendApi.currentOwner(nId) : await backendApi.ownerExtensionSN(nId)
 
-      if (isOwner?.owner === false) {
-        onBack();
-      } else {
-        refetchdetailRes()
-      }
-    }
-  });
 
 
 
@@ -173,6 +157,24 @@ const ANodeInfo: FC<{
 
     },
     refetchOnWindowFocus: true,
+  });
+
+  const isUserOwner = useQuery({
+    queryKey: ["isOwner", nId],
+    enabled: true,
+    staleTime: 0,
+    refetchOnMount: false,
+    refetchOnWindowFocus: 'always',
+    refetchInterval: detailInfo?.detail.online ? 60000 : 1000,
+    queryFn: async () => {
+      const isOwner = chooseType !== 'lite_node' ? await backendApi.currentOwner(nId) : await backendApi.ownerExtensionSN(nId)
+
+      if (isOwner?.owner === false) {
+        onBack();
+      } else {
+        refetchdetailRes()
+      }
+    }
   });
 
 
