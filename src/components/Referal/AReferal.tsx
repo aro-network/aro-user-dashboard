@@ -267,7 +267,7 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
       <div className="flex justify-between gap-[152px] xs:gap-20 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
         <SocialTaskItem data={{
           icon: FaXTwitter,
-          first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user.social.x?.username ? '@' + user.social.x?.username : undefined },
+          first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user?.social.x?.username ? '@' + user.social.x?.username : undefined },
           secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Followed', finished: data.bind.followX, onAction: onFollowX, addJade: data.jadePoint.followX }
         }} />
         <SocialTaskItem className="mr-auto smd:mr-0" data={{
