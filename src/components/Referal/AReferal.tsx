@@ -198,10 +198,12 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
     mutationFn: async (type: 'x' | "telegram" | 'discord') => {
       const token = await backendApi.getAccessToken();
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
+      console.log('redirectUrlredirectUrlredirectUrlredirectUrl', redirectUrl, `${BASE_API}/user/auth/handler/${type}`);
+
       let url: string = "";
       switch (type) {
         case "x":
-          url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=M0hkaVBZaUZITHo2RmprZ19obEs6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
+          url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
           break;
         case "telegram":
           const result = await telegramAuth("7324509153", { windowFeatures: { popup: true, width: 600, height: 800 } });
@@ -466,7 +468,7 @@ export default function AMyReferral() {
   }, []);
   const { data, isLoading } = useQuery({
     queryKey: ['getUserCampaignsRewards'],
-    queryFn: () => ({
+    queryFn: () => backendApi.getCampaignsRewards().catch(() => ({
       jadeRewards: "0",
       lockedJadeRewards: "0",
       referredRewards: "0",
@@ -482,7 +484,7 @@ export default function AMyReferral() {
         jadeRewards: '0',
         lockedJadeRwards: '0',
       }
-    }) as UserCampaignsRewards,
+    }) as UserCampaignsRewards),
     retry: true,
     retryDelay: (fcount) => fcount > 3 ? Math.min(fcount * 1000, 60000) : 1000,
   })

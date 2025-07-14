@@ -482,7 +482,7 @@ const backendApi = {
   },
 
   getCampaignsRewards: async () => {
-    const res = await Api.get<RES<UserCampaignsRewards>>("/compaigns/rewards");
+    const res = await Api.get<RES<UserCampaignsRewards>>("/campaigns/rewards");
     return res.data.data;
   },
   redeemCampaignsByCode: async (code: string) => {
