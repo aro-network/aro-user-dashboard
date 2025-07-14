@@ -196,6 +196,7 @@ export const envText = (module?: string) => {
       sign: "Sign In",
       signUp: "Sign Up",
       mode: "Previewnet",
+      tgCode: "7568524402",
     },
     beta: {
       sign: "Sign In",
@@ -206,6 +207,7 @@ export const envText = (module?: string) => {
       sign: "Sign In",
       signUp: "Sign Up",
       mode: "Testnet",
+      tgCode: "7376706763",
     },
   };
 
