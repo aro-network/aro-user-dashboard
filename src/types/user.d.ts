@@ -172,21 +172,31 @@ export interface UserCampaignsRewards {
     discord: boolean;
     joinDiscord: boolean;
   };
-  inviteUserCount: number;
   aroNode: {
     pod: boolean;
     link: boolean;
     client: boolean;
     liteNode: boolean;
   };
+  jadePoint: {
+    followX: number;
+    joinTG: number;
+    joinDiscord: number;
+    sendTweet: number;
+    invite: number;
+    x86: number;
+    liteNode: number;
+    orderPod: number;
+    orderLink: number;
+  };
   referralTier1: {
     count: number;
     jadeRewards: string;
-    lockedJadeRwards: string;
+    lockedJadeRewards: string;
   };
   referralTier2: {
     count: number;
     jadeRewards: string;
-    lockedJadeRwards: string;
+    lockedJadeRewards: string;
   };
 }

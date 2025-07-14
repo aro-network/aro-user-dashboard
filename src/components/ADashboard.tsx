@@ -376,7 +376,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
       <div className="h-full  nodes mb-5 smd:mt-[3.75rem]">
-        {currentTab.tab === 'referral' && user?.invited === false &&
+        {currentTab.tab === 'campaigns' && user?.invited === false &&
           <div className="bg-[#00E42A]  py-[.625rem]  justify-center smd:px-4  w-full flex gap-5 smd:gap-[.3125rem] smd:flex-col items-center">
             <span className="text-black text-sm">You have not set your Referrer Information. Being referred by an ARO user will give you extra boost! </span>
             <button onClick={() => r.push(`?mode=${currentENVName}&tab=aroId`)} className=" bg-white rounded-lg smd:w-[6.25rem] text-black py-[.3125rem] px-[.625rem] text-xs">Go to set</button>

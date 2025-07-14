@@ -13,7 +13,7 @@ import { telegramAuth } from "@use-telegram-auth/hook";
 import Aos from 'aos';
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { FC, PropsWithChildren, ReactNode, useEffect, useState } from "react";
+import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import { FaLink, FaXTwitter } from "react-icons/fa6";
 import { FiCheck, FiArrowUpRight } from "react-icons/fi";
@@ -40,7 +40,7 @@ function ItemCard({ className, active, children, disableAnim = !DEF_ANIMITEM }: 
     'data-aos': "fade-up",
     'data-aos-duration': "1000"
   }
-  return <div {...animProps} className={cn("bg-l1 shadow-1 rounded-xl bg-no-repeat bg-cover bg-center p-5", { "bg-online [--tw-shadow-color:#089121]": active }, className)}>
+  return <div {...animProps} className={cn("bg-l1 shadow-1 rounded-xl bg-no-repeat bg-cover bg-center p-5 ", { "bg-online [--tw-shadow-color:#089121]": active, 'commonTab': !active }, className)}>
     {children}
   </div>
 }
@@ -57,34 +57,44 @@ function FinishBadge({ className }: { className?: string }) {
   </div>
 }
 
-type StepData = { finished: boolean, tit: string, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void }
-function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData }, className?: string }) {
+type StepData = { finished: boolean, tit: string, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void, userName?: string, connectd?: string }
+function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData }, className?: string, }) {
   const Micon = data.icon
+  const ac = useAuthContext();
   const finished = data.first.finished && (!data.secend || data.secend.finished)
+
+
 
   console.log('finishedfinishedfinishedfinished', data);
 
   return (
     <div className={cn(" flex items-center gap-5 smd:flex-col", className)}>
-      <div className="rounded-xl shrink-0 relative bg-no-repeat bg-cover bg-[url(/connectBg.svg)] flex justify-center items-center overflow-hidden w-[80px] h-[80px] smd:w-[100px] smd:h-[100px]">
-        <Micon className="text-[40px] smd:text-[43px] text-[#96EA63]" />
+      <div className="rounded-xl shrink-0 relative bg-no-repeat bg-cover  bg-[url(/connectBg.svg)] flex justify-center items-center overflow-hidden w-[120px] h-[120px] smd:w-[100px] smd:h-[100px]">
+        <Micon className="text-[40px] smd:text-[43px] text-[#96EA63] h-[120px]" />
         {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />}
       </div>
-      <div className="flex flex-col gap-2.5 py-4 h-full justify-center shrink-0 w-[130px] smd:h-auto">
-        <div className="text-sm leading-tight text-center">{data.first.tit}<br />{!data.secend && <><span className="text-primary">+{data.first.addJade ?? 1}</span> Jade</>}</div>
-        {!data.first.finished && (
-          <Btn className="w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base" onPress={data.first.onAction} isLoading={data.first.actionLoading}>
-            {data.first.action}
-          </Btn>
-        )}
+      <div className="flex flex-col  py-4 h-full justify-center shrink-0 w-[130px] smd:h-auto items-center">
+        <div className=" rounded-full border w-7 h-7 flex items-center justify-center font-AlbertSans">1</div>
+        <div className="text-sm leading-tight text-center mt-2.5">{data.first.tit}<br />{!data.secend && <><span className="text-primary">+{data.first.addJade ?? 200}</span> Jade</>}</div>
+        {/* data.first.finished */}
+        <div className="text-sm smd:mt-2.5">{data.first.userName}</div>
+        <Btn className={cn("w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
+          {data.first.finished ? data.first.connectd : data.first.action}
+        </Btn>
+
       </div>
-      {data.secend && <div className="flex flex-col gap-2.5 py-4 h-full justify-center shrink-0 w-[130px] smd:h-auto">
-        <span className="text-sm leading-tight text-center">{data.secend.tit}<br /><span className="text-primary">+{data.secend.addJade ?? 1}</span> Jade</span>
-        {!data.secend.finished && (
-          <Btn className="w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base" onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
-            {data.secend.action}
-          </Btn>
-        )}
+      {data.secend && <div className="flex flex-col gap-2.5 py-4 h-full justify-center shrink-0 w-[130px] smd:h-auto items-center">
+        <div className=" rounded-full border w-7 h-7 flex items-center justify-center font-AlbertSans">2</div>
+        <span className="text-sm leading-tight text-center">
+          {data.secend.tit}
+          <br />
+          <div className="smd:mt-2.5">
+            <span className="text-primary smd:mt-2.5">+{data.secend.addJade ?? 200}</span> Jade
+          </div>
+        </span>
+        <Btn className={cn("w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
+          {data.secend.finished ? data.secend.connectd : data.secend.connectd}
+        </Btn>
       </div>}
 
     </div>
@@ -109,7 +119,7 @@ type AroNodeItem = {
 function GetARONodeItem({ data }: { data: AroNodeItem }) {
   // box-shadow: 0px 1px 4px 0px #00000033;
   const disabled = (data.finish && !data.foreach) || data.action === 'Coming Soon...'
-  return <div className="relative shadow bg-white/5 p-5 gap-5 items-center rounded-xl overflow-hidden flex">
+  return <div className="relative shadow smd:flex-col bg-white/5 p-5 gap-5 items-center rounded-xl overflow-hidden flex">
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
     {data.icon}
     <div className="flex flex-col gap-2">
@@ -150,7 +160,7 @@ function MyJadeRewards({ data }: { data: UserCampaignsRewards }) {
         subClassName="text-[62px] font-semibold text-white items-baseline leading-none smd:text-[40px]"
         titClassName=""
         sub={<>
-          {fmtBerry(data.jadeRewards)}
+          {data.jadeRewards}
           <span className="text-sm font-normal">Jades</span>
         </>} />
     </div>
@@ -197,34 +207,7 @@ function MyJadeRewards({ data }: { data: UserCampaignsRewards }) {
 function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
   const ac = useAuthContext()
   const active = true
-  const mutConnect = useMutation({
-    mutationFn: async (type: 'x' | "telegram" | 'discord') => {
-      const token = await backendApi.getAccessToken();
-      const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
-      console.log('redirectUrlredirectUrlredirectUrlredirectUrl', redirectUrl, `${BASE_API}/user/auth/handler/${type}`);
 
-      let url: string = "";
-      switch (type) {
-        case "x":
-          url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
-          break;
-        case "telegram":
-          const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
-          const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
-          if (typeof res.request?.responseURL === 'string') {
-            const err = new URL(res.request?.responseURL).searchParams.get("err");
-            handlerErrForBind(err);
-          }
-          ac.queryUserInfo?.refetch();
-          //todo refresh campains data
-          return;
-        case "discord":
-          url = `https://discord.com/oauth2/authorize?client_id=1303958338488238090&response_type=code&redirect_uri=${redirectUrl}&scope=identify+email&state=${token}`;
-          break;
-      }
-      window.open(url, "_blank");
-    }
-  })
 
   const reportFinishTask = (t: Parameters<typeof backendApi.reportCampaignsSocails>[0]) => {
     retry(() => backendApi.reportCampaignsSocails(t))
@@ -235,65 +218,132 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
     const origin = 'aro.network'
     const url = `https://x.com/intent/follow?original_referer=${origin}&ref_src=twsrc^tfw|twcamp^buttonembed|twterm^follow|twgr^${to}&screen_name=${to}`
     window.open(encodeURI(url))
+
+    reportFinishTask('followX')
   }
+
   const onJoinTg = () => {
+    const group = 'ARO_Network'
+    const url = `https://t.me/${group}`
+    window.open(encodeURI(url))
 
   }
-  const onJoinDiscord = () => {
+  const activeJoin = !(data.bind.x && data.bind.followX && data.bind.tg && data.bind.joinTg)
+  const user = ac.queryUserInfo?.data;
 
-  }
-  const onPostX = () => {
-    postX({ text: '' })
-  }
-  const activeJoin = !(data.bind.x && data.bind.tg && data.bind.discord && data.bind.followX && data.bind.joinDiscord && data.bind.joinTg)
-  const activeSocial = !data.bind.postX
 
-  console.log('datadatadatadatadata', data);
+  const mutConnect = useMutation({
+    mutationFn: async (type: 'x' | "telegram" | 'discord') => {
+      const token = await backendApi.getAccessToken();
+      const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
+      console.log('redirectUrlredirectUrlredirectUrlredirectUrl', redirectUrl, `${BASE_API}/user/auth/handler/${type}`);
+
+      let url: string = "";
+      switch (type) {
+        case "x":
+          url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
+          ac.queryUserInfo?.refetch();
+          break;
+        case "telegram":
+          const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
+          const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+
+          if (typeof res.request?.responseURL === 'string') {
+            const err = new URL(res.request?.responseURL).searchParams.get("err");
+            handlerErrForBind(err);
+          }
+          ac.queryUserInfo?.refetch();
+          //todo refresh campains data
+          return;
+      }
+      window.open(url, "_blank");
+
+    }
+  })
 
   return <>
     <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeJoin })} active={activeJoin}>
       <Title text="Join ARO Community" />
-      <div className="flex justify-around gap-5 pt-[50px] pb-[60px] flex-wrap smd:flex-col">
+      <div className="flex justify-between gap-[152px] xs:gap-20 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
         <SocialTaskItem data={{
           icon: FaXTwitter,
-          first: { tit: 'Connect X Account', action: 'Connect', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x") },
-          secend: { tit: 'Follow ARO on X', action: 'Follow', finished: data.bind.x, onAction: onFollowX }
-        }} />
-        <SocialTaskItem data={{
-          icon: FaTelegramPlane,
-          first: { tit: 'Connect X Account', action: 'Connect', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram") },
-          secend: { tit: 'Join Telegram', action: 'Join', finished: data.bind.tg, onAction: onJoinTg }
-        }} />
-      </div>
-    </ItemCard>
-    <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeSocial })} active={activeSocial}>
-      <Title text="Social Media Activities" />
-      <div className="flex justify-between gap-5 pt-[50px] pb-[60px] flex-wrap smd:flex-col">
-        <SocialTaskItem data={{
-          icon: FaDiscord,
-          first: { tit: 'Join Discord', action: 'Join', finished: data.bind.discord, onAction: onJoinDiscord }
+          first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user.social.x?.username ? '@' + user.social.x?.username : undefined },
+          secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Followed', finished: data.bind.followX, onAction: onFollowX, addJade: data.jadePoint.followX }
         }} />
         <SocialTaskItem className="mr-auto smd:mr-0" data={{
-          icon: SVGS.SvgClipboard,
-          first: { tit: 'Share on X', action: 'Post', finished: data.bind.x, onAction: onPostX }
+          icon: FaTelegramPlane,
+          first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram") },
+          secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Joined', finished: data.bind.joinTg, onAction: onJoinTg, addJade: data.jadePoint.joinTG }
         }} />
       </div>
     </ItemCard>
+
   </>
 }
 
 function GetNodes({ data }: { data: UserCampaignsRewards }) {
-  return <ItemCard className="flex flex-col gap-8" active>
+  const activeJoin = !(data.aroNode.pod && data.aroNode.link && data.aroNode.client && data.aroNode.liteNode)
+
+  return <ItemCard disableAnim className={cn("flex flex-col order-1 gap-8", { "order-[0]": activeJoin })} active={activeJoin}>
     <Title text="Get an ARO Node" />
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: 45, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: 45, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: 15, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: 5, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => { } }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => { } }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => { } }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => { } }} />
     </div>
   </ItemCard>
 }
 
+function SocialActivites({ data }: { data: UserCampaignsRewards }) {
+  const ac = useAuthContext()
+  const activeSocial = !(data.bind.postX && data.bind.discord && data.bind.joinDiscord)
+
+  const onJoinDiscord = () => {
+    const code = 'Rc4BMUjbNB'
+    const url = `https://discord.com/invite/${code}`
+    window.open(encodeURI(url))
+  }
+
+  const onPostX = () => {
+    postX({ text: '' })
+  }
+
+  const mutConnect = useMutation({
+    mutationFn: async (type: 'x' | "telegram" | 'discord') => {
+      const token = await backendApi.getAccessToken();
+      const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
+      console.log('redirectUrlredirectUrlredirectUrlredirectUrl', redirectUrl, `${BASE_API}/user/auth/handler/${type}`);
+
+      let url: string = "";
+      if (type == 'discord') {
+        url = `https://discord.com/oauth2/authorize?client_id=1303958338488238090&response_type=code&redirect_uri=${redirectUrl}&scope=identify+email&state=${token}`;
+        ac.queryUserInfo?.refetch();
+      }
+      window.open(url, "_blank");
+
+    }
+  })
+
+  console.log('activeSocialactiveSocialactiveSocial', activeSocial, data);
+
+
+
+  return <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeSocial })} active={activeSocial}>
+    <Title text="Social Media Activities" />
+    <div className="flex justify-between gap-[152px] xs:gap-20 pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
+      <SocialTaskItem data={{
+        icon: FaDiscord,
+        first: { tit: 'Connect Discord', action: 'Connect', connectd: 'Connected', finished: data.bind.discord, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate('discord') },
+        secend: { tit: 'Join Discord', action: 'Join', connectd: 'Joined', finished: data.bind.joinDiscord, onAction: onJoinDiscord, addJade: data.jadePoint.joinDiscord }
+      }} />
+      <SocialTaskItem className="mr-auto smd:mr-0" data={{
+        icon: SVGS.SvgClipboard,
+        first: { tit: 'Share on X', action: 'Post', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet }
+      }} />
+    </div>
+  </ItemCard>
+}
 
 function InviteFriends({ data }: { data: UserCampaignsRewards }) {
   const ac = useAuthContext();
@@ -305,17 +355,17 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
   };
   const r = useRouter()
   const [showWorks, toggleShowWorks] = useToggle(false)
-  const renderReferred = (value: string, name: string) => (<div className="flex gap-1"><span className="text-primary">{value}</span> {name}</div>)
-  return <ItemCard className="flex flex-col gap-5">
-    <Title text="Invite Your Friends" />
+  const renderReferred = (value: string, name: string) => (<div className="flex gap-1  w-20"><span className="text-primary">{value}</span> {name}</div>)
+  return <ItemCard className="flex flex-col gap-5 order-1">
+    <Title text="Explore More" />
     <IconCard
       className="col-span-full h-auto flex-row gap-0"
       icon={SVGS.SvgReferral}
       iconSize={24}
       tit={null}
-      content={<div className="flex items-center w-full h-full justify-between gap-5 smd:flex-col smd:justify-start">
+      content={<div className="flex items-center w-full h-full justify-between gap-5  smd:flex-col smd:justify-start">
         <div className="flex flex-col gap-5 justify-between h-full">
-          <div className="text-xl leading-10 self-center smd:text-base">
+          <div className="text-xl leading-10  smd:text-base">
             My Referral Code
           </div>
           <div className="flex items-center gap-4 h-full">
@@ -342,21 +392,21 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
             <div className="flex flex-col gap-2 font-medium text-white justify-between">
               <div className="text-sm">Refer friends</div>
               <div className="text-xs">
-                <div className="flex items-center gap-5 justify-between">
-                  <span>My Tier 1 Referral:</span>
+                <div className="flex items-center justify-between">
+                  <div className="pr-[.875rem]">My Tier 1 Referral:</div>
                   {renderReferred(`${data.referralTier1.count}`, 'Referred')}
-                  <DupleSplit className="h-3" />
+                  <DupleSplit className="h-3 mr-4" />
                   {renderReferred(fmtBerry(data.referralTier1.jadeRewards), 'Jades')}
-                  <DupleSplit className="h-3" />
-                  {renderReferred(fmtBerry(data.referralTier1.lockedJadeRwards), 'Jade to Vest')}
+                  <DupleSplit className="h-3 mr-4" />
+                  {renderReferred(data.referralTier1.lockedJadeRewards, 'Jade to Vest')}
                 </div>
-                <div className="flex items-center gap-5 justify-between">
-                  <span>My Tier 2 Referral:</span>
+                <div className="flex items-center justify-between ">
+                  <div className="pr-[.875rem]">My Tier 2 Referral:</div>
                   {renderReferred(`${data.referralTier2.count}`, 'Referred')}
-                  <DupleSplit className="h-3" />
+                  <DupleSplit className="h-3 mr-4" />
                   {renderReferred(fmtBerry(data.referralTier2.jadeRewards), 'Jades')}
-                  <DupleSplit className="h-3" />
-                  {renderReferred(fmtBerry(data.referralTier2.lockedJadeRwards), 'Jade to Vest')}
+                  <DupleSplit className="h-3 mr-4" />
+                  {renderReferred(data.referralTier2.lockedJadeRewards, 'Jade to Vest')}
                 </div>
               </div>
             </div>
@@ -405,12 +455,13 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
 
 function YouAreEarly() {
   const onApply = () => {
+    window.open('https://enreach.fillout.com/Pioneers')
 
   }
-  return <ItemCard className="flex items-center gap-5 py-8 justify-between pl-[10%]">
+  return <ItemCard className="flex items-center gap-5 py-8 justify-between pl-[10%] order-1">
     <div className="flex flex-col">
       <div className="font-semibold text-[28px] leading-none text-[#00FF0D]">You are Early！</div>
-      <div className="text-sm ">Become a Pioneer Aronaut</div>
+      <div className="text-sm pt-3">Become a Pioneer Aronaut</div>
       <Btn className="mt-5 text-xs font-medium h-[30px] smd:h-12 smd:text-base" onPress={onApply}>
         Apply to be Pioneer
       </Btn>
@@ -437,7 +488,7 @@ function YouAreEarly() {
 
 function ExploreMore() {
 
-  return <ItemCard className="flex flex-col gap-5">
+  return <ItemCard className="flex flex-col gap-5 order-1">
     <Title text="Invite Your Friends" />
     <div className="flex gap-5">
       <div className="flex flex-col gap-5">
@@ -483,17 +534,30 @@ export default function AMyReferral() {
       referralTier1: {
         count: 0,
         jadeRewards: "0",
-        lockedJadeRwards: "0",
+        lockedJadeRewards: "0",
       },
       referralTier2: {
         count: 0,
         jadeRewards: '0',
-        lockedJadeRwards: '0',
+        lockedJadeRewards: '0',
+      },
+      jadePoint: {
+        "followX": 200,
+        "joinTG": 100,
+        "joinDiscord": 100,
+        "sendTweet": 100,
+        "invite": 200,
+        "x86": 1500,
+        "liteNode": 500,
+        "orderPod": 4500,
+        "orderLink": 4500
       }
     }) as UserCampaignsRewards),
     retry: true,
     retryDelay: (fcount) => fcount > 3 ? Math.min(fcount * 1000, 60000) : 1000,
   })
+
+
   return (
     <div className="w-full flex flex-col gap-7 pb-32">
       {isLoading &&
@@ -506,7 +570,11 @@ export default function AMyReferral() {
         Boolean(data) && <>
           <MyJadeRewards data={data!} />
           <SocialsTasks data={data!} />
+          <SocialActivites data={data!} />
           <GetNodes data={data!} />
+          {/* {sorted.map((item) => (
+            <Fragment key={item.name}>{item.component}</Fragment>
+          ))} */}
           <InviteFriends data={data!} />
           <YouAreEarly />
           <ExploreMore />
