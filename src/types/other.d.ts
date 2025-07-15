@@ -13,6 +13,7 @@ declare namespace OtherTypes {
     tit: React.ReactNode;
     content: React.ReactNode;
     isNeed?: boolean;
+    contentClassname?: string;
   };
 
   type TitCardProps = {

@@ -12,7 +12,7 @@ export function ForceModal({
   bodyProps?: ModalBodyProps;
 }) {
   return (
-    <Modal isDismissable={false} backdrop="blur" classNames={{ backdrop: "backdrop-blur", wrapper: 'py-5' }} hideCloseButton {...props}>
+    <Modal backdrop="blur" classNames={{ backdrop: "backdrop-blur", wrapper: 'py-5' }} hideCloseButton {...props}>
       <ModalContent className="w-[22.5rem] p-6 bg-[#404040] rounded-3xl !my-auto" {...(contentProps || {})}>
         <ModalBody className="flex flex-col justify-start items-center w-full gap-6 p-0" {...(bodyProps || {})}>
           {children}

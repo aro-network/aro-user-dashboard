@@ -220,6 +220,10 @@ export const AllText = {
     " My ARO ID": " My ARO ID",
     "Sign Out Accout": "Sign Out Accout",
   },
+  campaigns: {
+    "Redeem Gift Code": "Redeem Gift Code",
+    "Redeem Bonus for ordering ARO Pod": "Redeem Bonus for ordering ARO Pod",
+  },
   "Access Your Device’s Web Console": "Access Your Device’s Web Console",
   "To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect.":
     "To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect.",

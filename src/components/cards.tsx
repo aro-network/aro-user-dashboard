@@ -3,14 +3,14 @@ import { SVGS } from "@/svg";
 import { Card, cn } from "@nextui-org/react";
 import { PropsWithChildren } from "react";
 
-export function IconCard({ icon, className, iconSize = 24, tit, content, isNeed = true }: OtherTypes.IconCardProps) {
+export function IconCard({ icon, className, iconSize = 24, tit, content, isNeed = true, contentClassname }: OtherTypes.IconCardProps) {
   const Micon = icon;
   const sizeRem = pxToRem(iconSize);
   const leftSizeRem = pxToRem(120 - iconSize);
   const pl = pxToRem((40 - iconSize) / 2);
   return (
     <Card className={cn(" flex flex-col p-6 gap-[2.8125rem] smd:gap-10 relative", className, {
-      'commonTab': isNeed
+      'commonTab innerTab': isNeed
     })}>
       <SVGS.SvgBgIconCard className="absolute left-0 top-0 text-[6.5rem] z-0" />
       <div className="flex items-center whitespace-nowrap " style={{ height: pxToRem(40) }}>
@@ -29,7 +29,7 @@ export function IconCard({ icon, className, iconSize = 24, tit, content, isNeed 
       </div>
       <div className="w-full flex flex-row">
         {Boolean(tit) && <div style={{ width: leftSizeRem, flexShrink: 100 }} />}
-        <div style={{ flexBasis: `calc(100% - ${leftSizeRem})`, flexGrow: 1 }} className="">
+        <div style={{ flexBasis: `calc(100% - ${leftSizeRem})`, flexGrow: 1 }} className={contentClassname}>
           {content}
         </div>
       </div>

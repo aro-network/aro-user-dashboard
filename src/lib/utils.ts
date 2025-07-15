@@ -509,3 +509,7 @@ export const installStep = [
     version: "ARO Lite ver. 1.0.5",
   },
 ];
+
+export const covertNum = (num: number) => {
+  return Math.floor(num);
+};

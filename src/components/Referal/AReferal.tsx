@@ -3,7 +3,7 @@ import { useCopy } from "@/hooks/useCopy";
 import { handlerErrForBind } from "@/hooks/useShowParamsError";
 import backendApi, { BASE_API } from "@/lib/api";
 import { retry } from "@/lib/async";
-import { envText, handlerError } from "@/lib/utils";
+import { covertNum, envText, handlerError } from "@/lib/utils";
 import { postX } from "@/lib/x";
 import { SVGS } from "@/svg";
 import { UserCampaignsRewards } from "@/types/user";
@@ -20,9 +20,8 @@ import { FiCheck, FiArrowUpRight } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoAlertCircle } from "react-icons/io5";
 import { IconType } from "react-icons/lib";
-import { MdPlayArrow } from "react-icons/md";
 import { useToggle } from "react-use";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { currentENVName } from "../ADashboard";
 import { Btn, IconBtn } from "../btns";
 import { IconCard } from "../cards";
@@ -32,7 +31,13 @@ import { fmtBerry } from "../fmtData";
 import { InputRedeemCode } from "../inputs";
 import { HelpTip } from "../tips";
 import Link from "next/link";
+import useMobileDetect from "@/hooks/useMobileDetect";
+import { AllText } from "@/lib/allText";
 
+
+const Step = ({ step, typeStep }: { step: number, typeStep: { content: ReactNode }[] }) => (
+  <div>{typeStep[step].content}</div>
+);
 
 const DEF_ANIMITEM = false
 function ItemCard({ className, active, children, disableAnim = !DEF_ANIMITEM }: { className?: string, active?: boolean, disableAnim?: boolean } & PropsWithChildren) {
@@ -64,9 +69,6 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
   const finished = data.first.finished && (!data.secend || data.secend.finished)
 
 
-
-  console.log('finishedfinishedfinishedfinished', data);
-
   return (
     <div className={cn(" flex items-center gap-5 smd:flex-col", className)}>
       <div className="rounded-xl shrink-0 relative bg-no-repeat bg-cover  bg-[url(/connectBg.svg)] flex justify-center items-center overflow-hidden w-[120px] h-[120px] smd:w-[100px] smd:h-[100px]">
@@ -77,7 +79,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
         <div className=" rounded-full border w-7 h-7 flex items-center justify-center font-AlbertSans">1</div>
         <div className="text-sm leading-tight text-center mt-2.5">{data.first.tit}<br />{!data.secend && <><span className="text-primary">+{data.first.addJade ?? 200}</span> Jade</>}</div>
         {/* data.first.finished */}
-        <div className="text-sm smd:mt-2.5">{data.first.userName}</div>
+        <div className="text-sm mt-2.5">{data.first.userName}</div>
         <Btn className={cn("w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
           {data.first.finished ? data.first.connectd : data.first.action}
         </Btn>
@@ -119,14 +121,16 @@ type AroNodeItem = {
 function GetARONodeItem({ data }: { data: AroNodeItem }) {
   // box-shadow: 0px 1px 4px 0px #00000033;
   const disabled = (data.finish && !data.foreach) || data.action === 'Coming Soon...'
-  return <div className="relative shadow smd:flex-col bg-white/5 p-5 gap-5 items-center rounded-xl overflow-hidden flex">
+  return <div className="relative shadow bg-white/5 smd:flex-col p-5 gap-5 items-center rounded-xl overflow-hidden flex">
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
-    {data.icon}
-    <div className="flex flex-col gap-2">
-      <div className="text-sm font-semibold">{data.tit}</div>
-      <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
+    <div className="flex gap-5">
+      {data.icon}
+      <div className="flex flex-col gap-2">
+        <div className="text-sm font-semibold">{data.tit}</div>
+        <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
+      </div>
     </div>
-    <Btn className={cn("ml-auto w-[120px] text-xs font-medium h-[30px]", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
+    <Btn className={cn("ml-auto w-[120px] smd:w-full text-xs font-medium  h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
   </div>
 }
 
@@ -138,8 +142,10 @@ function VUser({ user = 'A', className }: { className?: string, user?: string })
 }
 
 
-function MyJadeRewards({ data }: { data: UserCampaignsRewards }) {
+function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
   const r = useRouter()
+  const ac = useAuthContext()
+
   const [showRedeem, toggleShowRedeem] = useToggle(false)
   const [redeemCode, setRedeemCode] = useState('')
   const { mutate: doRedeem, isPending: isPendingRedeem } = useMutation({
@@ -147,32 +153,37 @@ function MyJadeRewards({ data }: { data: UserCampaignsRewards }) {
       await backendApi.redeemCampaignsByCode(redeemCode)
     },
     onError: handlerError,
-    onSuccess: () => toast.success("Redeem Successed!"),
+    onSuccess: () => {
+      toast.success("Redeem Successed!")
+      refetch()
+      setRedeemCode('')
+    },
     onSettled: () => toggleShowRedeem(false)
   })
 
-  return <ItemCard disableAnim className="py-[60px] flex items-center w-full justify-around gap-4 flex-wrap smd:flex-col smd:p-5 smd:items-start">
-    <div className="flex gap-8 h-full smd:h-auto">
+
+  return <ItemCard disableAnim className="py-[60px] flex items-center smd:gap-[1.875rem] w-full justify-around gap-4 flex-wrap smd:flex-col smd:p-5 smd:items-start">
+    <div className="flex gap-8 smd:gap-10 h-full smd:h-auto">
       <SVGS.SvgJadeRewards className="text-[97px]" />
       <DupleInfo
         className="h-full justify-between"
-        tit={<Title text="My Jade Rewards" tip="Jade Rewards Tips //TODO" />}
+        tit={<Title text="My Jade Rewards" tip="Jade is your reward for tasks in Previewnet and Testnet. Keep earning!" />}
         subClassName="text-[62px] font-semibold text-white items-baseline leading-none smd:text-[40px]"
         titClassName=""
         sub={<>
-          {data.jadeRewards}
+          {Number(data.jadeRewards)}
           <span className="text-sm font-normal">Jades</span>
         </>} />
     </div>
     <DupleSplit className="h-20 smd:h-[1px] smd:w-full" />
     <DupleInfo
       className="justify-between h-full smd:h-auto smd:gap-5"
-      tit={<Title text="Jade to Vest" tip="Jade to Vest Tips //TODO" />}
+      tit={<Title text="Jade in Lock" tip="The locked Jade holds special rewards for the next phase—unlock it by mining in Testnet!" />}
       subClassName="text-[36px] font-semibold text-white items-baseline leading-none smd:text-2xl"
       titClassName=""
       sub={<>
         {fmtBerry(data.lockedJadeRewards)}
-        <span className="text-sm font-normal">Locked Jades</span>
+        <span className="text-sm font-normal">Jades</span>
       </>} />
     <DupleSplit className="hidden smd:block smd:h-[1px] smd:w-full" />
     <DupleInfo
@@ -185,9 +196,11 @@ function MyJadeRewards({ data }: { data: UserCampaignsRewards }) {
         Redeem your Jade rewards here!
       </>} />
     <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
-    <ForceModal isOpen={showRedeem} className="!w-[650px] smd:!w-full smd:!mx-5">
-      <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base text-center  text-white">Redeem by code</p>
-      <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50"></p>
+    <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
+      <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Redeem Gift Code</p>
+      <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">Enter your Gift Code below and click 'Confirm' to claim your bonus!<br />
+        Note: You can redeem up to 3,000 Jades in Previewnet."</p>
+
       <InputRedeemCode setValue={setRedeemCode} value={redeemCode} />
       <div className="flex w-full gap-[.625rem] smd:gap-5 ">
         <Btn isDisabled={redeemCode.length !== 6} className="w-full smd:h-12" onPress={() => doRedeem()} isLoading={isPendingRedeem}>
@@ -195,6 +208,8 @@ function MyJadeRewards({ data }: { data: UserCampaignsRewards }) {
         </Btn>
         <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
           toggleShowRedeem(false);
+          setRedeemCode('')
+
         }}>
           Cancel
         </Btn>
@@ -204,7 +219,7 @@ function MyJadeRewards({ data }: { data: UserCampaignsRewards }) {
 }
 
 
-function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
+function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
   const ac = useAuthContext()
   const active = true
 
@@ -218,14 +233,15 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
     const origin = 'aro.network'
     const url = `https://x.com/intent/follow?original_referer=${origin}&ref_src=twsrc^tfw|twcamp^buttonembed|twterm^follow|twgr^${to}&screen_name=${to}`
     window.open(encodeURI(url))
-
     reportFinishTask('followX')
+    refetch()
   }
 
   const onJoinTg = () => {
     const group = 'ARO_Network'
     const url = `https://t.me/${group}`
     window.open(encodeURI(url))
+    refetch()
 
   }
   const activeJoin = !(data.bind.x && data.bind.followX && data.bind.tg && data.bind.joinTg)
@@ -264,16 +280,16 @@ function SocialsTasks({ data }: { data: UserCampaignsRewards }) {
   return <>
     <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeJoin })} active={activeJoin}>
       <Title text="Join ARO Community" />
-      <div className="flex justify-between gap-[152px] xs:gap-20 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
+      <div className="flex justify-between gap-[152px] xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
         <SocialTaskItem data={{
           icon: FaXTwitter,
           first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user?.social.x?.username ? '@' + user.social.x?.username : undefined },
-          secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Followed', finished: data.bind.followX, onAction: onFollowX, addJade: data.jadePoint.followX }
+          secend: { tit: 'Follow ARO on X', action: 'Followed', connectd: 'Follow', finished: data.bind.followX, onAction: onFollowX, addJade: data.jadePoint.followX }
         }} />
         <SocialTaskItem className="mr-auto smd:mr-0" data={{
           icon: FaTelegramPlane,
           first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram") },
-          secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Joined', finished: data.bind.joinTg, onAction: onJoinTg, addJade: data.jadePoint.joinTG }
+          secend: { tit: 'Join Telegram', action: 'Joined', connectd: 'Join', finished: data.bind.joinTg, onAction: onJoinTg, addJade: data.jadePoint.joinTG }
         }} />
       </div>
     </ItemCard>
@@ -295,7 +311,7 @@ function GetNodes({ data }: { data: UserCampaignsRewards }) {
   </ItemCard>
 }
 
-function SocialActivites({ data }: { data: UserCampaignsRewards }) {
+function SocialActivites({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
   const ac = useAuthContext()
   const activeSocial = !(data.bind.postX && data.bind.discord && data.bind.joinDiscord)
 
@@ -303,10 +319,13 @@ function SocialActivites({ data }: { data: UserCampaignsRewards }) {
     const code = 'Rc4BMUjbNB'
     const url = `https://discord.com/invite/${code}`
     window.open(encodeURI(url))
+    refetch()
   }
 
   const onPostX = () => {
     postX({ text: '' })
+    refetch()
+
   }
 
   const mutConnect = useMutation({
@@ -331,13 +350,13 @@ function SocialActivites({ data }: { data: UserCampaignsRewards }) {
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeSocial })} active={activeSocial}>
     <Title text="Social Media Activities" />
-    <div className="flex justify-between gap-[152px] xs:gap-20 pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
+    <div className="flex justify-between gap-[152px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
       <SocialTaskItem data={{
         icon: FaDiscord,
         first: { tit: 'Connect Discord', action: 'Connect', connectd: 'Connected', finished: data.bind.discord, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate('discord') },
-        secend: { tit: 'Join Discord', action: 'Join', connectd: 'Joined', finished: data.bind.joinDiscord, onAction: onJoinDiscord, addJade: data.jadePoint.joinDiscord }
+        secend: { tit: 'Join Discord', action: 'Joined', connectd: 'Join', finished: data.bind.joinDiscord, onAction: onJoinDiscord, addJade: data.jadePoint.joinDiscord }
       }} />
-      <SocialTaskItem className="mr-auto smd:mr-0" data={{
+      <SocialTaskItem className="mr-auto smd:mr-0 " data={{
         icon: SVGS.SvgClipboard,
         first: { tit: 'Share on X', action: 'Post', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet }
       }} />
@@ -356,15 +375,33 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
   const r = useRouter()
   const [showWorks, toggleShowWorks] = useToggle(false)
   const renderReferred = (value: string, name: string) => (<div className="flex gap-1  w-20"><span className="text-primary">{value}</span> {name}</div>)
-  return <ItemCard className="flex flex-col gap-5 order-1">
+  return <ItemCard className="flex flex-col gap-5 order-1 smd:h-auto !h-full">
     <Title text="Explore More" />
     <IconCard
-      className="col-span-full h-auto flex-row gap-0"
+      className="col-span-full h-auto !max-h-[570px] smd:h-full flex-wrap flex-row gap-0 smd:flex-col smd:p-5"
       icon={SVGS.SvgReferral}
       iconSize={24}
-      tit={null}
-      content={<div className="flex items-center w-full h-full justify-between gap-5  smd:flex-col smd:justify-start">
-        <div className="flex flex-col gap-5 justify-between h-full">
+      contentClassname="smd:!basis-full"
+      tit={
+        <div className="flex flex-col gap-5 smd:gap-7 justify-between h-full smd:mt-6 md:hidden">
+          <div className="text-xl leading-10  smd:text-base">
+            My Referral Code
+          </div>
+          <div className="flex items-center gap-4 h-full flex-wrap">
+            <div className="uppercase text-4xl smd:text-[2rem] leading-8 font-bold">{user?.inviteCode}</div>
+            <div className="smd:w-full smd:flex smd:gap-5">
+              <IconBtn className="bg-[#00E42A] hover:bg-[#5CF077]" tip="Copy Referral Link" onPress={() => copy(`${origin}/signup?referral=${user?.inviteCode}`)}>
+                <FaLink />
+              </IconBtn>
+              <IconBtn className="bg-[#00E42A] hover:bg-[#5CF077]" tip="Tweet Your Referral" onPress={onPostX}>
+                <FaXTwitter />
+              </IconBtn>
+            </div>
+          </div>
+        </div>
+      }
+      content={<div className="flex items-center w-full md:h-full justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px]">
+        <div className="flex flex-col gap-5 justify-between h-full  smd:hidden">
           <div className="text-xl leading-10  smd:text-base">
             My Referral Code
           </div>
@@ -378,36 +415,43 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
             </IconBtn>
           </div>
         </div>
-        <DupleSplit className="h-20 smd:w-full smd:h-[1px] mx-auto" />
-        <div className="flex flex-col gap-5 justify-between h-full items-start mr-auto">
-          <div className="text-xl leading-10 smd:text-base">
+        {/* border: 1px solid #5E5E5E */}
+        <div className="flex flex-col gap-5 justify-between smd:justify-start h-full smd:mt-[30px] items-start ">
+          <div className="text-xl leading-10 smd:text-base 0">
             My Referral Bonus
           </div>
-          <div className="flex justify-between gap-8">
-            <div className="flex flex-col gap-2 font-medium text-white">
+          <div className="flex justify-between gap-8 smd:gap-6 smd:flex-col flex-wrap">
+            <div className="flex flex-col gap-2 font-medium text-white  smd:w-full">
               <div className="text-sm">Get referred</div>
               <div className="font-normal text-xs"><span className="text-primary">+5</span> Jades</div>
-              <div className="text-xs leading-normal text-center py-[3px] w-[112px] rounded-full bg-[#02B421] cursor-pointer" onClick={() => r.push(`/?mode=${currentENVName}&tab=aroId`)}>Add My Referrer</div>
+              <div className="text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full bg-[#02B421] cursor-pointer" onClick={() => r.push(`/?mode=${currentENVName}&tab=aroId`)}>Add My Referrer</div>
             </div>
-            <div className="flex flex-col gap-2 font-medium text-white justify-between">
+            <div className="flex flex-col gap-2 smd:gap-6 font-medium text-white justify-between ">
               <div className="text-sm">Refer friends</div>
-              <div className="text-xs">
-                <div className="flex items-center justify-between">
-                  <div className="pr-[.875rem]">My Tier 1 Referral:</div>
-                  {renderReferred(`${data.referralTier1.count}`, 'Referred')}
-                  <DupleSplit className="h-3 mr-4" />
-                  {renderReferred(fmtBerry(data.referralTier1.jadeRewards), 'Jades')}
-                  <DupleSplit className="h-3 mr-4" />
-                  {renderReferred(data.referralTier1.lockedJadeRewards, 'Jade to Vest')}
+              <div className="text-xs ">
+                <div className="flex items-center justify-between  smd:items-start smd:flex-col ">
+                  <div className="pr-[.875rem] smd:w-full">My Tier 1 Referral:</div>
+                  <div className="flex  ">
+                    {renderReferred(`${data.referralTier1.count}`, 'Referred')}
+                    <DupleSplit className="h-3 mr-4" />
+                    {renderReferred(fmtBerry(data.referralTier1.jadeRewards), 'Jades')}
+                    <DupleSplit className="h-3 mr-4" />
+                    {renderReferred(data.referralTier1.lockedJadeRewards, 'Jade to Vest')}
+                  </div>
                 </div>
-                <div className="flex items-center justify-between ">
-                  <div className="pr-[.875rem]">My Tier 2 Referral:</div>
-                  {renderReferred(`${data.referralTier2.count}`, 'Referred')}
-                  <DupleSplit className="h-3 mr-4" />
-                  {renderReferred(fmtBerry(data.referralTier2.jadeRewards), 'Jades')}
-                  <DupleSplit className="h-3 mr-4" />
-                  {renderReferred(data.referralTier2.lockedJadeRewards, 'Jade to Vest')}
+                <div className="flex items-center justify-between  smd:items-start smd:flex-col smd:mt-4 mt-2 ">
+
+                  <div className="pr-[.875rem] smd:w-full">My Tier 2 Referral:</div>
+                  <div className="flex">
+
+                    {renderReferred(`${data.referralTier2.count}`, 'Referred')}
+                    <DupleSplit className="h-3 mr-4" />
+                    {renderReferred(fmtBerry(data.referralTier2.jadeRewards), 'Jades')}
+                    <DupleSplit className="h-3 mr-4" />
+                    {renderReferred(data.referralTier2.lockedJadeRewards, 'Jade to Vest')}
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -422,29 +466,21 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
     {
       showWorks &&
       <IconCard
-        className="col-span-full h-[10.625rem] smd:min-h-[440px] flex-row gap-0"
+        className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col"
         icon={() => <IoAlertCircle />}
         iconSize={28}
         tit={null}
-        content={<div className="flex items-center w-full h-full justify-between gap-5">
-          <div className="text-[30px] leading-10 self-center">
+        contentClassname="smd:!basis-full smd:h-full"
+
+        content={<div className="flex items-center smd:items-start w-full h-full flex-wrap mt-5 justify-between gap-5 smd:flex-col smd:h-auto smd:mb-5">
+          <div className="text-[30px] leading-10 self-center smd:self-start">
             How Referral<br />Program Works?
           </div>
-          <div className="flex gap-5">
-            <div className="flex items-center gap-5">
-              <VUser user="A" />
-              <div className="text-sm opacity-70">+ 15% Extra Bonus <div className="inline-block align-text-top"><HelpTip content="//Todo Extra Bonus Tips" /></div><br />+ Bonus continue in Testnet</div>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <div className="text-sm">{"refer(invite)"}</div>
-              <div className="h-[1px] bg-white w-[120px] relative flex items-center">
-                <MdPlayArrow className="absolute -right-2 text-xs" />
-              </div>
-            </div>
-            <div className="flex items-center gap-5">
-              <VUser user="B" />
-              <div className="text-sm opacity-70">+ 2 Jade in Previewnet<br />+ Mining Boosts in Testnet</div>
-            </div>
+          <div className="md:hidden">
+            <img src="./referralWorks-mo.svg" />
+          </div>
+          <div className="smd:hidden">
+            <img src="./referralWorks.svg" />
           </div>
         </div>}
       />
@@ -458,23 +494,23 @@ function YouAreEarly() {
     window.open('https://enreach.fillout.com/Pioneers')
 
   }
-  return <ItemCard className="flex items-center gap-5 py-8 justify-between pl-[10%] order-1">
-    <div className="flex flex-col">
-      <div className="font-semibold text-[28px] leading-none text-[#00FF0D]">You are Early！</div>
-      <div className="text-sm pt-3">Become a Pioneer Aronaut</div>
-      <Btn className="mt-5 text-xs font-medium h-[30px] smd:h-12 smd:text-base" onPress={onApply}>
+  return <ItemCard className="flex items-center smd:items-start gap-5 py-8 smd:py-[50px] justify-between pl-[10%] order-1 smd:flex-col">
+    <div className="flex flex-col smd:w-full">
+      <div className="font-semibold text-[28px] smd:text-4xl leading-none text-[#00FF0D]">You are Early！</div>
+      <div className="text-sm smd:text-base pt-3">Become a Pioneer Aronaut</div>
+      <Btn className="mt-5 text-xs font-medium h-[30px] smd:w-full smd:h-12 smd:text-base" onPress={onApply}>
         Apply to be Pioneer
       </Btn>
     </div>
-    <div className="flex gap-11">
-      <div className="flex flex-col gap-5">
+    <div className="flex gap-11 smd:flex-col smd:gap-9 mt-5 ">
+      <div className="flex flex-col gap-5 smd:w-full">
         <div className="font-semibold text-[18px] leading-none ">What We Look For</div>
         <div className="text-xs leading-none text-[#D3D3D6] font-medium h-[30px] smd:h-12 smd:text-base">
           • Continuous feedback & active engagement<br />
           • Content support: writing, videos, local advocacy
         </div>
       </div>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 smd:w-full">
         <div className="font-semibold text-[18px] leading-none ">What You Get</div>
         <div className="text-xs leading-none text-[#D3D3D6] font-medium h-[30px] smd:h-12 smd:text-base">
           • Priority access to free ARO devices (select regions)<br />
@@ -523,7 +559,7 @@ export default function AMyReferral() {
       });
     }
   }, []);
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['getUserCampaignsRewards'],
     queryFn: () => backendApi.getCampaignsRewards().catch(() => ({
       jadeRewards: "0",
@@ -568,9 +604,9 @@ export default function AMyReferral() {
       }
       {
         Boolean(data) && <>
-          <MyJadeRewards data={data!} />
-          <SocialsTasks data={data!} />
-          <SocialActivites data={data!} />
+          <MyJadeRewards data={data!} refetch={() => refetch()} />
+          <SocialsTasks data={data!} refetch={() => refetch()} />
+          <SocialActivites data={data!} refetch={() => refetch()} />
           <GetNodes data={data!} />
           {/* {sorted.map((item) => (
             <Fragment key={item.name}>{item.component}</Fragment>
