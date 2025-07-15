@@ -88,7 +88,7 @@ jobs:
           pnpm build
 
       - name: Deploy Gh-Pages 🚀
-        uses: XueMoMo/actions-gh-pages@v4.0.1
+        uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.DK_PREVIEW }}
           publish_dir: ./out
