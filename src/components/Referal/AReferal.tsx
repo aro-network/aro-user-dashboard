@@ -31,8 +31,6 @@ import { fmtBerry } from "../fmtData";
 import { InputRedeemCode } from "../inputs";
 import { HelpTip } from "../tips";
 import Link from "next/link";
-import useMobileDetect from "@/hooks/useMobileDetect";
-import { AllText } from "@/lib/allText";
 
 
 const Step = ({ step, typeStep }: { step: number, typeStep: { content: ReactNode }[] }) => (
@@ -104,7 +102,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
 }
 
 function AddJade({ add = 1, jade = 'Jade' }: { add?: number, jade?: string }) {
-  return <div className="flex text-xs gap-1">
+  return <div className="flex text-xs smd:text-sm gap-1">
     <span className="text-primary">+{add}</span>
     <span>{jade}</span>
   </div>
@@ -126,7 +124,7 @@ function GetARONodeItem({ data }: { data: AroNodeItem }) {
     <div className="flex gap-5">
       {data.icon}
       <div className="flex flex-col gap-2">
-        <div className="text-sm font-semibold">{data.tit}</div>
+        <div className="text-sm smd:text-base  font-semibold">{data.tit}</div>
         <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
       </div>
     </div>
@@ -416,6 +414,8 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           </div>
         </div>
         {/* border: 1px solid #5E5E5E */}
+        <DupleSplit className="h-20  smd:w-full smd:h-[1px] mx-auto bg-[5E5E5E]" />
+
         <div className="flex flex-col gap-5 justify-between smd:justify-start h-full smd:mt-[30px] items-start ">
           <div className="text-xl leading-10 smd:text-base 0">
             My Referral Bonus
