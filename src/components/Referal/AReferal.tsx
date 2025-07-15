@@ -190,8 +190,8 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       subClassName="text-sm text-white/80 items-baseline"
       titClassName=""
       sub={<>
-        Got a Gift Code?<br />
-        Redeem your Jade rewards here!
+
+        Redeem Jade with your Gift Code<br /> or ARO Pod order.
       </>} />
     <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
