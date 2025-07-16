@@ -79,7 +79,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
       <div className="flex flex-col">
         <div className="flex gap-9 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
           <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[120px] ">
-            <Micon className="text-[90px] smd:text-[60px]  smd:h-[60px]" />
+            <Micon className="text-[90px] text-[#96EA63] smd:text-[60px]  smd:h-[60px]" />
           </div>
           <div className="flex flex-col w-full">
             <div className="flex  py-4  justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5 ">
