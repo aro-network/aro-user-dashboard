@@ -60,36 +60,35 @@ function FinishBadge({ className }: { className?: string }) {
 type StepData = { finished: boolean, tit: string, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void, userName?: string, connectd?: string }
 function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData, title?: string, jade?: number, isHidden?: boolean }, className?: string, }) {
   const Micon = data.icon
-  const ac = useAuthContext();
   const finished = data.first.finished && (!data.secend || data.secend.finished)
 
 
   return (
-    <div className={cn(" flex  flex-col task-tab w-full", className)}>
+    <div className={cn(" flex  flex-col task-tab w-full gap-5", className)}>
       {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />}
 
       <div className="flex gap-2.5 items-center smd:justify-center">
-        <div className="font-medium text-base">
+        <div className="font-medium text-base smd:text-sm">
           {data.title}
         </div>
         <div className="text-sm font-normal text-[#00E42A]">
           +{data.jade}
         </div>
-        <div> Jade</div>
+        <div className="text-sm font-normal"> Jade</div>
       </div>
       <div className="flex flex-col">
-        <div className="flex gap-9 xs:gap-5 items-center smd:flex-col">
-          <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[120px] h-[90px] ">
-            <Micon className="text-[90px] smd:text-[60px] h-[100px] smd:h-[60px]" />
+        <div className="flex gap-9 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
+          <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[120px] ">
+            <Micon className="text-[90px] smd:text-[60px]  smd:h-[60px]" />
           </div>
           <div className="flex flex-col w-full">
-            <div className="flex  py-4 h-full justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5 ">
+            <div className="flex  py-4  justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5 ">
               <div className="flex items-center gap-2.5">
                 {!data.isHidden && <div className=" rounded-full border w-[18px] h-[18px] flex items-center justify-center font-AlbertSans">1</div>}
                 <div className="text-sm leading-tight text-left ">{data.first.tit}</div>
               </div>
               {/* data.first.finished */}
-              <Btn className={cn("w-[120px] smd:w-[200px] mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
+              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
                 {data.first.finished ? data.first.connectd : data.first.action}
               </Btn>
 
@@ -103,7 +102,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
                 </div>
               </div>
 
-              <Btn className={cn("w-[120px] smd:w-[200px] mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
+              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
                 {data.secend.finished ? data.secend.connectd : data.secend.action}
               </Btn>
             </div>}
@@ -144,7 +143,7 @@ function GetARONodeItem({ data }: { data: AroNodeItem }) {
         <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
       </div>
     </div>
-    <Btn className={cn("ml-auto w-[120px] smd:w-full text-xs font-medium  h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
+    <Btn className={cn("ml-auto w-[120px] smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
   </div>
 }
 
@@ -206,7 +205,8 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       titClassName=""
       sub={<>
 
-        Redeem Jade with your Gift Code<br /> or ARO Pod order.
+        Redeem Jade with your Gift Code<br />
+        {/* or ARO Pod order. */}
       </>} />
     <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
@@ -295,11 +295,11 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   console.log('1231231', user?.social);
 
-  return <>
-    <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
+  return <div className="h-full">
+    <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
       <Title text="Task - Join ARO Community" />
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-      <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] px-[60px] smd:px-0" >
+      <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10 smd:gap-5 smd:py-0  py-[60px] px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
           jade: data.jadePoint.followX,
@@ -317,16 +317,16 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
       </div>
     </ItemCard>
 
-  </>
+  </div>
 }
 
 function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlighted: boolean }) {
   const activeJoin = !(data.aroNode.pod && data.aroNode.link && data.aroNode.client && data.aroNode.liteNode)
   const r = useRouter()
 
-  return <ItemCard disableAnim className={cn("flex flex-col order-1 gap-8",)} active={highlighted}>
+  return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
     <Title text="Task - Get ARO Nodes" />
-    <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-[38px] py-[60px] smd:py-0    px-[60px] smd:px-0  xs:px-10">
       <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push('?mode=testnet&tab=nodes&type=add&chooseType=client') }} />
@@ -393,7 +393,7 @@ Start now 👉 ${refferralLink}
     <Title text="Task - Engage in the Commmunity" />
     {/* <div className="flex justify-between  smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col  px-[60px] "> */}
     {/* <div className="flex justify-between w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-    <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] px-[60px]" >
+    <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10 smd:gap-[3.75rem] py-[60px] px-[60px] smd:px-0  xs:px-10" >
 
 
 
@@ -409,7 +409,8 @@ Start now 👉 ${refferralLink}
         icon: TbClipboardText,
         jade: data.jadePoint.sendTweet,
         title: ` Post on Twitter/X`,
-        first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet }
+        first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet },
+
       }} />
     </div>
   </ItemCard>
@@ -428,9 +429,9 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
 
   const r = useRouter()
   const [showWorks, toggleShowWorks] = useToggle(false)
-  const renderReferred = (value: string, name: string) => (<div className="flex gap-1  w-20"><span className="text-primary">{value}</span> {name}</div>)
+  const renderReferred = (value: string, name: string) => (<div className="flex gap-1 "><span className="text-primary">{"\u00A0"}{value} </span> {name}</div>)
   return <ItemCard className="flex flex-col gap-5 order-1 smd:h-auto !h-full">
-    <Title text="Explore More" />
+    <Title text="Task - Invite Your Friends" />
     <IconCard
       className="col-span-full h-auto !max-h-[570px] md:max-h-full smd:h-full flex-wrap flex-row gap-0 smd:flex-col smd:p-5"
       icon={SVGS.SvgReferral}
@@ -470,8 +471,9 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           </div>
         </div>
         {/* border: 1px solid #5E5E5E */}
+        {/* <DupleSplit className="h-20 smd:w-full smd:h-[1px] mx-auto" /> */}
 
-        <div className="flex flex-col gap-5 justify-between smd:justify-start pl-[67px] h-full smd:mt-[30px] items-start ">
+        <div className="flex flex-col gap-5 justify-between smd:justify-start pr-7 smd:pl-0 h-full smd:mt-[30px] items-start">
           <div className="text-xl leading-10 smd:text-base 0">
             My Referral Bonus
           </div>
@@ -485,25 +487,21 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
               <div className="text-sm">Refer friends</div>
               <div className="text-xs ">
                 <div className="flex items-center justify-between  smd:items-start smd:flex-col ">
-                  <div className="pr-[.875rem] smd:w-full">My Tier 1 Referral:</div>
+                  <div className=" smd:w-full">My Tier 1 Referral:</div>
                   <div className="flex  ">
-                    {renderReferred(`${data.referralTier1.count}`, 'Referred')}
-                    <DupleSplit className="h-3 mr-4" />
-                    {renderReferred(data.referralTier1.jadeRewards, 'Jades')}
-                    <DupleSplit className="h-3 mr-4" />
-                    {renderReferred(data.referralTier1.lockedJadeRewards, 'Jade to Vest')}
+                    {renderReferred(` ${data.referralTier1.count ?? 0}`, 'friends referred')},
+                    {renderReferred(data.referralTier1.jadeRewards ?? 0, ' Jades &')}
+                    {renderReferred(data.referralTier1.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
                   </div>
                 </div>
                 <div className="flex items-center justify-between  smd:items-start smd:flex-col smd:mt-4 mt-2 ">
 
-                  <div className="pr-[.875rem] smd:w-full">My Tier 2 Referral:</div>
+                  <div className="smd:w-full">My Tier 2 Referral:</div>
                   <div className="flex text-wrap">
 
-                    {renderReferred(`${data.referralTier2.count}`, 'Referred')}
-                    <DupleSplit className="h-3 mr-4" />
-                    {renderReferred(fmtBerry(data.referralTier2.jadeRewards), 'Jades')}
-                    <DupleSplit className="h-3 mr-4" />
-                    {renderReferred(data.referralTier2.lockedJadeRewards, 'Jade to Vest')}
+                    {renderReferred(`${data.referralTier2.count ?? 0}`, 'friends referred')},
+                    {renderReferred(data.referralTier2.jadeRewards ?? 0, 'Jades &')}
+                    {renderReferred(data.referralTier2.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
                   </div>
                 </div>
 
@@ -521,18 +519,18 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
     {
       showWorks &&
       <IconCard
-        className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col"
+        className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col smd:pb-[50px]"
         icon={() => <IoAlertCircle />}
         iconSize={28}
         tit={null}
         contentClassname="smd:!basis-full smd:h-full"
 
-        content={<div className="flex items-center smd:items-start w-full h-full flex-wrap mt-5 justify-between gap-5 smd:flex-col smd:h-auto smd:mb-5">
+        content={<div className="flex items-center smd:items-start w-full h-full flex-wrap mt-5 justify-between gap-5 smd:flex-col smd:h-auto smd:mb-[50px]">
           <div className="text-[30px] leading-10 self-center smd:self-start">
             How Referral<br />Program Works?
           </div>
           <div className="md:hidden">
-            <Image src="./referralWorks-mo.svg" width={204} height={617} />
+            <Image src="./referralWorks-mo.svg" width={204} height={630} />
           </div>
           <div className="smd:hidden">
             <Image src="./referralWorks.svg" width={728} height={123} />
@@ -579,16 +577,27 @@ function YouAreEarly() {
 
 function ExploreMore() {
 
+  const exploreMoreList = [
+    { mainContent: <img src="/galxe.svg" alt="galxe" />, link: '', text: 'ARO Network on Galxe ' },
+    { mainContent: <span className="font-semibold text-xl text-[#FFFFFFB2]" >You are Early！</span>, link: 'https://enreach.fillout.com/Pioneers', text: 'Join Pioneer Program ' },
+
+  ]
+
   return <ItemCard className="flex flex-col gap-5 order-1">
-    <Title text="Invite Your Friends" />
-    <div className="flex gap-5">
-      <div className="flex flex-col gap-5">
-        <div className="flex justify-center items-center rounded-lg bg-white/5 shadow-2 w-[200px] h-[60px]">
-          <img src="/galxe.svg" alt="galxe" />
+    <Title text="Task - Explore More" />
+    <div className="flex gap-[30px] smd:flex-col smd:gap-10">
+      {exploreMoreList.map((item) => {
+        return <div key={`explore_${item.text}`} className="flex gap-5 smd:justify-center">
+          <div className="flex flex-col gap-5 items-center ">
+            <div className="flex justify-center items-center rounded-lg bg-white/5 shadow-2 w-[200px] h-[60px] smd:w-[240px] smd:h-[100px]">
+              {item.mainContent}
+            </div>
+            <Link href={item.link} className="flex gap-2 items-center text-primary text-sm smd:text-base">{item.text}<FiArrowUpRight className="text-[1.375em]" /></Link>
+          </div>
         </div>
-        <Link href={""} className="flex gap-2 items-center text-primary text-sm">ARO Network on Galxe <FiArrowUpRight className="text-[1.375em]" /></Link>
-      </div>
+      })}
     </div>
+
   </ItemCard>
 }
 
@@ -654,14 +663,14 @@ export default function AMyReferral() {
   const taskComponents = [
     {
       key: 'Task - Join ARO Community',
-      completed: !(data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg),
+      completed: (data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg),
       render: (highlighted: boolean) => (
         <SocialsTasks data={data!} refetch={() => refetch()} highlighted={highlighted} />
       )
     },
     {
       key: 'Task - Get ARO Nodes',
-      completed: !(data?.aroNode.pod && data?.aroNode.link && data?.aroNode.client && data?.aroNode.liteNode),
+      completed: (data?.aroNode.pod && data?.aroNode.link && data?.aroNode.client && data?.aroNode.liteNode),
       render: (highlighted: boolean) => (
         <GetNodes data={data!} highlighted={highlighted} />
       )
@@ -669,7 +678,7 @@ export default function AMyReferral() {
     },
     {
       key: 'Task - Engage in the Commmunity',
-      completed: !(data?.bind.postX && data?.bind.discord && data?.bind.joinDiscord),
+      completed: (data?.bind.postX && data?.bind.discord && data?.bind.joinDiscord),
       render: (highlighted: boolean) => (
         <SocialActivites data={data!} refetch={() => refetch()} highlighted={highlighted} />
       )
@@ -689,19 +698,24 @@ export default function AMyReferral() {
   }
 
 
-  console.log('orderedComponentsorderedComponentsorderedComponents', orderedComponents);
-
-
 
 
   return (
-    <div className="w-full flex flex-col gap-7 pb-32">
+    <div className="w-full flex flex-col gap-5 pb-32">
       {isLoading &&
         <>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
+          <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
+          <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
+          <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
+          <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
+
         </>
       }
+      <div>
+        Campaign - ARO Previewnet
+      </div>
       {
         Boolean(data) && <>
           <MyJadeRewards data={data!} refetch={() => refetch()} />
@@ -728,7 +742,6 @@ export default function AMyReferral() {
             <Fragment key={item.name}>{item.component}</Fragment>
           ))} */}
           <InviteFriends data={data!} />
-          <YouAreEarly />
           <ExploreMore />
         </>
       }
