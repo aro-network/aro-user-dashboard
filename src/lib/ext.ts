@@ -2,7 +2,7 @@ import { ENV } from "./env";
 import { Opt } from "./type";
 
 const EXTENVInjectMap: { [k in typeof ENV]: string } = {
-  beta: "EnreachExt_beta",
+  preview: "AroExt_preview",
   staging: "AroExt_staging",
   prod: "AroExt",
 };
