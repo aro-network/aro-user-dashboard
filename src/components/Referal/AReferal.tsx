@@ -73,7 +73,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
         <div className=" rounded-full border w-7 h-7 flex items-center justify-center font-AlbertSans">1</div>
         <div className="text-sm leading-tight text-center mt-2.5">{data.first.tit}<br />{!data.secend && <><span className="text-primary">+{data.first.addJade ?? 200}</span> Jade</>}</div>
         {/* data.first.finished */}
-        <div className="text-sm mt-2.5">{data.first.userName}</div>
+        <div className="text-sm">{data.first.userName}</div>
         <Btn className={cn("w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
           {data.first.finished ? data.first.connectd : data.first.action}
         </Btn>
@@ -214,7 +214,8 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
 
 function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
   const ac = useAuthContext()
-  const active = true
+  const user = ac.queryUserInfo?.data;
+
 
 
   const reportFinishTask = (t: Parameters<typeof backendApi.reportCampaignsSocails>[0]) => {
@@ -228,6 +229,8 @@ function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: 
     window.open(encodeURI(url))
     reportFinishTask('followX')
     refetch()
+    ac.queryUserInfo?.refetch();
+
   }
 
   const onJoinTg = () => {
@@ -235,10 +238,11 @@ function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: 
     const url = `https://t.me/${group}`
     window.open(encodeURI(url))
     refetch()
+    ac.queryUserInfo?.refetch();
+
 
   }
   const activeJoin = !(data.bind.x && data.bind.followX && data.bind.tg && data.bind.joinTg)
-  const user = ac.queryUserInfo?.data;
 
 
   const mutConnect = useMutation({
@@ -270,6 +274,8 @@ function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: 
     }
   })
 
+  console.log('1231231', user?.social);
+
   return <>
     <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeJoin })} active={activeJoin}>
       <Title text="Join ARO Community" />
@@ -277,12 +283,12 @@ function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: 
         <SocialTaskItem data={{
           icon: FaXTwitter,
           first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user?.social.x?.username ? '@' + user.social.x?.username : undefined },
-          secend: { tit: 'Follow ARO on X', action: 'Followed', connectd: 'Follow', finished: data.bind.followX, onAction: onFollowX, addJade: data.jadePoint.followX }
+          secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Completed', finished: data.bind.followX, onAction: onFollowX, addJade: data.jadePoint.followX }
         }} />
         <SocialTaskItem className="mr-auto smd:mr-0" data={{
           icon: FaTelegramPlane,
-          first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram") },
-          secend: { tit: 'Join Telegram', action: 'Joined', connectd: 'Join', finished: data.bind.joinTg, onAction: onJoinTg, addJade: data.jadePoint.joinTG }
+          first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram"), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
+          secend: { tit: 'Join Telegram', action: 'Joined', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, addJade: data.jadePoint.joinTG }
         }} />
       </div>
     </ItemCard>
@@ -308,6 +314,8 @@ function GetNodes({ data }: { data: UserCampaignsRewards }) {
 function SocialActivites({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
   const ac = useAuthContext()
   const activeSocial = !(data.bind.postX && data.bind.discord && data.bind.joinDiscord)
+  const user = ac.queryUserInfo?.data;
+
 
   const onJoinDiscord = () => {
     const code = 'Rc4BMUjbNB'
@@ -316,8 +324,24 @@ function SocialActivites({ data, refetch }: { data: UserCampaignsRewards, refetc
     refetch()
   }
 
+  const reportFinishTask = (t: Parameters<typeof backendApi.reportCampaignsSocails>[0]) => {
+    retry(() => backendApi.reportCampaignsSocails(t))
+  }
+
   const onPostX = () => {
-    postX({ text: 'Here is ARO X Test Message!' })
+    const refferralLink = `${origin}/signup?referral=${user?.inviteCode}`;
+
+
+    postX({
+      text: `
+🚀 Join the @AroNetwork Previewnet Referral Sprint!
+Invite friends, earn Jade points, and compete for your share of $300,000 in rewards!
+🏆 Top referrer wins $10,000 + exclusive perks!
+Start now 👉 ${refferralLink}
+#DePIN #AROtoEarn`
+    })
+    reportFinishTask('postX')
+
     refetch()
   }
 
@@ -343,15 +367,15 @@ function SocialActivites({ data, refetch }: { data: UserCampaignsRewards, refetc
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeSocial })} active={activeSocial}>
     <Title text="Social Media Activities" />
-    <div className="flex justify-between gap-[152px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
+    <div className="flex justify-between gap-[152px] smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
       <SocialTaskItem data={{
         icon: FaDiscord,
-        first: { tit: 'Connect Discord', action: 'Connect', connectd: 'Connected', finished: data.bind.discord, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate('discord') },
-        secend: { tit: 'Join Discord', action: 'Joined', connectd: 'Join', finished: data.bind.joinDiscord, onAction: onJoinDiscord, addJade: data.jadePoint.joinDiscord }
+        first: { tit: 'Connect Discord', action: 'Connect', connectd: 'Connected', finished: data.bind.discord, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate('discord'), userName: user?.social.discord?.global_name ? '@' + user.social.discord?.global_name : undefined },
+        secend: { tit: 'Join Discord', action: 'Joined', connectd: 'Completed', finished: data.bind.joinDiscord, onAction: onJoinDiscord, addJade: data.jadePoint.joinDiscord }
       }} />
       <SocialTaskItem className="mr-auto smd:mr-0 " data={{
         icon: SVGS.SvgClipboard,
-        first: { tit: 'Share on X', action: 'Post', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet }
+        first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet }
       }} />
     </div>
   </ItemCard>
@@ -365,16 +389,23 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
   const onPostX = () => {
     postX({ text: '' })
   };
+
+
+
+
+
+
+
   const r = useRouter()
   const [showWorks, toggleShowWorks] = useToggle(false)
   const renderReferred = (value: string, name: string) => (<div className="flex gap-1  w-20"><span className="text-primary">{value}</span> {name}</div>)
   return <ItemCard className="flex flex-col gap-5 order-1 smd:h-auto !h-full">
     <Title text="Explore More" />
     <IconCard
-      className="col-span-full h-auto !max-h-[570px] smd:h-full flex-wrap flex-row gap-0 smd:flex-col smd:p-5"
+      className="col-span-full h-auto !max-h-[570px] md:max-h-full smd:h-full flex-wrap flex-row gap-0 smd:flex-col smd:p-5"
       icon={SVGS.SvgReferral}
       iconSize={24}
-      contentClassname="smd:!basis-full"
+      contentClassname="smd:!basis-full md:h-min"
       tit={
         <div className="flex flex-col gap-5 smd:gap-7 justify-between h-full smd:mt-6 md:hidden">
           <div className="text-xl leading-10  smd:text-base">
@@ -393,7 +424,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           </div>
         </div>
       }
-      content={<div className="flex items-center w-full md:h-full justify-between gap-5  flex-wrap smd:flex-col smd:justify-start smd:mt-[60px]">
+      content={<div className="flex  w-full md:h-full justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px]">
         <div className="flex flex-col gap-5 justify-between h-full  smd:hidden">
           <div className="text-xl leading-10  smd:text-base">
             My Referral Code
@@ -410,7 +441,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
         </div>
         {/* border: 1px solid #5E5E5E */}
 
-        <div className="flex flex-col gap-5 justify-between smd:justify-start h-full smd:mt-[30px] items-start ">
+        <div className="flex flex-col gap-5 justify-between smd:justify-start pl-[67px] h-full smd:mt-[30px] items-start ">
           <div className="text-xl leading-10 smd:text-base 0">
             My Referral Bonus
           </div>
@@ -436,7 +467,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
                 <div className="flex items-center justify-between  smd:items-start smd:flex-col smd:mt-4 mt-2 ">
 
                   <div className="pr-[.875rem] smd:w-full">My Tier 2 Referral:</div>
-                  <div className="flex">
+                  <div className="flex text-wrap">
 
                     {renderReferred(`${data.referralTier2.count}`, 'Referred')}
                     <DupleSplit className="h-3 mr-4" />
@@ -476,6 +507,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           <div className="smd:hidden">
             <img src="./referralWorks.svg" />
           </div>
+
         </div>}
       />
     }

@@ -110,6 +110,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     queryKey: ["QueryUserInfo", user?.token],
     enabled: Boolean(user?.token),
     queryFn: () => backendApi.userInfo(),
+    refetchInterval: 60000,
+
   });
   // const queryUserInfo = useSWR(["QueryUserInfo", user?.token, location.href], () => (user?.token ? backendApi.userInfo() : undefined));
   return <AuthContext.Provider value={{ user, setLink, link, login, useDisclosure: disclosure, logout, setUser: wrapSetUser, queryUserInfo }}>{children}</AuthContext.Provider>;

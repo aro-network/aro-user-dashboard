@@ -49,7 +49,10 @@ export function PageLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <ToastContainer style={{ top: '100px', right: '50px' }} />
+      <ToastContainer
+        style={{ top: '100px', right: '50px' }}
+        toastClassName="smd:w-[200px]"
+      />
 
       {/* <Toaster
         richColors
