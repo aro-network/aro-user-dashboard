@@ -717,7 +717,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                     <Btn
                       className="h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
                       onPress={() => {
-                        onSelectedType(item.name)
+                        // onSelectedType(item.name)
                         // setChooseedType(item)
                         params.set("chooseType", item?.value as 'box' | 'box');
                         r.push(`?${params.toString()}`);

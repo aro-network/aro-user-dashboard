@@ -7,7 +7,7 @@ import { covertNum, envText, handlerError } from "@/lib/utils";
 import { postX } from "@/lib/x";
 import { SVGS } from "@/svg";
 import { UserCampaignsRewards } from "@/types/user";
-import { cn, Skeleton } from "@nextui-org/react";
+import { cn, Image, Skeleton } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { telegramAuth } from "@use-telegram-auth/hook";
 import Aos from 'aos';
@@ -31,6 +31,7 @@ import { fmtBerry } from "../fmtData";
 import { InputRedeemCode } from "../inputs";
 import { HelpTip } from "../tips";
 import Link from "next/link";
+import { TbClipboardText } from "react-icons/tb";
 
 
 const DEF_ANIMITEM = false
@@ -39,7 +40,7 @@ function ItemCard({ className, active, children, disableAnim = !DEF_ANIMITEM }: 
     'data-aos': "fade-up",
     'data-aos-duration': "1000"
   }
-  return <div {...animProps} className={cn("bg-l1 shadow-1 rounded-xl bg-no-repeat bg-cover bg-center p-5 ", { "bg-online [--tw-shadow-color:#089121]": active, 'commonTab': !active }, className)}>
+  return <div {...animProps} className={cn("bg-l1 shadow-1 rounded-xl bg-no-repeat bg-cover bg-center p-5 ", { "bg-online  rounded-lg": active, 'commonTab': !active }, className)}>
     {children}
   </div>
 }
@@ -57,42 +58,59 @@ function FinishBadge({ className }: { className?: string }) {
 }
 
 type StepData = { finished: boolean, tit: string, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void, userName?: string, connectd?: string }
-function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData }, className?: string, }) {
+function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData, title?: string, jade?: number, isHidden?: boolean }, className?: string, }) {
   const Micon = data.icon
   const ac = useAuthContext();
   const finished = data.first.finished && (!data.secend || data.secend.finished)
 
 
   return (
-    <div className={cn(" flex items-center gap-5 smd:flex-col", className)}>
-      <div className="rounded-xl shrink-0 relative bg-no-repeat bg-cover  bg-[url(/connectBg.svg)] flex justify-center items-center overflow-hidden w-[120px] h-[120px] smd:w-[100px] smd:h-[100px]">
-        <Micon className="text-[40px] smd:text-[43px] text-[#96EA63] h-[120px]" />
-        {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />}
-      </div>
-      <div className="flex flex-col  py-4 h-full justify-center shrink-0 w-[130px] smd:h-auto items-center">
-        <div className=" rounded-full border w-7 h-7 flex items-center justify-center font-AlbertSans">1</div>
-        <div className="text-sm leading-tight text-center mt-2.5">{data.first.tit}<br />{!data.secend && <><span className="text-primary">+{data.first.addJade ?? 200}</span> Jade</>}</div>
-        {/* data.first.finished */}
-        <div className="text-sm">{data.first.userName}</div>
-        <Btn className={cn("w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
-          {data.first.finished ? data.first.connectd : data.first.action}
-        </Btn>
+    <div className={cn(" flex  flex-col task-tab w-full", className)}>
+      {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />}
 
+      <div className="flex gap-2.5 items-center smd:justify-center">
+        <div className="font-medium text-base">
+          {data.title}
+        </div>
+        <div className="text-sm font-normal text-[#00E42A]">
+          +{data.jade}
+        </div>
+        <div> Jade</div>
       </div>
-      {data.secend && <div className="flex flex-col gap-2.5 py-4 h-full justify-center shrink-0 w-[130px] smd:h-auto items-center">
-        <div className=" rounded-full border w-7 h-7 flex items-center justify-center font-AlbertSans">2</div>
-        <span className="text-sm leading-tight text-center">
-          {data.secend.tit}
-          <br />
-          <div className="smd:mt-2.5">
-            <span className="text-primary smd:mt-2.5">+{data.secend.addJade ?? 200}</span> Jade
+      <div className="flex flex-col">
+        <div className="flex gap-9 xs:gap-5 items-center smd:flex-col">
+          <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[120px] h-[90px] ">
+            <Micon className="text-[90px] smd:text-[60px] h-[100px] smd:h-[60px]" />
           </div>
-        </span>
-        <Btn className={cn("w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
-          {data.secend.finished ? data.secend.connectd : data.secend.connectd}
-        </Btn>
-      </div>}
+          <div className="flex flex-col w-full">
+            <div className="flex  py-4 h-full justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5 ">
+              <div className="flex items-center gap-2.5">
+                {!data.isHidden && <div className=" rounded-full border w-[18px] h-[18px] flex items-center justify-center font-AlbertSans">1</div>}
+                <div className="text-sm leading-tight text-left ">{data.first.tit}</div>
+              </div>
+              {/* data.first.finished */}
+              <Btn className={cn("w-[120px] smd:w-[200px] mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
+                {data.first.finished ? data.first.connectd : data.first.action}
+              </Btn>
 
+            </div>
+            {data.secend && <div className="flex  gap-2.5 py-4 h-full justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5">
+              <div className="flex items-center gap-2.5">
+
+                <div className=" rounded-full border  flex w-[18px] h-[18px]  items-center justify-center font-AlbertSans">2</div>
+                <div className="text-sm leading-tight text-center">
+                  {data.secend.tit}
+                </div>
+              </div>
+
+              <Btn className={cn("w-[120px] smd:w-[200px] mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
+                {data.secend.finished ? data.secend.connectd : data.secend.action}
+              </Btn>
+            </div>}
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }
@@ -114,8 +132,10 @@ type AroNodeItem = {
 }
 function GetARONodeItem({ data }: { data: AroNodeItem }) {
   // box-shadow: 0px 1px 4px 0px #00000033;
+  // backdrop-filter: blur(10px)
+
   const disabled = (data.finish && !data.foreach) || data.action === 'Coming Soon...'
-  return <div className="relative shadow bg-white/5 smd:flex-col p-5 gap-5 items-center rounded-xl overflow-hidden flex">
+  return <div className="relative task-tab  shadow bg-white/5 smd:flex-col p-5 gap-5 items-center rounded-xl overflow-hidden flex">
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
     <div className="flex gap-5">
       {data.icon}
@@ -212,10 +232,9 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
 }
 
 
-function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
+function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewards, refetch: () => void, highlighted: boolean }) {
   const ac = useAuthContext()
   const user = ac.queryUserInfo?.data;
-
 
 
   const reportFinishTask = (t: Parameters<typeof backendApi.reportCampaignsSocails>[0]) => {
@@ -277,18 +296,23 @@ function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: 
   console.log('1231231', user?.social);
 
   return <>
-    <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeJoin })} active={activeJoin}>
-      <Title text="Join ARO Community" />
-      <div className="flex justify-between gap-[152px] xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
+    <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
+      <Title text="Task - Join ARO Community" />
+      {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
+      <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
+          jade: data.jadePoint.followX,
+          title: `Follow Twitter/X`,
           first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user?.social.x?.username ? '@' + user.social.x?.username : undefined },
-          secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Completed', finished: data.bind.followX, onAction: onFollowX, addJade: data.jadePoint.followX }
+          secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Completed', finished: data.bind.followX, onAction: onFollowX }
         }} />
-        <SocialTaskItem className="mr-auto smd:mr-0" data={{
+        <SocialTaskItem data={{
           icon: FaTelegramPlane,
+          jade: data.jadePoint.joinTG,
+          title: `Join Telegram`,
           first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram"), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
-          secend: { tit: 'Join Telegram', action: 'Joined', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, addJade: data.jadePoint.joinTG }
+          secend: { tit: 'Join Telegram', action: 'Joined', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
         }} />
       </div>
     </ItemCard>
@@ -296,12 +320,12 @@ function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: 
   </>
 }
 
-function GetNodes({ data }: { data: UserCampaignsRewards }) {
+function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlighted: boolean }) {
   const activeJoin = !(data.aroNode.pod && data.aroNode.link && data.aroNode.client && data.aroNode.liteNode)
   const r = useRouter()
 
-  return <ItemCard disableAnim className={cn("flex flex-col order-1 gap-8", { "order-[0]": activeJoin })} active={activeJoin}>
-    <Title text="Get an ARO Node" />
+  return <ItemCard disableAnim className={cn("flex flex-col order-1 gap-8",)} active={highlighted}>
+    <Title text="Task - Get ARO Nodes" />
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
       <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
@@ -311,7 +335,7 @@ function GetNodes({ data }: { data: UserCampaignsRewards }) {
   </ItemCard>
 }
 
-function SocialActivites({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
+function SocialActivites({ data, refetch, highlighted }: { data: UserCampaignsRewards, refetch: () => void, highlighted: boolean }) {
   const ac = useAuthContext()
   const activeSocial = !(data.bind.postX && data.bind.discord && data.bind.joinDiscord)
   const user = ac.queryUserInfo?.data;
@@ -365,16 +389,26 @@ Start now 👉 ${refferralLink}
 
 
 
-  return <ItemCard disableAnim className={cn("flex flex-col order-1", { "order-[0]": activeSocial })} active={activeSocial}>
-    <Title text="Social Media Activities" />
-    <div className="flex justify-between gap-[152px] smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col px-20 ">
+  return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
+    <Title text="Task - Engage in the Commmunity" />
+    {/* <div className="flex justify-between  smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col  px-[60px] "> */}
+    {/* <div className="flex justify-between w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
+    <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] px-[60px]" >
+
+
+
       <SocialTaskItem data={{
         icon: FaDiscord,
-        first: { tit: 'Connect Discord', action: 'Connect', connectd: 'Connected', finished: data.bind.discord, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate('discord'), userName: user?.social.discord?.global_name ? '@' + user.social.discord?.global_name : undefined },
-        secend: { tit: 'Join Discord', action: 'Joined', connectd: 'Completed', finished: data.bind.joinDiscord, onAction: onJoinDiscord, addJade: data.jadePoint.joinDiscord }
+        jade: data.jadePoint.joinDiscord,
+        title: `Join Discord`,
+        first: { tit: 'Connect Discord', action: 'Connect', connectd: 'Connected', finished: data.bind.discord, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate('discord') },
+        secend: { tit: 'Join Discord', action: 'Joined', connectd: 'Completed', finished: data.bind.joinDiscord, onAction: onJoinDiscord, }
       }} />
-      <SocialTaskItem className="mr-auto smd:mr-0 " data={{
-        icon: SVGS.SvgClipboard,
+      <SocialTaskItem data={{
+        isHidden: true,
+        icon: TbClipboardText,
+        jade: data.jadePoint.sendTweet,
+        title: ` Post on Twitter/X`,
         first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet }
       }} />
     </div>
@@ -389,10 +423,6 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
   const onPostX = () => {
     postX({ text: '' })
   };
-
-
-
-
 
 
 
@@ -502,12 +532,11 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
             How Referral<br />Program Works?
           </div>
           <div className="md:hidden">
-            <img src="./referralWorks-mo.svg" />
+            <Image src="./referralWorks-mo.svg" width={204} height={617} />
           </div>
           <div className="smd:hidden">
-            <img src="./referralWorks.svg" />
+            <Image src="./referralWorks.svg" width={728} height={123} />
           </div>
-
         </div>}
       />
     }
@@ -622,6 +651,49 @@ export default function AMyReferral() {
   })
 
 
+  const taskComponents = [
+    {
+      key: 'Task - Join ARO Community',
+      completed: !(data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg),
+      render: (highlighted: boolean) => (
+        <SocialsTasks data={data!} refetch={() => refetch()} highlighted={highlighted} />
+      )
+    },
+    {
+      key: 'Task - Get ARO Nodes',
+      completed: !(data?.aroNode.pod && data?.aroNode.link && data?.aroNode.client && data?.aroNode.liteNode),
+      render: (highlighted: boolean) => (
+        <GetNodes data={data!} highlighted={highlighted} />
+      )
+
+    },
+    {
+      key: 'Task - Engage in the Commmunity',
+      completed: !(data?.bind.postX && data?.bind.discord && data?.bind.joinDiscord),
+      render: (highlighted: boolean) => (
+        <SocialActivites data={data!} refetch={() => refetch()} highlighted={highlighted} />
+      )
+
+    },
+
+
+
+  ];
+
+  const firstUnfinishedIndex = taskComponents.findIndex(t => !t.completed);
+
+  const orderedComponents = [...taskComponents];
+  if (firstUnfinishedIndex !== -1) {
+    const [firstUnfinished] = orderedComponents.splice(firstUnfinishedIndex, 1);
+    orderedComponents.unshift(firstUnfinished);
+  }
+
+
+  console.log('orderedComponentsorderedComponentsorderedComponents', orderedComponents);
+
+
+
+
   return (
     <div className="w-full flex flex-col gap-7 pb-32">
       {isLoading &&
@@ -633,9 +705,25 @@ export default function AMyReferral() {
       {
         Boolean(data) && <>
           <MyJadeRewards data={data!} refetch={() => refetch()} />
-          <SocialsTasks data={data!} refetch={() => refetch()} />
-          <SocialActivites data={data!} refetch={() => refetch()} />
-          <GetNodes data={data!} />
+          {/* <SocialsTasks data={data!} refetch={() => refetch()} /> */}
+          {/* <GetNodes data={data!} />
+          <SocialActivites data={data!} refetch={() => refetch()} /> */}
+          {orderedComponents.map((task, idx) => (
+            <div
+              key={task.key}
+              // className={`${idx === 0 && !task.completed && 'task-border'}`}
+              style={idx === 0 && !task.completed ? {
+                borderRadius: '8px',
+                backgroundClip: 'padding-box, padding-box, border-box',
+                backgroundOrigin: 'padding-box, padding-box, border-box',
+                border: '1px solid transparent',
+                backgroundImage: 'linear-gradient(111.63deg, #186224 -132.02%, rgba(115, 115, 115, 0) -71.94%),linear-gradient(to right, #000, #000),linear-gradient(114.04deg, #1FFF2A 8.43%, #192626 48.22%, #1FFF2A 98.57%)'
+              } : undefined}
+            >
+              {task.render(idx === 0 && !task.completed)}
+            </div>
+          ))}
+
           {/* {sorted.map((item) => (
             <Fragment key={item.name}>{item.component}</Fragment>
           ))} */}

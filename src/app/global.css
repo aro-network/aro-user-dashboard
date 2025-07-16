@@ -317,3 +317,17 @@ background: linear-gradient(1.66deg, #141414 1.41%, #383838 91.74%);
   background: linear-gradient(62.88deg, rgba(255, 255, 255, 0.1) 0.45%, rgba(255, 255, 255, 0.15) 99.55%);
 
 }
+
+
+.task-tab{
+  border: 1px solid #FFFFFF1A;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  background: #FFFFFF0D;
+  padding: 20px;
+
+}
+
+.task-border{
+  background-image: 'linear-gradient(111.63deg, #186224 -32.02%, rgba(115, 115, 115, 0) 71.94%),linear-gradient(to right, #000, #000),linear-gradient(114.04deg, #1FFF2A 8.43%, #192626 48.22%, #1FFF2A 98.57%)';
+}

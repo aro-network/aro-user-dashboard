@@ -17,6 +17,7 @@ import { InputSplitCode } from "../inputs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import backendApi from "@/lib/api";
 import { AllText } from "@/lib/allText";
+import { Image } from "@nextui-org/react";
 
 
 const AAROID = () => {
@@ -44,6 +45,9 @@ const AAROID = () => {
     }
   }
 
+  console.log('adasdasda', user);
+
+
 
   return <div className="w-full justify-center flex mt-5 ">
 
@@ -53,6 +57,7 @@ const AAROID = () => {
         <div className="w-[3.75rem] smd:w-12  ">
           {/* <MAvatar name={user?.email} /> */}
           <MAvatar name={user?.email} size={60} />
+          {/* <Image src={user.} /> */}
         </div>
         <div>
           <div className="flex items-center gap-2">
