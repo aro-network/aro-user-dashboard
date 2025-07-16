@@ -33,10 +33,6 @@ import { HelpTip } from "../tips";
 import Link from "next/link";
 
 
-const Step = ({ step, typeStep }: { step: number, typeStep: { content: ReactNode }[] }) => (
-  <div>{typeStep[step].content}</div>
-);
-
 const DEF_ANIMITEM = false
 function ItemCard({ className, active, children, disableAnim = !DEF_ANIMITEM }: { className?: string, active?: boolean, disableAnim?: boolean } & PropsWithChildren) {
   const animProps = disableAnim ? {} : {
@@ -150,13 +146,12 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
     mutationFn: async () => {
       await backendApi.redeemCampaignsByCode(redeemCode)
     },
-    onError: handlerError,
     onSuccess: () => {
       toast.success("Redeem Successed!")
       refetch()
       setRedeemCode('')
     },
-    onSettled: () => toggleShowRedeem(false)
+    // onSettled: () => toggleShowRedeem(false)
   })
 
 
@@ -297,14 +292,15 @@ function SocialsTasks({ data, refetch }: { data: UserCampaignsRewards, refetch: 
 
 function GetNodes({ data }: { data: UserCampaignsRewards }) {
   const activeJoin = !(data.aroNode.pod && data.aroNode.link && data.aroNode.client && data.aroNode.liteNode)
+  const r = useRouter()
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1 gap-8", { "order-[0]": activeJoin })} active={activeJoin}>
     <Title text="Get an ARO Node" />
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => { } }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => { } }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push('?mode=testnet&tab=nodes&type=add&chooseType=client') }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => window.open('https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar') }} />
     </div>
   </ItemCard>
 }
@@ -321,9 +317,8 @@ function SocialActivites({ data, refetch }: { data: UserCampaignsRewards, refetc
   }
 
   const onPostX = () => {
-    postX({ text: '' })
+    postX({ text: 'Here is ARO X Test Message!' })
     refetch()
-
   }
 
   const mutConnect = useMutation({
@@ -398,7 +393,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           </div>
         </div>
       }
-      content={<div className="flex items-center w-full md:h-full justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px]">
+      content={<div className="flex items-center w-full md:h-full justify-between gap-5  flex-wrap smd:flex-col smd:justify-start smd:mt-[60px]">
         <div className="flex flex-col gap-5 justify-between h-full  smd:hidden">
           <div className="text-xl leading-10  smd:text-base">
             My Referral Code
@@ -414,7 +409,6 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           </div>
         </div>
         {/* border: 1px solid #5E5E5E */}
-        <DupleSplit className="h-20  smd:w-full smd:h-[1px] mx-auto bg-[5E5E5E]" />
 
         <div className="flex flex-col gap-5 justify-between smd:justify-start h-full smd:mt-[30px] items-start ">
           <div className="text-xl leading-10 smd:text-base 0">
@@ -423,7 +417,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           <div className="flex justify-between gap-8 smd:gap-6 smd:flex-col flex-wrap">
             <div className="flex flex-col gap-2 font-medium text-white  smd:w-full">
               <div className="text-sm">Get referred</div>
-              <div className="font-normal text-xs"><span className="text-primary">+5</span> Jades</div>
+              <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jades</div>
               <div className="text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full bg-[#02B421] cursor-pointer" onClick={() => r.push(`/?mode=${currentENVName}&tab=aroId`)}>Add My Referrer</div>
             </div>
             <div className="flex flex-col gap-2 smd:gap-6 font-medium text-white justify-between ">
@@ -434,7 +428,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
                   <div className="flex  ">
                     {renderReferred(`${data.referralTier1.count}`, 'Referred')}
                     <DupleSplit className="h-3 mr-4" />
-                    {renderReferred(fmtBerry(data.referralTier1.jadeRewards), 'Jades')}
+                    {renderReferred(data.referralTier1.jadeRewards, 'Jades')}
                     <DupleSplit className="h-3 mr-4" />
                     {renderReferred(data.referralTier1.lockedJadeRewards, 'Jade to Vest')}
                   </div>
@@ -588,8 +582,10 @@ export default function AMyReferral() {
         "orderPod": 4500,
         "orderLink": 4500
       }
+
     }) as UserCampaignsRewards),
     retry: true,
+    refetchInterval: 60000,
     retryDelay: (fcount) => fcount > 3 ? Math.min(fcount * 1000, 60000) : 1000,
   })
 

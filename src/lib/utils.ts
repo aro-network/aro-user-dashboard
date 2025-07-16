@@ -195,13 +195,14 @@ export const envText = (module?: string) => {
     prod: {
       sign: "Sign In",
       signUp: "Sign Up",
-      mode: "Previewnet",
+      mode: "Devnet",
       tgCode: "7568524402",
     },
-    beta: {
+    preview: {
       sign: "Sign In",
       signUp: "Sign Up",
-      mode: "beta",
+      mode: "Previewnet",
+      tgCode: "7568524402",
     },
     staging: {
       sign: "Sign In",
