@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { getItem, removeItem } from "./storage";
 
 const API_MAP: { [k in typeof ENV]: string } = {
-  beta: "https://dev-api.aro.network/api",
+  preview: "https://preview-api.aro.network/api",
   staging: "https://staging-api.aro.network/api",
   prod: "https://devnet-api.aro.network/api",
 };
