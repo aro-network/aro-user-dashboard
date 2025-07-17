@@ -90,7 +90,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
                 <div className="text-sm leading-tight text-left ">{data.first.tit}</div>
               </div>
               {/* data.first.finished */}
-              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base  ", { ' !border-none !text-[#00E42A]': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
+              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base  ", { ' !border-none !text-[#00E42A] !opacity-100': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
                 {data.first.finished ? data.first.connectd : data.first.action}
               </Btn>
 
@@ -103,7 +103,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
                 </div>
               </div>
 
-              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base ", { ' !border-none text-[#00E42A]': data.secend.finished || !data.first.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
+              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base ", { ' !border-none text-[#00E42A] !opacity-100': data.secend.finished || !data.first.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
                 {data.secend.finished ? data.secend.connectd : data.secend.action}
               </Btn>
             </div>}
@@ -557,7 +557,7 @@ Share your idle internet and earn rewards effortlessly.
           titClassName={'md:!items-baseline md:!h-full md:!w-full md:py-2.5 smd:pt-2.5 '}
           tit={
             <Fragment>
-              <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px] h-auto smd:hidden ">
+              <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px]  h-auto smd:hidden ">
                 <div className="flex flex-col gap-10 justify-between h-full  smd:hidden">
                   <div className="text-xl  smd:text-base leading-10 ">
                     My Referral Code
@@ -575,7 +575,7 @@ Share your idle internet and earn rewards effortlessly.
                 {/* border: 1px solid #5E5E5E */}
                 {/* <DupleSplit className="h-20 smd:w-full smd:h-[1px] mx-auto" /> */}
 
-                <div className="flex flex-col gap-5 justify-between smd:justify-start pr-7 smd:pl-0 h-full smd:mt-[30px] items-start">
+                <div className="flex flex-col gap-5 justify-between smd:justify-start pr-4 smd:pl-0 h-full smd:mt-[30px] items-start">
                   <div className="text-xl leading-10 smd:text-base 0">
                     My Referral Bonus
                   </div>
@@ -696,7 +696,7 @@ Share your idle internet and earn rewards effortlessly.
         className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col mb-[50px] mx-[60px] smd:mx-0 task-tab"
         icon={() => <IoAlertCircle />}
         iconSize={28}
-        titClassName="smd:justify-between smd:pt-2.5 smd:pl-[5px]"
+        titClassName="smd:justify-between pt-2.5 pl-[5px]"
         tit={
           isMobile ? <div className=" md:hidden flex justify-between">
             <button onClick={() => toggleShowWorks(false)} className="" >
@@ -711,10 +711,8 @@ Share your idle internet and earn rewards effortlessly.
         content={<div className="flex  smd:items-start w-full h-full flex-wrap smd:pt-2.5  justify-between gap-5 smd:flex-col smd:h-auto smd:mb-[50px] px-5">
 
           <div className=" md:w-full flex justify-between cursor-pointer " onClick={() => toggleShowWorks(false)}>
-            <div className="text-[30px]  smd:text-base leading-10  smd:self-start md:hidden">
-              How Referral <br />Program Works?
-            </div>
-            <div className="text-xl  smd:text-base leading-10  smd:self-start smd:hidden">
+
+            <div className="text-xl  smd:text-base leading-10  smd:self-start ">
               How Referral Program Works?
             </div>
             <button onClick={() => toggleShowWorks(false)} className="smd:hidden"  >
