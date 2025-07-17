@@ -212,7 +212,15 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       </>} />
     <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
-      <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Redeem Gift Code</p>
+      <div className="flex justify-between w-full">
+        <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Redeem Gift Code</p>
+        <button onClick={() => {
+          toggleShowRedeem(false);
+          setRedeemCode('')
+        }}>
+          <img src="./close.png" />
+        </button>
+      </div>
       <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">Enter your Gift Code below and click 'Confirm' to claim your bonus!<br />
         Note: You can redeem up to 3,000 Jades in Previewnet."</p>
 
@@ -221,13 +229,13 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
         <Btn isDisabled={redeemCode.length !== 6} className="w-full smd:h-12" onPress={() => doRedeem()} isLoading={isPendingRedeem}>
           Confirm
         </Btn>
-        <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
+        {/* <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
           toggleShowRedeem(false);
           setRedeemCode('')
 
         }}>
           Cancel
-        </Btn>
+        </Btn> */}
       </div>
     </ForceModal>
   </ItemCard>
@@ -450,11 +458,21 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
 
   const copy = useCopy();
   const onPostX = () => {
-    postX({ text: '' })
+    const refferralLink = `${origin}/signup?referral=${user?.inviteCode}`;
+
+    //     postX({
+    //       text: `  Join the revolution with @AroNetwork – powering the decentralized edge cloud for the AI era.
+    // Get your ARO Node ready for Previewnet Referral Sprint!
+    // Invite friends. Run nodes. Earn Jade & claim your share of $300,000 rewards.
+    // Start here: ${refferralLink}
+    // #AROtoEarn` })
   };
 
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = useMobileDetect()
+
+  console.log('useruseruser', user);
+
 
 
 
@@ -509,7 +527,13 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
                     <div className="flex flex-col gap-2 font-medium text-white  smd:w-full smd:mb-2.5">
                       <div className="text-sm">Get referred</div>
                       <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jades</div>
-                      <div className="text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full bg-[#02B421] cursor-pointer" onClick={() => r.push(`/?mode=${currentENVName}&tab=aroId`)}>Add My Referrer</div>
+                      <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full ${user.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421]'}  cursor-pointer`}
+                        onClick={() => user.invited ? undefined : r.push(`/?mode=${currentENVName}&tab=aroId`)}>
+                        {user.invited ? <div className="text-[#00E42A] flex items-center gap-2 justify-center">
+                          Referrered
+                          <FiCheck className="text-[#00E42A]" />
+                        </div> : 'Add My Referrer'}
+                      </div>
                     </div>
                     <div className="flex flex-col gap-2 smd:gap-6 font-medium text-white justify-between ">
                       <div className="text-sm">Refer friends</div>
