@@ -549,7 +549,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                     </div>
 
                     <div className="smd:w-full smd:mt-5">
-                      <Btn className="h-[30px] smd:w-full">DownLoad</Btn>
+                      <Btn onPress={() => window.open('https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar')} className="h-[30px] smd:w-full">DownLoad</Btn>
                     </div>
                   </div>
                 </div>

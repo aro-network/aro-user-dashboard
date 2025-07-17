@@ -3,7 +3,7 @@ import { useCopy } from "@/hooks/useCopy";
 import { handlerErrForBind } from "@/hooks/useShowParamsError";
 import backendApi, { BASE_API } from "@/lib/api";
 import { retry } from "@/lib/async";
-import { covertNum, envText, handlerError } from "@/lib/utils";
+import { covertNum, envText, formatNumber, handlerError } from "@/lib/utils";
 import { postX } from "@/lib/x";
 import { SVGS } from "@/svg";
 import { UserCampaignsRewards } from "@/types/user";
@@ -60,7 +60,7 @@ function FinishBadge({ className }: { className?: string }) {
 }
 
 type StepData = { finished: boolean, tit: string, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void, userName?: string, connectd?: string }
-function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData, title?: string, jade?: number, isHidden?: boolean }, className?: string, }) {
+function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData, title?: string, jade?: number, isHidden?: boolean, highlighted?: boolean }, className?: string, }) {
   const Micon = data.icon
   const finished = data.first.finished && (!data.secend || data.secend.finished)
 
@@ -81,7 +81,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
       <div className="flex flex-col">
         <div className="flex gap-9 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
           <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[120px] ">
-            <Micon className="text-[90px] text-[#96EA63] smd:text-[60px]  smd:h-[60px]" />
+            <Micon className={`text-[90px] ${data.highlighted ? 'text-[#96EA63] ' : 'text-white'}smd:text-[60px]  smd:h-[60px]`} />
           </div>
           <div className="flex flex-col w-full">
             <div className="flex  py-4  justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5 ">
@@ -104,7 +104,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
                 </div>
               </div>
 
-              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
+              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished || !data.first.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
                 {data.secend.finished ? data.secend.connectd : data.secend.action}
               </Btn>
             </div>}
@@ -185,7 +185,7 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
         subClassName="text-[62px] font-semibold text-white items-baseline leading-none smd:text-[40px]"
         titClassName=""
         sub={<>
-          {Number(data.jadeRewards)}
+          {formatNumber(Number(data.jadeRewards) ?? '0')}
           <span className="text-sm font-normal">Jades</span>
         </>} />
     </div>
@@ -196,7 +196,7 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       subClassName="text-[36px] font-semibold text-white items-baseline leading-none smd:text-2xl"
       titClassName=""
       sub={<>
-        {fmtBerry(data.lockedJadeRewards)}
+        {formatNumber(Number(data.lockedJadeRewards) ?? '0')}
         <span className="text-sm font-normal">Jades</span>
       </>} />
     <DupleSplit className="hidden smd:block smd:h-[1px] smd:w-full" />
@@ -208,7 +208,7 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       sub={<>
 
         Redeem Jade with your Gift Code<br />
-        {/* or ARO Pod order. */}
+        or ARO Pod order.
       </>} />
     <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
@@ -298,30 +298,29 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   return <div className="h-full">
     <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between w-full cursor-pointer" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
         <Title text="Task - Join ARO Community" />
-        {!highlighted && <button
-          onClick={() => setIsOpen(!isOpen)}
-        >
+        {!highlighted &&
           <ArrowIcon isOpen={isOpen} />
-        </button>
         }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
       {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10 smd:gap-5 smd:py-0  py-[60px] px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
+          highlighted: highlighted,
           jade: data.jadePoint.followX,
           title: `Follow Twitter/X`,
           first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user?.social.x?.username ? '@' + user.social.x?.username : undefined },
           secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Completed', finished: data.bind.followX, onAction: onFollowX }
         }} />
         <SocialTaskItem data={{
+          highlighted: highlighted,
           icon: FaTelegramPlane,
           jade: data.jadePoint.joinTG,
           title: `Join Telegram`,
           first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram"), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
-          secend: { tit: 'Join Telegram', action: 'Joined', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
+          secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
         }} />
       </div>}
     </ItemCard>
@@ -338,13 +337,10 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
 
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
-    <div className="flex justify-between w-full">
+    <div className="flex justify-between w-full cursor-pointer" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
       <Title text="Task - Get ARO Nodes" />
-      {!highlighted && <button
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
-      </button>
       }
     </div>
 
@@ -417,29 +413,26 @@ Start now 👉 ${refferralLink}
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
-    <div className="flex justify-between w-full">
+    <div className="flex justify-between w-full cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
       <Title text="Task - Engage in the Commmunity" />
-      {!highlighted && <button
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
-      </button>
       }
     </div>
     {/* <div className="flex justify-between  smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col  px-[60px] "> */}
     {/* <div className="flex justify-between w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
     {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10 smd:gap-[3.75rem] py-[60px] px-[60px] smd:px-0  xs:px-10" >
 
-
-
       <SocialTaskItem data={{
+        highlighted: highlighted,
         icon: FaDiscord,
         jade: data.jadePoint.joinDiscord,
         title: `Join Discord`,
         first: { tit: 'Connect Discord', action: 'Connect', connectd: 'Connected', finished: data.bind.discord, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate('discord') },
-        secend: { tit: 'Join Discord', action: 'Joined', connectd: 'Completed', finished: data.bind.joinDiscord, onAction: onJoinDiscord, }
+        secend: { tit: 'Join Discord', action: 'Join', connectd: 'Completed', finished: data.bind.joinDiscord, onAction: onJoinDiscord, }
       }} />
       <SocialTaskItem data={{
+        highlighted: highlighted,
         isHidden: true,
         icon: TbClipboardText,
         jade: data.jadePoint.sendTweet,
@@ -469,32 +462,28 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
   const [showWorks, toggleShowWorks] = useToggle(false)
   const renderReferred = (value: string, name: string) => (
     <div className="flex gap-1 ">
-      <span className="text-primary">{value} </span>
+      <span className="text-primary">{formatNumber(Number(value))} </span>
       <span className={'text-[#FFFFFFB2]'}>{name}</span>
     </div>)
   return <ItemCard className="flex flex-col gap-5 order-1 smd:h-auto !h-full">
-    <div className="flex justify-between w-full">
+    <div className="flex justify-between w-full cursor-pointer" onClick={() => {
+      setIsOpen(!isOpen)
+      toggleShowWorks(false)
+    }}>
       <Title text="Task - Invite Your Friends" />
-      <button
-        onClick={() => {
-          setIsOpen(!isOpen)
-          toggleShowWorks(false)
-        }}
-      >
-        <ArrowIcon isOpen={isOpen} />
-      </button>
+      <ArrowIcon isOpen={isOpen} />
     </div>
     {isOpen &&
       <>
         <IconCard
-          className="col-span-full h-auto  flex-wrap flex-row gap-0 smd:flex-col smd:p-5 smd:mb-5 mx-[60px] smd:mx-0 mt-[60px] "
+          className="col-span-full h-auto  flex-wrap flex-row gap-0 smd:flex-col smd:p-5 smd:mb-5 mx-[60px] smd:mx-0 mt-[60px] task-tab "
           icon={SVGS.SvgReferral}
           iconSize={24}
           contentClassname="smd:!basis-full md:h-min"
           titClassName={'md:!items-baseline md:!h-full md:!w-full'}
           tit={
             <Fragment>
-              <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px] h-auto smd:hidden">
+              <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px] h-auto smd:hidden ">
                 <div className="flex flex-col gap-5 justify-between h-full  smd:hidden">
                   <div className="text-xl leading-10  smd:text-base">
                     My Referral Code
@@ -516,7 +505,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
                   <div className="text-xl leading-10 smd:text-base 0">
                     My Referral Bonus
                   </div>
-                  <div className="flex justify-between gap-8 smd:gap-6 smd:flex-col flex-wrap h-[100%]">
+                  <div className="flex justify-between gap-10 smd:gap-6 smd:flex-col flex-wrap h-[100%]">
                     <div className="flex flex-col gap-2 font-medium text-white  smd:w-full smd:mb-2.5">
                       <div className="text-sm">Get referred</div>
                       <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jades</div>
@@ -528,7 +517,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
                         <div className="flex items-center justify-between  smd:items-start smd:flex-col ">
                           <div className=" smd:w-full">My Tier 1 Referral:</div>
                           <div className="flex  ">
-                            {renderReferred(` ${data.referralTier1.count ?? 0}`, 'friends referred')},{"\u00A0"}
+                            {"\u00A0"}{renderReferred(`${data.referralTier1.count ?? 0}`, 'friends referred')},{"\u00A0"}
                             {renderReferred(data.referralTier1.jadeRewards ?? 0, ' Jades &')}{"\u00A0"}
                             {renderReferred(data.referralTier1.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
                           </div>
@@ -614,7 +603,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           </div>}
         />
 
-        {!showWorks && <div className={cn("rounded-xl bg-white/5 flex items-center gap-2 justify-center cursor-pointer text-start select-none shadow mx-[60px] smd:mx-0  py-6")} onClick={() => toggleShowWorks(true)}>
+        {!showWorks && <div className={cn("rounded-xl bg-white/5 flex items-center gap-2 justify-center cursor-pointer text-start select-none shadow mx-[60px] smd:mx-0 task-tab py-6")} onClick={() => toggleShowWorks(true)}>
           <span>How Referral Program Works?</span>
           <ArrowIcon isOpen={showWorks} />
         </div>}
@@ -624,7 +613,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
     {
       showWorks &&
       <IconCard
-        className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col smd:pb-[50px] mx-[60px] smd:mx-0"
+        className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col smd:pb-[50px] mx-[60px] smd:mx-0 task-tab"
         icon={() => <IoAlertCircle />}
         iconSize={28}
         titClassName="smd:justify-between"
@@ -708,26 +697,22 @@ function ExploreMore() {
   const [isOpen, setIsOpen] = useState(false)
 
   const exploreMoreList = [
-    { mainContent: <img src="/galxe.svg" alt="galxe" />, link: '', text: 'ARO Network on Galxe ' },
+    { mainContent: <Image src="/galxe.svg" alt="galxe" width={102} height={20} />, link: '', text: 'ARO Network on Galxe ' },
     { mainContent: <span className="font-semibold text-xl text-[#FFFFFFB2]" >You are Early！</span>, link: 'https://enreach.fillout.com/Pioneers', text: 'Join Pioneer Program ' },
 
   ]
 
   return <ItemCard className="flex flex-col gap-5 order-1">
-    <div className="flex justify-between w-full">
+    <div className="flex justify-between w-full cursor-pointer " onClick={() => setIsOpen(!isOpen)}>
       <Title text="Task - Explore More" />
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <ArrowIcon isOpen={isOpen} />
-      </button>
+      <ArrowIcon isOpen={isOpen} />
     </div>
 
-    {isOpen && <div className="flex gap-[30px] smd:flex-col smd:gap-10 mx-[60px] smd:mx-0 py-[60px]">
+    {isOpen && <div className="flex gap-[30px] smd:flex-col smd:gap-10 mx-[60px] smd:mx-0 py-[60px] ">
       {exploreMoreList.map((item) => {
-        return <div key={`explore_${item.text}`} className="flex gap-5 smd:justify-center">
+        return <div key={`explore_${item.text}`} className="flex gap-5 smd:justify-center ">
           <div className="flex flex-col gap-5 items-center ">
-            <div className="flex justify-center items-center rounded-lg bg-white/5 shadow-2 w-[200px] h-[60px] smd:w-[240px] smd:h-[100px]">
+            <div className="flex justify-center items-center w-[200px] h-[60px] smd:w-[240px] smd:h-[100px] task-tab ">
               {item.mainContent}
             </div>
             <Link href={item.link} className="flex gap-2 items-center text-primary text-sm smd:text-base">{item.text}<FiArrowUpRight className="text-[1.375em]" /></Link>
@@ -865,7 +850,7 @@ export default function AMyReferral() {
               key={task.key}
               // className={`${idx === 0 && !task.completed && 'task-border'}`}
               style={idx === 0 && !task.completed ? {
-                borderRadius: '8px',
+                borderRadius: '12px',
                 backgroundClip: 'padding-box, padding-box, border-box',
                 backgroundOrigin: 'padding-box, padding-box, border-box',
                 border: '1px solid transparent',

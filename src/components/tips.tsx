@@ -63,7 +63,7 @@ export function HelpTip({ content, children, placement, ...props }: TooltipProps
           children
         ) : (
           <button className={`outline-none border-none cursor-default`}>
-            <IoIosHelpCircle className="text-base" />
+            <IoIosHelpCircle className="text-base text-[#FFFFFF80]" />
           </button>
         )}
       </Tooltip>
