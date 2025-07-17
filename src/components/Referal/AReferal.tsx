@@ -7,7 +7,7 @@ import { covertNum, envText, formatNumber, handlerError } from "@/lib/utils";
 import { postX } from "@/lib/x";
 import { SVGS } from "@/svg";
 import { UserCampaignsRewards } from "@/types/user";
-import { cn, Image, Skeleton } from "@nextui-org/react";
+import { cn, Image, Input, Skeleton } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { telegramAuth } from "@use-telegram-auth/hook";
 import Aos from 'aos';
@@ -158,14 +158,14 @@ function VUser({ user = 'A', className }: { className?: string, user?: string })
 
 
 function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch: () => void }) {
-  const r = useRouter()
-  const ac = useAuthContext()
+
+  const [chooseType, setChooseType] = useState<Record<string, string> | undefined>(undefined)
 
   const [showRedeem, toggleShowRedeem] = useToggle(false)
   const [redeemCode, setRedeemCode] = useState('')
   const { mutate: doRedeem, isPending: isPendingRedeem } = useMutation({
     mutationFn: async () => {
-      await backendApi.redeemCampaignsByCode(redeemCode)
+      await backendApi.redeemCampaignsByCode(redeemCode, chooseType?.type)
     },
     onSuccess: () => {
       toast.success("Redeem Successed!")
@@ -174,6 +174,25 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
     },
     // onSettled: () => toggleShowRedeem(false)
   })
+
+  const redeemList = [
+    {
+      type: 'gift',
+      icon: './giftCode.svg',
+      title: 'Redeem Gift Code',
+      text: `Enter your Gift Code below and click 'Confirm' to claim your bonus!
+Note: You can redeem up to 3,000 Jades in Previewnet."`,
+      width: '59',
+      height: '52'
+    },
+    {
+      type: 'order',
+      icon: './orderCode.svg', title: 'Redeem Bonus for ordering ARO Pod', text: `Ordered an ARO Pod? Enter your Order Number to claim your exclusive bonus!`, width: '64',
+      height: '47'
+    },
+  ]
+
+
 
 
   return <ItemCard disableAnim className="py-[60px] flex items-center smd:gap-[1.875rem] w-full justify-around gap-4 flex-wrap smd:flex-col smd:p-5 smd:items-start">
@@ -212,31 +231,57 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       </>} />
     <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
-      <div className="flex justify-between w-full">
-        <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Redeem Gift Code</p>
-        <button onClick={() => {
-          toggleShowRedeem(false);
-          setRedeemCode('')
-        }}>
-          <img src="./close.png" />
-        </button>
-      </div>
-      <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">Enter your Gift Code below and click 'Confirm' to claim your bonus!<br />
-        Note: You can redeem up to 3,000 Jades in Previewnet."</p>
+      <div className="flex justify-between w-full flex-col gap-5">
+        <div className="flex justify-between w-full">
+          <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">{chooseType?.title || 'Redeem'}</p>
+          <button onClick={() => {
+            toggleShowRedeem(false);
+            setRedeemCode('')
+            setChooseType(undefined)
+          }}>
+            <img src="./close.png" />
+          </button>
+        </div>
+        {chooseType ?
+          <div className="flex flex-col gap-5">
+            <div className="text-[#FFFFFF80] text-sm">
+              {chooseType?.text}
+            </div>
+            <Input value={redeemCode} maxLength={12}
+              onChange={(e) => setRedeemCode(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg h-12 popTabBg' }} />
+            <Btn isLoading={isPendingRedeem} isDisabled={redeemCode.length < 6} onPress={() => doRedeem()} className="w-full">Confirm</Btn>
+          </div>
+          : <div className="flex gap-2.5  ">
+            {redeemList.map((item, i) => {
+              return <button key={item.title} onClick={() => setChooseType(item)} className="popTab popTabBg rounded-lg hover:!border-[red]  w-[245px] flex justify-center h-[149px] items-center ">
+                <div className="flex justify-center flex-col items-center">
+                  <Image src={item.icon} width={item.width} height={item.height} alt={item.title} />
+                  <div className={`px-4 text-center ${i === 0 ? 'mt-6' : 'mt-4'}`}>
+                    {item.title}
+                  </div>
+                </div>
+              </button>
+            })}
+          </div>
+        }
 
-      <InputRedeemCode setValue={setRedeemCode} value={redeemCode} />
-      <div className="flex w-full gap-[.625rem] smd:gap-5 ">
-        <Btn isDisabled={redeemCode.length !== 6} className="w-full smd:h-12" onPress={() => doRedeem()} isLoading={isPendingRedeem}>
+      </div>
+      {/* <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">Enter your Gift Code below and click 'Confirm' to claim your bonus!<br />
+        Note: You can redeem up to 3,000 Jades in Previewnet."</p>
+*/}
+      {/* <InputRedeemCode setValue={setRedeemCode} value={redeemCode} /> */}
+      {/* <div className="flex w-full gap-[.625rem] smd:gap-5 ">
+        <Btn disabled={!chooseType}  className="w-full smd:h-12" onPress={() => doRedeem()} isLoading={isPendingRedeem}>
           Confirm
-        </Btn>
-        {/* <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
+        </Btn> */}
+      {/* <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
           toggleShowRedeem(false);
           setRedeemCode('')
 
         }}>
           Cancel
         </Btn> */}
-      </div>
+      {/* </div> */}
     </ForceModal>
   </ItemCard>
 }
@@ -526,10 +571,10 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
                   <div className="flex justify-between gap-10 smd:gap-6 smd:flex-col flex-wrap h-[100%]">
                     <div className="flex flex-col gap-2 font-medium text-white  smd:w-full smd:mb-2.5">
                       <div className="text-sm">Get referred</div>
-                      <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jades</div>
-                      <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full ${user.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421]'}  cursor-pointer`}
-                        onClick={() => user.invited ? undefined : r.push(`/?mode=${currentENVName}&tab=aroId`)}>
-                        {user.invited ? <div className="text-[#00E42A] flex items-center gap-2 justify-center">
+                      <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jade</div>
+                      <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full ${user?.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421]'}  cursor-pointer`}
+                        onClick={() => user?.invited ? undefined : r.push(`/?mode=${currentENVName}&tab=aroId`)}>
+                        {user?.invited ? <div className="text-[#00E42A] flex items-center gap-2 justify-center">
                           Referrered
                           <FiCheck className="text-[#00E42A]" />
                         </div> : 'Add My Referrer'}
@@ -594,7 +639,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
               <div className="flex justify-between gap-8 smd:gap-6 smd:flex-col flex-wrap">
                 <div className="flex flex-col gap-2 font-medium text-white  smd:w-full">
                   <div className="text-sm">Get referred</div>
-                  <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jades</div>
+                  <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jade</div>
                   <div className="text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full bg-[#02B421] cursor-pointer" onClick={() => r.push(`/?mode=${currentENVName}&tab=aroId`)}>Add My Referrer</div>
                 </div>
                 <div className="flex flex-col gap-2 smd:gap-6 font-medium text-white justify-between ">
@@ -627,7 +672,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           </div>}
         />
 
-        {!showWorks && <div className={cn("rounded-xl bg-white/5 flex items-center gap-2 justify-center cursor-pointer text-start select-none shadow mx-[60px] smd:mx-0 task-tab py-6")} onClick={() => toggleShowWorks(true)}>
+        {!showWorks && <div className={cn("rounded-xl bg-white/5 flex items-center gap-2 justify-center cursor-pointer text-start select-none shadow mx-[60px] mb-[60px] smd:mx-0 task-tab py-6")} onClick={() => toggleShowWorks(true)}>
           <span>How Referral Program Works?</span>
           <ArrowIcon isOpen={showWorks} />
         </div>}
@@ -637,7 +682,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
     {
       showWorks &&
       <IconCard
-        className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col smd:pb-[50px] mx-[60px] smd:mx-0 task-tab"
+        className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col mb-[50px] mx-[60px] smd:mx-0 task-tab"
         icon={() => <IoAlertCircle />}
         iconSize={28}
         titClassName="smd:justify-between"
@@ -866,13 +911,9 @@ export default function AMyReferral() {
       {
         Boolean(data) && <>
           <MyJadeRewards data={data!} refetch={() => refetch()} />
-          {/* <SocialsTasks data={data!} refetch={() => refetch()} /> */}
-          {/* <GetNodes data={data!} />
-          <SocialActivites data={data!} refetch={() => refetch()} /> */}
           {orderedComponents.map((task, idx) => (
             <div
               key={task.key}
-              // className={`${idx === 0 && !task.completed && 'task-border'}`}
               style={idx === 0 && !task.completed ? {
                 borderRadius: '12px',
                 backgroundClip: 'padding-box, padding-box, border-box',

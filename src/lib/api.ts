@@ -485,8 +485,15 @@ const backendApi = {
     const res = await Api.get<RES<UserCampaignsRewards>>("/campaigns/rewards");
     return res.data.data;
   },
-  redeemCampaignsByCode: async (code: string) => {
-    const res = await Api.post("/campaigns/redeem/rewards", {
+  redeemCampaignsByCode: async (
+    code: string,
+    type?: "order" | "gift" | string
+  ) => {
+    const url =
+      type === "order"
+        ? "/campaigns/order/rewards"
+        : "/campaigns/redeem/rewards";
+    const res = await Api.post(url, {
       redeemCode: code,
     });
     return true;
