@@ -21,12 +21,15 @@ import { SVGS } from "@/svg";
 import { useQueryClient } from "@tanstack/react-query";
 import { AllText } from "@/lib/allText";
 import AAROID from "./AROID/AAROID";
+import { envText } from "@/lib/utils";
 
-export const currentENVName = ENV === 'staging' ? 'testnet' : 'previewnet'
+export const currentENVName = envText('ENVName')
+
 const Modes: Dashboard.ModesType[] = [
 
   {
-    label: ENV === 'staging' ? 'Testnet' : 'Previewnet',
+    // label: ENV === 'staging' ? 'Testnet' : 'Previewnet',
+    label: envText('mode'),
     name: currentENVName,
     children: [
       {

@@ -1,7 +1,7 @@
-const ArrowIcon = ({ isOpen }: { isOpen: boolean }) => (
+const ArrowIcon = ({ isOpen, width = '20', height = '20' }: { isOpen: boolean, width?: string, height?: string }) => (
   <svg
-    width="30"
-    height="30"
+    width={width}
+    height={height}
     viewBox="0 0 24 24"
     style={{
       transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",

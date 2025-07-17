@@ -171,6 +171,7 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       toast.success("Redeem Successed!")
       refetch()
       setRedeemCode('')
+      toggleShowRedeem(false)
     },
     // onSettled: () => toggleShowRedeem(false)
   })
@@ -205,7 +206,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
         titClassName=""
         sub={<>
           {formatNumber(Number(data.jadeRewards) ?? '0')}
-          <span className="text-sm font-normal">Jades</span>
+          <div className="text-sm font-normal pl-2.5">Jades</div>
         </>} />
     </div>
     <DupleSplit className="h-20 smd:h-[1px] smd:w-full" />
@@ -216,7 +217,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       titClassName=""
       sub={<>
         {formatNumber(Number(data.lockedJadeRewards) ?? '0')}
-        <span className="text-sm font-normal">Jades</span>
+        <div className="text-sm font-normal pl-2.5">Jades</div>
       </>} />
     <DupleSplit className="hidden smd:block smd:h-[1px] smd:w-full" />
     <DupleInfo
@@ -224,11 +225,11 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       tit={<Title text="Redeem More Jade" />}
       subClassName="text-sm text-white/80 items-baseline"
       titClassName=""
-      sub={<>
+      sub={<div className="text-[#FFFFFFCC]">
 
         Redeem Jade with your Gift Code<br />
         or ARO Pod order.
-      </>} />
+      </div>} />
     <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
       <div className="flex justify-between w-full flex-col gap-5">
@@ -358,7 +359,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10 smd:gap-5 smd:py-0  py-[60px] px-[60px] smd:px-0" >
+      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10 smd:gap-5 smd:py-0  pt-[60px] pb-10  px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
           highlighted: highlighted,
@@ -400,8 +401,8 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
     {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[38px] py-[60px] smd:py-0    px-[60px] smd:px-0  xs:px-10">
       <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push('?mode=testnet&tab=nodes&type=add&chooseType=client') }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => window.open('https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar') }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`) }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=lite`) }} />
     </div>
     }
   </ItemCard>
@@ -543,12 +544,12 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
           icon={SVGS.SvgReferral}
           iconSize={24}
           contentClassname="smd:!basis-full md:h-min"
-          titClassName={'md:!items-baseline md:!h-full md:!w-full'}
+          titClassName={'md:!items-baseline md:!h-full md:!w-full md:py-2.5'}
           tit={
             <Fragment>
               <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px] h-auto smd:hidden ">
                 <div className="flex flex-col gap-5 justify-between h-full  smd:hidden">
-                  <div className="text-xl leading-10  smd:text-base">
+                  <div className="text-xl  smd:text-base leading-10 ">
                     My Referral Code
                   </div>
                   <div className="flex items-center gap-4 h-full">
@@ -674,7 +675,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
 
         {!showWorks && <div className={cn("rounded-xl bg-white/5 flex items-center gap-2 justify-center cursor-pointer text-start select-none shadow mx-[60px] mb-[60px] smd:mx-0 task-tab py-6")} onClick={() => toggleShowWorks(true)}>
           <span>How Referral Program Works?</span>
-          <ArrowIcon isOpen={showWorks} />
+          <ArrowIcon isOpen={showWorks} width={'16'} height={'16'} />
         </div>}
       </>
     }
@@ -699,11 +700,11 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
 
         content={<div className="flex  smd:items-start w-full h-full flex-wrap  justify-between gap-5 smd:flex-col smd:h-auto smd:mb-[50px] px-5">
 
-          <div className=" md:w-full flex justify-between ">
+          <div className=" md:w-full flex justify-between cursor-pointer " onClick={() => toggleShowWorks(false)}>
             <div className="text-[30px] leading-10  smd:self-start md:hidden">
               How Referral <br />Program Works?
             </div>
-            <div className="text-[30px] leading-10  smd:self-start smd:hidden">
+            <div className="text-xl  smd:text-base leading-10  smd:self-start smd:hidden">
               How Referral Program Works?
             </div>
             <button onClick={() => toggleShowWorks(false)} className="smd:hidden"  >
@@ -784,7 +785,7 @@ function ExploreMore() {
             <div className="flex justify-center items-center w-[200px] h-[60px] smd:w-[240px] smd:h-[100px] task-tab ">
               {item.mainContent}
             </div>
-            <Link href={item.link} className="flex gap-2 items-center text-primary text-sm smd:text-base">{item.text}<FiArrowUpRight className="text-[1.375em]" /></Link>
+            <a href={item.link} target="_blank" className="flex gap-2 items-center text-primary text-sm smd:text-base">{item.text}<FiArrowUpRight className="text-[1.375em]" /></a>
           </div>
         </div>
       })}

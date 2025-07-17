@@ -197,18 +197,21 @@ export const envText = (module?: string) => {
       signUp: "Sign Up",
       mode: "Devnet",
       tgCode: "7568524402",
+      ENVName: "devnet",
     },
     preview: {
       sign: "Sign In",
       signUp: "Sign Up",
       mode: "Previewnet",
       tgCode: "7568524402",
+      ENVName: "previewnet",
     },
     staging: {
       sign: "Sign In",
       signUp: "Sign Up",
       mode: "Testnet",
       tgCode: "7376706763",
+      ENVName: "testnet",
     },
   };
 
