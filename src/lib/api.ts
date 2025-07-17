@@ -11,6 +11,7 @@ import _ from "lodash";
 import { fmtBoost } from "@/components/fmtData";
 import { toast } from "react-toastify";
 import { getItem, removeItem } from "./storage";
+import { createHash } from "crypto";
 
 const API_MAP: { [k in typeof ENV]: string } = {
   preview: "https://preview-api.aro.network/api",
@@ -84,7 +85,14 @@ Api.interceptors.response.use(
 
 const backendApi = {
   loginApi: async (data: { email: string; password: string }) => {
-    const response = await Api.post<RES<LoginResult>>("/user/signIn", data);
+    const cryptoNewPwd = createHash("sha256")
+      .update(data.password)
+      .digest("hex");
+
+    const response = await Api.post<RES<LoginResult>>("/user/signIn", {
+      email: data.email,
+      password: cryptoNewPwd,
+    });
     return response.data.data;
   },
 
