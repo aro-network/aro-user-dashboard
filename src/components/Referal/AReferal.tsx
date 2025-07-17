@@ -506,12 +506,14 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
   const onPostX = () => {
     const refferralLink = `${origin}/signup?referral=${user?.inviteCode}`;
 
-    //     postX({
-    //       text: `  Join the revolution with @AroNetwork – powering the decentralized edge cloud for the AI era.
-    // Get your ARO Node ready for Previewnet Referral Sprint!
-    // Invite friends. Run nodes. Earn Jade & claim your share of $300,000 rewards.
-    // Start here: ${refferralLink}
-    // #AROtoEarn` })
+    postX({
+      text: `Don’t Just Pay for the Internet. Get Paid for It!
+
+Join the revolution with @AroNetwork.
+Share your idle internet and earn rewards effortlessly.
+
+👉 Start here: ${refferralLink}
+#AROtoEarn` })
   };
 
   const [isOpen, setIsOpen] = useState(false)
@@ -573,7 +575,7 @@ function InviteFriends({ data }: { data: UserCampaignsRewards }) {
                     <div className="flex flex-col gap-2 font-medium text-white  smd:w-full smd:mb-2.5">
                       <div className="text-sm">Get referred</div>
                       <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jade</div>
-                      <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full ${user?.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421]'}  cursor-pointer`}
+                      <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full ${user?.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421] cursor-pointer'}  `}
                         onClick={() => user?.invited ? undefined : r.push(`/?mode=${currentENVName}&tab=aroId`)}>
                         {user?.invited ? <div className="text-[#00E42A] flex items-center gap-2 justify-center">
                           Referrered

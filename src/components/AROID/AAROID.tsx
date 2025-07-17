@@ -113,7 +113,7 @@ const AAROID = () => {
         <button onClick={() => window.open('https://aro.network/privacy')} className="text-[#999999]  hover:text-[#00E42A] !text-xs underline underline-offset-1 ">Privacy Policy</button>
       </div>
       <ForceModal isOpen={showInputReferral} className="!w-[650px] smd:!w-full smd:!mx-5">
-        <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base text-center  text-white">Add Referrer</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base text-center  text-white">{AllText.aroId.addReferrer.title}</p>
         <p className="self-stretch flex-grow-0 flex-shrink-0 text-center text-sm text-white/50">{AllText.aroId.addReferrer.content}</p>
         <InputSplitCode onChange={setReferalCode} value={referalCode} />
         <div className="flex w-full gap-[.625rem] smd:gap-5 ">

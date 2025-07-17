@@ -171,7 +171,7 @@ export const AllText = {
     notReferredTips: "You are not referred by anyone.",
     addReferrer: {
       title: "Add Referrer",
-      content: `You can add the referrer (the person who invited you to ARO) by entering the Referral Code. Being referred by an ARO user grants you a 20% bonus on your Edge Node rewards for 14 days. Note: You cannot change your referrer once set.`,
+      content: `Add the Referral Code here and claim 200 Jade rewards!`,
     },
   },
   signOut: {

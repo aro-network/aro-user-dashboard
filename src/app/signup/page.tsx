@@ -180,9 +180,8 @@ export default function Page() {
       </PageUnlogin>
 
       <ForceModal isOpen={showInputReferral}>
-        <p className="self-stretch flex-grow-0 flex-shrink-0  text-base text-center text-white">Get Boosted with a Referral Code!</p>
-        <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-center text-white/50">{`You can get 20% extra boost in the mining rewards for the first 14 days with a valid Referral Code. 
-    The Referral Code is optional to provide; but remember, you will miss the benefit if you skip this step.`}</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0  text-base text-center text-white">Got a Referral Code?</p>
+        <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-center text-white/50">{`Add your Referral Code here to claim 200 Jade rewards! No code yet? Enter it later in your Dashboard.`}</p>
         <InputSplitCode onChange={setReferalCode} />
         <Btn isDisabled={referalCode.length !== 6} className="w-full" onPress={() => onSkip()} >
           Get Boosted
