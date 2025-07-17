@@ -47,7 +47,7 @@ function ItemCard({ className, active, children, disableAnim = !DEF_ANIMITEM }: 
   </div>
 }
 
-function Title({ text, tip }: { text?: string, tip?: string }) {
+function Title({ text, tip }: { text?: string, tip?: string | ReactNode }) {
   return <div className="text-xl flex gap-2 items-center font-Alexandria smd:text-base">{text}{Boolean(tip) && <HelpTip content={tip} />}</div>
 }
 
@@ -201,7 +201,12 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       <SVGS.SvgJadeRewards className="text-[97px]" />
       <DupleInfo
         className="h-full justify-between"
-        tit={<Title text="My Jade Rewards" tip="Jade is your reward for tasks in Previewnet and Testnet. Keep earning!" />}
+        tit={<Title text="My Jade Rewards" tip={
+          <div>
+            Jade is your reward for tasks in<br /> Previewnet and Testnet. Keep earning!
+          </div>
+        }
+        />}
         subClassName="text-[62px] font-semibold text-white items-baseline leading-none smd:text-[40px]"
         titClassName=""
         sub={<>
@@ -212,7 +217,12 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
     <DupleSplit className="h-20 smd:h-[1px] smd:w-full" />
     <DupleInfo
       className="justify-between h-full smd:h-auto smd:gap-5"
-      tit={<Title text="Jade in Lock" tip="The locked Jade holds special rewards for the next phase—unlock it by mining in Testnet!" />}
+      tit={<Title text="Jade in Lock" tip={
+        <div>
+          The locked Jade holds special rewards for<br /> the next phase—unlock it by mining in Testnet!
+        </div>
+      }
+      />}
       subClassName="text-[36px] font-semibold text-white items-baseline leading-none smd:text-2xl"
       titClassName=""
       sub={<>
@@ -359,7 +369,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10 smd:gap-5 smd:py-0  pt-[60px] pb-10  px-[60px] smd:px-0" >
+      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10  smd:py-5 smd:gap-5  py-[60px]  px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
           highlighted: highlighted,
@@ -398,7 +408,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
       }
     </div>
 
-    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[38px] pt-[60px] pb-10 smd:py-0    px-[60px] smd:px-0  xs:px-10">
+    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[60px]  smd:py-5   px-[60px] smd:px-0  xs:px-10">
       <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`) }} />
@@ -459,23 +469,20 @@ Start now 👉 ${refferralLink}
     }
   })
 
-  console.log('activeSocialactiveSocialactiveSocial', activeSocial, data);
 
   const [isOpen, setIsOpen] = useState(highlighted)
-
-
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
     <div className="flex justify-between w-full cursor-pointer items-center" onClick={() => setIsOpen(!isOpen)}>
-      <Title text="Task - Engage in the Commmunity" />
+      <Title text="Task - Engage in the Community" />
       {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
       }
     </div>
     {/* <div className="flex justify-between  smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col  px-[60px] "> */}
     {/* <div className="flex justify-between w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10 smd:gap-[3.75rem] pt-[60px] pb-10 px-[60px] smd:px-0  xs:px-10" >
+    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10 smd:gap-[3.75rem] smd:pt-[50px] smd:pb-5 pt-20 pb-[70px] px-[60px] smd:px-0  xs:px-10" >
 
       <SocialTaskItem data={{
         highlighted: highlighted,
@@ -542,7 +549,7 @@ Share your idle internet and earn rewards effortlessly.
     {isOpen &&
       <>
         <IconCard
-          className="col-span-full h-auto  flex-wrap flex-row gap-0 smd:flex-col smd:p-5 smd:mb-5 mx-[60px] smd:mx-0 mt-[60px] task-tab "
+          className="col-span-full h-auto  flex-wrap flex-row gap-0 smd:flex-col smd:p-5 smd:mb-5 mx-[60px] smd:mx-0 smd:mt-10 mt-[60px]  task-tab "
           icon={SVGS.SvgReferral}
           iconSize={24}
           contentClassname="smd:!basis-full md:h-min"
@@ -550,7 +557,7 @@ Share your idle internet and earn rewards effortlessly.
           tit={
             <Fragment>
               <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px] h-auto smd:hidden ">
-                <div className="flex flex-col gap-5 justify-between h-full  smd:hidden">
+                <div className="flex flex-col gap-10 justify-between h-full  smd:hidden">
                   <div className="text-xl  smd:text-base leading-10 ">
                     My Referral Code
                   </div>
@@ -780,7 +787,7 @@ function ExploreMore() {
       <ArrowIcon isOpen={isOpen} />
     </div>
 
-    {isOpen && <div className="flex gap-[30px] smd:flex-col smd:gap-10 mx-[60px] smd:mx-0 py-[60px] ">
+    {isOpen && <div className="flex gap-[30px] smd:flex-col smd:gap-10 mx-[60px] smd:mx-0 py-[60px] smd:py-10 ">
       {exploreMoreList.map((item) => {
         return <div key={`explore_${item.text}`} className="flex gap-5 smd:justify-center ">
           <div className="flex flex-col gap-5 items-center ">
@@ -896,7 +903,7 @@ export default function AMyReferral() {
 
 
   return (
-    <div className="w-full flex flex-col gap-5 pb-32 smd:pb-5">
+    <div className="w-full flex flex-col gap-5 pb-32 smd:pb-20">
       {isLoading &&
         <>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
