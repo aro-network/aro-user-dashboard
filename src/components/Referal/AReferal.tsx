@@ -54,7 +54,7 @@ function Title({ text, tip }: { text?: string, tip?: string }) {
 
 function FinishBadge({ className }: { className?: string }) {
   return <div
-    className={cn("flex justify-end absolute top-0 right-0 bg-[#FFCA1A] rounded-bl-full pt-[calc(var(--finish-badge-size)*0.1538)] pr-[calc(var(--finish-badge-size)*0.1282)] [--finish-badge-size:39px] w-[var(--finish-badge-size)] h-[var(--finish-badge-size)] text-[calc(var(--finish-badge-size)*21/39)] ", className)}>
+    className={cn("flex justify-end absolute top-0 right-0 bg-[#FFCA1A] rounded-bl-[9995px] pt-[calc(var(--finish-badge-size)*0.1538)] pr-[calc(var(--finish-badge-size)*0.1282)] [--finish-badge-size:39px] w-[var(--finish-badge-size)] h-[var(--finish-badge-size)] text-[calc(var(--finish-badge-size)*21/39)] ", className)}>
     <FiCheck className="text-white" />
   </div>
 }
@@ -352,7 +352,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   return <div className="h-full">
     <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
-      <div className="flex justify-between w-full cursor-pointer" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
+      <div className="flex justify-between w-full cursor-pointer  items-center" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
         <Title text="Task - Join ARO Community" />
         {!highlighted &&
           <ArrowIcon isOpen={isOpen} />
@@ -398,7 +398,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
       }
     </div>
 
-    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[38px] py-[60px] smd:py-0    px-[60px] smd:px-0  xs:px-10">
+    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[38px] pt-[60px] pb-10 smd:py-0    px-[60px] smd:px-0  xs:px-10">
       <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`) }} />
@@ -467,7 +467,7 @@ Start now 👉 ${refferralLink}
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
-    <div className="flex justify-between w-full cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+    <div className="flex justify-between w-full cursor-pointer items-center" onClick={() => setIsOpen(!isOpen)}>
       <Title text="Task - Engage in the Commmunity" />
       {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
@@ -475,7 +475,7 @@ Start now 👉 ${refferralLink}
     </div>
     {/* <div className="flex justify-between  smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col  px-[60px] "> */}
     {/* <div className="flex justify-between w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10 smd:gap-[3.75rem] py-[60px] px-[60px] smd:px-0  xs:px-10" >
+    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10 smd:gap-[3.75rem] pt-[60px] pb-10 px-[60px] smd:px-0  xs:px-10" >
 
       <SocialTaskItem data={{
         highlighted: highlighted,
@@ -532,7 +532,7 @@ Share your idle internet and earn rewards effortlessly.
       <span className={'text-[#FFFFFFB2]'}>{name}</span>
     </div>)
   return <ItemCard className="flex flex-col gap-5 order-1 smd:h-auto !h-full">
-    <div className="flex justify-between w-full cursor-pointer" onClick={() => {
+    <div className="flex justify-between w-full cursor-pointer  items-center" onClick={() => {
       setIsOpen(!isOpen)
       toggleShowWorks(false)
     }}>
@@ -775,7 +775,7 @@ function ExploreMore() {
   ]
 
   return <ItemCard className="flex flex-col gap-5 order-1">
-    <div className="flex justify-between w-full cursor-pointer " onClick={() => setIsOpen(!isOpen)}>
+    <div className="flex justify-between w-full cursor-pointer  items-center " onClick={() => setIsOpen(!isOpen)}>
       <Title text="Task - Explore More" />
       <ArrowIcon isOpen={isOpen} />
     </div>
