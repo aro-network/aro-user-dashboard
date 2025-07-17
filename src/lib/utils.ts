@@ -203,7 +203,7 @@ export const envText = (module?: string) => {
       sign: "Sign In",
       signUp: "Sign Up",
       mode: "Previewnet",
-      tgCode: "7568524402",
+      tgCode: "8023295074",
       ENVName: "previewnet",
     },
     staging: {

@@ -79,9 +79,9 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
         <div className="text-sm font-normal"> Jade</div>
       </div>
       <div className="flex flex-col">
-        <div className="flex gap-9 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
+        <div className="flex gap-9 smd:gap-2.5 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
           <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[120px] ">
-            <Micon className={`text-[90px] ${data.highlighted ? 'text-[#96EA63] ' : 'text-white'}smd:text-[60px]  smd:h-[60px]`} />
+            <Micon className={`text-[90px] ${data.highlighted ? 'text-[#96EA63] ' : 'text-white'} smd:text-[60px]  `} />
           </div>
           <div className="flex flex-col w-full">
             <div className="flex  py-4  justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5 ">
@@ -90,21 +90,20 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
                 <div className="text-sm leading-tight text-left ">{data.first.tit}</div>
               </div>
               {/* data.first.finished */}
-              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base smd:mt-2.5", { ' !border-none': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
+              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base  ", { ' !border-none !text-[#00E42A]': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
                 {data.first.finished ? data.first.connectd : data.first.action}
               </Btn>
 
             </div>
             {data.secend && <div className="flex  gap-2.5 py-4 h-full justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5">
               <div className="flex items-center gap-2.5">
-
                 <div className=" rounded-full border  flex w-[18px] h-[18px]  items-center justify-center font-AlbertSans">2</div>
                 <div className="text-sm leading-tight text-center">
                   {data.secend.tit}
                 </div>
               </div>
 
-              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base", { ' !border-none': data.secend.finished || !data.first.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
+              <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base ", { ' !border-none text-[#00E42A]': data.secend.finished || !data.first.finished })} isDisabled={!data.first.finished || data.secend.finished} onPress={data.secend.onAction} isLoading={data.secend.actionLoading}>
                 {data.secend.finished ? data.secend.connectd : data.secend.action}
               </Btn>
             </div>}
@@ -172,6 +171,8 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
       refetch()
       setRedeemCode('')
       toggleShowRedeem(false)
+      setChooseType(undefined)
+
     },
     // onSettled: () => toggleShowRedeem(false)
   })
@@ -264,14 +265,14 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
           </div>
           : <div className="flex gap-2.5  ">
             {redeemList.map((item, i) => {
-              return <button key={item.title} onClick={() => setChooseType(item)} className="popTab popTabBg rounded-lg hover:!border-[red]  w-[245px] flex justify-center h-[149px] items-center ">
+              return <div key={item.title} onClick={() => setChooseType(item)} className="popTab popTabBg rounded-lg hover:!border-[#FFFFFF26] border border-[#444444]  w-[245px] flex justify-center h-[149px] items-center ">
                 <div className="flex justify-center flex-col items-center">
                   <Image src={item.icon} width={item.width} height={item.height} alt={item.title} />
-                  <div className={`px-4 text-center ${i === 0 ? 'mt-6' : 'mt-4'}`}>
+                  <div className={`px-4 text-center smd:text-sm ${i === 0 ? 'mt-6' : 'mt-4'}`}>
                     {item.title}
                   </div>
                 </div>
-              </button>
+              </div>
             })}
           </div>
         }
@@ -369,7 +370,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10  smd:py-5 smd:gap-5  py-[60px]  px-[60px] smd:px-0" >
+      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10  smd:py-5 smd:gap-5  pt-[80px] pb-[60px] px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
           highlighted: highlighted,
@@ -408,7 +409,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
       }
     </div>
 
-    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[70px]  smd:py-5   px-[60px] smd:px-0  xs:px-10">
+    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[60px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
       <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`) }} />
@@ -482,7 +483,7 @@ Start now 👉 ${refferralLink}
     </div>
     {/* <div className="flex justify-between  smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col  px-[60px] "> */}
     {/* <div className="flex justify-between w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10 smd:gap-[3.75rem] smd:pt-[50px] smd:pb-5 pt-20 pb-[70px] px-[60px] smd:px-0  xs:px-10" >
+    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10  smd:pt-[50px] smd:pb-5 pt-20 pb-[60px] px-[60px] smd:px-0  xs:px-10" >
 
       <SocialTaskItem data={{
         highlighted: highlighted,
@@ -553,7 +554,7 @@ Share your idle internet and earn rewards effortlessly.
           icon={SVGS.SvgReferral}
           iconSize={24}
           contentClassname="smd:!basis-full md:h-min"
-          titClassName={'md:!items-baseline md:!h-full md:!w-full md:py-2.5'}
+          titClassName={'md:!items-baseline md:!h-full md:!w-full md:py-2.5 smd:pt-2.5 '}
           tit={
             <Fragment>
               <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px] h-auto smd:hidden ">
@@ -604,7 +605,7 @@ Share your idle internet and earn rewards effortlessly.
                         <div className="flex items-center justify-between  smd:items-start smd:flex-col smd:mt-4 mt-2 ">
 
                           <div className="smd:w-full">My Tier 2 Referral:</div>
-                          <div className="flex text-wrap">
+                          <div className="flex text-wrap ">
 
                             {renderReferred(`${data.referralTier2.count ?? 0}`, 'friends referred')},{"\u00A0"}
                             {renderReferred(data.referralTier2.jadeRewards ?? 0, 'Jades &')}{"\u00A0"}
@@ -619,7 +620,7 @@ Share your idle internet and earn rewards effortlessly.
 
               </div>
 
-              <div className="flex flex-col gap-5 smd:gap-7 justify-between h-full smd:mt-6 md:hidden">
+              <div className="flex flex-col gap-5 smd:gap-7 justify-between h-full  md:hidden">
                 <div className="text-xl leading-10  smd:text-base">
                   My Referral Code
                 </div>
@@ -642,8 +643,8 @@ Share your idle internet and earn rewards effortlessly.
             {/* border: 1px solid #5E5E5E */}
             {/* <DupleSplit className="h-20 smd:w-full smd:h-[1px] mx-auto" /> */}
 
-            <div className="flex flex-col gap-5 justify-between smd:justify-start pr-7 smd:pl-0 h-full smd:mt-[60px] items-start">
-              <div className="text-xl leading-10 smd:text-base 0">
+            <div className="flex flex-col gap-5 justify-between smd:justify-start pr-7 smd:pl-0 h-full smd:mt-[30px] items-start">
+              <div className="text-xl leading-10 smd:text-base ">
                 My Referral Bonus
               </div>
               <div className="flex justify-between gap-8 smd:gap-6 smd:flex-col flex-wrap">
@@ -657,7 +658,7 @@ Share your idle internet and earn rewards effortlessly.
                   <div className="text-xs ">
                     <div className="flex items-center justify-between  smd:items-start smd:flex-col ">
                       <div className=" smd:w-full">My Tier 1 Referral:</div>
-                      <div className="flex  ">
+                      <div className="flex flex-wrap  ">
                         {renderReferred(`${data.referralTier1.count ?? 0}`, 'friends referred')},{"\u00A0"}
                         {renderReferred(data.referralTier1.jadeRewards ?? 0, ' Jades &')}{"\u00A0"}
                         {renderReferred(data.referralTier1.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
@@ -666,7 +667,7 @@ Share your idle internet and earn rewards effortlessly.
                     <div className="flex items-center justify-between  smd:items-start smd:flex-col smd:mt-4 mt-2 ">
 
                       <div className="smd:w-full">My Tier 2 Referral:</div>
-                      <div className="flex text-wrap">
+                      <div className="flex text-wrap  flex-wrap">
 
                         {renderReferred(`${data.referralTier2.count ?? 0}`, 'friends referred')},{"\u00A0"}
                         {renderReferred(data.referralTier2.jadeRewards ?? 0, 'Jades &')}{"\u00A0"}
@@ -695,7 +696,7 @@ Share your idle internet and earn rewards effortlessly.
         className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col mb-[50px] mx-[60px] smd:mx-0 task-tab"
         icon={() => <IoAlertCircle />}
         iconSize={28}
-        titClassName="smd:justify-between"
+        titClassName="smd:justify-between smd:pt-2.5 smd:pl-[5px]"
         tit={
           isMobile ? <div className=" md:hidden flex justify-between">
             <button onClick={() => toggleShowWorks(false)} className="" >
@@ -707,10 +708,10 @@ Share your idle internet and earn rewards effortlessly.
         }
         contentClassname="smd:!basis-full smd:h-full"
 
-        content={<div className="flex  smd:items-start w-full h-full flex-wrap  justify-between gap-5 smd:flex-col smd:h-auto smd:mb-[50px] px-5">
+        content={<div className="flex  smd:items-start w-full h-full flex-wrap smd:pt-2.5  justify-between gap-5 smd:flex-col smd:h-auto smd:mb-[50px] px-5">
 
           <div className=" md:w-full flex justify-between cursor-pointer " onClick={() => toggleShowWorks(false)}>
-            <div className="text-[30px] leading-10  smd:self-start md:hidden">
+            <div className="text-[30px]  smd:text-base leading-10  smd:self-start md:hidden">
               How Referral <br />Program Works?
             </div>
             <div className="text-xl  smd:text-base leading-10  smd:self-start smd:hidden">

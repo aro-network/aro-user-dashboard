@@ -316,7 +316,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     },
     {
       content:
-        <div className="flex w-full justify-center flex-col items-center">
+        <div className="flex w-full justify-center flex-col items-center mt-[73px] smd:mt-0">
           <div className="w-[37.5rem] smd:w-full flex flex-col gap-5 ">
             <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
               Congratulations!
@@ -460,7 +460,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     },
     {
       content:
-        <div className="flex w-full justify-center flex-col items-center">
+        <div className="flex w-full justify-center flex-col items-center mt-[73px] smd:mt-0">
           <div className="w-[37.5rem] flex flex-col gap-5 smd:w-full ">
             <div className="flex w-full justify-center font-normal text-lg smd:text-base leading-5 font-Alexandria">
               Congratulations!
@@ -595,7 +595,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     },
     {
       content:
-        <div className="flex w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center mt-[73px] smd:mt-0">
           <div className="w-[37.5rem] smd:w-full">
             <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
               {AllText.AAddNewNodes.lite.step3["Congratulations!"]}
