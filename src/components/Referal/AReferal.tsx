@@ -331,34 +331,64 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
   const activeJoin = !(data.bind.x && data.bind.followX && data.bind.tg && data.bind.joinTg)
 
 
-  const mutConnect = useMutation({
-    mutationFn: async (type: 'x' | "telegram" | 'discord') => {
+  // const mutConnect = useMutation({
+  //   mutationFn: async (type: 'x' | "telegram" | 'discord') => {
+  //     const token = await backendApi.getAccessToken();
+  //     const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
+
+  //     let url: string = "";
+  //     switch (type) {
+  //       case "x":
+  //         url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
+  //         ac.queryUserInfo?.refetch();
+  //         break;
+  //       case "telegram":
+  //         const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
+  //         const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+
+  //         if (typeof res.request?.responseURL === 'string') {
+  //           const err = new URL(res.request?.responseURL).searchParams.get("err");
+  //           handlerErrForBind(err);
+  //         }
+  //         ac.queryUserInfo?.refetch();
+  //         //todo refresh campains data
+  //         return;
+  //     }
+  //     window.open(url, "_blank");
+
+  //   }
+  // })
+
+  const mutConnectX = useMutation({
+    mutationFn: async () => {
       const token = await backendApi.getAccessToken();
-      const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
-
-      let url: string = "";
-      switch (type) {
-        case "x":
-          url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
-          ac.queryUserInfo?.refetch();
-          break;
-        case "telegram":
-          const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
-          const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
-
-          if (typeof res.request?.responseURL === 'string') {
-            const err = new URL(res.request?.responseURL).searchParams.get("err");
-            handlerErrForBind(err);
-          }
-          ac.queryUserInfo?.refetch();
-          //todo refresh campains data
-          return;
-      }
+      const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/x`);
+      const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
+      ac.queryUserInfo?.refetch();
       window.open(url, "_blank");
-
     }
-  })
+  });
+
+  const mutConnectTelegram = useMutation({
+    mutationFn: async () => {
+      const token = await backendApi.getAccessToken();
+      const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
+      const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+
+      if (typeof res.request?.responseURL === 'string') {
+        const err = new URL(res.request?.responseURL).searchParams.get("err");
+        handlerErrForBind(err);
+      }
+      ac.queryUserInfo?.refetch();
+    }
+  });
+
   const [isOpen, setIsOpen] = useState(highlighted);
+
+
+
+  console.log('isOpenisOpenisOpenisOpen---SocialsTasks', isOpen, highlighted);
+
 
 
   return <div className="h-full">
@@ -376,7 +406,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
           highlighted: highlighted,
           jade: data.jadePoint.followX,
           title: `Follow Twitter/X`,
-          first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("x"), userName: user?.social.x?.username ? '@' + user.social.x?.username : undefined },
+          first: { tit: 'Connect X Account', action: 'Connect', connectd: 'Connected', finished: data.bind.x, actionLoading: mutConnectX.isPending, onAction: () => mutConnectX.mutate(), userName: user?.social.x?.username ? '@' + user.social.x?.username : undefined },
           secend: { tit: 'Follow ARO on X', action: 'Follow', connectd: 'Completed', finished: data.bind.followX, onAction: onFollowX }
         }} />
         <SocialTaskItem data={{
@@ -384,7 +414,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
           icon: FaTelegramPlane,
           jade: data.jadePoint.joinTG,
           title: `Join Telegram`,
-          first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnect.isPending, onAction: () => mutConnect.mutate("telegram"), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
+          first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnectTelegram.isPending, onAction: () => mutConnectTelegram.mutate(), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
           secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
         }} />
       </div>}
@@ -398,7 +428,8 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
   const r = useRouter()
   const [isOpen, setIsOpen] = useState(highlighted)
 
-  console.log('highlightedhighlighted222', highlighted);
+  console.log('isOpenisOpenisOpenisOpen---GetNodes', isOpen, highlighted);
+
 
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
@@ -466,12 +497,14 @@ Start now 👉 ${refferralLink}
         ac.queryUserInfo?.refetch();
       }
       window.open(url, "_blank");
-
     }
   })
 
 
   const [isOpen, setIsOpen] = useState(highlighted)
+
+  console.log('isOpenisOpenisOpenisOpen---SocialActivites', isOpen, highlighted);
+
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
@@ -904,7 +937,7 @@ export default function AMyReferral() {
   return (
     <div className="w-full flex flex-col gap-5 pb-32 smd:pb-20">
       {isLoading &&
-        <>
+        <>@
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
