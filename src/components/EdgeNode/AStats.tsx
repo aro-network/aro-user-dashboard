@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import numbro from "numbro";
 import EChartsReact from "echarts-for-react";
 import _ from "lodash";
+import { HelpTip } from "../tips";
 
 const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
   const searchParams = useSearchParams();
@@ -336,7 +337,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
       </div>
     },
     {
-      tit: 'Network Quality',
+      tit: <div className="flex gap-2.5">Network Quality <HelpTip content={<span>The Network Quality Score represents an overall<br /> measure of the user's network performance, <br />based on uptime, latency, and packet loss rate.</span>} /></div>,
       rightTit: '',
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
 

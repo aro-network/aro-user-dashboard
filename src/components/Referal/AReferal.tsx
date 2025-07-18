@@ -47,8 +47,10 @@ function ItemCard({ className, active, children, disableAnim = !DEF_ANIMITEM }: 
   </div>
 }
 
-function Title({ text, tip }: { text?: string, tip?: string | ReactNode }) {
-  return <div className="text-xl flex gap-2 items-center font-Alexandria smd:text-base">{text}{Boolean(tip) && <HelpTip content={tip} />}</div>
+function Title({ text, tip, needIcon }: { text?: string, tip?: string | ReactNode, needIcon?: boolean }) {
+  return <div className="text-xl flex gap-2 items-center font-Alexandria smd:text-base">
+    {needIcon ? <Fragment> <Image src='./task.svg' width={20} height={20} alt='task' /> {text}</Fragment> : text}{Boolean(tip) && <HelpTip content={tip} />}
+  </div>
 }
 
 
@@ -396,7 +398,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
   return <div className="h-full">
     <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
       <div className="flex justify-between w-full cursor-pointer  items-center" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
-        <Title text="Task - Join ARO Community" />
+        <Title needIcon={true} text="Join ARO Community" />
         {!highlighted &&
           <ArrowIcon isOpen={isOpen} />
         }
@@ -438,7 +440,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
     <div className="flex justify-between w-full cursor-pointer" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
-      <Title text="Task - Get ARO Nodes" />
+      <Title needIcon={true} text="Get ARO Nodes" />
       {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
       }
@@ -473,13 +475,13 @@ function SocialActivites({ data, refetch, highlighted }: { data: UserCampaignsRe
   }
 
   const onPostX = () => {
-    const refferralLink = `${origin}/signup?referral=${user?.inviteCode}`;
+    const refferralLink = `${origin}/signup?referral=${envText('inviteCode')}`;
 
 
     postX({
       text: `
 🚀 Join the @AroNetwork Previewnet Referral Sprint!
-Invite friends, earn Jade points, and compete for your share of $300,000 in rewards!
+Invite friends, earn Jade points, and compete for your share of $30,000+ in rewards!
 🏆 Top referrer wins $10,000 + exclusive perks!
 Start now 👉 ${refferralLink}
 #DePIN #AROtoEarn`
@@ -516,7 +518,7 @@ Start now 👉 ${refferralLink}
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
     <div className="flex justify-between w-full cursor-pointer items-center" onClick={() => setIsOpen(!isOpen)}>
-      <Title text="Task - Engage in the Community" />
+      <Title needIcon={true} text="Engage in the Community" />
       {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
       }
@@ -584,7 +586,7 @@ Share your idle internet and earn rewards effortlessly.
       setIsOpen(!isOpen)
       toggleShowWorks(false)
     }}>
-      <Title text="Task - Invite Your Friends" />
+      <Title needIcon={true} text=" Invite Your Friends" />
       <ArrowIcon isOpen={isOpen} />
     </div>
     {isOpen &&
@@ -592,9 +594,10 @@ Share your idle internet and earn rewards effortlessly.
         <IconCard
           className="col-span-full h-auto  flex-wrap flex-row gap-0 smd:flex-col smd:p-5 smd:mb-5 mx-[60px] smd:mx-0 smd:mt-10 mt-[60px]  task-tab "
           icon={SVGS.SvgReferral}
-          iconSize={24}
+          iconSize={20}
           contentClassname="smd:!basis-full md:h-min"
-          titClassName={'md:!items-baseline md:!h-full md:!w-full md:py-2.5 smd:pt-2.5 '}
+          titClassName={'md:!items-baseline md:!h-full md:!w-full  smd:pt-2.5 '}
+          leftTopIconClassName="!top-[-7px]"
           tit={
             <Fragment>
               <div className="flex  w-full md:h-auto px-5 justify-between gap-5 flex-wrap smd:flex-col smd:justify-start smd:mt-[60px]  h-auto smd:hidden ">
@@ -736,6 +739,8 @@ Share your idle internet and earn rewards effortlessly.
         className="col-span-full md:max-h-[300px] smd:mb-5 smd:h-auto flex-row gap-0 smd:flex-col mb-[50px] mx-[60px] smd:mx-0 task-tab"
         icon={() => <IoAlertCircle />}
         iconSize={28}
+        leftTopIconClassName="!top-[-5px]"
+
         titClassName="smd:justify-between pt-2.5 pl-[5px]"
         tit={
           isMobile ? <div className=" md:hidden flex justify-between">
@@ -777,40 +782,6 @@ Share your idle internet and earn rewards effortlessly.
   </ItemCard>
 }
 
-
-function YouAreEarly() {
-  const onApply = () => {
-    window.open('https://enreach.fillout.com/Pioneers')
-
-  }
-  return <ItemCard className="flex items-center smd:items-start gap-5 py-8 smd:py-[50px] justify-between pl-[10%] order-1 smd:flex-col">
-    <div className="flex flex-col smd:w-full">
-      <div className="font-semibold text-[28px] smd:text-4xl leading-none text-[#00FF0D]">You are Early！</div>
-      <div className="text-sm smd:text-base pt-3">Become a Pioneer Aronaut</div>
-      <Btn className="mt-5 text-xs font-medium h-[30px] smd:w-full smd:h-12 smd:text-base" onPress={onApply}>
-        Apply to be Pioneer
-      </Btn>
-    </div>
-    <div className="flex gap-11 smd:flex-col smd:gap-9 mt-5 ">
-      <div className="flex flex-col gap-5 smd:w-full">
-        <div className="font-semibold text-[18px] leading-none ">What We Look For</div>
-        <div className="text-xs leading-none text-[#D3D3D6] font-medium h-[30px] smd:h-12 smd:text-base">
-          • Continuous feedback & active engagement<br />
-          • Content support: writing, videos, local advocacy
-        </div>
-      </div>
-      <div className="flex flex-col gap-5 smd:w-full">
-        <div className="font-semibold text-[18px] leading-none ">What You Get</div>
-        <div className="text-xs leading-none text-[#D3D3D6] font-medium h-[30px] smd:h-12 smd:text-base">
-          • Priority access to free ARO devices (select regions)<br />
-          • Access to private funding rounds and other exclusive rewards
-        </div>
-      </div>
-    </div>
-
-  </ItemCard>
-}
-
 function ExploreMore() {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -822,7 +793,7 @@ function ExploreMore() {
 
   return <ItemCard className="flex flex-col gap-5 order-1">
     <div className="flex justify-between w-full cursor-pointer  items-center " onClick={() => setIsOpen(!isOpen)}>
-      <Title text="Task - Explore More" />
+      <Title needIcon={true} text="Explore More" />
       <ArrowIcon isOpen={isOpen} />
     </div>
 
@@ -904,14 +875,14 @@ export default function AMyReferral() {
 
   const taskComponents = [
     {
-      key: 'Task - Join ARO Community',
+      key: ' Join ARO Community',
       completed: (data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg),
       render: (highlighted: boolean, isFirst?: boolean) => (
         <SocialsTasks data={data!} refetch={() => refetch()} highlighted={highlighted} isFirst={isFirst} />
       )
     },
     {
-      key: 'Task - Get ARO Nodes',
+      key: ' Get ARO Nodes',
       completed: (data?.aroNode.pod && data?.aroNode.link && data?.aroNode.client && data?.aroNode.liteNode),
       render: (highlighted: boolean, isFirst?: boolean) => (
         <GetNodes data={data!} highlighted={highlighted} isFirst={isFirst} />
@@ -919,7 +890,7 @@ export default function AMyReferral() {
 
     },
     {
-      key: 'Task - Engage in the Commmunity',
+      key: ' Engage in the Commmunity',
       completed: (data?.bind.postX && data?.bind.discord && data?.bind.joinDiscord),
       render: (highlighted: boolean, isFirst?: boolean) => (
         <SocialActivites data={data!} refetch={() => refetch()} highlighted={highlighted} isFirst={isFirst} />

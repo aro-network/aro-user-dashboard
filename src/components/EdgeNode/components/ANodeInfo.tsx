@@ -168,7 +168,7 @@ const ANodeInfo: FC<{
     staleTime: 0,
     refetchOnMount: false,
     refetchOnWindowFocus: 'always',
-    refetchInterval: detailInfo?.detail.online ? 60000 : 1000,
+    refetchInterval: detailInfo?.detail.online ? 60000 : 20000,
     queryFn: async () => {
       const isOwner = chooseType !== 'lite_node' ? await backendApi.currentOwner(nId) : await backendApi.ownerExtensionSN(nId)
 

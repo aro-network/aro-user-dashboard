@@ -89,7 +89,7 @@ const ANodes = () => {
               <label className="text-[#00E42A] text-2xl smd:text-[19px] font-semibold smd:font-extrabold leading-6">
                 +{formatNumber(Number(item.todayRewards) || 0)}
               </label>
-              <label className="ml-[.375rem]">Jades</label>
+              {/* <label className="ml-[.375rem]"></label> */}
             </>
           ),
           status: item.online,

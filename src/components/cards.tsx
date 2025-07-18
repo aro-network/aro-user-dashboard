@@ -3,16 +3,16 @@ import { SVGS } from "@/svg";
 import { Card, cn } from "@nextui-org/react";
 import { PropsWithChildren } from "react";
 
-export function IconCard({ icon, className, iconSize = 24, tit, content, isNeed = true, contentClassname, titClassName }: OtherTypes.IconCardProps) {
+export function IconCard({ icon, className, leftTopIconClassName, iconSize = 24, tit, content, isNeed = true, contentClassname, titClassName }: OtherTypes.IconCardProps) {
   const Micon = icon;
   const sizeRem = pxToRem(iconSize);
   const leftSizeRem = pxToRem(120 - iconSize);
   const pl = pxToRem((40 - iconSize) / 2);
   return (
     <Card className={cn(" flex flex-col p-6 gap-[2.8125rem] smd:gap-10 relative", className, {
-      'commonTab innerTab': isNeed
+      ' innerTab': isNeed
     })}>
-      <SVGS.SvgBgIconCard className="absolute left-0 top-0 text-[6.5rem] z-0" />
+      <SVGS.SvgBgIconCard className={cn("absolute left-0 top-0 text-[6.375rem] z-0", leftTopIconClassName)} />
       <div className={cn("flex items-center whitespace-nowrap ", titClassName)} style={{ height: pxToRem(40) }}>
         <div
           className="shrink-0 "

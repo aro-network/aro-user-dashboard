@@ -15,6 +15,7 @@ declare namespace OtherTypes {
     isNeed?: boolean;
     contentClassname?: string;
     titClassName?: string;
+    leftTopIconClassName?: string;
   };
 
   type TitCardProps = {
