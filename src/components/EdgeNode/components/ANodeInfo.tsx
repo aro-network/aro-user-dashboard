@@ -76,6 +76,7 @@ const ANodeInfo: FC<{
   // const [detailInfo, setDetailInfo] = useState<{ detail: Nodes.NodeInfoList, countRewards: { today: string; total: string; yesterday: string } }>()
   // const [isFetching, setIsFetching] = useState(true)
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isEditingName, setIsEditingName] = useState(false);
   const [chooseDate, setChooseDate] = useState<{
     start: DateValue;
     end: DateValue;
@@ -133,7 +134,8 @@ const ANodeInfo: FC<{
           backendApi.currentExtensionUptime(nId),
 
         ]);
-        setNodeName(detail.nodeName);
+        // setNodeName(detail.nodeName);
+        if (!isEditingName) setNodeName(detail.nodeName);
         nodeInfo(detail);
         setIsInitialLoading(false)
         return { detail, countRewards, getExtensionNetworkQuality, getExtensionUptime };
@@ -146,7 +148,8 @@ const ANodeInfo: FC<{
           backendApi.currentUpPackageLoss(nId, chooseType),
           backendApi.currentUpAverageDelay(nId, chooseType),
         ]);
-        setNodeName(detail.nodeName);
+        if (!isEditingName) setNodeName(detail.nodeName);
+        // setNodeName(detail.nodeName);
         nodeInfo(detail);
         setIsInitialLoading(false)
 
@@ -403,6 +406,15 @@ const ANodeInfo: FC<{
   } else if (chainInfo) {
     info = chainInfo;
   }
+  useEffect(() => {
+    if (isEditingName) {
+      const timeout = setTimeout(() => {
+        setIsEditingName(false);
+      }, 5000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isEditingName]);
 
   const rewardsList = [
     {
@@ -513,14 +525,19 @@ const ANodeInfo: FC<{
                           }}
                           onBlur={(e) => {
                             onSubmitEdit()
+                            setIsEditingName(false);
                           }}
                           className="rounded-sm w-[130px] !bg-[#FFFFFFCC] smd:w-[7.5rem] text-black"
-                          onChange={(e) =>
+                          onChange={(e) => {
                             setNodeName(
                               e.target.value
                                 .replace(/[\u4e00-\u9fa5]/g, "")
                                 .trim()
                             )
+                            setIsEditingName(true);
+                          }
+
+
                           }
                           value={nodeName}
                         />
@@ -546,12 +563,14 @@ const ANodeInfo: FC<{
                             className=" mt-5 "
                             classNames={{ 'inputWrapper': '!rounded-lg !bg-[#FFFFFF1A] h-12', 'input': '!text-[#FFFFFF66] outline-none' }}
                             value={nodeName}
-                            onChange={(e) =>
+                            onChange={(e) => {
                               setNodeName(
                                 e.target.value
                                   .replace(/[\u4e00-\u9fa5]/g, "")
                                   .trim()
                               )
+                              setIsEditingName(true);
+                            }
                             }
                           />
                         }
@@ -560,6 +579,7 @@ const ANodeInfo: FC<{
                         onConfirm={() => {
                           setNodeName(detailInfo?.detail.nodeName as string)
                           setIsEdit(!isEdit)
+                          setIsEditingName(false);
                         }
                         }
                         onCancel={() => onSubmitEdit()}

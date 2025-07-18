@@ -9,10 +9,8 @@ import { ConfirmDialog } from "@/components/dialogimpls"
 import { HelpTip } from "@/components/tips"
 import useMobileDetect from "@/hooks/useMobileDetect"
 import { useRouter, useSearchParams } from "next/navigation";
-import { ENV } from "@/lib/env"
 import { AllText } from "@/lib/allText"
 import { toast } from 'react-toastify';
-import Link from "next/link"
 
 const deviceList: Nodes.DeviceType[] = [
   { name: 'ARO Pod', iconName: 'aro-pod', value: 'box' },
@@ -140,10 +138,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     queryKey: ["Regions"],
     queryFn: async () => {
       const res = await backendApi.getRegions()
-      const result = ENV === 'staging' ? res : res.filter((item: { code: string }) => {
-        return item.code === 'AS'
+      const result = res.map((item: { code: string }) => {
+        return { ...item, name: 'GLOBAL' }
       })
-
       return result
     }
   });
@@ -510,9 +507,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     setSerialNum({})
   }
 
-  console.log('bindExtbindExtbindExtbindExt', bindExt);
-
-
   const onGoToDetail = () => {
     onClose()
     r.push(`?mode=testnet&tab=nodes&type=detail&nodeType=lite_node&nId=${bindExt.data?.nodeId}`)
@@ -549,7 +543,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                     </div>
 
                     <div className="smd:w-full smd:mt-5">
-                      <Btn onPress={() => window.open('https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar')} className="h-[30px] smd:w-full">DownLoad</Btn>
+                      {/* onPress={() => window.open('https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar')} */}
+                      <Btn isDisabled={true} className="h-[30px] smd:w-full cursor-not-allowed">DownLoad</Btn>
                     </div>
                   </div>
                 </div>
