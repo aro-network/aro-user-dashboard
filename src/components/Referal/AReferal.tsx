@@ -385,7 +385,9 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   const [isOpen, setIsOpen] = useState(highlighted);
 
-
+  useEffect(() => {
+    setIsOpen(highlighted);
+  }, [highlighted]);
 
   console.log('isOpenisOpenisOpenisOpen---SocialsTasks', isOpen, highlighted);
 
@@ -429,7 +431,9 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
   const [isOpen, setIsOpen] = useState(highlighted)
 
   console.log('isOpenisOpenisOpenisOpen---GetNodes', isOpen, highlighted);
-
+  useEffect(() => {
+    setIsOpen(highlighted);
+  }, [highlighted]);
 
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
@@ -503,6 +507,9 @@ Start now 👉 ${refferralLink}
 
   const [isOpen, setIsOpen] = useState(highlighted)
 
+  useEffect(() => {
+    setIsOpen(highlighted);
+  }, [highlighted]);
   console.log('isOpenisOpenisOpenisOpen---SocialActivites', isOpen, highlighted);
 
 
