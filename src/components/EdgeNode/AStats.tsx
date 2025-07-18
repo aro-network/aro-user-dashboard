@@ -358,8 +358,8 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
     <>
 
       <div className="grid grid-cols-1  lg:grid-cols-2  gap-5 py-5 ">
-        {(chooseType === 'lite_node' ? extensionChartList : chartList).map((item) => {
-          return <TitCard key={item.tit}
+        {(chooseType === 'lite_node' ? extensionChartList : chartList).map((item, i) => {
+          return <TitCard key={`chart_${i}`}
             contentClassName="flex flex-wrap !items-start"
             tit={item.tit}
             titClassName="text-sm"
