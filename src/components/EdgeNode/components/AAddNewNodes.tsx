@@ -1,5 +1,5 @@
 import { Btn } from "@/components/btns"
-import backendApi from "@/lib/api"
+import backendApi, { RES } from "@/lib/api"
 import { cn, Image, Input, Select, SelectItem } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
 import { FC, Fragment, ReactNode, Ref, useEffect, useImperativeHandle, useState } from "react"
@@ -11,6 +11,7 @@ import useMobileDetect from "@/hooks/useMobileDetect"
 import { useRouter, useSearchParams } from "next/navigation";
 import { AllText } from "@/lib/allText"
 import { toast } from 'react-toastify';
+import axios from "axios"
 
 const deviceList: Nodes.DeviceType[] = [
   { name: 'ARO Pod', iconName: 'aro-pod', value: 'box' },
@@ -513,6 +514,24 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     onAddAnother()
   }
 
+  const isExtension = chooseedType?.value === 'lite'
+  const extension = useQuery({
+    queryKey: ["getExtensionInfo", isExtension],
+    enabled: isExtension,
+    refetchOnWindowFocus: 'always',
+    queryFn: async () => await axios.get<RES<{
+      "version"?: string,
+      "downloadUrl"?: string
+    }>>('https://preview-api.aro.network/api/common/liteNode/lastest')
+  });
+
+  const extensionInfo = extension?.data?.data.data
+
+
+  console.log('extensionextensionextension', extension?.data?.data.data);
+
+
+
 
   const liteStep = [
     {
@@ -537,14 +556,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                           {item.Recommended}
                         </div>
                         <div className="text-left text-xs text-[#FFFFFF99]">
-                          {item.version}
+                          ARO Lite ver. {extensionInfo?.version || '0.0.1'}
                         </div>
                       </div>
                     </div>
 
                     <div className="smd:w-full smd:mt-5">
-                      {/* onPress={() => window.open('https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar')} */}
-                      <Btn isDisabled={true} className="h-[30px] smd:w-full cursor-not-allowed">DownLoad</Btn>
+                      <Btn isDisabled={!index} onPress={() => window.open(index ? extensionInfo?.downloadUrl : item.downloadUrl)} className={`h-[30px] smd:w-full ${!index && 'cursor-not-allowed'}`}>DownLoad</Btn>
                     </div>
                   </div>
                 </div>
@@ -616,6 +634,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
 
 
   const type = chooseedType?.value;
+
 
   const typeMap: Record<string, JSX.Element> = {
     client: <CurrentNode step={stepX86Index} typeStep={x86Step} />,

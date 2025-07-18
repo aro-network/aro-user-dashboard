@@ -509,6 +509,8 @@ export const installStep = [
     title: AllText.AAddNewNodes.lite.step1["Install from Chrome Web Store"],
     Recommended: AllText.AAddNewNodes.lite.step1.Recommended,
     version: "ARO Lite ver. 0.0.1",
+    downloadUrl:
+      "https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar",
   },
   {
     icon: "./instsllExtension.svg",
@@ -517,6 +519,7 @@ export const installStep = [
         "Manually install extension in Developer Mode"
       ],
     version: "ARO Lite ver. 0.0.1",
+    downloadUrl: "",
   },
 ];
 
