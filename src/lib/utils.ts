@@ -198,6 +198,7 @@ export const envText = (module?: string) => {
       mode: "Devnet",
       tgCode: "7568524402",
       ENVName: "devnet",
+      xCode: "b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ",
     },
     preview: {
       sign: "Sign In",
@@ -205,6 +206,7 @@ export const envText = (module?: string) => {
       mode: "Previewnet",
       tgCode: "8023295074",
       ENVName: "previewnet",
+      xCode: "cm9qZ2kwZ3c1UGJEU0JvcEhGRTU6MTpjaQ",
     },
     staging: {
       sign: "Sign In",
@@ -212,6 +214,7 @@ export const envText = (module?: string) => {
       mode: "Testnet",
       tgCode: "7376706763",
       ENVName: "testnet",
+      xCode: "cm9qZ2kwZ3c1UGJEU0JvcEhGRTU6MTpjaQ",
     },
   };
 

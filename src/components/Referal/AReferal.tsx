@@ -363,7 +363,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     mutationFn: async () => {
       const token = await backendApi.getAccessToken();
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/x`);
-      const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=b1JXclh6WXJoZnFfZjVoSVluZ0c6MTpjaQ&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
+      const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${envText('xCode')}&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
       ac.queryUserInfo?.refetch();
       window.open(url, "_blank");
     }
