@@ -815,7 +815,7 @@ function ExploreMore() {
   const [isOpen, setIsOpen] = useState(false)
 
   const exploreMoreList = [
-    { mainContent: <Image src="/galxe.svg" alt="galxe" width={102} height={20} />, link: '', text: 'ARO Network on Galxe ' },
+    { mainContent: <Image src="/galxe.svg" alt="galxe" width={102} height={20} />, link: 'https://app.galxe.com/quest/LjE8do44dMenaZmEjyLoA8?sort=Trending', text: 'ARO Network on Galxe ' },
     { mainContent: <span className="font-semibold text-xl text-[#FFFFFFB2]" >You are Early！</span>, link: 'https://enreach.fillout.com/Pioneers', text: 'Join Pioneer Program ' },
 
   ]
@@ -924,34 +924,34 @@ export default function AMyReferral() {
       render: (highlighted: boolean, isFirst?: boolean) => (
         <SocialActivites data={data!} refetch={() => refetch()} highlighted={highlighted} isFirst={isFirst} />
       )
-
     },
-
-
-
   ];
 
   const firstUnfinishedIndex = taskComponents.findIndex(t => !t.completed);
+  const firstUnfinishedTask = firstUnfinishedIndex !== -1 ? taskComponents[firstUnfinishedIndex] : null;
 
-  const orderedComponents = [...taskComponents];
-  if (firstUnfinishedIndex !== -1) {
-    const [firstUnfinished] = orderedComponents.splice(firstUnfinishedIndex, 1);
-    orderedComponents.unshift(firstUnfinished);
-  }
+  const otherUnfinished = taskComponents
+    .filter((t, idx) => !t.completed && idx !== firstUnfinishedIndex);
 
+  const completed = taskComponents.filter(t => t.completed);
+
+  const orderedComponents = [
+    ...(firstUnfinishedTask ? [firstUnfinishedTask] : []),
+    ...otherUnfinished,
+    ...completed,
+  ];
 
 
   return (
     <div className="w-full flex flex-col gap-5 pb-32 smd:pb-20">
       {isLoading &&
-        <>@
+        <>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
           <Skeleton className="rounded-xl w-full"><div className="h-[12.5rem]  rounded-3xl" /></Skeleton>
-
         </>
       }
       <div>
