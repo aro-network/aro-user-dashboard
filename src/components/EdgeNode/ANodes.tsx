@@ -149,9 +149,11 @@ const ANodes = () => {
     } else {
       closeAll()
     }
+    const node = addRef.current;
 
     return () => {
       refetchRes.cancel();
+      node?.switchTo();
     };
 
   }, [nId, searchParams, params]);
@@ -172,11 +174,6 @@ const ANodes = () => {
 
   }
 
-
-  const onSwitch = (index: number) => {
-    window.open(index !== 3 ? 'https://shop.aro.network/' : 'https://download.aro.network/images/aro-client-latest.iso')
-
-  }
 
   const onOpen = (url?: string) => {
     if (!url) return

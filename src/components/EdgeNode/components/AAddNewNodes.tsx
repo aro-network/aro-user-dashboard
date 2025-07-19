@@ -116,6 +116,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
       setChooseedType(undefined)
     }
 
+
   }, [params])
 
   useImperativeHandle(
@@ -526,9 +527,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
   });
 
   const extensionInfo = extension?.data?.data.data
-
-
-  console.log('extensionextensionextension', extension?.data?.data.data);
 
 
 

@@ -90,41 +90,38 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const unbind = [
     {
       content:
-        <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] smd:w-full">
-            <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
-              <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
-                <img src={`./${covertName[chooseType as nodeType]}.png`} className=" object-cover rounded-lg bg-white  w-full h-full" alt={`${chooseType || 'box'}`} />
-              </div>
-              {foundDeviceList(delDetail as any, isMobile)}
+
+        <div className="w-[37.5rem] smd:w-full commonTab rounded-xl pt-5 px-10 pb-10 smd:p-5">
+          <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
+            <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
+              <img src={`./${covertName[chooseType as nodeType]}.png`} className=" object-cover rounded-lg bg-white  w-full h-full" alt={`${chooseType || 'box'}`} />
             </div>
-            <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5 smd:text-left   text-center">
-              {AllText.deviceInfo["Please confirm you want to delete this device. This action cannot be undone."]}
-            </div>
-            <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
-              <Btn isLoading={getStatus.isFetching} onPress={() => setIsConfirm(true)} className="w-full rounded-lg h-12 " >
-                Confirm Delete
-              </Btn>
-            </div>
+            {foundDeviceList(delDetail as any, isMobile)}
+          </div>
+          <div className="text-[#FFFFFF80] text-sm mt-[.625rem] smd:mt-5 smd:text-left   text-center">
+            {AllText.deviceInfo["Please confirm you want to delete this device. This action cannot be undone."]}
+          </div>
+          <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-5">
+            <Btn isLoading={getStatus.isFetching} onPress={() => setIsConfirm(true)} className="w-full rounded-lg h-12 " >
+              Confirm Delete
+            </Btn>
           </div>
         </div >,
     },
     {
       content:
-        <div className="flex w-full justify-center flex-col items-center">
-          <div className="w-[37.5rem] smd:w-full mt-10  flex flex-col gap-5 ">
-            <div className="flex w-full justify-center font-normal text-lg leading-5">
-              Congratulations!
-            </div>
-            <div className="text-center text-sm ">
-              Your Edge Node (Device Type:  <span className=" capitalize">{covertText(delDetail?.nodeType as "box" | "x86" | "Box")})</span> was deleted successfully.
-            </div>
+        <div className="w-[37.5rem] smd:w-full mt-10  flex flex-col gap-5 commonTab rounded-xl  pt-5 px-10 pb-10 smd:p-5">
+          <div className="flex w-full justify-center font-normal text-lg leading-5">
+            Congratulations!
+          </div>
+          <div className="text-center text-sm ">
+            Your Edge Node (Device Type:  <span className=" capitalize">{covertText(delDetail?.nodeType as "box" | "x86" | "Box")})</span> was deleted successfully.
+          </div>
 
-            <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
-              <Btn type="submit" className="w-full rounded-lg h-12" onPress={onDeviceStep} >
-                OK
-              </Btn>
-            </div>
+          <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
+            <Btn type="submit" className="w-full rounded-lg h-12" onPress={onDeviceStep} >
+              OK
+            </Btn>
           </div>
         </div >,
     }
@@ -134,7 +131,10 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     {isFetching ? <div className="flex justify-center w-full pt-[4.5625rem] items-center h-full">
       <CircularProgress label="Loading..." />
     </div> :
-      <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
+      <div className="flex w-full justify-center flex-col items-center ">
+        <DeviceStep stepIndex={stepIndex} deviceStep={unbind} />
+      </div>
+
     }
     <ConfirmDialog
       tit="Delete this device"

@@ -404,7 +404,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2  w-full  xs:px-10  smd:py-5 smd:gap-5  pt-[80px] pb-[60px] px-[60px] smd:px-0" >
+      {isOpen && <div className=" grid grid-cols-1 gap-[38px] xl:grid-cols-2  w-full  xs:px-10  smd:py-5 smd:gap-5  pt-[80px] pb-[60px] px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
           highlighted: highlighted,
@@ -525,7 +525,7 @@ Start now 👉 ${refferralLink}
     </div>
     {/* <div className="flex justify-between  smd:gap-[60px]  xs:px-10 xs:gap-10 pt-[50px] pb-[60px] flex-wrap smd:flex-col  px-[60px] "> */}
     {/* <div className="flex justify-between w-full  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-5 w-full  xs:gap-10  smd:pt-[50px] smd:pb-5 pt-20 pb-[60px] px-[60px] smd:px-0  xs:px-10" >
+    {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:gap-10  smd:pt-[50px] smd:pb-5 pt-20 pb-[60px] px-[60px] smd:px-0  xs:px-10" >
 
       <SocialTaskItem data={{
         highlighted: highlighted,
@@ -740,7 +740,6 @@ Share your idle internet and earn rewards effortlessly.
         icon={() => <IoAlertCircle />}
         iconSize={28}
         leftTopIconClassName="!top-[-5px]"
-
         titClassName="smd:justify-between pt-2.5 pl-[5px]"
         tit={
           isMobile ? <div className=" md:hidden flex justify-between">
