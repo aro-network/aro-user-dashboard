@@ -327,7 +327,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
 
   const extensionChartList = [
     {
-      tit: '24H Uptime',
+      tit: 'Uptime',
       rightTit: '',
       chart: <div className="!w-full " style={{ height: '9rem' }} ref={ref}>
 
