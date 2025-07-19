@@ -4,7 +4,7 @@ import backendApi from "@/lib/api"
 import { covertName, covertText } from "@/lib/utils"
 import { CircularProgress, cn, Image, Skeleton, } from "@nextui-org/react"
 import { useQuery } from "@tanstack/react-query"
-import { FC, ReactNode, useEffect, useState } from "react"
+import { FC, Fragment, ReactNode, useEffect, useState } from "react"
 import { foundDeviceList } from "./AAddNewNodes"
 import useMobileDetect from "@/hooks/useMobileDetect"
 import { useSearchParams } from "next/navigation"
@@ -14,7 +14,7 @@ import { nodeType } from "./ANodeInfo"
 
 
 const DeviceStep = ({ stepIndex, deviceStep }: { stepIndex: number, deviceStep: { content: ReactNode }[] }) => {
-  return <div>{deviceStep[stepIndex].content}</div>
+  return <Fragment>{deviceStep[stepIndex].content}</Fragment>
 }
 const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack }) => {
   const [stepIndex, setStepIndex] = useState(0)
@@ -90,11 +90,10 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
   const unbind = [
     {
       content:
-
-        <div className="w-[37.5rem] smd:w-full commonTab rounded-xl pt-5 px-10 pb-10 smd:p-5">
+        <div className="w-[37.5rem] smd:w-full commonTab rounded-xl pt-5 px-5 pb-10 smd:p-5">
           <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
             <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
-              <img src={`./${covertName[chooseType as nodeType]}.png`} className=" object-cover rounded-lg bg-white  w-full h-full" alt={`${chooseType || 'box'}`} />
+              <img src={`./${covertName[chooseType as nodeType]}.png`} className=" object-cover smd:object-contain rounded-lg bg-white  w-full h-full" alt={`${chooseType || 'box'}`} />
             </div>
             {foundDeviceList(delDetail as any, isMobile)}
           </div>
@@ -110,7 +109,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
     },
     {
       content:
-        <div className="w-[37.5rem] smd:w-full mt-10  flex flex-col gap-5 commonTab rounded-xl  pt-5 px-10 pb-10 smd:p-5">
+        <div className="w-[37.5rem] smd:w-full mt-10  flex flex-col gap-5 commonTab rounded-xl  pt-5 px-5 pb-10 smd:p-5">
           <div className="flex w-full justify-center font-normal text-lg leading-5">
             Congratulations!
           </div>

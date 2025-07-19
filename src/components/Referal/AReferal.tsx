@@ -391,9 +391,6 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     setIsOpen(highlighted);
   }, [highlighted]);
 
-  console.log('isOpenisOpenisOpenisOpen---SocialsTasks', isOpen, highlighted);
-
-
 
   return <div className="h-full">
     <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
@@ -428,11 +425,9 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 }
 
 function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlighted: boolean, isFirst?: boolean }) {
-  const activeJoin = !(data.aroNode.pod && data.aroNode.link && data.aroNode.client && data.aroNode.liteNode)
+  // const activeJoin = !(data.aroNode.pod && data.aroNode.link && data.aroNode.client && data.aroNode.liteNode)
   const r = useRouter()
   const [isOpen, setIsOpen] = useState(highlighted)
-
-  console.log('isOpenisOpenisOpenisOpen---GetNodes', isOpen, highlighted);
   useEffect(() => {
     setIsOpen(highlighted);
   }, [highlighted]);
@@ -458,10 +453,6 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
 
 function SocialActivites({ data, refetch, highlighted }: { data: UserCampaignsRewards, refetch: () => void, highlighted: boolean, isFirst?: boolean }) {
   const ac = useAuthContext()
-  const activeSocial = !(data.bind.postX && data.bind.discord && data.bind.joinDiscord)
-  const user = ac.queryUserInfo?.data;
-
-  console.log('highlightedhighlighted333', highlighted);
 
   const onJoinDiscord = () => {
     const code = 'Rc4BMUjbNB'
@@ -495,7 +486,6 @@ Start now 👉 ${refferralLink}
     mutationFn: async (type: 'x' | "telegram" | 'discord') => {
       const token = await backendApi.getAccessToken();
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
-      console.log('redirectUrlredirectUrlredirectUrlredirectUrl', redirectUrl, `${BASE_API}/user/auth/handler/${type}`);
 
       let url: string = "";
       if (type == 'discord') {
@@ -512,8 +502,6 @@ Start now 👉 ${refferralLink}
   useEffect(() => {
     setIsOpen(highlighted);
   }, [highlighted]);
-  console.log('isOpenisOpenisOpenisOpen---SocialActivites', isOpen, highlighted);
-
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
@@ -568,10 +556,6 @@ Share your idle internet and earn rewards effortlessly.
 
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = useMobileDetect()
-
-  console.log('useruseruser', user);
-
-
 
 
   const r = useRouter()
