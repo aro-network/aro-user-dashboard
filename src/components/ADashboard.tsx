@@ -272,7 +272,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
               }} >
                 <div className="flex gap-[.625rem] items-center">
                   <FiUser className="text-[#FFFFFF99] text-base" />
-                  <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My ARO ID</label>
+                  <label className="font-medium text-sm  text-[#FFFFFF99]   cursor-pointer">My ARO Account</label>
                 </div>
               </DropdownItem>
               <DropdownItem key={'signout'} onClick={() => toggleShowConfirmLogout()}>

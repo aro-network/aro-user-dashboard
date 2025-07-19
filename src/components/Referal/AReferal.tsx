@@ -307,7 +307,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
 
   const reportFinishTask = (t: Parameters<typeof backendApi.reportCampaignsSocails>[0]) => {
-    retry(() => backendApi.reportCampaignsSocails(t))
+    retry(() => backendApi.reportCampaignsSocails(t), { delayMs: 10000, maxAttempts: 1 })
   }
 
   const onFollowX = () => {
@@ -404,7 +404,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
-      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2 gap-[38px] w-full  xs:px-10 xs:gap-10  smd:py-5 smd:gap-5  pt-[80px] pb-[60px] px-[60px] smd:px-0" >
+      {isOpen && <div className=" grid grid-cols-1 xl:grid-cols-2  w-full  xs:px-10  smd:py-5 smd:gap-5  pt-[80px] pb-[60px] px-[60px] smd:px-0" >
         <SocialTaskItem data={{
           icon: FaXTwitter,
           highlighted: highlighted,
@@ -471,7 +471,7 @@ function SocialActivites({ data, refetch, highlighted }: { data: UserCampaignsRe
   }
 
   const reportFinishTask = (t: Parameters<typeof backendApi.reportCampaignsSocails>[0]) => {
-    retry(() => backendApi.reportCampaignsSocails(t))
+    retry(() => backendApi.reportCampaignsSocails(t), { delayMs: 10000, maxAttempts: 1 })
   }
 
   const onPostX = () => {

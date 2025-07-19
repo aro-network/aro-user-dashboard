@@ -28,8 +28,10 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
   const averageDelay = !detailInfo?.upAverageDelay?.list?.length ? mock() : groupPackageOrDelayByHour(detailInfo?.upAverageDelay?.list) || []
 
 
-  const formatTime = (timestamp: number | undefined) =>
-    dayjs(Number(timestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss");
+  const formatTime = (timestamp?: number) => {
+    const time = timestamp !== undefined ? dayjs(timestamp * 1000) : dayjs();
+    return time.format("YYYY-MM-DD HH:mm:ss");
+  };
 
 
   const chartList = [

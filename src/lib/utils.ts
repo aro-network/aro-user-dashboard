@@ -499,6 +499,8 @@ export const addNewNodeList = [
     Rewards: "⭐️",
     "User-friendly": "⭐️⭐️⭐️",
     url: "https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar",
+    docs: "https://docs.aro.network/user-guides/aro-lite/",
+
     goToText: "Download ARO Lite",
   },
 ];

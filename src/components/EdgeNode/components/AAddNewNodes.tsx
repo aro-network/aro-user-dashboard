@@ -574,7 +574,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
 
 
             <div className="flex justify-center mt-[10px]">
-              <button className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
+              <button onClick={() => window.open('https://docs.aro.network/user-guides/aro-lite/')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
             </div>
 
             <div className="flex justify-center flex-col items-center mt-10 ">
