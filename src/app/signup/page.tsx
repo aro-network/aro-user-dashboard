@@ -114,13 +114,20 @@ export default function Page() {
       {!isShow && isMobile ?
         <div className="w-full h-full flex smd:flex-col  ">
           <div className={cn("flex-[4] smd:flex-[1] px-[33px]  bg-[url(/mainBg.png)] bg-no-repeat bg-cover bg-center items-center  md:min-h-full  smd:h-full basis-0 flex flex-col  justify-center pt-10 md:overflow-auto  text-base",)}>
-            <img src="https://aro.network/aro-logo.svg" alt="Logo" className="w-[180px] h-[22px]" />
-            <div className=" text-[32px] mt-5   text-center leading-[130%] tracking-tighter mb-[30px]">
-              Sign Up for the $25M<br /> Campaign & Grab <br /> Your $30K Referral Bonus!
+            <img src="https://aro.network/aro-logo.svg" alt="Logo" className=" h-[22px]" />
+            <div className="flex gap-6  flex-col justify-center items-center px-5 mt-10">
+              <div className="text-[26px] font-bold text-center ">ARO Previewnet Is LIVE!</div>
+              <div className={`text-[42px]  xs:text-[1.75rem] smd:text-lg  leading-normal text-center text-xl text-[#00FF0D]`}>
+                <div className="text-left leading-[190%]">
+                  - Campaign for Grand Airdrop<br />
+                  - Run and test ARO Nodes<br />
+                  - $30k Top Referrer Bonus<br />
+                </div>
+              </div>
             </div>
 
-            <img src="/block.svg" width={25} height={63} alt='block' />
-            <Btn className="w-full mx-12 mt-5  h-12" onPress={() => setIsShow(true)}>Sign up</Btn>
+            <img src="/block.svg" width={25} height={63} alt='block' className="mt-5" />
+            <Btn className="w-full mx-12 mt-5  h-12" onPress={() => setIsShow(true)}>Sign Up</Btn>
             <button onClick={() => window.open('https://docs.aro.network/campaigns/previewnet')} className="underline underline-offset-1 hover:text-[#00FF0D] text-white mt-5">Learn More</button>
           </div>
         </div>
