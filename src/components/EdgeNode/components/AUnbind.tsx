@@ -92,8 +92,8 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       content:
         <div className="w-[37.5rem] smd:w-full commonTab rounded-xl pt-5 px-5 pb-10 smd:p-5">
           <div className=" py-5 my-5 pl-5 smd:pr-5 bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
-            <div className="w-[45%] smd:w-full smd:h-[12.5rem] ">
-              <img src={`./${covertName[chooseType as nodeType]}.png`} className=" object-cover smd:object-contain rounded-lg bg-white  w-full h-full" alt={`${chooseType || 'box'}`} />
+            <div className="w-[45%] smd:w-full smd:h-[12.5rem]  rounded-lg bg-[#FFFFFF26] flex items-center justify-center ">
+              <img src={`./${covertName[chooseType as nodeType]}.png`} className=" object-contain smd:h-[160px]  w-full h-full  " alt={`${chooseType || 'box'}`} />
             </div>
             {foundDeviceList(delDetail as any, isMobile)}
           </div>

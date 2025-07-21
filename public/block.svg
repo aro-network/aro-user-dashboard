@@ -1,0 +1,32 @@
+<svg width="26" height="63" viewBox="0 0 26 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes opacityMarquee {
+      0% {
+        fill-opacity: 0.3; /* Lower opacity for contrast */
+      }
+      50% {
+        fill-opacity: 1.0; /* Peak at full opacity */
+      }
+      100% {
+        fill-opacity: 0.3; /* Return to lower opacity */
+      }
+    }
+
+    .opacity-marquee {
+      animation: opacityMarquee 2s ease-in-out infinite;
+    }
+
+    #path1 {
+      animation-delay: 0s;
+    }
+    #path2 {
+      animation-delay: 0.2s;
+    }
+    #path3 {
+      animation-delay: 0.4s;
+    }
+  </style>
+  <path id="path1" class="opacity-marquee" opacity="0.8" d="M25.5 0L12.75 16.25L0 -1.11464e-06L25.5 0Z" fill="#00E42A" fill-opacity="0.5"/>
+  <path id="path2" class="opacity-marquee" opacity="0.9" d="M25.5 23.5L12.75 39.75L0 23.5L25.5 23.5Z" fill="#00E42A" fill-opacity="0.8"/>
+  <path id="path3" class="opacity-marquee" d="M25.5 46.75L12.75 63L0 46.75L25.5 46.75Z" fill="#00E42A" fill-opacity="1.0"/>
+</svg>

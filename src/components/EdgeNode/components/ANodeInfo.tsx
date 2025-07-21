@@ -30,6 +30,7 @@ import { ConfirmDialog } from "@/components/dialogimpls";
 import { useSearchParams } from "next/navigation";
 import AStats from "../AStats";
 import { ENV } from "@/lib/env";
+import { AllText } from "@/lib/allText";
 
 const InfoRow = ({
   label,
@@ -433,6 +434,7 @@ const ANodeInfo: FC<{
     { title: 'Total Rewards', count: <span className="text-[30px]"> {formatNumber(Number(detailInfo?.countRewards?.total || 0))}</span> },
     { title: 'Yesterday Rewards', count: <span className="text-[30px]">{`+ ${formatNumber(Number(detailInfo?.countRewards!.yesterday || 0))} `}</span> }
   ]
+
   return (
     <>
       {!isInitialLoading ? (
@@ -442,8 +444,10 @@ const ANodeInfo: FC<{
             <div className={` w-full smd:flex-wrap  bg-repeat bg-cover smd:object-cover smd:bg-top smd:bg-fixed  rounded-[12px]  ${detailInfo?.detail.online ? 'rewards bg-[url(/rewardsBg-online.svg)]' : 'rewards-offline bg-[url(/rewardsBg-offline.svg)]'} `}>
               <div className="flex  w-full p-[20px] h-fit    flex-col   gap-[10px] smd:gap-5">
                 <div className="flex w-full justify-between " >
-                  <span className="font-semibold text-[16px]  ">Preview Jade Rewards</span>
-
+                  <div className="flex gap-2">
+                    <span className="font-semibold text-[16px]  underline underline-offset-1 italic text-[#FFFFFF80] ">Preview Jade Rewards</span>
+                    <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
+                  </div>
 
                 </div>
                 <div className="flex justify-between flex-wrap h-full w-full gap-5 items-end ">
@@ -455,8 +459,15 @@ const ANodeInfo: FC<{
                       </span>
                       <div className="flex  gap-[10px] items-baseline xsl:flex-wrap">
                         {item.count}
-                        <span hidden={index === 0}>Preview Jades</span>
+                        <div className="flex gap-2">
+                          <span className=" underline underline-offset-1 italic text-[#FFFFFF80]" hidden={index === 0}>Preview Jades</span>
+                          {index ?
+                            <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
+                            : null
+                          }
+                        </div>
                       </div>
+
                     </div>
                   })}
                 </div>
@@ -502,13 +513,15 @@ const ANodeInfo: FC<{
                 <span className=" text-nowrap">Node Info</span>
               </div>
               <div className="flex w-full gap-[10px] md:gap-5  h-[68px]">
-                <img
-                  width={68}
-                  height={68}
-                  src={`../${covertName[chooseType as nodeType]}.png`}
-                  className=" object-cover rounded-lg"
-                  alt={`${covertName[chooseType as nodeType]}`}
-                />
+                <div className="bg-[#FFFFFF26] rounded-md w-[100px]  h-[68px] flex items-center justify-center ">
+                  <img
+                    width={70}
+                    height={70}
+                    src={`../${covertName[chooseType as nodeType]}.png`}
+                    className=" object-cover "
+                    alt={`${covertName[chooseType as nodeType]}`}
+                  />
+                </div>
 
 
                 <div className="flex flex-col justify-between w-full  ">
@@ -633,7 +646,9 @@ const ANodeInfo: FC<{
                 />
                 <InfoRow
                   label="Registered Region"
-                  value={info?.regionCode || "-"}
+                  // value={info?.regionCode || "-"}
+                  value={"GLOBAL"}
+
                 />
                 <InfoRow
                   show={chooseType !== 'lite_node'}

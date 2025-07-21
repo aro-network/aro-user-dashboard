@@ -216,6 +216,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
   }
 
 
+  console.log('deviceInfodeviceInfodeviceInfo', deviceInfo);
+
+
+
   const homeBoxStep = [
     {
       content:
@@ -255,10 +259,11 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
             <div className="flex w-full  font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria">
               {AllText.AAddNewNodes.type.step2.title}
             </div>
-            <div className=" py-5 my-5 md:p-5 md:bg-[#6D6D6D66] smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
 
-              <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-cover rounded-lg  bg-white  w-full h-full" alt={`${covertName[deviceInfo?.nodeType || 'box']}`} />
+
+            <div className=" py-5 my-5 pl-5 smd:pr-5 md:bg-[#6D6D6D66]  smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
+              <div className="w-[45%] smd:w-full smd:h-[12.5rem]  rounded-lg bg-[#FFFFFF26] flex items-center justify-center ">
+                <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-contain smd:h-[160px]  w-full h-full  " alt={`${deviceInfo?.nodeType || 'box'}`} />
               </div>
               {foundDeviceList(deviceInfo, isMobile)}
             </div>
@@ -397,9 +402,8 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
             </div>
 
             <div className=" py-5 my-5 pl-5 smd:pr-5 md:bg-[#6D6D6D66]  smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
-
-              <div className="w-[45%] smd:w-full smd:h-[12.5rem]">
-                <img src={`./${deviceInfo?.nodeType}.png`} className=" object-contain rounded-lg  bg-white   w-full h-full" alt={`${data?.nodeType}`} />
+              <div className="w-[45%] smd:w-full smd:h-[12.5rem]  rounded-lg bg-[#FFFFFF26] flex items-center justify-center ">
+                <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-contain smd:h-[160px]  w-full h-full  " alt={`${deviceInfo?.nodeType || 'box'}`} />
               </div>
 
 
@@ -659,8 +663,11 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
             {typeMap[type]}
           </div>
 
-          {firstShow && <div className="commonTab  rounded-xl p-5 w-[270px] smd:w-full">
-            <img src={rightTabList?.icon} />
+          {firstShow && <div className="commonTab  rounded-xl p-5 w-[270px] smd:w-full" >
+            <div className="flex justify-center items-center">
+              <img src={rightTabList?.icon} className="smd:w-[150px]" />
+            </div>
+
             <div
               className="rounded-xl  flex  gap-10 smd:gap-[30px]  smd:flex-wrap">
               <div className="text-left flex flex-col justify-between smd:justify-start ">
@@ -722,12 +729,13 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                 key={`nodes_${index}`}
                 className="bg-[#6D6D6D66]  commonTab  hover:bg-[#6D6D6DCC] rounded-xl  flex  gap-10 smd:gap-[30px] p-5 smd:flex-wrap">
                 <div className="flex flex-col  justify-between smd:justify-start smd:w-full ">
-                  <div className="md:w-[218px] smd:!w-full  h-[130px] smd:h-[170px]">
-                    <img src={`../${item.icon}`} alt={item.name} className=" w-full h-full object-contain bg-white rounded-lg" />
+                  <div className="md:w-[218px] smd:!w-full  h-[130px] smd:h-[170px]  bg-[#FFFFFF26] rounded-lg flex justify-center items-center">
+                    <img src={`../${item.icon}`} alt={item.name} width={133} height={85} className=" object-cover  " />
                   </div>
                   <div className="smd:mt-4">
                     <Btn
-                      className="h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                      isDisabled={item.isComming}
+                      className={`h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto ${item.isComming ? 'cursor-not-allowed' : 'cursor-default'}`}
                       onPress={() => {
                         // onSelectedType(item.name)
                         // setChooseedType(item)
@@ -742,7 +750,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                 </div>
 
                 <div className="text-left flex flex-col justify-between smd:justify-start ">
-                  <div className="text-xl ">{item.name}</div>
+                  <div className="text-xl flex gap-2 items-center">
+                    <span>{item.name}</span>
+                    {item.isComming ? <span className="bg-[#02b421] text-base flex items-center p-2.5 rounded-full h-5">
+                      Coming Soon ...
+                    </span>
+                      : ''}
+                  </div>
+
                   <div className="mt-[10px] h-[80px] smd:h-auto smd:mb-[10px] flex flex-col justify-center">
                     {item.description.map((item) => {
                       return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
@@ -752,7 +767,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                   <div className="text-sm">Rewards: {item.Rewards}</div>
                   <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
                   <div className=" mt-3 flex gap-5 smd:gap-[10px] text-xs">
-                    <button onClick={() => window.open(item.url)} className="text-[#568AFF] underline underline-offset-1">{item.goToText}</button>
+                    <button disabled={item.isComming} onClick={() => window.open(item.url)} className={`text-[#568AFF] underline underline-offset-1 ${item.isComming ? 'cursor-not-allowed' : 'cursor-default'}`}>{item.goToText}</button>
                     <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
                   </div>
                 </div>

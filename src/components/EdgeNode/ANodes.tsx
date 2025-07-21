@@ -15,7 +15,6 @@ import { debounce } from "lodash";
 import { AllText } from "@/lib/allText";
 import { ForceModal } from "../dialogs";
 
-
 export const typeObj: { [key: 'box' | 'x86' | string]: string } = {
   box: 'ARO Pod',
   client: 'ARO Client',
@@ -38,6 +37,8 @@ const ANodes = () => {
   const [openLink, setOpenLink] = useState('')
   const chooseType = params.get("nodeType") || '';
   const [isEnabled, setIsEnabled] = useState(false);
+
+
 
 
   const title =
@@ -80,7 +81,7 @@ const ANodes = () => {
             <img
               src={`./${covertName[item.nodeType]}.png`}
               alt={`${covertName[item.nodeType]}`}
-              className="w-[135px] h-[130px] smd:w-[100px] smd:h-[100px] object-cover rounded-lg"
+              className="w-[108px] h-[63px] smd:w-[90px] smd:h-[70px] object-cover "
             />
           ),
           nodeUUID: item.nodeUUID,
@@ -111,6 +112,7 @@ const ANodes = () => {
       r.push(`?${params.toString()}`);
     }
   }, 300);
+
   const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
     refetchRes.cancel();
     if (isInitialLoading) return
@@ -303,7 +305,7 @@ const ANodes = () => {
                       className="bg-[#6D6D6D66]  commonTab  hover:bg-[#6D6D6DCC] rounded-xl  flex  gap-10 smd:gap-[30px] p-5 smd:flex-wrap">
                       <div className="flex flex-col  justify-between smd:justify-start smd:w-full ">
                         <div className="md:w-[218px] smd:!w-full  h-[130px]">
-                          <img src={`../${item.icon}`} alt={item.name} className=" w-full h-full object-contain bg-white rounded-lg" />
+                          <img src={`../${item.icon}`} alt={item.name} className=" w-full h-full object-contain smd:py-5  bg-[#FFFFFF26] rounded-lg" />
                         </div>
                         <div className="smd:mt-4">
                           <Btn

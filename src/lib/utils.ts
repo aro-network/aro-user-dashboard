@@ -435,7 +435,7 @@ export function groupVolumeByHourInMB(
 
 export const covertName = {
   router: "aro-link",
-  x86: "x86",
+  x86: "aro-client",
   box: "aro-pod",
   lite_node: "aro-lite",
 };
@@ -453,7 +453,7 @@ export const addNewNodeList = [
     Rewards: "⭐️⭐️⭐️",
     "User-friendly": "⭐️⭐️⭐️",
     docs: "https://docs.aro.network/user-guides/device-setup",
-    url: "https://shop.aro.network/",
+    url: "https://order.aro.network/product/aro-pod-node/",
     goToText: "Order ARO Pod",
   },
   {
@@ -470,6 +470,7 @@ export const addNewNodeList = [
     docs: "https://docs.aro.network/user-guides/device-setup",
     url: "https://shop.aro.network/",
     goToText: "Order ARO Link",
+    isComming: true,
   },
 
   {
@@ -500,7 +501,6 @@ export const addNewNodeList = [
     "User-friendly": "⭐️⭐️⭐️",
     url: "https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar",
     docs: "https://docs.aro.network/user-guides/aro-lite/",
-
     goToText: "Download ARO Lite",
   },
 ];
