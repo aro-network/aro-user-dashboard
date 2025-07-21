@@ -6,6 +6,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 
   webpack(config) {
     // Grab the existing rule that handles SVG imports

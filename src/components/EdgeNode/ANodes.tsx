@@ -103,12 +103,14 @@ const ANodes = () => {
   });
 
 
-  const updateURL = (key: string, value: string) => {
-    params.set(key, value);
-    r.push(`?${params.toString()}`);
-
-  };
-
+  const updateURL = debounce((key: string, value: string) => {
+    const currentValue = params.get(key);
+    if (currentValue !== value) {
+      params.set(key, value);
+      console.log(`Pushing to: ?${params.toString()}`);
+      r.push(`?${params.toString()}`);
+    }
+  }, 300);
   const handleToggleNodeInfo = (e: EdgeNodeMode.NodeType) => {
     refetchRes.cancel();
     if (isInitialLoading) return

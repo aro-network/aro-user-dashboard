@@ -176,6 +176,7 @@ const ANodeInfo: FC<{
         onBack();
       } else {
         refetchdetailRes()
+        result.refetch()
       }
     }
   });
@@ -207,7 +208,7 @@ const ANodeInfo: FC<{
   const result = useQuery({
     queryKey: ["TrendingChart", chooseDate],
     refetchInterval: 60000,
-    enabled: !!chooseDate.start && !!chooseDate.end,
+    enabled: false,
     queryFn: async () => {
       const result = getCurrentDate(chooseDate)
       const res = chooseType === 'lite_node' ? await backendApi.getExtensionRewardsHistory(nId, result) : await backendApi.rewardHistory(nId, result);
@@ -377,6 +378,9 @@ const ANodeInfo: FC<{
     } else {
       setChooseDate({ start, end });
     }
+
+    result.refetch()
+
   };
 
 
