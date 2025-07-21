@@ -69,8 +69,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
 
   return (
     <div className={cn(" flex  flex-col task-tab w-full gap-5", className)}>
-      {/* {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />} */}
-      <FinishBadge className="[--finish-badge-size:26px]" />
+      {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />}
 
       <div className="flex gap-2.5 items-center smd:justify-center">
         <div className="font-medium text-base smd:text-sm">
