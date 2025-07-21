@@ -81,7 +81,7 @@ const ANodes = () => {
             <img
               src={`./${covertName[item.nodeType]}.png`}
               alt={`${covertName[item.nodeType]}`}
-              className="w-[108px] h-[63px] smd:w-[90px] smd:h-[70px] object-cover "
+              className="w-[108px] h-[63px] smd:w-[105px] smd:h-[70px] object-cover "
             />
           ),
           nodeUUID: item.nodeUUID,
@@ -324,7 +324,13 @@ const ANodes = () => {
                       </div>
 
                       <div className="text-left flex flex-col justify-between smd:justify-start ">
-                        <div className="text-xl ">{item.name}</div>
+                        <div className="text-xl flex gap-2 items-center">
+                          <span>{item.name}</span>
+                          {item.isComming ? <div className="bg-[#02b421] text-[8px] flex items-center p-1 rounded-full h-3">
+                            Coming Soon ...
+                          </div>
+                            : ''}
+                        </div>
                         <div className="mt-[10px] h-[80px] flex flex-col justify-center">
                           {item.description.map((item) => {
                             return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
@@ -334,7 +340,8 @@ const ANodes = () => {
                         <div className="text-sm">Rewards: {item.Rewards}</div>
                         <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
                         <div className=" mt-3 flex gap-5 text-xs">
-                          <button onClick={() => window.open(item.url)} className="text-[#568AFF] underline underline-offset-1">{item.goToText}</button>
+                          <button disabled={item.isComming} onClick={() => window.open(item.url)} className={`text-[#568AFF] underline underline-offset-1 ${item.isComming ? 'cursor-not-allowed' : 'cursor-default'}`}>{item.goToText}</button>
+
                           <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
                         </div>
                       </div>

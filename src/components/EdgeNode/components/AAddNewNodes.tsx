@@ -216,9 +216,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
   }
 
 
-  console.log('deviceInfodeviceInfodeviceInfo', deviceInfo);
-
-
 
   const homeBoxStep = [
     {
@@ -259,8 +256,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
             <div className="flex w-full  font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria">
               {AllText.AAddNewNodes.type.step2.title}
             </div>
-
-
             <div className=" py-5 my-5 pl-5 smd:pr-5 md:bg-[#6D6D6D66]  smd:flex-col  w-full flex gap-4 smd:gap-5 rounded-xl">
               <div className="w-[45%] smd:w-full smd:h-[12.5rem]  rounded-lg bg-[#FFFFFF26] flex items-center justify-center ">
                 <img src={`./${covertName[deviceInfo?.nodeType || 'box']}.png`} className=" object-contain smd:h-[160px]  w-full h-full  " alt={`${deviceInfo?.nodeType || 'box'}`} />
@@ -564,7 +559,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                     </div>
 
                     <div className="smd:w-full smd:mt-5">
-                      <Btn isDisabled={!index} onPress={() => window.open(index ? extensionInfo?.downloadUrl : item.downloadUrl)} className={`h-[30px] smd:w-full ${!index && 'cursor-not-allowed'}`}>DownLoad</Btn>
+                      <Btn onPress={() => window.open(index ? extensionInfo?.downloadUrl : item.downloadUrl)} className={`h-[30px] smd:w-full `}>DownLoad</Btn>
                     </div>
                   </div>
                 </div>
@@ -665,7 +660,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
 
           {firstShow && <div className="commonTab  rounded-xl p-5 w-[270px] smd:w-full" >
             <div className="flex justify-center items-center">
-              <img src={rightTabList?.icon} className="smd:w-[150px]" />
+              <img src={rightTabList?.icon} className="smd:w-[200px]" />
             </div>
 
             <div
@@ -735,7 +730,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                   <div className="smd:mt-4">
                     <Btn
                       isDisabled={item.isComming}
-                      className={`h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto ${item.isComming ? 'cursor-not-allowed' : 'cursor-default'}`}
+                      className={`h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto`}
                       onPress={() => {
                         // onSelectedType(item.name)
                         // setChooseedType(item)
@@ -752,9 +747,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                 <div className="text-left flex flex-col justify-between smd:justify-start ">
                   <div className="text-xl flex gap-2 items-center">
                     <span>{item.name}</span>
-                    {item.isComming ? <span className="bg-[#02b421] text-base flex items-center p-2.5 rounded-full h-5">
+                    {item.isComming ? <div className="bg-[#02b421] text-[8px] flex items-center p-1 rounded-full h-3">
                       Coming Soon ...
-                    </span>
+                    </div>
                       : ''}
                   </div>
 

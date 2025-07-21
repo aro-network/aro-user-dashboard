@@ -69,7 +69,8 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
 
   return (
     <div className={cn(" flex  flex-col task-tab w-full gap-5", className)}>
-      {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />}
+      {/* {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />} */}
+      <FinishBadge className="[--finish-badge-size:26px]" />
 
       <div className="flex gap-2.5 items-center smd:justify-center">
         <div className="font-medium text-base smd:text-sm">
@@ -243,12 +244,12 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
         Redeem Jade with your Gift Code<br />
         or ARO Pod order.
       </div>} />
-    <Btn className="self-end w-[106px] text-xs font-medium h-[30px] smd:h-12 smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
+    <Btn className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
       <div className="flex justify-between w-full flex-col gap-5">
         <div className="flex justify-between w-full">
           <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">{chooseType?.title || 'Redeem'}</p>
-          <button onClick={() => {
+          <button hidden={!!chooseType} onClick={() => {
             toggleShowRedeem(false);
             setRedeemCode('')
             setChooseType(undefined)
@@ -264,6 +265,16 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
             <Input value={redeemCode} maxLength={12}
               onChange={(e) => setRedeemCode(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg h-12 popTabBg' }} />
             <Btn isLoading={isPendingRedeem} isDisabled={redeemCode.length < 6} onPress={() => doRedeem()} className="w-full">Confirm</Btn>
+
+
+            <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
+              toggleShowRedeem(false);
+              setRedeemCode('')
+              setChooseType(undefined)
+            }} >
+              Cancel
+            </Btn>
+
           </div>
           : <div className="flex gap-2.5  ">
             {redeemList.map((item, i) => {

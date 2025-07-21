@@ -378,9 +378,9 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
       </div>
 
 
-      <div className="h-full  nodes mb-40 smd:mt-[3.75rem]">
+      <div className="h-full  nodes mb-10 smd:mt-[3.75rem]">
 
-        <div className=" w-container m-auto flex justify-center xs:w-full smd:w-full xs:px-[104px] px-[3.125rem] smd:px-5 ">
+        <div className=" w-container m-auto flex justify-center xs:w-full smd:w-full xs:px-[104px] px-[3.125rem] smd:px-5 overflow-auto ">
           <AnimatePresence mode="wait">
             <motion.div
               className=" pt-5 pb-10  flex flex-col w-full "
