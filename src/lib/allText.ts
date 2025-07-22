@@ -24,16 +24,16 @@ export const AllText = {
   },
   edgeNodes: {
     "All Nodes": "All Nodes",
-    "Please choose which type of Edge Node you want to add to your Dashboard:":
-      "Please choose which type of Edge Node you want to add to your Dashboard:",
-    "Add Your Edge Node": "Add Your Edge Node",
+    "Please choose which type of ARO Node you want to add to your Dashboard:":
+      "Please choose which type of ARO Node you want to add to your Dashboard:",
+    "Add Your ARO Node": "Add Your ARO Node",
     "Pick Your ARO Node to Start": "Pick Your ARO Node to Start",
     "Welcome aboard, new Aronauts! ": "Welcome aboard, new Aronauts! ",
     "Explore ARO Network’s diverse nodes—hardware, software, and browser extensions—then choose the perfect ARO Node for you.":
       "Explore ARO Network’s diverse nodes—hardware, software, and browser extensions—then choose the perfect ARO Node for you.",
   },
   AAddNewNodes: {
-    title: "Please choose which type of Edge Node you want to add:",
+    title: "Please choose which type of ARO Node you want to add:",
     Hardware: "Hardware",
     Software: "Software",
     "See Guidance": "See Guidance",
@@ -59,14 +59,14 @@ export const AllText = {
         ],
       },
       step3: {
-        "Step 3: Configure your Edge Node": "Step 3: Configure your Edge Node",
-        "Set a name for your Edge Node": "Set a name for your Edge Node",
+        "Step 3: Configure your ARO Node": "Step 3: Configure your ARO Node",
+        "Set a name for your ARO Node": "Set a name for your ARO Node",
         "You can change the name anytime later.":
           "You can change the name anytime later.",
       },
       step4: {
         "Congratulations!": "Congratulations!",
-        content: "Your Edge Node (Device Type: xxx) was added successfully.",
+        content: "Your ARO Node (Device Type: xxx) was added successfully.",
       },
     },
     type2: {
@@ -115,11 +115,11 @@ export const AllText = {
     "Confirm Delete": "Confirm Delete",
     "Please confirm you want to delete this device. This action cannot be undone.":
       "Please confirm you want to delete this device. This action cannot be undone.",
-    "Are you sure you want to delete this Edge Node?":
-      "Are you sure you want to delete this Edge Node?",
+    "Are you sure you want to delete this ARO Node?":
+      "Are you sure you want to delete this ARO Node?",
     "Congratulations!": "Congratulations!",
-    "Your Edge Node (Device Type: xxx) was deleted successfully.":
-      "Your Edge Node (Device Type: xxx) was deleted successfully.",
+    "Your ARO Node (Device Type: xxx) was deleted successfully.":
+      "Your ARO Node (Device Type: xxx) was deleted successfully.",
   },
   stats: {
     "My Nodes": {
@@ -159,12 +159,12 @@ export const AllText = {
     "My Referral Code": "My Referral Code",
     "Copy Referral Link": "Copy Referral Link",
     "Referral Bonus": "Referral Bonus",
-    referralBonusTips: `As a referrer, you earn a commission on your referee's Edge Node rewards.`,
+    referralBonusTips: `As a referrer, you earn a commission on your referee's ARO Node rewards.`,
     whitelistedTips:
       "You’re eligible for an additional second-tier commission.",
     isInvitedTips: "View your first-tier and second-tier referee counts.",
     "How Referral Program Works?": "How Referral Program Works?",
-    subTitle: `Referrers earn a 15% commission on their referees' Edge Node rewards. Contact us to get whitelisted for an additional second-tier commission.`,
+    subTitle: `Referrers earn a 15% commission on their referees' ARO Node rewards. Contact us to get whitelisted for an additional second-tier commission.`,
   },
   aroId: {
     evmAddressTips: "This function is not available in Previewnet.",
@@ -225,6 +225,6 @@ export const AllText = {
     "Redeem Bonus for ordering ARO Pod": "Redeem Bonus for ordering ARO Pod",
   },
   "Access Your Device’s Web Console": "Access Your Device’s Web Console",
-  "To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect.":
-    "To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect.",
+  "To access the Web Console for your ARO Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect.":
+    "To access the Web Console for your ARO Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect.",
 };

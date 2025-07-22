@@ -393,7 +393,7 @@ const ANodes = () => {
       <ForceModal isOpen={!!openLink} className="!w-[650px] smd:!w-full smd:!mx-5">
         <div className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-lg text-center  text-white">  {AllText["Access Your Device’s Web Console"]}</div>
         <div className="text-[#FFFFFF80] text-center">
-          {AllText["To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect."]}
+          {AllText["To access the Web Console for your ARO Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect."]}
         </div>
         <div className="flex w-full gap-[.625rem] smd:gap-5 ">
           <Btn className="w-full smd:h-12" onPress={() => {

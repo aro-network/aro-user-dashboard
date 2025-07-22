@@ -282,9 +282,9 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
         <div className="md:flex md:w-full justify-center flex-col md:items-center">
           <div className="w-[37.5rem] smd:w-full  ">
             <div className="flex w-full font-normal  smd:justify-start text-lg smd:text-base leading-5 justify-center font-Alexandria">
-              {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
+              {AllText.AAddNewNodes.type.step3["Step 3: Configure your ARO Node"]}
             </div>
-            <div className="text-xs w-full mt-5 font-Alexandria smd:text-sm">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
+            <div className="text-xs w-full mt-5 font-Alexandria smd:text-sm">{AllText.AAddNewNodes.type.step3["Set a name for your ARO Node"]}</div>
             <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} classNames={{ 'inputWrapper': '!rounded-lg h-12' }} className="mt-[.3125rem]" />
             <label className="text-[#FFFFFF80] text-xs smd:text-sm mt-[.625rem]">{AllText.AAddNewNodes.type.step3["You can change the name anytime later."]}</label>
             <div className="text-xs smd:text-sm mt-[.9375rem] font-Alexandria ">Select Service Region</div>
@@ -302,7 +302,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
             </Select>
 
             {/* <div className="text-[#FF6A6C] text-xs font-normal mt-[10px]">
-              Please select the right region for your Edge Node. You can only delete the node and then rebind to change the service region.
+              Please select the right region for your ARO Node. You can only delete the node and then rebind to change the service region.
             </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[1.375rem] ">
@@ -424,10 +424,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
         <div className="flex w-full justify-center flex-col items-center">
           <div className="w-[37.5rem] smd:w-full">
             <div className="flex w-full font-normal text-lg smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
-              {AllText.AAddNewNodes.type.step3["Step 3: Configure your Edge Node"]}
+              {AllText.AAddNewNodes.type.step3["Step 3: Configure your ARO Node"]}
             </div>
 
-            <div className="text-xs mt-5 ">{AllText.AAddNewNodes.type.step3["Set a name for your Edge Node"]}</div>
+            <div className="text-xs mt-5 ">{AllText.AAddNewNodes.type.step3["Set a name for your ARO Node"]}</div>
             <Input maxLength={30} placeholder="Device Name" value={bindInfo.deviceName} onChange={(e) => { setBindInfo({ ...bindInfo, deviceName: e.target.value.replace(/[\u4e00-\u9fa5]/g, '') }) }} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg h-12' }} />
             <label className="text-[#FFFFFF80] text-xs mt-[.625rem]">{AllText.AAddNewNodes.type.step3["You can change the name anytime later."]}</label>
             <div className="text-xs mt-[.9375rem]">Select Service Region</div>
@@ -445,7 +445,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
             </Select>
 
             {/* <div className="text-[#FF6A6C] text-xs font-normal mt-[10px]">
-              Please select the right region for your Edge Node. You can only delete the node and then rebind to change the service region.
+              Please select the right region for your ARO Node. You can only delete the node and then rebind to change the service region.
             </div> */}
 
             <div className="flex justify-center items-center flex-col  gap-[.625rem] mt-[.75rem] ">
@@ -778,7 +778,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
         tit="Add this device"
         msg={
           <>
-            Please make sure you have selected the right region. You'll need to delete and re-bind your Edge Node if you want to change region.
+            Please make sure you have selected the right region. You'll need to delete and re-bind your ARO Node if you want to change region.
           </>
         }
         isOpen={isConfirmInfo.open}

@@ -114,7 +114,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
             Congratulations!
           </div>
           <div className="text-center text-sm ">
-            Your Edge Node (Device Type:  <span className=" capitalize">{covertText(delDetail?.nodeType as "box" | "x86" | "Box")})</span> was deleted successfully.
+            Your ARO Node (Device Type:  <span className=" capitalize">{covertText(delDetail?.nodeType as "box" | "x86" | "Box")})</span> was deleted successfully.
           </div>
 
           <div className="flex justify-center items-center flex-col  gap-[.625rem] ">
@@ -139,7 +139,7 @@ const AUnbind: FC<{ nodeId: string, onBack: () => void }> = ({ nodeId, onBack })
       tit="Delete this device"
       msg={
         <>
-          {AllText.deviceInfo["Are you sure you want to delete this Edge Node?"]}
+          {AllText.deviceInfo["Are you sure you want to delete this ARO Node?"]}
         </>
       }
       className="smd:mx-5"

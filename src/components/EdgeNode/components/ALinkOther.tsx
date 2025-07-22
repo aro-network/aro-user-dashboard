@@ -24,7 +24,7 @@ const ALinkOther = () => {
       {AllText["Access Your Device’s Web Console"]}
     </div>
     <div className="text-[#FFFFFF80] text-center mt-5">
-      {AllText["To access the Web Console for your Edge Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect."]}
+      {AllText["To access the Web Console for your ARO Node device, your computer or phone must be connected to the same Wi-Fi network as the device. If you’re not on the same network, you may not be able to connect."]}
     </div>
     <div className="w-full flex justify-between gap-[10px] mt-5">
       <Btn className="w-full   bg-default border !border-white text-white hover:bg-l1 " onPress={onCancel}>

@@ -19,7 +19,7 @@ const ALeaderboard = () => {
         empty="No Data"
         head={[
           "#",
-          "Edge Node ID",
+          "ARO Node ID",
           "Node Type",
           'Region',
           'Rewards Today'
