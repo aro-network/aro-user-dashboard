@@ -688,7 +688,14 @@ Share your idle internet and earn rewards effortlessly.
                 <div className="flex flex-col gap-2 font-medium text-white  smd:w-full">
                   <div className="text-sm">Get referred</div>
                   <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jade</div>
-                  <div className="text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full bg-[#02B421] cursor-pointer" onClick={() => r.push(`/?mode=${currentENVName}&tab=aroId`)}>Add My Referrer</div>
+                  {/* <div className="text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full bg-[#02B421] cursor-pointer" onClick={() => r.push(`/?mode=${currentENVName}&tab=aroId`)}>Add My Referrer</div> */}
+                  <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full ${user?.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421] cursor-pointer'}  `}
+                    onClick={() => user?.invited ? undefined : r.push(`/?mode=${currentENVName}&tab=aroId`)}>
+                    {user?.invited ? <div className="text-[#00E42A] flex items-center gap-2 justify-center">
+                      Referrered
+                      <FiCheck className="text-[#00E42A]" />
+                    </div> : 'Add My Referrer'}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2 smd:gap-6 font-medium text-white justify-between ">
                   <div className="text-sm">Refer friends</div>
