@@ -104,6 +104,9 @@ dependencies:
   react-toastify:
     specifier: ^11.0.5
     version: 11.0.5(react-dom@18.3.1)(react@18.3.1)
+  react-turnstile:
+    specifier: ^1.1.4
+    version: 1.1.4(react-dom@18.3.1)(react@18.3.1)
   react-use:
     specifier: ^17.5.1
     version: 17.6.0(react-dom@18.3.1)(react@18.3.1)
@@ -11947,6 +11950,16 @@ packages:
       react-dom: ^18 || ^19
     dependencies:
       clsx: 2.1.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /react-turnstile@1.1.4(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-oluyRWADdsufCt5eMqacW4gfw8/csr6Tk+fmuaMx0PWMKP1SX1iCviLvD2D5w92eAzIYDHi/krUWGHhlfzxTpQ==}
+    peerDependencies:
+      react: '>= 16.13.1'
+      react-dom: '>= 16.13.1'
+    dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     dev: false

@@ -23,7 +23,7 @@ import { ENV } from "@/lib/env";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { SVGS } from "@/svg";
 import { Devnet } from "@/components/ADashboard";
-
+import Turnstile from 'react-turnstile'
 export default function Page() {
   const sq = useSearchParams();
   const ac = useAuthContext();
@@ -175,6 +175,10 @@ export default function Page() {
                   </MLink>
                   .
                 </div>
+                <Turnstile
+                  sitekey="0x4AAAAAABmAVimgQa2LKEp0"
+                  onVerify={(token) => console.log('tokendadas', token)}
+                />
                 <Btn onPress={() => {
 
                   if (referalCode) {
