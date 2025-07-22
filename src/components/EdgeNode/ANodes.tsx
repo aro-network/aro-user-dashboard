@@ -304,8 +304,9 @@ const ANodes = () => {
                       key={`nodes_${index}`}
                       className="bg-[#6D6D6D66]  commonTab  hover:bg-[#6D6D6DCC] rounded-xl  flex  gap-10 smd:gap-[30px] p-5 smd:flex-wrap">
                       <div className="flex flex-col  justify-between smd:justify-start smd:w-full ">
-                        <div className="md:w-[218px] smd:!w-full  h-[130px]">
-                          <img src={`../${item.icon}`} alt={item.name} className=" w-full h-full object-contain smd:py-5  bg-[#FFFFFF26] rounded-lg" />
+
+                        <div className="md:w-[218px] smd:!w-full  h-[130px] smd:h-[170px]  bg-[#FFFFFF26] rounded-lg flex justify-center items-center">
+                          <img src={`../${item.icon}`} alt={item.name} width={133} height={85} className=" object-cover  " />
                         </div>
                         <div className="smd:mt-4">
                           <Btn

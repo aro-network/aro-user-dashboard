@@ -210,8 +210,9 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
 
 
     const yData = datas.map((item: { total: number }) =>
-      (item.total / 3600)
+      Number((item.total / 3600).toFixed(2))
     );
+
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
     const startValue = Math.max(0, endValue - showCount);
@@ -265,7 +266,13 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
       xAxis: {
         type: "category",
         data: xData,
-        axisLabel: { fontSize: 10, color: "rgba(255,255,255,0.5)", interval: 0, },
+
+        // axisLabel: {
+        //   color: "rgba(255,255,255,0.5)",
+        //   formatter: (value: number) => (value.toFixed(2))
+
+        // },
+        // axisLabel: { fontSize: 10, color: "rgba(255,255,255,0.5)", interval: 0, },
       },
       yAxis: {
         type: "value",
@@ -305,7 +312,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
 
           label: {
             show: true,
-            formatter: (d: any) => (d.value.toFixed(2)),
+            formatter: (d: any) => (d.value),
             position: "top",
             color: "rgba(255,255,255,0.5)",
           },
