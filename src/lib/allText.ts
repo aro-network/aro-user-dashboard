@@ -134,7 +134,7 @@ export const AllText = {
     },
     Trending: "Trending",
     rewardsAllNodesTips:
-      "Running nodes in Previewnet yields simulation rewards, referred as PreviewJade",
+      "Running nodes in Previewnet yields simulation rewards, referred as Preview Jade.",
     inviteTips:
       "You enjoy a 20% extra boost on node rewards for the first 14 days after being referred to ARO.",
   },

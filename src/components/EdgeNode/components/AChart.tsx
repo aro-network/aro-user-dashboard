@@ -6,10 +6,14 @@ import dayjs from "dayjs";
 const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { groupedData: any[], filed?: string, color: string, name: string, width: number }) => {
 
   const data = groupedData
-  const xData = data.map((item: { hour: string }) =>
-    dayjs(item.hour).format('MM-DD HH:00')
 
-  );
+  const xData = data.map((item: { hour: string }) => {
+    const parsed = dayjs(item.hour, "YYYY-MM-DD HH:mm", true);
+    return parsed.format("MMM D HH:mm")
+  });
+
+
+
   const yData = data.map((item) => item[filed]
   );
   const showCount = Math.floor(width / 60);

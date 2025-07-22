@@ -79,9 +79,12 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
     if (chooseType !== 'lite_node') return {};
     const datas = detailInfo.getExtensionNetworkQuality || [];
 
-    const xData = datas.map((item: { date: string }) =>
-      dayjs(item.date).format("MMM") + dayjs(item.date).format("D")
-    );
+    const xData = datas.map((item: { date: string }) => {
+      const fixedDate = item.date.replace(/\//g, "-");
+      const parsed = dayjs(fixedDate, ["YYYY-MM-DD", "YYYY-MM-DDTHH:mm:ssZ", "MM-DD-YYYY"], true);
+      return parsed.format("MMM") + parsed.format("D")
+    });
+
 
 
     const yData = datas.map((item: { total: number }) =>
@@ -198,13 +201,16 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
     if (chooseType !== 'lite_node') return {};
     const datas = detailInfo.getExtensionUptime || [];
 
-    const xData = datas.map((item: { date: string }) =>
-      dayjs(item.date).format("MMM") + dayjs(item.date).format("D")
-    );
+    const xData = datas.map((item: { date: string }) => {
+      const fixedDate = item.date.replace(/\//g, "-");
+      const parsed = dayjs(fixedDate, ["YYYY-MM-DD", "YYYY-MM-DDTHH:mm:ssZ", "MM-DD-YYYY"], true);
+      return parsed.format("MMM") + parsed.format("D")
+    });
+
 
 
     const yData = datas.map((item: { total: number }) =>
-      _.toNumber(item.total)
+      item.total / 3600
     );
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
@@ -230,14 +236,16 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
             </div>`;
         },
       },
+
       grid: {
         left: 40,
         right: 0,
-        top: 10,
+        top: 30,
         bottom: 50,
-        show: false
+        show: false,
 
       },
+
       // toolbox: { show: false },
       dataZoom: [
         {
@@ -262,6 +270,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
         type: "value",
         boundaryGap: [0, "10%"],
         // max: (value: number) => value * 1.2,
+        name: 'Uptime(H)',
 
         axisLabel: {
           color: "rgba(255,255,255,0.5)",
@@ -277,6 +286,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
           lineStyle: { type: "dashed", color: "#fff", opacity: 0.05 },
         },
       },
+
       series: [
         {
           data: yData,

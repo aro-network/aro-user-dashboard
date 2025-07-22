@@ -229,7 +229,6 @@ const ANodeInfo: FC<{
 
     );
 
-
     const yData = datas.map((item: { total: number }) =>
       _.toNumber(item.total)
     );
