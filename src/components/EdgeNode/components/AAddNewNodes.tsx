@@ -748,7 +748,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                   <div className="text-xl flex gap-2 items-center">
                     <span>{item.name}</span>
                     {item.isComming ? <div className="bg-[#02b421] text-[8px] flex items-center p-1 rounded-full h-3">
-                      Comming Soon ...
+                      Coming Soon ...
                     </div>
                       : ''}
                   </div>
