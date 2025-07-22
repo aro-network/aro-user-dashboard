@@ -31,6 +31,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
   const formatTime = (timestamp: number | undefined) =>
     dayjs(Number(timestamp || 0) * 1000).format("YYYY-MM-DD HH:mm:ss");
 
+  const covertMaxNum = upTime.map((item) => { return { ...item, total: item.total >= 60 ? 60 : item.total } })
 
 
   const chartList = [
@@ -39,7 +40,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
       rightTit: <>{formatTime(detailInfo.upTime?.lastUpdateTimestamp)} Updated</>,
       chart: (
         <div className="!w-full" style={{ height: '9rem' }} ref={ref}>
-          <AChart groupedData={upTime} color="#FDB600" name="Uptime(H)" width={width} />
+          <AChart groupedData={covertMaxNum} color="#FDB600" name="Uptime(H)" width={width} max60={true} />
         </div>
       )
     },

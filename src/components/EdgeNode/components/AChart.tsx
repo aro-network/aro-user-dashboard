@@ -3,7 +3,7 @@ import EChartsReact from "echarts-for-react";
 import _ from "lodash";
 import dayjs from "dayjs";
 
-const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { groupedData: any[], filed?: string, color: string, name: string, width: number }) => {
+const AChart = ({ groupedData = [], color, name, width, filed = 'total', max60 = false }: { groupedData: any[], max60?: boolean, filed?: string, color: string, name: string, width: number }) => {
 
   const data = groupedData
 
@@ -28,10 +28,8 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
       legend: {
         textStyle: { color: '#FFFFFF' }
       },
-
       tooltip: {
         trigger: "axis",
-
         formatter: (params: any,) => {
           return `<div>${params[0].marker.replace(
             "background-color:rgba(0,0,0,0)",
@@ -40,8 +38,6 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
             "flex-direction: column-reverse "
 
           )}
-          
-          
           ${params[0].data}
           <div>
            ${dayjs(params[0].axisValue).format("MMM") + dayjs(params[0].axisValue).format("D")} ( UTC0 Time )
@@ -51,9 +47,7 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
         },
         confine: true,
       },
-      // dataset: {
-      //   source: datasetSource
-      // },
+
       xAxis: {
         type: 'category',
         data: xData,
@@ -68,7 +62,7 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
         axisLine: { lineStyle: { color: '#FFFFFF0D' } }
       },
       yAxis: {
-
+        max: max60 ? 60 : undefined,
         type: "value",
         name,
         boundaryGap: [0, "20%"],
@@ -121,15 +115,6 @@ const AChart = ({ groupedData = [], color, name, width, filed = 'total' }: { gro
           barWidth: 30,
           barMinWidth: 30,
           barCategoryGap: 30,
-          // areaStyle: {}
-
-
-          // label: {
-          //   show: true,
-          //   formatter: (d: any) => (d.value),
-          //   position: "top",
-          //   color: "rgba(255,255,255,0.5)",
-          // },
         },
       ],
     }
