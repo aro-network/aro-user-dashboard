@@ -210,7 +210,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
 
 
     const yData = datas.map((item: { total: number }) =>
-      item.total / 3600
+      (item.total / 3600)
     );
     const showCount = Math.floor(width / 60);
     const endValue = xData.length - 1;
@@ -228,7 +228,8 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
             "background-color:rgba(0,0,0,0)",
             "background-color:#00E42A"
           )}
-            ${formatNumber(params[0].data)}
+            ${params[0].data.toFixed(2)}
+            
             <div>
             ${params[0].axisValue} ( UTC0 Time )
             </div>
@@ -304,7 +305,7 @@ const AStats: FC<{ detailInfo: any }> = ({ detailInfo = [] }) => {
 
           label: {
             show: true,
-            formatter: (d: any) => formatNumber(d.value),
+            formatter: (d: any) => (d.value.toFixed(2)),
             position: "top",
             color: "rgba(255,255,255,0.5)",
           },

@@ -675,7 +675,7 @@ const ANodeInfo: FC<{
                 <InfoRow label="IP Location" value="-" />
                 <InfoRow show={chooseType !== 'lite_node'} label="Local IP" value={newResult()?.[0]?.ip || "-"} />
                 <InfoRow show={chooseType !== 'lite_node'} label="MAC Address" value={newResult()?.[0]?.mac} />
-                <InfoRow show={chooseType === 'lite_node'} label="Total Uptime" value={formatNumber(detailInfo?.detail.totalUptime || 0)} />
+                <InfoRow show={chooseType === 'lite_node'} label="Total Uptime" value={detailInfo?.detail.totalUptime ? (detailInfo?.detail.totalUptime / 36000).toFixed(2) : 0} />
                 <InfoRow show={chooseType === 'lite_node'} label="Last Day Uptime" value={formatNumber(detailInfo?.detail.lastDayUptime || 0)} />
                 <InfoRow show={chooseType === 'lite_node'} label="Total Network Quality" value={formatNumber(detailInfo?.detail.totalNetworkQuality || 0)} />
                 <InfoRow show={chooseType === 'lite_node'} label="Last Day Network Quality" value={formatNumber(detailInfo?.detail.lastDayNetworkQuality || 0)} />
