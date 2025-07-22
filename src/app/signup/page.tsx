@@ -175,10 +175,7 @@ export default function Page() {
                   </MLink>
                   .
                 </div>
-                <Turnstile
-                  sitekey="0x4AAAAAABmAVimgQa2LKEp0"
-                  onVerify={(token) => console.log('tokendadas', token)}
-                />
+
                 <Btn onPress={() => {
 
                   if (referalCode) {

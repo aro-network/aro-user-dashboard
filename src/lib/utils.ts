@@ -481,7 +481,7 @@ export const addNewNodeList = [
       `• A software image for your server or PC.`,
       `• Perfect for pro users with strong internet.`,
     ],
-    cost: "You device",
+    cost: "Your device",
     Rewards: "Flexible",
     "User-friendly": "⭐️",
     docs: " https://docs.aro.network/user-guides/software-setup",
