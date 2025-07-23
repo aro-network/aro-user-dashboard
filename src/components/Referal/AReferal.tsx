@@ -199,7 +199,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
 
 
 
-  return <ItemCard disableAnim className="py-[60px] flex items-center smd:gap-[1.875rem] w-full justify-around gap-4 flex-wrap smd:flex-col smd:p-5 smd:items-start">
+  return <ItemCard disableAnim className="py-[60px] xs:py-[80px] flex items-center smd:gap-[1.875rem] w-full justify-around gap-4 flex-wrap smd:flex-col smd:p-5 smd:items-start bg-fuchsia-600">
     <div className="flex gap-[3.125rem] smd:gap-10 h-full smd:h-auto">
       <SVGS.SvgJadeRewards className="text-[97px]" />
       <DupleInfo
@@ -631,20 +631,18 @@ Share your idle internet and earn rewards effortlessly.
                     <div className="flex flex-col gap-2 smd:gap-6 font-medium text-white justify-between ">
                       <div className="text-sm">Refer friends</div>
                       <div className="text-xs ">
-                        <div className="flex items-center justify-between  smd:items-start smd:flex-col ">
+                        <div className="flex items-center  smd:items-start smd:flex-col ">
                           <div className=" smd:w-full">My Tier 1 Referral:</div>
-                          <div className="flex  ">
+                          <div className="flex   text-wrap ">
                             {"\u00A0"}{renderReferred(`${data.referralTier1.count ?? 0}`, 'friends referred')},{"\u00A0"}
                             {renderReferred(data.referralTier1.jadeRewards ?? 0, ' Jades &')}{"\u00A0"}
                             {renderReferred(data.referralTier1.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
                           </div>
                         </div>
-                        <div className="flex items-center justify-between  smd:items-start smd:flex-col smd:mt-4 mt-2 ">
-
+                        <div className="flex items-center   smd:items-start smd:flex-col smd:mt-4 mt-2 ">
                           <div className="smd:w-full">My Tier 2 Referral:</div>
-                          <div className="flex text-wrap ">
-
-                            {renderReferred(`${data.referralTier2.count ?? 0}`, 'friends referred')},{"\u00A0"}
+                          <div className="flex text-wrap  ">
+                            {"\u00A0"}{renderReferred(`${data.referralTier2.count ?? 0}`, 'friends referred')},{"\u00A0"}
                             {renderReferred(data.referralTier2.jadeRewards ?? 0, 'Jades &')}{"\u00A0"}
                             {renderReferred(data.referralTier2.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
                           </div>
