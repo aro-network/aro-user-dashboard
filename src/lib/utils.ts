@@ -455,6 +455,8 @@ export const addNewNodeList = [
     docs: "https://docs.aro.network/user-guides/device-setup",
     url: "https://order.aro.network/product/aro-pod-node/",
     goToText: "Order ARO Pod",
+    isComming: false,
+    isDisable: true,
   },
   {
     icon: "aro-link.png",

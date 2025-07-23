@@ -452,7 +452,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
     </div>
 
     {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[60px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Order Now', finish: data.aroNode.pod, onAction: () => window.open('https://order.aro.network/product/aro-pod') }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Coming Soon...', finish: data.aroNode.pod, onAction: () => () => { } }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`) }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=lite`) }} />
@@ -590,7 +590,7 @@ Share your idle internet and earn rewards effortlessly.
           icon={SVGS.SvgReferral}
           iconSize={20}
           contentClassname="smd:!basis-full md:h-min"
-          titClassName={'md:!items-baseline md:!h-full md:!w-full  smd:pt-2.5 '}
+          titClassName={'md:!items-baseline md:!h-full md:!w-full   '}
           leftTopIconClassName="!top-[-7px]"
           tit={
             <Fragment>
@@ -657,7 +657,7 @@ Share your idle internet and earn rewards effortlessly.
 
               </div>
 
-              <div className="flex flex-col gap-5 smd:gap-7 justify-between h-full  md:hidden">
+              <div className="flex flex-col gap-5 smd:gap-7 justify-between h-full  md:hidden smd:pt-2.5">
                 <div className="text-xl leading-10  smd:text-base">
                   My Referral Code
                 </div>
@@ -741,7 +741,7 @@ Share your idle internet and earn rewards effortlessly.
         icon={() => <IoAlertCircle />}
         iconSize={28}
         leftTopIconClassName="!top-[-5px]"
-        titClassName="smd:justify-between pt-2.5 pl-[5px]"
+        titClassName="smd:justify-between  pl-[5px]"
         tit={
           isMobile ? <div className=" md:hidden flex justify-between">
             <button onClick={() => toggleShowWorks(false)} className="" >
