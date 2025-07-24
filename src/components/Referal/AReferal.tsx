@@ -3,7 +3,7 @@ import { useCopy } from "@/hooks/useCopy";
 import { handlerErrForBind } from "@/hooks/useShowParamsError";
 import backendApi, { BASE_API } from "@/lib/api";
 import { retry } from "@/lib/async";
-import { covertNum, envText, formatNumber, handlerError } from "@/lib/utils";
+import { envText, formatNumber } from "@/lib/utils";
 import { postX } from "@/lib/x";
 import { SVGS } from "@/svg";
 import { UserCampaignsRewards } from "@/types/user";
@@ -12,12 +12,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { telegramAuth } from "@use-telegram-auth/hook";
 import Aos from 'aos';
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import { FaLink, FaXTwitter } from "react-icons/fa6";
 import { FiCheck, FiArrowUpRight } from "react-icons/fi";
-import { IoIosArrowDown } from "react-icons/io";
 import { IoAlertCircle } from "react-icons/io5";
 import { IconType } from "react-icons/lib";
 import { useToggle } from "react-use";
@@ -27,13 +26,12 @@ import { Btn, IconBtn } from "../btns";
 import { IconCard } from "../cards";
 import { ForceModal } from "../dialogs";
 import { DupleInfo, DupleSplit } from "../EdgeNode/AOverview";
-import { fmtBerry } from "../fmtData";
-import { InputRedeemCode } from "../inputs";
-import { HelpTip } from "../tips";
-import Link from "next/link";
 import { TbClipboardText } from "react-icons/tb";
+
+import { HelpTip } from "../tips";
 import ArrowIcon from "./Components/ArrowIcon";
 import useMobileDetect from "@/hooks/useMobileDetect";
+import { InputSplitCode } from "../inputs";
 
 
 const DEF_ANIMITEM = false
@@ -118,42 +116,67 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
 }
 
 function AddJade({ add = 1, jade = 'Jade' }: { add?: number, jade?: string }) {
-  return <div className="flex text-xs smd:text-sm gap-1">
-    <span className="text-primary">+{add}</span>
+  return <div className="flex text-xs smd:text-sm gap-1 flex-col pt-[5px] smd:pt-0">
+    <span className="text-primary text-[26px] font-semibold">+{add}</span>
     <span>{jade}</span>
   </div>
 }
 type AroNodeItem = {
-  icon: ReactNode,
+  icon: string,
   tit: string,
+  description: string[]
+  cost: string
+  Rewards: string
+  "User-friendly": string
+  docs: string
+  goToText: string
+  isComming?: boolean,
+  isDisable?: boolean,
   add: number,
   action: string,
   finish: boolean,
   foreach?: boolean,
   onAction?: () => void
+
 }
-function GetARONodeItem({ data }: { data: AroNodeItem }) {
+function GetARONodeItem(data: AroNodeItem) {
   // box-shadow: 0px 1px 4px 0px #00000033;
   // backdrop-filter: blur(10px)
 
   const disabled = (data.finish && !data.foreach) || data.action === 'Coming Soon...'
   return <div className="relative task-tab  shadow bg-white/5 smd:flex-col p-5 gap-5 items-center rounded-xl overflow-hidden flex">
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
-    <div className="flex gap-5">
-      {data.icon}
+    <div className="flex gap-[30px] smd:flex-col smd:w-full smd:my-5">
+      <div className="flex flex-col justify-between smd:gap-5 ">
+        <div className="rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-3 pl-[11px] smd:gap-2.5  smd:flex justify-between smd:items-center">
+          <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
+          <Image src={data.icon} width={144} height={85} alt={data.tit} classNames={{ 'wrapper': 'float-right smd:float-none mx-auto' }} />
+        </div>
+        <Btn className={cn("ml-auto w-full smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
+      </div>
+
       <div className="flex flex-col gap-2">
-        <div className="text-sm smd:text-base  font-semibold">{data.tit}</div>
-        <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
+        <div
+          className="rounded-xl  flex  gap-10 smd:gap-[30px]  smd:flex-wrap">
+          <div className="text-left flex flex-col justify-between smd:justify-start ">
+            <div className="text-sm smd:text-base  font-semibold">{data.tit}</div>
+            <div className="mt-[10px] h-[80px] flex flex-col justify-center">
+              {data?.description.map((item) => {
+                return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
+              })}
+            </div>
+            <div className="text-sm">Cost: {data?.cost}</div>
+            <div className="text-sm">Rewards: {data?.Rewards}</div>
+            <div className="text-sm">User-friendly: {data && data!["User-friendly"]}</div>
+            <div className=" mt-3 flex gap-5 text-xs ">
+              <button onClick={() => window.open(data.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">User Guide</button>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
-    <Btn className={cn("ml-auto w-[120px] smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
-  </div>
-}
-
-
-function VUser({ user = 'A', className }: { className?: string, user?: string }) {
-  return <div className={cn("w-[1em] h-[1em] text-[52px] border border-[#585858] bg-[#D3D3D3] rounded-full shrink-0 flex justify-center items-center text-black", className)}>
-    <div className="text-[.5em]">{user}</div>
   </div>
 }
 
@@ -191,7 +214,10 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
     },
     {
       type: 'order',
-      icon: './orderCode.svg', title: 'Redeem Bonus for ordering ARO Pod', text: `Ordered an ARO Pod? Enter your Order Number to claim your exclusive bonus!`, width: '64',
+      icon: './orderCode.svg',
+      title: 'Redeem Bonus for ordering ARO Pod',
+      text: `Ordered an ARO Pod? Enter your Order Number to claim your exclusive bonus!`,
+      width: '64',
       height: '47'
     },
   ]
@@ -206,7 +232,8 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
         className="h-full justify-between"
         tit={<Title text="My Jade Rewards" tip={
           <div>
-            Jade is your reward for tasks in<br /> Previewnet and Testnet. Keep earning!
+            Jade is your reward during Previewnet and Testnet.<br /> Earn Jade by completing tasks on this campaign page!
+
           </div>
         }
         />}
@@ -222,7 +249,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       className="justify-between h-full smd:h-auto smd:gap-5"
       tit={<Title text="Jade in Lock" tip={
         <div>
-          The locked Jade holds special rewards for<br /> the next phase—unlock it by mining in Testnet!
+          Specific tasks (running ARO Nodes or redeeming Gift Codes)<br /> grant “Jade in Lock”, holding higher rewards for Testnet. <br />Unlock them by mining in Testnet!"
         </div>
       }
       />}
@@ -402,12 +429,33 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
   }, [highlighted]);
 
 
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+  const exclusive = params.has('exclusive')
+  const [showPerks, setShowPerks] = useState(false)
+  const [code, setCode] = useState('')
+  const isDisble = exclusive && !highlighted && !data.offlineRewardClaimed
+
+
+  const onInputCode = async () => {
+
+    await backendApi.claimOfflineReward(code)
+    setShowPerks(false);
+    setCode('')
+    refetch()
+  }
+
+
   return <div className="h-full">
+
     <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
       <div className="flex justify-between w-full cursor-pointer  items-center" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
         <Title needIcon={true} text="Join ARO Community" />
         {!highlighted &&
-          <ArrowIcon isOpen={isOpen} />
+          <div className="flex items-center gap-5">
+            <Btn isDisabled={!isDisble} className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => setShowPerks(!showPerks)}>Perks</Btn>
+            <ArrowIcon isOpen={isOpen} />
+          </div>
         }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
@@ -431,6 +479,35 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
       </div>}
     </ItemCard>
 
+    {
+      <ForceModal isOpen={showPerks} className=" w-[440px]  smd:!mx-5">
+        <div className="flex justify-between w-full flex-col gap-5">
+          {/* <div className="flex justify-between w-full">
+            <button onClick={() => {
+              setShowPerks(false);
+              setCode('')
+            }}>
+              <img src="./close.png" />
+            </button>
+          </div> */}
+          <div className="flex flex-col gap-5 ">
+            <InputSplitCode onChange={setCode} value={code} length={4} validChars="0-9" />
+            <Btn isDisabled={code.length < 4} onPress={() => onInputCode()} className="w-full">Confirm</Btn>
+            <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
+              setShowPerks(false);
+              setCode('')
+            }} >
+              Cancel
+            </Btn>
+
+          </div>
+
+        </div>
+
+      </ForceModal>
+
+    }
+
   </div>
 }
 
@@ -443,21 +520,95 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
   }, [highlighted]);
 
 
+  const runNode = [
+    {
+      icon: "aro-pod.png",
+      tit: "Order an ARO Pod",
+      description: [
+        `• A plug-and-play device that runs 24/7 with low energy use.`,
+        `• Best for household runners.`,
+      ],
+      cost: "$",
+      Rewards: "⭐️⭐️⭐️",
+      "User-friendly": "⭐️⭐️⭐️",
+      docs: "https://docs.aro.network/user-guides/device-setup",
+      goToText: "Order ARO Pod",
+      isComming: false,
+      isDisable: true,
+      add: data.jadePoint.orderPod,
+      foreach: true,
+      action: 'Coming Soon...',
+      finish: data.aroNode.pod,
+      onAction: () => () => { }
+    },
+    {
+      icon: "aro-link.png",
+
+      tit: "ARO Link",
+      description: [
+        `• A Wi-Fi router with a built-in ARO node.`,
+        `• Ideal for business use.`,
+      ],
+      cost: "$$",
+      Rewards: "⭐️⭐️⭐️",
+      "User-friendly": "⭐️⭐️⭐️",
+      docs: "https://docs.aro.network/user-guides/device-setup",
+      // goToText: "Order ARO Link",
+      goToText: "Coming soon...",
+      isComming: true,
+      add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { }
+    },
+
+    {
+      icon: "aro-client.png",
+
+      tit: "Run an ARO Client",
+      description: [
+        `• A software image for your server or PC.`,
+        `• Perfect for pro users with strong internet.`,
+      ],
+      cost: "Your device",
+      Rewards: "Flexible",
+      "User-friendly": "⭐️",
+      docs: " https://docs.aro.network/user-guides/software-setup",
+      goToText: "Add an ARO Client",
+      add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`)
+    },
+    {
+      icon: "aro-lite.png",
+      tit: "Run an ARO Lite",
+      description: [
+        `• A lightweight browser extension.`,
+        `• Runs with zero cost and minimal effort.`,
+      ],
+      cost: "0",
+      Rewards: "⭐️",
+      "User-friendly": "⭐️⭐️⭐️",
+      docs: "https://docs.aro.network/user-guides/aro-lite/",
+      goToText: "Add an ARO Lite",
+      add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=lite`)
+    },
+  ];
+
+
   return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
     <div className="flex justify-between w-full cursor-pointer" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
-      <Title needIcon={true} text="Get ARO Nodes" />
+      <Title needIcon={true} text="Run an ARO Node" />
       {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
       }
     </div>
 
-    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[60px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Coming Soon...', finish: data.aroNode.pod, onAction: () => () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`) }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=lite`) }} />
+    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[20px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
+      {runNode.map((item, index) => {
+        return <Fragment key={`node_${index}`}>{GetARONodeItem(item)}</Fragment>
+      })}
     </div>
     }
+    <div className="px-[60px] smd:px-0  xs:px-10 ml-auto mb-[20px]">
+      <a className="text-[#FFFFFF80] underline underline-offset-1 text-sm" target="_blank" href='https://docs.aro.network/user-guides/run-node'> Which node type suits me best?</a>
+    </div>
+
   </ItemCard>
 }
 
@@ -876,11 +1027,13 @@ export default function AMyReferral() {
       key: ' Join ARO Community',
       completed: (data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg),
       render: (highlighted: boolean, isFirst?: boolean) => (
+
         <SocialsTasks data={data!} refetch={() => refetch()} highlighted={highlighted} isFirst={isFirst} />
+
       )
     },
     {
-      key: ' Get ARO Nodes',
+      key: ' Run an ARO Node',
       completed: (data?.aroNode.pod && data?.aroNode.link && data?.aroNode.client && data?.aroNode.liteNode),
       render: (highlighted: boolean, isFirst?: boolean) => (
         <GetNodes data={data!} highlighted={highlighted} isFirst={isFirst} />
@@ -909,6 +1062,9 @@ export default function AMyReferral() {
     ...otherUnfinished,
     ...completed,
   ];
+
+
+
 
 
   return (
