@@ -116,42 +116,67 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
 }
 
 function AddJade({ add = 1, jade = 'Jade' }: { add?: number, jade?: string }) {
-  return <div className="flex text-xs smd:text-sm gap-1">
-    <span className="text-primary">+{add}</span>
+  return <div className="flex text-xs smd:text-sm gap-1 flex-col pt-[5px] smd:pt-0">
+    <span className="text-primary text-[26px] font-semibold">+{add}</span>
     <span>{jade}</span>
   </div>
 }
 type AroNodeItem = {
-  icon: ReactNode,
+  icon: string,
   tit: string,
+  description: string[]
+  cost: string
+  Rewards: string
+  "User-friendly": string
+  docs: string
+  goToText: string
+  isComming?: boolean,
+  isDisable?: boolean,
   add: number,
   action: string,
   finish: boolean,
   foreach?: boolean,
   onAction?: () => void
+
 }
-function GetARONodeItem({ data }: { data: AroNodeItem }) {
+function GetARONodeItem(data: AroNodeItem) {
   // box-shadow: 0px 1px 4px 0px #00000033;
   // backdrop-filter: blur(10px)
 
   const disabled = (data.finish && !data.foreach) || data.action === 'Coming Soon...'
   return <div className="relative task-tab  shadow bg-white/5 smd:flex-col p-5 gap-5 items-center rounded-xl overflow-hidden flex">
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
-    <div className="flex gap-5">
-      {data.icon}
+    <div className="flex gap-[30px] smd:flex-col smd:w-full smd:my-5">
+      <div className="flex flex-col justify-between smd:gap-5 ">
+        <div className="rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-3 pl-[11px] smd:gap-2.5  smd:flex justify-between smd:items-center">
+          <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
+          <Image src={data.icon} width={144} height={85} alt={data.tit} classNames={{ 'wrapper': 'float-right smd:float-none mx-auto' }} />
+        </div>
+        <Btn className={cn("ml-auto w-full smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
+      </div>
+
       <div className="flex flex-col gap-2">
-        <div className="text-sm smd:text-base  font-semibold">{data.tit}</div>
-        <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
+        <div
+          className="rounded-xl  flex  gap-10 smd:gap-[30px]  smd:flex-wrap">
+          <div className="text-left flex flex-col justify-between smd:justify-start ">
+            <div className="text-sm smd:text-base  font-semibold">{data.tit}</div>
+            <div className="mt-[10px] h-[80px] flex flex-col justify-center">
+              {data?.description.map((item) => {
+                return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
+              })}
+            </div>
+            <div className="text-sm">Cost: {data?.cost}</div>
+            <div className="text-sm">Rewards: {data?.Rewards}</div>
+            <div className="text-sm">User-friendly: {data && data!["User-friendly"]}</div>
+            <div className=" mt-3 flex gap-5 text-xs ">
+              <button onClick={() => window.open(data.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">User Guide</button>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
-    <Btn className={cn("ml-auto w-[120px] smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
-  </div>
-}
-
-
-function VUser({ user = 'A', className }: { className?: string, user?: string }) {
-  return <div className={cn("w-[1em] h-[1em] text-[52px] border border-[#585858] bg-[#D3D3D3] rounded-full shrink-0 flex justify-center items-center text-black", className)}>
-    <div className="text-[.5em]">{user}</div>
   </div>
 }
 
@@ -494,6 +519,77 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
   }, [highlighted]);
 
 
+  const runNode = [
+    {
+      icon: "aro-pod.png",
+      tit: "Order an ARO Pod",
+      description: [
+        `• A plug-and-play device that runs 24/7 with low energy use.`,
+        `• Best for household runners.`,
+      ],
+      cost: "$",
+      Rewards: "⭐️⭐️⭐️",
+      "User-friendly": "⭐️⭐️⭐️",
+      docs: "https://docs.aro.network/user-guides/device-setup",
+      goToText: "Order ARO Pod",
+      isComming: false,
+      isDisable: true,
+      add: data.jadePoint.orderPod,
+      foreach: true,
+      action: 'Coming Soon...',
+      finish: data.aroNode.pod,
+      onAction: () => () => { }
+    },
+    {
+      icon: "aro-link.png",
+
+      tit: "ARO Link",
+      description: [
+        `• A Wi-Fi router with a built-in ARO node.`,
+        `• Ideal for business use.`,
+      ],
+      cost: "$$",
+      Rewards: "⭐️⭐️⭐️",
+      "User-friendly": "⭐️⭐️⭐️",
+      docs: "https://docs.aro.network/user-guides/device-setup",
+      // goToText: "Order ARO Link",
+      goToText: "Coming soon...",
+      isComming: true,
+      add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { }
+    },
+
+    {
+      icon: "aro-client.png",
+
+      tit: "Run an ARO Client",
+      description: [
+        `• A software image for your server or PC.`,
+        `• Perfect for pro users with strong internet.`,
+      ],
+      cost: "Your device",
+      Rewards: "Flexible",
+      "User-friendly": "⭐️",
+      docs: " https://docs.aro.network/user-guides/software-setup",
+      goToText: "Add an ARO Client",
+      add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`)
+    },
+    {
+      icon: "aro-lite.png",
+      tit: "Run an ARO Lite",
+      description: [
+        `• A lightweight browser extension.`,
+        `• Runs with zero cost and minimal effort.`,
+      ],
+      cost: "0",
+      Rewards: "⭐️",
+      "User-friendly": "⭐️⭐️⭐️",
+      docs: "https://docs.aro.network/user-guides/aro-lite/",
+      goToText: "Add an ARO Lite",
+      add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=lite`)
+    },
+  ];
+
+
   return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
     <div className="flex justify-between w-full cursor-pointer" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
       <Title needIcon={true} text="Run an ARO Node" />
@@ -503,10 +599,13 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
     </div>
 
     {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[60px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodePod />, tit: 'Order ARO Pod', add: data.jadePoint.orderPod, foreach: true, action: 'Coming Soon...', finish: data.aroNode.pod, onAction: () => () => { } }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
+      {runNode.map((item, index) => {
+        return <Fragment key={`node_${index}`}>{GetARONodeItem(item)}</Fragment>
+      })}
+
+      {/* <GetARONodeItem data={{ icon: <SVGS.SvgNodeLink />, tit: 'Order ARO Link', add: data.jadePoint.orderLink, foreach: true, action: 'Coming Soon...', finish: data.aroNode.link, onAction: () => { } }} />
       <GetARONodeItem data={{ icon: <SVGS.SvgNodeClient />, tit: 'Run ARO Client', add: data.jadePoint.x86, action: 'Add ARO Client', finish: data.aroNode.client, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=client`) }} />
-      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=lite`) }} />
+      <GetARONodeItem data={{ icon: <SVGS.SvgNodeLite />, tit: 'Run ARO Lite', add: data.jadePoint.liteNode, action: 'Add ARO Lite', finish: data.aroNode.liteNode, onAction: () => r.push(`?mode=${currentENVName}&tab=nodes&type=add&chooseType=lite`) }} /> */}
     </div>
     }
   </ItemCard>
