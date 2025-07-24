@@ -31,6 +31,7 @@ import { TbClipboardText } from "react-icons/tb";
 import { HelpTip } from "../tips";
 import ArrowIcon from "./Components/ArrowIcon";
 import useMobileDetect from "@/hooks/useMobileDetect";
+import { InputSplitCode } from "../inputs";
 
 
 const DEF_ANIMITEM = false
@@ -404,19 +405,13 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
-  const exclusive = params.has('Exclusive')
+  const exclusive = params.has('exclusive')
   const [showPerks, setShowPerks] = useState(false)
   const [code, setCode] = useState('')
   const isDisble = exclusive && !highlighted && !data.offlineRewardClaimed
 
 
   const onInputCode = async () => {
-    const validCodes = new Set([1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999])
-    const isIncludes = validCodes.has(Number(code))
-    if (!isIncludes) {
-      toast.error('code is incorrect')
-      return
-    }
 
     await backendApi.claimOfflineReward(code)
     setShowPerks(false);
@@ -436,7 +431,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         <Title needIcon={true} text="Join ARO Community" />
         {/* {!highlighted && */}
         <div className="flex items-center gap-5">
-          <Btn isDisabled={isDisble} className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => setShowPerks(!showPerks)}>Perks</Btn>
+          <Btn isDisabled={!isDisble} className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => setShowPerks(!showPerks)}>Perks</Btn>
           <ArrowIcon isOpen={isOpen} />
         </div>
         {/* } */}
@@ -463,7 +458,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     </ItemCard>
 
     {
-      <ForceModal isOpen={showPerks} className=" !max-w-[540px] !w-full smd:!mx-5">
+      <ForceModal isOpen={showPerks} className=" w-[440px]  smd:!mx-5">
         <div className="flex justify-between w-full flex-col gap-5">
           {/* <div className="flex justify-between w-full">
             <button onClick={() => {
@@ -473,14 +468,12 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
               <img src="./close.png" />
             </button>
           </div> */}
-          <div className="flex flex-col gap-5">
-            <Input value={code} maxLength={4}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg h-12 popTabBg' }} />
+          <div className="flex flex-col gap-5 ">
+            <InputSplitCode onChange={setCode} value={code} length={4} />
             <Btn isDisabled={code.length < 4} onPress={() => onInputCode()} className="w-full">Confirm</Btn>
             <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
               setShowPerks(false);
               setCode('')
-
             }} >
               Cancel
             </Btn>

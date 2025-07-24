@@ -95,9 +95,10 @@ export function InputVerifyCode({ setVerifyCode }: { setVerifyCode: (code: strin
   );
 }
 
-export function InputSplitCode({ onComplete, onChange, value }: { value?: string, onComplete?: (value: string) => void; onChange?: (value: string) => void }) {
+export function InputSplitCode({ onComplete, onChange, value, length = 6 }: { value?: string, length?: number, onComplete?: (value: string) => void; onChange?: (value: string) => void }) {
   return (
     <VerificationInput
+      length={length}
       placeholder=""
       onChange={onChange}
       onComplete={onComplete}
