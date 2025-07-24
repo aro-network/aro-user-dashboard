@@ -207,7 +207,7 @@ const ANodeInfo: FC<{
   const [ref, width] = useDebounceMeasureWidth<HTMLDivElement>();
 
   const result = useQuery({
-    queryKey: ["TrendingChart", chooseDate],
+    queryKey: ["TrendingChart", chooseDate, nId],
     refetchInterval: 60000,
     enabled: false,
     queryFn: async () => {

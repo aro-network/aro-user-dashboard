@@ -3,7 +3,7 @@ import { useCopy } from "@/hooks/useCopy";
 import { handlerErrForBind } from "@/hooks/useShowParamsError";
 import backendApi, { BASE_API } from "@/lib/api";
 import { retry } from "@/lib/async";
-import { covertNum, envText, formatNumber, handlerError } from "@/lib/utils";
+import { envText, formatNumber } from "@/lib/utils";
 import { postX } from "@/lib/x";
 import { SVGS } from "@/svg";
 import { UserCampaignsRewards } from "@/types/user";
@@ -12,12 +12,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { telegramAuth } from "@use-telegram-auth/hook";
 import Aos from 'aos';
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import { FaLink, FaXTwitter } from "react-icons/fa6";
 import { FiCheck, FiArrowUpRight } from "react-icons/fi";
-import { IoIosArrowDown } from "react-icons/io";
 import { IoAlertCircle } from "react-icons/io5";
 import { IconType } from "react-icons/lib";
 import { useToggle } from "react-use";
@@ -27,11 +26,9 @@ import { Btn, IconBtn } from "../btns";
 import { IconCard } from "../cards";
 import { ForceModal } from "../dialogs";
 import { DupleInfo, DupleSplit } from "../EdgeNode/AOverview";
-import { fmtBerry } from "../fmtData";
-import { InputRedeemCode } from "../inputs";
-import { HelpTip } from "../tips";
-import Link from "next/link";
 import { TbClipboardText } from "react-icons/tb";
+
+import { HelpTip } from "../tips";
 import ArrowIcon from "./Components/ArrowIcon";
 import useMobileDetect from "@/hooks/useMobileDetect";
 
@@ -191,7 +188,10 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
     },
     {
       type: 'order',
-      icon: './orderCode.svg', title: 'Redeem Bonus for ordering ARO Pod', text: `Ordered an ARO Pod? Enter your Order Number to claim your exclusive bonus!`, width: '64',
+      icon: './orderCode.svg',
+      title: 'Redeem Bonus for ordering ARO Pod',
+      text: `Ordered an ARO Pod? Enter your Order Number to claim your exclusive bonus!`,
+      width: '64',
       height: '47'
     },
   ]
@@ -402,13 +402,44 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
   }, [highlighted]);
 
 
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+  const exclusive = params.has('Exclusive')
+  const [showPerks, setShowPerks] = useState(false)
+  const [code, setCode] = useState('')
+  const isDisble = exclusive && !highlighted && !data.offlineRewardClaimed
+
+
+  const onInputCode = async () => {
+    const validCodes = new Set([1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999])
+    const isIncludes = validCodes.has(Number(code))
+    if (!isIncludes) {
+      toast.error('code is incorrect')
+      return
+    }
+
+    await backendApi.claimOfflineReward(code)
+    setShowPerks(false);
+    setCode('')
+    refetch()
+
+
+  }
+
+  console.log('paramsparamsparams', params.has('Exclusive'), highlighted, exclusive, isDisble)
+
+
   return <div className="h-full">
+
     <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
       <div className="flex justify-between w-full cursor-pointer  items-center" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
         <Title needIcon={true} text="Join ARO Community" />
-        {!highlighted &&
+        {/* {!highlighted && */}
+        <div className="flex items-center gap-5">
+          <Btn isDisabled={isDisble} className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => setShowPerks(!showPerks)}>Perks</Btn>
           <ArrowIcon isOpen={isOpen} />
-        }
+        </div>
+        {/* } */}
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
       {isOpen && <div className=" grid grid-cols-1 gap-[38px] xl:grid-cols-2  w-full  xs:px-10  smd:py-5 smd:gap-5  pt-[80px] pb-[60px] px-[60px] smd:px-0" >
@@ -430,6 +461,37 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         }} />
       </div>}
     </ItemCard>
+
+    {
+      <ForceModal isOpen={showPerks} className=" !max-w-[540px] !w-full smd:!mx-5">
+        <div className="flex justify-between w-full flex-col gap-5">
+          {/* <div className="flex justify-between w-full">
+            <button onClick={() => {
+              setShowPerks(false);
+              setCode('')
+            }}>
+              <img src="./close.png" />
+            </button>
+          </div> */}
+          <div className="flex flex-col gap-5">
+            <Input value={code} maxLength={4}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg h-12 popTabBg' }} />
+            <Btn isDisabled={code.length < 4} onPress={() => onInputCode()} className="w-full">Confirm</Btn>
+            <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
+              setShowPerks(false);
+              setCode('')
+
+            }} >
+              Cancel
+            </Btn>
+
+          </div>
+
+        </div>
+
+      </ForceModal>
+
+    }
 
   </div>
 }
@@ -876,7 +938,9 @@ export default function AMyReferral() {
       key: ' Join ARO Community',
       completed: (data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg),
       render: (highlighted: boolean, isFirst?: boolean) => (
+
         <SocialsTasks data={data!} refetch={() => refetch()} highlighted={highlighted} isFirst={isFirst} />
+
       )
     },
     {
@@ -909,6 +973,9 @@ export default function AMyReferral() {
     ...otherUnfinished,
     ...completed,
   ];
+
+
+
 
 
   return (

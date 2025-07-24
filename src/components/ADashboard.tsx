@@ -43,17 +43,19 @@ const Modes: Dashboard.ModesType[] = [
         content: <ANodes />,
         tab: 'nodes'
       },
-      {
-        name: "Mining Stats",
-        content: <AOverview />,
-        tab: 'stats'
-      },
+      // {
+      //   name: "Mining Stats",
+      //   content: <AOverview />,n
+      //   tab: 'stats'
+      // },
 
       // {
       //   name: "Claim",
       //   content: <AFunds />,
       //   tab: 'claim'
       // },
+
+
 
 
       {
@@ -151,6 +153,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
 
 
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
+
 
 
 
@@ -364,7 +367,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
                 {
                   "bg-[#373737] text-white ": selected,
                   "text-white/50 hover:bg-default": !selected,
-                  'ml-auto': m.name === 'ARO Account'
+                  // 'ml-auto': m.name === 'ARO Account'
                 }
               )}
               onClick={() => {

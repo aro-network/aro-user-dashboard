@@ -163,6 +163,7 @@ export interface UserCampaignsRewards {
   jadeRewards: string;
   lockedJadeRewards: string;
   referredRewards: string;
+  offlineRewardClaimed: boolean;
   bind: {
     x: boolean;
     followX: boolean;

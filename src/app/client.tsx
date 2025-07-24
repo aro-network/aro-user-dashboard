@@ -6,9 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useThemeState } from "@/components/theme-mode";
-import { IoIosCloseCircle } from "react-icons/io";
-import { CiWarning } from "react-icons/ci";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 const client = new QueryClient({
   defaultOptions: {
     queries: {
@@ -53,29 +51,6 @@ export function PageLayout({ children }: { children: ReactNode }) {
         style={{ top: '100px', right: '50px' }}
         toastClassName="smd:w-[200px]"
       />
-
-      {/* <Toaster
-        richColors
-        position="top-right"
-        offset={100}
-        theme="light"
-        style={
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          { '--width': '16.25rem' }
-        }
-        toastOptions={{
-          classNames: {
-            // error: '!bg-[#FFD4D7] flex !items-baseline  gap-[.9375rem]  !text-base  !font-AlbertSans ',
-            warning: '!bg-[#585858] !border-[#585858] !text-[#FFF] !gap-5 ',
-            // title: '!leading-[1.2] !font-normal',
-          }
-        }}
-        icons={{
-          error: <div><img src='./error.svg' className="text-[#FF3A3D] " /></div>,
-          warning: <CiWarning className="text-[#FFF]  " />
-        }}
-      /> */}
       <Providers>{children}</Providers>
     </>
   );

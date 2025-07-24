@@ -511,6 +511,15 @@ const backendApi = {
     await Api.post(`/campaigns/set/rewards`, { type: typeMap[type] });
     return true;
   },
+
+  // /api/campaigns/claimOfflineReward
+  claimOfflineReward: async (operatorNum?: string) => {
+    const response = await Api.post<RES<Nodes.NodeInfoList[]>>(
+      `campaigns/claimOfflineReward`,
+      { operatorNum }
+    );
+    return response.data.data;
+  },
 };
 
 export default backendApi;
