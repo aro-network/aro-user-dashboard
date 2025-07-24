@@ -379,7 +379,8 @@ export function groupPackageByHour(
 
   data.forEach((item) => {
     const loss = parseFloat(item.packageLostPercent);
-    if (loss === 0) return;
+
+    if (loss === -1) return;
 
     const hourKey = dayjs.unix(item.timestamp).format("YYYY-MM-DD HH:00:00");
 
