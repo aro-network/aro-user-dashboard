@@ -9,9 +9,9 @@ import { MLink } from "@/components/links";
 import { SignInWithGoogle } from "@/components/SignInWithGoogle";
 import { validateEmail } from "@/lib/validates";
 import { useMutation } from "@tanstack/react-query";
-import { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import { FormEvent, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useRedirect from "@/hooks/useRedirect";
 import { envText } from "@/lib/utils";
 import { ENV } from "@/lib/env";
@@ -28,21 +28,26 @@ export default function Page() {
   const ac = useContext(AuthContext);
   const params = useSearchParams();
   const referral = params.get("referral");
-  const isMobile = useMobileDetect()
+  const sq = useMemo(() => new URLSearchParams(params.toString()), [params]);
+  const r = useRouter();
+
+
+  const exclusive = sq.get("exclusive") || ""
+
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
       await ac.login({ email, password });
+
+      if (exclusive) {
+        sq.set('exclusive', '')
+        r.push(`?${sq.toString()}`);
+      }
     },
   });
   useRedirect()
-  const href = referral ? `/signup?referral=${referral}` : '/signup'
-
-  const openPage = () => {
-    window.open("https://aro.network/#target-section", "_blank");
-  };
-
+  const href = referral ? `/signup?referral=${referral}` : exclusive ? `/signup&exclusive` : '/signup'
 
 
 

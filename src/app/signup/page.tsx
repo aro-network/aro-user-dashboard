@@ -10,22 +10,19 @@ import { SignInWithGoogle } from "@/components/SignInWithGoogle";
 import backendApi from "@/lib/api";
 import { validateConfirmPassword, validateEmail, validatePassword, validateVerifyCode } from "@/lib/validates";
 import { SingUpResult } from "@/types/user";
-import { Checkbox, cn, Image, Spinner } from "@nextui-org/react";
+import { Checkbox, cn, Spinner } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useMemo, useRef, useState } from "react";
 import { useCounter, useInterval, useToggle } from "react-use";
 import { useAuthContext } from "../context/AuthContext";
 import { ForceModal } from "@/components/dialogs";
 import { envText } from "@/lib/utils";
-import { HelpTip } from "@/components/tips";
-import { ENV } from "@/lib/env";
 import useMobileDetect from "@/hooks/useMobileDetect";
-import { SVGS } from "@/svg";
-import { Devnet } from "@/components/ADashboard";
 import Turnstile from 'react-turnstile'
 export default function Page() {
   const sq = useSearchParams();
+
   const ac = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,6 +35,7 @@ export default function Page() {
   useInterval(() => actionResendScends.dec(1), 1000);
   const [showInputReferral, toggleShowInputReferral] = useToggle(false);
   const isMobile = useMobileDetect()
+  const params = useMemo(() => new URLSearchParams(sq.toString()), [sq]);
 
 
   const [verifyCode, setVerifyCode] = useState("");
@@ -52,6 +50,10 @@ export default function Page() {
         refRegisterUser.current = await backendApi.registerApi({ email, password, referralCode: referalCode ? referalCode.trim() : undefined });
         actionResendScends.reset(60);
         setShowToVerify(true);
+        const exclusive = sq.get("exclusive") || ""
+        if (exclusive) {
+          params.set('exclusive', '')
+        }
       } catch (e) {
         setReferalCode('')
       }
