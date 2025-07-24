@@ -86,8 +86,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       refIsLogout.current = false;
       setUser(u);
       setItem(storageKey, JSON.stringify(u));
-
-      r.push(redirect ? redirect : "/");
+      r.push(redirect ? redirect : `/?${params.toString()}`);
     }
   };
 

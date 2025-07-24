@@ -101,18 +101,18 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { open, close } = useAppKit()
   const copy = useCopy()
   const [showConfirmLogout, toggleShowConfirmLogout] = useToggle(false);
-  const { address, isConnected, } = useAppKitAccount()
   const username = user?.email?.split('@')[0] || ''
   const [refreshKey, setRefreshKey] = useState(0);
-  const queryClient = useQueryClient();
   const params = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
-
-  const isLink = params.get('type') === 'link'
 
 
   useEffect(() => {
     const modeFromURL = searchParams.get("mode");
     const tabFromURL = searchParams.get("tab");
+
+    // ?mode=testnet&tab=campaigns&exclusive
+
+
     if (modeFromURL && tabFromURL) {
       const mode = Modes.find((m) => m.name === modeFromURL);
       if (mode) {
@@ -123,7 +123,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         }
       }
     } else {
-
       updateURL(currentENVName, 'campaigns')
     }
   }, [searchParams]);
@@ -138,6 +137,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
     params.delete('type')
     params.delete('nId')
     params.delete('chooseType')
+    params.delete('nodeType')
+    params.delete('exclusive')
     setCurrentTab(tab);
     updateURL(selectedTab.name, tab.tab);
     if (tab.name === currentTab.name) {

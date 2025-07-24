@@ -13,13 +13,15 @@ import { SingUpResult } from "@/types/user";
 import { Checkbox, cn, Spinner } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MouseEvent, useMemo, useRef, useState } from "react";
+import { MouseEvent, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useCounter, useInterval, useToggle } from "react-use";
 import { useAuthContext } from "../context/AuthContext";
 import { ForceModal } from "@/components/dialogs";
-import { envText } from "@/lib/utils";
+import { envText, savePendingParams, savePendingParamsFrom } from "@/lib/utils";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import Turnstile from 'react-turnstile'
+import { usePreserveURLParams } from "@/hooks/usePreserveURLParams";
+import useRedirect from "@/hooks/useRedirect";
 export default function Page() {
   const sq = useSearchParams();
 
@@ -50,7 +52,7 @@ export default function Page() {
         refRegisterUser.current = await backendApi.registerApi({ email, password, referralCode: referalCode ? referalCode.trim() : undefined });
         actionResendScends.reset(60);
         setShowToVerify(true);
-        const exclusive = sq.get("exclusive") || ""
+        const exclusive = sq.has("exclusive") || ""
         if (exclusive) {
           params.set('exclusive', '')
         }

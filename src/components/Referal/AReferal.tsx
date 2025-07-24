@@ -417,11 +417,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     setShowPerks(false);
     setCode('')
     refetch()
-
-
   }
-
-  console.log('paramsparamsparams', params.has('Exclusive'), highlighted, exclusive, isDisble)
 
 
   return <div className="h-full">
@@ -429,12 +425,12 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     <ItemCard disableAnim className={cn("flex flex-col 0 smd:h-min smd:gap-10 ",)} active={highlighted}>
       <div className="flex justify-between w-full cursor-pointer  items-center" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
         <Title needIcon={true} text="Join ARO Community" />
-        {/* {!highlighted && */}
-        <div className="flex items-center gap-5">
-          <Btn isDisabled={!isDisble} className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => setShowPerks(!showPerks)}>Perks</Btn>
-          <ArrowIcon isOpen={isOpen} />
-        </div>
-        {/* } */}
+        {!highlighted &&
+          <div className="flex items-center gap-5">
+            <Btn isDisabled={!isDisble} className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => setShowPerks(!showPerks)}>Perks</Btn>
+            <ArrowIcon isOpen={isOpen} />
+          </div>
+        }
       </div>
       {/* <div className="flex justify-between  xs:px-10 xs:gap-10 smd:gap-[3.75rem] pt-[50px] pb-[60px] flex-wrap smd:flex-col px-[60px]"> */}
       {isOpen && <div className=" grid grid-cols-1 gap-[38px] xl:grid-cols-2  w-full  xs:px-10  smd:py-5 smd:gap-5  pt-[80px] pb-[60px] px-[60px] smd:px-0" >
@@ -469,7 +465,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
             </button>
           </div> */}
           <div className="flex flex-col gap-5 ">
-            <InputSplitCode onChange={setCode} value={code} length={4} />
+            <InputSplitCode onChange={setCode} value={code} length={4} validChars="0-9" />
             <Btn isDisabled={code.length < 4} onPress={() => onInputCode()} className="w-full">Confirm</Btn>
             <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
               setShowPerks(false);

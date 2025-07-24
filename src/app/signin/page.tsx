@@ -32,23 +32,20 @@ export default function Page() {
   const r = useRouter();
 
 
-  const exclusive = sq.get("exclusive") || ""
+  const exclusive = sq.has("exclusive") || ""
 
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
     mutationFn: async (e: FormEvent) => {
       e.preventDefault();
       await ac.login({ email, password });
-
-      if (exclusive) {
-        sq.set('exclusive', '')
-        r.push(`?${sq.toString()}`);
-      }
     },
   });
   useRedirect()
-  const href = referral ? `/signup?referral=${referral}` : exclusive ? `/signup&exclusive` : '/signup'
 
+
+
+  const href = referral ? `/signup?referral=${referral}` : exclusive ? `/signup?${params.toString()}` : '/signup'
 
 
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
