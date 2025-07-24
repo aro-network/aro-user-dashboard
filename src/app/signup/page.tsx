@@ -17,11 +17,8 @@ import { MouseEvent, useContext, useEffect, useMemo, useRef, useState } from "re
 import { useCounter, useInterval, useToggle } from "react-use";
 import { useAuthContext } from "../context/AuthContext";
 import { ForceModal } from "@/components/dialogs";
-import { envText, savePendingParams, savePendingParamsFrom } from "@/lib/utils";
+import { envText } from "@/lib/utils";
 import useMobileDetect from "@/hooks/useMobileDetect";
-import Turnstile from 'react-turnstile'
-import { usePreserveURLParams } from "@/hooks/usePreserveURLParams";
-import useRedirect from "@/hooks/useRedirect";
 export default function Page() {
   const sq = useSearchParams();
 

@@ -496,7 +496,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
 
   return <ItemCard disableAnim className={cn("flex flex-col order-1 smd:gap-10",)} active={highlighted}>
     <div className="flex justify-between w-full cursor-pointer" onClick={() => !highlighted ? setIsOpen(!isOpen) : undefined}>
-      <Title needIcon={true} text="Get ARO Nodes" />
+      <Title needIcon={true} text="Run an ARO Node" />
       {!highlighted &&
         <ArrowIcon isOpen={isOpen} />
       }
@@ -933,7 +933,7 @@ export default function AMyReferral() {
       )
     },
     {
-      key: ' Get ARO Nodes',
+      key: ' Run an ARO Node',
       completed: (data?.aroNode.pod && data?.aroNode.link && data?.aroNode.client && data?.aroNode.liteNode),
       render: (highlighted: boolean, isFirst?: boolean) => (
         <GetNodes data={data!} highlighted={highlighted} isFirst={isFirst} />
