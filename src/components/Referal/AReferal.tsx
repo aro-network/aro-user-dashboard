@@ -187,7 +187,7 @@ function GetARONodeItem(data: AroNodeItem, highlighted: boolean, index: number) 
       <div className="flex flex-col gap-2">
         <div
           className="rounded-xl  flex  gap-10 smd:gap-[30px] flex-col  smd:flex-wrap h-full ">
-          <div className="text-left flex flex-col justify-between smd:justify-start h-full smd:gap-5  ">
+          <div className="text-left flex flex-col justify-between smd:justify-start h-full smd:gap-5 bf  ">
             <div className="text-sm smd:text-base  font-semibold flex gap-2.5 flex-col">
               <div className="flex gap-2.5">
                 <span className="text-lg smd:text-base">
@@ -214,7 +214,7 @@ function GetARONodeItem(data: AroNodeItem, highlighted: boolean, index: number) 
               <div className="text-sm">Rewards: {data?.Rewards}</div>
               <div className="text-sm">User-friendly: {data && data!["User-friendly"]}</div>
             </div>
-            <div className=" flex gap-5 text-xs smd:flex-col ">
+            <div className=" flex gap-5 text-xs smd:flex-col pb-1  ">
               <button onClick={() => window.open(data.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">User Guide</button>
             </div>
 
@@ -339,8 +339,8 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
     <DupleInfo
       className="justify-between h-full smd:h-auto xsm:w-full smd:w-full xsm:h-auto xsm:justify-center smd:justify-center xsm:flex-row xsm:gap-10 smd:flex-1 smd:gap-10 smd:flex-row"
       tit={
-        isDisble &&
-        <Btn hidden isDisabled={!isDisble}
+        exclusive &&
+        <Btn isDisabled={!isDisble}
           className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base"
           onPress={() => setShowPerks(!showPerks)}>{!data.offlineRewardClaimed ? 'Perks' : 'Claimed'}</Btn>
       }

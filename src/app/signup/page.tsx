@@ -120,7 +120,7 @@ export default function Page() {
               <div className="text-[26px] font-bold text-center ">ARO Previewnet Is LIVE!</div>
               <div className={`text-[42px]  xs:text-[1.75rem] smd:text-lg  leading-normal text-center text-xl text-[#00FF0D]`}>
                 <div className="text-left leading-[190%]">
-                  - Join the $ARO Reward Rush<br /> （Pop-up & Sign-up<br />
+                  - Join the $ARO Reward Rush<br />
                   - Run and test ARO Nodes<br />
                   - $30k Top Referrer Bonus<br />
                 </div>

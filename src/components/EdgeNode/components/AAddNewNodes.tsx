@@ -769,6 +769,10 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
 
               </div>
             })}
+
+          </div>
+          <div className=" smd:px-0  mt-5 ml-auto">
+            <a className="text-[#FFFFFF80] underline underline-offset-1 text-sm" target="_blank" href='https://docs.aro.network/user-guides/run-node'> Which node type suits me best?</a>
           </div>
 
         </div>

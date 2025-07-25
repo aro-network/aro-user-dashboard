@@ -310,7 +310,8 @@ const ANodes = () => {
                         </div>
                         <div className="smd:mt-4">
                           <Btn
-                            className="h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto"
+                            isDisabled={item.isComming}
+                            className={cn(`h-[1.875rem] w-full flex justify-center text-center rounded-lg text-xs font-medium m-auto`,)}
                             onPress={() => {
                               setOpenAddNode(!isOpen);
                               params.set("type", 'add');
@@ -348,6 +349,9 @@ const ANodes = () => {
                       </div>
                     </div>
                   })}
+                </div>
+                <div className=" smd:px-0  mt-5 ml-auto ">
+                  <a className="text-[#FFFFFF80] underline underline-offset-1 text-sm" target="_blank" href='https://docs.aro.network/user-guides/run-node'> Which node type suits me best?</a>
                 </div>
 
               </div>

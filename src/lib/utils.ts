@@ -472,8 +472,10 @@ export const addNewNodeList = [
     "User-friendly": "⭐️⭐️⭐️",
     docs: "https://docs.aro.network/user-guides/device-setup",
     url: "https://shop.aro.network/",
+    // goToText: "Order ARO Link",
     goToText: "Order ARO Link",
     isComming: true,
+    isDisable: true,
   },
 
   {
