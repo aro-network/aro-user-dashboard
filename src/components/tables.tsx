@@ -9,10 +9,10 @@ export function STable({
   isLoading,
 }: OtherTypes.STableProps) {
   return (
-    <Table removeWrapper className={cn("overflow-auto h-[68vh]")} disabledBehavior="selection">
+    <Table isHeaderSticky removeWrapper className={cn("overflow-auto h-[68vh]")} disabledBehavior="selection">
       <TableHeader hidden className="p-0 ">
         {head.map((h, i) => (
-          <TableColumn className="bg-transparent py-0 h-6 whitespace-nowrap text-sm font-normal text-white" key={i}>
+          <TableColumn className="bg-gray-1 py-0 h-10  whitespace-nowrap text-sm font-normal text-white" key={i}>
             {h}
           </TableColumn>
         ))}

@@ -52,7 +52,7 @@ const ALeaderboard = () => {
 
   return <>
     <TitCard
-      tit="Top Referrers (Wave 1 .$30,000 to win!)"
+      tit="Top Referrers (Wave 1 - $30,000 to win!)"
       className=" w-full my-[1.875rem] bg-[#6D6D6D66] overflow-hidden"
     >
       <STable
