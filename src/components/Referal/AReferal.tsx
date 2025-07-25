@@ -599,15 +599,20 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
       }
     </div>
 
-    {isOpen && <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[20px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
-      {runNode.map((item, index) => {
-        return <Fragment key={`node_${index}`}>{GetARONodeItem(item)}</Fragment>
-      })}
-    </div>
+    {isOpen && <Fragment>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[20px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
+        {runNode.map((item, index) => {
+          return <Fragment key={`node_${index}`}>{GetARONodeItem(item)}</Fragment>
+        })}
+      </div>
+      <div className="px-[60px] smd:px-0  xs:px-10 ml-auto mb-[20px]">
+        <a className="text-[#FFFFFF80] underline underline-offset-1 text-sm" target="_blank" href='https://docs.aro.network/user-guides/run-node'> Which node type suits me best?</a>
+      </div>
+
+    </Fragment>
     }
-    <div className="px-[60px] smd:px-0  xs:px-10 ml-auto mb-[20px]">
-      <a className="text-[#FFFFFF80] underline underline-offset-1 text-sm" target="_blank" href='https://docs.aro.network/user-guides/run-node'> Which node type suits me best?</a>
-    </div>
+
+
 
   </ItemCard>
 }
