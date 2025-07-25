@@ -120,12 +120,14 @@ const tipList = [
   {
     content: `Earn 4500 Jade in Lock for each ARO Pod you pre-order! Rewards will be automatically credited to your account upon successful pre-order.`
   },
-  {
-    content: `Earn 500 Jade in Lock after successfully running an ARO Lite extension. Rewards will be credited within one hour of success. Running multiple extensions won’t increase your rewards—one is enough!`
-  },
   { content: '' },
+
+
   {
     content: `Earn 1500 Jade in Lock after successfully running an ARO Client. Rewards will be credited within one day of success. Running multiple clients won’t increase your rewards—one is enough!`
+  },
+  {
+    content: `Earn 500 Jade in Lock after successfully running an ARO Lite extension. Rewards will be credited within one hour of success. Running multiple extensions won’t increase your rewards—one is enough!`
   },
 
 ]
@@ -186,11 +188,13 @@ function GetARONodeItem(data: AroNodeItem, highlighted: boolean, index: number) 
           className="rounded-xl  flex  gap-10 smd:gap-[30px] flex-col  smd:flex-wrap h-full ">
           <div className="text-left flex flex-col justify-between smd:justify-start h-full smd:gap-5  ">
             <div className="text-sm smd:text-base  font-semibold flex gap-2.5">
-              {data.tit}
+              <span className="text-xl smd:text-base">
+                {data.tit}
+              </span>
               <HelpTip className="max-w-[300px]" content={
-                <div className=" h-[80px] flex flex-col justify-center">
+                <div className="flex flex-col justify-center">
                   {data?.description.map((item) => {
-                    return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
+                    return <div key={`des_${item}`} >{item}</div>
                   })}
                 </div>
 
