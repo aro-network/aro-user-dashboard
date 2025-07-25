@@ -930,7 +930,7 @@ Share your idle internet and earn rewards effortlessly.
                       <div className=" smd:w-full">My Tier 1 Referral:</div>
                       <div className="flex flex-wrap  ">
                         {"\u00A0"}{renderReferred(`${data.referralTier1.count ?? 0}`, 'friends referred')},{"\u00A0"}
-                        {renderReferred(data.referralTier1.jadeRewards ?? 0 + data.referralTier1.lockedJadeRewards ?? 0, 'Jades earned.')}{"\u00A0"}
+                        {renderReferred((data.referralTier1.jadeRewards ?? 0) + (data.referralTier1.lockedJadeRewards ?? 0), 'Jades earned.')}{"\u00A0"}
                       </div>
 
                     </div>
@@ -939,7 +939,7 @@ Share your idle internet and earn rewards effortlessly.
                       <div className="smd:w-full">My Tier 2 Referral:</div>
                       <div className="flex text-wrap  flex-wrap">
                         {"\u00A0"}{renderReferred(`${data.referralTier2.count ?? 0}`, 'friends referred')},{"\u00A0"}
-                        {renderReferred(data.referralTier2.jadeRewards ?? 0 + data.referralTier2.lockedJadeRewards ?? 0, 'Jades earned.')}{"\u00A0"}
+                        {renderReferred((data.referralTier2.jadeRewards ?? 0) + (data.referralTier2.lockedJadeRewards ?? 0), 'Jades earned.')}{"\u00A0"}
                       </div>
                     </div>
 
