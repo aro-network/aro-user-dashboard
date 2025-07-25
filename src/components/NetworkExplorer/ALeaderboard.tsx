@@ -5,6 +5,7 @@ import backendApi from "@/lib/api"
 import { useQuery } from "@tanstack/react-query"
 import { useMemo } from "react"
 import _ from "lodash"
+import { covertNum, formatNumber } from "@/lib/utils"
 
 const ALeaderboard = () => {
 
@@ -24,23 +25,24 @@ const ALeaderboard = () => {
     const nodes = data || [];
 
     return nodes.map((item, i) => {
-      let earn = 0;
+      let earn = '0';
       if (i === 0) {
-        earn = 10000;
+        earn = '10,000';
       } else if (i >= 1 && i <= 3) {
-        earn = 3000;
+        earn = '3,000';
       } else if (i >= 4 && i <= 53) {
-        earn = 200;
+        earn = '200';
       }
 
       return [
+        i + 1,
         item.twitterAccountInfo?.name ?
-          <a key={item.name} className="underline underline-offset-1" href={`https://x.com/${item.twitterAccountInfo?.name}`}>
-            {item?.twitterAccountInfo?.name}
+          <a key={item.name} className="underline underline-offset-1" target="_blank" href={`https://x.com/${item.twitterAccountInfo?.username}`}>
+            {item?.twitterAccountInfo.name}
           </a>
           : <span>{item.email}</span>
         ,
-        `${parseFloat(item.referralPoint)} Jades`,
+        `${formatNumber(Number(item.referralPoint))} Jades`,
         `${(item.inviteV1Length || 0) + (item.inviteV2Length)} (${item.inviteV1Length} Tier 1 + ${item.inviteV2Length} Tier 2)`,
         `$${earn}`,
       ];
@@ -50,14 +52,15 @@ const ALeaderboard = () => {
 
   return <>
     <TitCard
-      tit="Leaderboard"
-      className="flip_item w-full mt-[1.875rem] bg-[#6D6D6D66]"
+      tit="Top Referrers (Wave 1 .$30,000 to win!)"
+      className=" w-full my-[1.875rem] bg-[#6D6D6D66] overflow-hidden"
     >
       <STable
         isLoading={isLoading}
         loadingContent={<Spinner />}
         empty="No Data"
         head={[
+          '#',
           "Username",
           "Referral Bonus Earned",
           'Referral Count',

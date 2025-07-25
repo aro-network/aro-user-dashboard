@@ -136,7 +136,7 @@ export function getAdjustedDateRange(
 }
 
 export const formatNumber = (num: number) => {
-  if (num === 0) return "0";
+  if (num === 0 || !num) return "0";
   if (num >= 1000) {
     const units = ["", "K", "M", "B", "T"];
     const index = Math.floor(Math.log10(num) / 3);

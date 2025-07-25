@@ -10,7 +10,7 @@ export function validatePassword(password?: string) {
   // const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&.]{8,}$/;
   const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,20}$/;
   if (re.test(password)) return true;
-  return "Your password must be at least 8 characters long and include: at least one uppercase letter, one lowercase letter, and one number. Special characters are allowed.";
+  return "Your password must be 8-20 characters and include: at least one uppercase letter, one lowercase letter, and one number. Special characters are allowed.";
 }
 
 export function validateConfirmPassword(
@@ -33,7 +33,6 @@ export function validateVerifyCode(code?: string) {
   if (code.trim().length != 6) return "Invalid verification code";
   return true;
 }
-
 
 export function validateRedeemCode(code?: string) {
   if (!code) return null;
