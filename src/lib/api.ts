@@ -25,7 +25,7 @@ const prefixUrl = "/edgeNode/node/";
 
 const extensionPrefixUrl = "/edgeNode/liteNode/";
 
-const Api = axios.create({
+export const Api = axios.create({
   baseURL: BASE_API,
   headers: {
     "Content-Type": "application/json",

@@ -1,7 +1,7 @@
 import { useAuthContext } from "@/app/context/AuthContext";
 import { useCopy } from "@/hooks/useCopy";
 import { handlerErrForBind } from "@/hooks/useShowParamsError";
-import backendApi, { BASE_API } from "@/lib/api";
+import backendApi, { Api, BASE_API } from "@/lib/api";
 import { retry } from "@/lib/async";
 import { envText, formatNumber } from "@/lib/utils";
 import { postX } from "@/lib/x";
@@ -521,7 +521,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     mutationFn: async () => {
       const token = await backendApi.getAccessToken();
       const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
-      const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+      await Api.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
 
       ac.queryUserInfo?.refetch();
     }
