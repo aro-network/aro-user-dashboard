@@ -523,10 +523,6 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
       const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
       const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
 
-      if (typeof res.request?.responseURL === 'string') {
-        const err = new URL(res.request?.responseURL).searchParams.get("err");
-        handlerErrForBind(err);
-      }
       ac.queryUserInfo?.refetch();
     }
   });
