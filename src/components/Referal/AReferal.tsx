@@ -513,6 +513,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/x`);
       const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${envText('xCode')}&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
       ac.queryUserInfo?.refetch();
+    refetch()
       window.open(url, "_blank");
     }
   });
@@ -521,9 +522,10 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     mutationFn: async () => {
       const token = await backendApi.getAccessToken();
       const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
-      await Api.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+      const res = await Api.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+        ac.queryUserInfo?.refetch();
+    refetch()
 
-      ac.queryUserInfo?.refetch();
     }
   });
 
