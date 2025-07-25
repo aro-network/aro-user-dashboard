@@ -427,7 +427,7 @@ const ANodeInfo: FC<{
           <Image src={`./${detailInfo?.detail.online ? 'online' : 'offline'}.svg`} />
           {detailInfo?.detail.online ? 'Online' : 'Offline'}
         </div>
-      , count: <span className="text-sm font-medium"> {detailInfo?.detail.online ? ' Your Node is collecting Jades for you.' : 'Oops! Your Nodes is offline. Turn it on to earn Jades.'}</span>
+      , count: <span className="text-sm font-medium"> {detailInfo?.detail.online ? ' Your Node is collecting Jades for you.' : 'Oops! Your node is offline. Turn it on or try restarting.'}</span>
     },
     { title: 'Total Rewards', count: <span className="text-[30px]"> {formatNumber(Number(detailInfo?.countRewards?.total || 0))}</span> },
     { title: 'Yesterday Rewards', count: <span className="text-[30px]">{`+ ${formatNumber(Number(detailInfo?.countRewards!.yesterday || 0))} `}</span> }

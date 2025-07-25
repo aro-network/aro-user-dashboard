@@ -43,7 +43,7 @@ export const AllText = {
         subtitle:
           "Make sure your xxx is powered on and connected to the internet. Locate the 19-digit serial number on your xxx and enter it below:",
         error: [
-          "Sorry, we cannot find your xx. Please make sure your xx is powered on and connected to the internet.",
+          "Sorry, we cannot find your xx. Please make sure your xx is powered on and connected to the internet, or try restarting the device.",
         ],
       },
       step2: {

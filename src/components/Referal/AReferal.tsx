@@ -118,31 +118,32 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
 
 const tipList = [
   {
-    content: `Earn 4500 Jade in Lock for each ARO Pod you pre-order! Rewards will be automatically credited to your account upon successful pre-order.`
+    content: `Earn 4500 Jade for each ARO Pod you pre-order! Rewards will be automatically credited to your account and added to Jade in Lock section upon successful pre-order.`
   },
   { content: '' },
 
 
   {
-    content: `Earn 1500 Jade in Lock after successfully running an ARO Client. Rewards will be credited within one day of success. Running multiple clients won’t increase your rewards—one is enough!`
+    content: `Earn 1500 Jade after successfully running an ARO Client. Rewards will be credited within one day of success and added to Jade in Lock section. Running multiple clients won’t increase your rewards—one is enough!`
   },
   {
-    content: `Earn 500 Jade in Lock after successfully running an ARO Lite extension. Rewards will be credited within one hour of success. Running multiple extensions won’t increase your rewards—one is enough!`
+    content: `Earn 500 Jade after successfully running an ARO Lite extension. Rewards will be credited within one hour of success and added to Jade in Lock section. Running multiple extensions won’t increase your rewards—one is enough!`
   },
 
 ]
 
 function AddJade({ add = 1, jade = 'Jade', index = 0 }: { add?: number, jade?: string, index: number }) {
-  return <div className="flex text-xs smd:text-sm gap-1 flex-col pt-[5px] smd:pt-0">
+  return <div className="flex text-xs smd:text-sm gap-1  pt-[5px] smd:pt-0">
     <div className="flex gap-2.5 items-center">
       <span className="text-primary text-[26px] font-semibold">+{add}</span>
+      <span>{jade}</span>
       {index !== 1 && tipList[index]?.content &&
         <HelpTip className="max-w-[300px]" content={
           tipList[index]?.content
         } />
       }
     </div>
-    <span>{jade}</span>
+
   </div>
 }
 type AroNodeItem = {
@@ -171,34 +172,41 @@ function GetARONodeItem(data: AroNodeItem, highlighted: boolean, index: number) 
   return <div className="relative task-tab  shadow bg-white/5 smd:flex-col p-5 gap-5 items-center rounded-xl overflow-hidden flex">
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
     <div className="flex gap-[30px] smd:flex-col smd:w-full smd:my-5">
-      <div className="flex flex-col justify-between smd:gap-5 ">
-        <div className={cn(`rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-3 px-[11px] `, {
+      <div className="flex flex-col justify-between gap-5 ">
+        <div className={cn(`rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-[23px] pl-[11px] `, {
           '!bg-[#FFFFFF1A]': highlighted
         })}>
-          <div className="flex gap-2.5">
-            <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} index={index} />
 
-          </div>
-          <Image src={data.icon} width={144} height={85} alt={data.tit} classNames={{ 'wrapper': 'float-right mx-auto' }} />
+          <Image src={data.icon} width={144} height={85} alt={data.tit} classNames={{ 'wrapper': 'mx-auto' }} />
+
         </div>
+        <Btn className={cn("ml-auto w-full smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
+
       </div>
 
       <div className="flex flex-col gap-2">
         <div
           className="rounded-xl  flex  gap-10 smd:gap-[30px] flex-col  smd:flex-wrap h-full ">
           <div className="text-left flex flex-col justify-between smd:justify-start h-full smd:gap-5  ">
-            <div className="text-sm smd:text-base  font-semibold flex gap-2.5">
-              <span className="text-xl smd:text-base">
-                {data.tit}
-              </span>
-              <HelpTip className="max-w-[300px]" content={
-                <div className="flex flex-col justify-center">
-                  {data?.description.map((item) => {
-                    return <div key={`des_${item}`} >{item}</div>
-                  })}
-                </div>
+            <div className="text-sm smd:text-base  font-semibold flex gap-2.5 flex-col">
+              <div className="flex gap-2.5">
+                <span className="text-lg smd:text-base">
+                  {data.tit}
+                </span>
+                <HelpTip className="max-w-[300px]" content={
+                  <div className=" flex flex-col justify-center">
+                    {data?.description.map((item) => {
+                      return <div key={`des_${item}`} >{item}</div>
+                    })}
+                  </div>
 
-              } />
+                } />
+              </div>
+
+              <div className="flex gap-2.5">
+                <AddJade add={data.add} jade={'Jade'} index={index} />
+              </div>
+
             </div>
             <div>
 
@@ -207,7 +215,6 @@ function GetARONodeItem(data: AroNodeItem, highlighted: boolean, index: number) 
               <div className="text-sm">User-friendly: {data && data!["User-friendly"]}</div>
             </div>
             <div className=" flex gap-5 text-xs smd:flex-col ">
-              <Btn className={cn("ml-auto w-full smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
               <button onClick={() => window.open(data.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">User Guide</button>
             </div>
 
@@ -307,7 +314,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       className="justify-between h-full smd:h-auto smd:gap-5"
       tit={<Title text="Jade in Lock" tip={
         <div>
-          Specific tasks (running ARO Nodes or redeeming Gift Codes)<br /> grant “Jade in Lock”, holding higher rewards for Testnet. <br />Unlock them by mining in Testnet!"
+          Specific tasks (running ARO Nodes or redeeming Gift Codes)<br /> grant “Jade in Lock”, holding higher rewards for Testnet. <br />Unlock them by mining in Testnet!
         </div>
       }
       />}
@@ -332,11 +339,10 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
     <DupleInfo
       className="justify-between h-full smd:h-auto xsm:w-full smd:w-full xsm:h-auto xsm:justify-center smd:justify-center xsm:flex-row xsm:gap-10 smd:flex-1 smd:gap-10 smd:flex-row"
       tit={
-        exclusive ?
-          <Btn isDisabled={!isDisble}
-            className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base"
-            onPress={() => setShowPerks(!showPerks)}>{!data.offlineRewardClaimed ? 'Perks' : 'Claimed'}</Btn>
-          : undefined
+        isDisble &&
+        <Btn hidden isDisabled={!isDisble}
+          className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base"
+          onPress={() => setShowPerks(!showPerks)}>{!data.offlineRewardClaimed ? 'Perks' : 'Claimed'}</Btn>
       }
       subClassName="text-sm text-white/80 items-baseline"
       titClassName=""
@@ -856,16 +862,15 @@ Share your idle internet and earn rewards effortlessly.
                           <div className=" smd:w-full">My Tier 1 Referral:</div>
                           <div className="flex   text-wrap ">
                             {"\u00A0"}{renderReferred(`${data.referralTier1.count ?? 0}`, 'friends referred')},{"\u00A0"}
-                            {renderReferred(data.referralTier1.jadeRewards ?? 0, ' Jades &')}{"\u00A0"}
-                            {renderReferred(data.referralTier1.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
+                            {renderReferred(data.referralTier1.jadeRewards ?? 0 + data.referralTier1.lockedJadeRewards ?? 0, 'Jades earned.')}{"\u00A0"}
                           </div>
                         </div>
                         <div className="flex items-center   smd:items-start smd:flex-col smd:mt-4 mt-2 ">
                           <div className="smd:w-full">My Tier 2 Referral:</div>
                           <div className="flex text-wrap  ">
                             {"\u00A0"}{renderReferred(`${data.referralTier2.count ?? 0}`, 'friends referred')},{"\u00A0"}
-                            {renderReferred(data.referralTier2.jadeRewards ?? 0, 'Jades &')}{"\u00A0"}
-                            {renderReferred(data.referralTier2.lockedJadeRewards ?? 0, 'Jade in Lock earned')}
+                            {renderReferred(data.referralTier2.jadeRewards ?? 0 + data.referralTier2.lockedJadeRewards ?? 0, 'Jades earned.')}{"\u00A0"}
+
                           </div>
                         </div>
 
