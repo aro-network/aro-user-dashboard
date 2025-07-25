@@ -340,7 +340,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       className="justify-between h-full smd:h-auto xsm:w-full smd:w-full xsm:h-auto xsm:justify-center smd:justify-center xsm:flex-row xsm:gap-10 smd:flex-1 smd:gap-10 smd:flex-row"
       tit={
         exclusive &&
-        <Btn isDisabled={!isDisble}
+        <Btn isDisabled={isDisble}
           className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base"
           onPress={() => setShowPerks(!showPerks)}>{!data.offlineRewardClaimed ? 'Perks' : 'Claimed'}</Btn>
       }
