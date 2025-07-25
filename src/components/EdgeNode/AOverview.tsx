@@ -43,6 +43,7 @@ export function DupleInfo({
   className,
   titClassName,
   subClassName,
+  hiddenTit
 }: {
   tit: ReactNode;
   sub: ReactNode;
@@ -50,10 +51,11 @@ export function DupleInfo({
   titClassName?: string;
   subClassName?: string;
   className?: string;
+  hiddenTit?: boolean
 }) {
   return (
     <div className={cn("flex flex-col justify-start items-start relative shrink-0", className)}>
-      <p className={cn("self-stretchflex-shrink-0 text-2xl font-medium text-left text-white", titClassName)}>{tit}</p>
+      {!hiddenTit && <p className={cn("self-stretchflex-shrink-0 text-2xl font-medium text-left text-white", titClassName)}>{tit}</p>}
       <div className={cn("font-AlbertSans flex justify-start items-center flex-shrink-0 relative gap-1 text-sm   text-[#FFFFFF80]", subClassName)}>
         {sub}
         {subTip && <HelpTip content={subTip} />}

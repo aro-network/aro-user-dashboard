@@ -56,6 +56,7 @@ const ALeaderboard = () => {
       className=" w-full my-[1.875rem] bg-[#6D6D6D66] overflow-hidden"
     >
       <STable
+
         isLoading={isLoading}
         loadingContent={<Spinner />}
         empty="No Data"

@@ -149,6 +149,23 @@ export const formatNumber = (num: number) => {
   return Math.round(num).toString();
 };
 
+function formatNum(num: number) {
+  const units = ["", "K", "M", "B", "T"];
+  let unitIndex = 0;
+
+  if (num < 1000) return `${num}`; // 小于1000，直接返回
+
+  while (num >= 1000 && unitIndex < units.length - 1) {
+    num = num / 1000;
+    unitIndex++;
+  }
+
+  const rounded = Math.round(num * 10) / 10;
+  return `${Number.isInteger(rounded) ? rounded : rounded.toFixed(1)}${
+    units[unitIndex]
+  }`;
+}
+
 // function formatLargeNumber(num) {
 //   if (num >= 1_000_000_000) {
 //     return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, '') + 'B';
