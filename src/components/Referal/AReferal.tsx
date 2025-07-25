@@ -172,7 +172,7 @@ function GetARONodeItem(data: AroNodeItem, highlighted: boolean, index: number) 
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
     <div className="flex gap-[30px] smd:flex-col smd:w-full smd:my-5">
       <div className="flex flex-col justify-between smd:gap-5 ">
-        <div className={cn(`rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-3 pl-[11px] `, {
+        <div className={cn(`rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-3 px-[11px] `, {
           '!bg-[#FFFFFF1A]': highlighted
         })}>
           <div className="flex gap-2.5">

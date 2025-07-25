@@ -45,9 +45,9 @@ const Modes: Dashboard.ModesType[] = [
         tab: 'nodes'
       },
       {
-        name: "LeaderBoard",
+        name: "Leaderboard",
         content: <ALeaderboard />,
-        tab: 'leaderBoard'
+        tab: 'leaderboard'
       },
 
       // {
