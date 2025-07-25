@@ -343,7 +343,7 @@ const ANodes = () => {
                         <div className=" mt-3 flex gap-5 text-xs">
                           <button disabled={item.isComming || item.isDisable} onClick={() => window.open(item.url)} className={`text-[#568AFF] underline underline-offset-1 ${item.isComming || item.isDisable ? 'cursor-not-allowed' : 'cursor-default'}`}>{item.goToText}</button>
 
-                          <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
+                          <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">User Guide</button>
                         </div>
                       </div>
                     </div>

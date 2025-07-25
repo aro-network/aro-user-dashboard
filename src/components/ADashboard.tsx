@@ -22,6 +22,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AllText } from "@/lib/allText";
 import AAROID from "./AROID/AAROID";
 import { envText } from "@/lib/utils";
+import { ALeaderboard } from "./NetworkExplorer";
 
 export const currentENVName = envText('ENVName')
 
@@ -43,6 +44,12 @@ const Modes: Dashboard.ModesType[] = [
         content: <ANodes />,
         tab: 'nodes'
       },
+      {
+        name: "LeaderBoard",
+        content: <ALeaderboard />,
+        tab: 'leaderBoard'
+      },
+
       // {
       //   name: "Mining Stats",
       //   content: <AOverview />,n

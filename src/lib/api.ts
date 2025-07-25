@@ -520,6 +520,13 @@ const backendApi = {
     );
     return response.data.data;
   },
+
+  getTop100User: async () => {
+    const res = await Api.get<RES<LeaderBoardMode.top100List[]>>(
+      "/campaigns/referral/leaderboard"
+    );
+    return res.data.data;
+  },
 };
 
 export default backendApi;

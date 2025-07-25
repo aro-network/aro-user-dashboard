@@ -677,7 +677,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                 <div className="text-sm">User-friendly: {rightTabList && rightTabList!["User-friendly"]}</div>
                 <div className=" mt-3 flex gap-5 text-xs ">
                   <button disabled={rightTabList?.isDisable} onClick={() => window.open(rightTabList?.url)} className={`text-[#568AFF] underline underline-offset-1 text-nowrap ${rightTabList?.isDisable ? 'cursor-not-allowed' : 'cursor-default'}`}>{rightTabList?.goToText}</button>
-                  <button onClick={() => onOpen(rightTabList?.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">Learn more in docs</button>
+                  <button onClick={() => onOpen(rightTabList?.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">User Guide</button>
                 </div>
               </div>
 
@@ -763,7 +763,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                   <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
                   <div className=" mt-3 flex gap-5 smd:gap-[10px] text-xs">
                     <button disabled={item.isComming || item.isDisable} onClick={() => window.open(item.url)} className={`text-[#568AFF] underline underline-offset-1 ${item.isComming || item.isDisable ? 'cursor-not-allowed' : 'cursor-default'}`}>{item.goToText}</button>
-                    <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">Learn more in docs</button>
+                    <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">User Guide</button>
                   </div>
                 </div>
 

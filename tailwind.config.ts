@@ -32,6 +32,7 @@ const config: Config = {
         smd: { max: "1000px" },
         xsl: { min: "1000px", max: "1800px" },
         xs: [{ min: "1001px", max: "1440px" }],
+        xsm: [{ min: "1001px", max: "1200px" }],
         md: { min: "1000px" },
       },
 

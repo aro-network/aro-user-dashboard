@@ -115,9 +115,31 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
   );
 }
 
-function AddJade({ add = 1, jade = 'Jade' }: { add?: number, jade?: string }) {
+
+const tipList = [
+  {
+    content: `Earn 4500 Jade in Lock for each ARO Pod you pre-order! Rewards will be automatically credited to your account upon successful pre-order.`
+  },
+  {
+    content: `Earn 500 Jade in Lock after successfully running an ARO Lite extension. Rewards will be credited within one hour of success. Running multiple extensions won’t increase your rewards—one is enough!`
+  },
+  { content: '' },
+  {
+    content: `Earn 1500 Jade in Lock after successfully running an ARO Client. Rewards will be credited within one day of success. Running multiple clients won’t increase your rewards—one is enough!`
+  },
+
+]
+
+function AddJade({ add = 1, jade = 'Jade', index = 0 }: { add?: number, jade?: string, index: number }) {
   return <div className="flex text-xs smd:text-sm gap-1 flex-col pt-[5px] smd:pt-0">
-    <span className="text-primary text-[26px] font-semibold">+{add}</span>
+    <div className="flex gap-2.5 items-center">
+      <span className="text-primary text-[26px] font-semibold">+{add}</span>
+      {index !== 1 && tipList[index]?.content &&
+        <HelpTip className="max-w-[300px]" content={
+          tipList[index]?.content
+        } />
+      }
+    </div>
     <span>{jade}</span>
   </div>
 }
@@ -139,7 +161,7 @@ type AroNodeItem = {
   onAction?: () => void
 
 }
-function GetARONodeItem(data: AroNodeItem) {
+function GetARONodeItem(data: AroNodeItem, highlighted: boolean, index: number) {
   // box-shadow: 0px 1px 4px 0px #00000033;
   // backdrop-filter: blur(10px)
 
@@ -148,30 +170,45 @@ function GetARONodeItem(data: AroNodeItem) {
     {data.finish && <FinishBadge className="[--finish-badge-size:26px]" />}
     <div className="flex gap-[30px] smd:flex-col smd:w-full smd:my-5">
       <div className="flex flex-col justify-between smd:gap-5 ">
-        <div className="rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-3 pl-[11px] smd:gap-2.5  smd:flex justify-between smd:items-center">
-          <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} />
-          <Image src={data.icon} width={144} height={85} alt={data.tit} classNames={{ 'wrapper': 'float-right smd:float-none mx-auto' }} />
+        <div className={cn(`rounded-lg bg-[#575757] w-[198px] smd:w-full smd:p-5 py-3 pl-[11px] `, {
+          '!bg-[#FFFFFF1A]': highlighted
+        })}>
+          <div className="flex gap-2.5">
+            <AddJade add={data.add} jade={data.foreach ? "Jade for each" : 'Jade'} index={index} />
+
+          </div>
+          <Image src={data.icon} width={144} height={85} alt={data.tit} classNames={{ 'wrapper': 'float-right mx-auto' }} />
         </div>
-        <Btn className={cn("ml-auto w-full smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
       </div>
 
       <div className="flex flex-col gap-2">
         <div
-          className="rounded-xl  flex  gap-10 smd:gap-[30px]  smd:flex-wrap">
-          <div className="text-left flex flex-col justify-between smd:justify-start ">
-            <div className="text-sm smd:text-base  font-semibold">{data.tit}</div>
-            <div className="mt-[10px] h-[80px] flex flex-col justify-center">
-              {data?.description.map((item) => {
-                return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
-              })}
+          className="rounded-xl  flex  gap-10 smd:gap-[30px] flex-col  smd:flex-wrap h-full ">
+          <div className="text-left flex flex-col justify-between smd:justify-start h-full smd:gap-5  ">
+            <div className="text-sm smd:text-base  font-semibold flex gap-2.5">
+              {data.tit}
+              <HelpTip className="max-w-[300px]" content={
+                <div className=" h-[80px] flex flex-col justify-center">
+                  {data?.description.map((item) => {
+                    return <div key={`des_${item}`} className="text-sm text-left">{item}</div>
+                  })}
+                </div>
+
+              } />
             </div>
-            <div className="text-sm">Cost: {data?.cost}</div>
-            <div className="text-sm">Rewards: {data?.Rewards}</div>
-            <div className="text-sm">User-friendly: {data && data!["User-friendly"]}</div>
-            <div className=" mt-3 flex gap-5 text-xs ">
+            <div>
+
+              <div className="text-sm">Cost: {data?.cost}</div>
+              <div className="text-sm">Rewards: {data?.Rewards}</div>
+              <div className="text-sm">User-friendly: {data && data!["User-friendly"]}</div>
+            </div>
+            <div className=" flex gap-5 text-xs smd:flex-col ">
+              <Btn className={cn("ml-auto w-full smd:w-full text-xs font-medium  h-[30px] smd:h-12", { ' !text-primary !bg-primary/10 !opacity-100': disabled })} onPress={data.onAction} disabled={disabled}>{data.finish && !data.foreach ? "Done" : data.action}</Btn>
               <button onClick={() => window.open(data.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">User Guide</button>
             </div>
+
           </div>
+
 
         </div>
 
@@ -222,6 +259,23 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
     },
   ]
 
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+  const exclusive = params.has('exclusive')
+  const highlighted = (data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg)
+  const isDisble = exclusive && !highlighted && !data.offlineRewardClaimed
+
+  const [showPerks, setShowPerks] = useState(false)
+  const [code, setCode] = useState('')
+
+
+  const onInputCode = async () => {
+
+    await backendApi.claimOfflineReward(code)
+    setShowPerks(false);
+    setCode('')
+    refetch()
+  }
 
 
 
@@ -270,7 +324,51 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
         Redeem Jade with your Gift Code<br />
         or ARO Pod order.
       </div>} />
-    <Btn className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
+
+    <DupleInfo
+      className="justify-between h-full smd:h-auto xsm:w-full smd:w-full xsm:h-auto xsm:justify-center smd:justify-center xsm:flex-row xsm:gap-10 smd:flex-1 smd:gap-10 smd:flex-row"
+      tit={
+        exclusive ?
+          <Btn isDisabled={!isDisble}
+            className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base"
+            onPress={() => setShowPerks(!showPerks)}>{!data.offlineRewardClaimed ? 'Perks' : 'Claimed'}</Btn>
+          : undefined
+      }
+      subClassName="text-sm text-white/80 items-baseline"
+      titClassName=""
+      sub={
+        <Btn className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
+
+      } />
+
+    {
+      <ForceModal isOpen={showPerks} className=" w-[440px]  smd:!mx-5">
+        <div className="flex justify-between w-full flex-col gap-5">
+          {/* <div className="flex justify-between w-full">
+            <button onClick={() => {
+              setShowPerks(false);
+              setCode('')
+            }}>
+              <img src="./close.png" />
+            </button>
+          </div> */}
+          <div className="flex flex-col gap-5 ">
+            <InputSplitCode onChange={setCode} value={code} length={4} validChars="0-9" />
+            <Btn isDisabled={code.length < 4} onPress={() => onInputCode()} className="w-full">Confirm</Btn>
+            <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
+              setShowPerks(false);
+              setCode('')
+            }} >
+              Cancel
+            </Btn>
+
+          </div>
+
+        </div>
+
+      </ForceModal>
+
+    }
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
       <div className="flex justify-between w-full flex-col gap-5">
         <div className="flex justify-between w-full">
@@ -413,12 +511,17 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
       const token = await backendApi.getAccessToken();
       const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
       const res = await axios.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+      console.log('ressss', res);
 
-      if (typeof res.request?.responseURL === 'string') {
-        const err = new URL(res.request?.responseURL).searchParams.get("err");
-        handlerErrForBind(err);
-      }
-      ac.queryUserInfo?.refetch();
+      // if(res.){
+
+      // }
+
+      // if (typeof res.request?.responseURL === 'string') {
+      //   const err = new URL(res.request?.responseURL).searchParams.get("err");
+      //   handlerErrForBind(err);
+      // }
+      // ac.queryUserInfo?.refetch();
     }
   });
 
@@ -429,21 +532,9 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
   }, [highlighted]);
 
 
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams.toString());
-  const exclusive = params.has('exclusive')
-  const [showPerks, setShowPerks] = useState(false)
-  const [code, setCode] = useState('')
-  const isDisble = exclusive && !highlighted && !data.offlineRewardClaimed
 
 
-  const onInputCode = async () => {
 
-    await backendApi.claimOfflineReward(code)
-    setShowPerks(false);
-    setCode('')
-    refetch()
-  }
 
 
   return <div className="h-full">
@@ -453,7 +544,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
         <Title needIcon={true} text="Join ARO Community" />
         {!highlighted &&
           <div className="flex items-center gap-5">
-            <Btn isDisabled={!isDisble} className="self-end w-[106px] text-xs font-medium  smd:w-full smd:text-base" onPress={() => setShowPerks(!showPerks)}>Perks</Btn>
+
             <ArrowIcon isOpen={isOpen} />
           </div>
         }
@@ -479,34 +570,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
       </div>}
     </ItemCard>
 
-    {
-      <ForceModal isOpen={showPerks} className=" w-[440px]  smd:!mx-5">
-        <div className="flex justify-between w-full flex-col gap-5">
-          {/* <div className="flex justify-between w-full">
-            <button onClick={() => {
-              setShowPerks(false);
-              setCode('')
-            }}>
-              <img src="./close.png" />
-            </button>
-          </div> */}
-          <div className="flex flex-col gap-5 ">
-            <InputSplitCode onChange={setCode} value={code} length={4} validChars="0-9" />
-            <Btn isDisabled={code.length < 4} onPress={() => onInputCode()} className="w-full">Confirm</Btn>
-            <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
-              setShowPerks(false);
-              setCode('')
-            }} >
-              Cancel
-            </Btn>
 
-          </div>
-
-        </div>
-
-      </ForceModal>
-
-    }
 
   </div>
 }
@@ -600,9 +664,9 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
     </div>
 
     {isOpen && <Fragment>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[20px] smd:py-5   px-[60px] smd:px-0  xs:px-10">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-[30px] pt-[80px] pb-[20px] smd:pt-5 smd:pb-0   px-[60px] smd:px-0  xs:px-10">
         {runNode.map((item, index) => {
-          return <Fragment key={`node_${index}`}>{GetARONodeItem(item)}</Fragment>
+          return <Fragment key={`node_${index}`}>{GetARONodeItem(item, highlighted, index)}</Fragment>
         })}
       </div>
       <div className="px-[60px] smd:px-0  xs:px-10 ml-auto mb-[20px]">
@@ -611,9 +675,6 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
 
     </Fragment>
     }
-
-
-
   </ItemCard>
 }
 
@@ -776,7 +837,7 @@ Share your idle internet and earn rewards effortlessly.
                     <div className="flex flex-col gap-2 font-medium text-white  smd:w-full smd:mb-2.5">
                       <div className="text-sm">Get referred</div>
                       <div className="font-normal text-xs"><span className="text-primary">+{data.jadePoint.invite}</span> Jade</div>
-                      <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[112px] smd:w-[145px] rounded-full ${user?.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421] cursor-pointer'}  `}
+                      <div className={`text-xs smd:text-base  leading-normal smd:mt-6 text-center py-[3px] w-[120px] smd:w-[145px] rounded-full ${user?.invited ? 'bg-[#00E42A1A]' : 'bg-[#02B421] cursor-pointer'}  `}
                         onClick={() => user?.invited ? undefined : r.push(`/?mode=${currentENVName}&tab=aroId`)}>
                         {user?.invited ? <div className="text-[#00E42A] flex items-center gap-2 justify-center">
                           Referrered
