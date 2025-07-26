@@ -513,7 +513,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/x`);
       const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${envText('xCode')}&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
       ac.queryUserInfo?.refetch();
-    refetch()
+      refetch()
       window.open(url, "_blank");
     }
   });
@@ -522,10 +522,9 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
     mutationFn: async () => {
       const token = await backendApi.getAccessToken();
       const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
-      const res = await Api.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
-        ac.queryUserInfo?.refetch();
-    refetch()
-
+      await Api.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+      ac.queryUserInfo?.refetch();
+      refetch()
     }
   });
 
@@ -674,7 +673,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
         })}
       </div>
       <div className="px-[60px] smd:px-0  xs:px-10 ml-auto smd:mx-auto  mb-[20px]">
-        <a className="text-[#FFFFFF80] underline underline-offset-1 text-sm" target="_blank" href='https://docs.aro.network/user-guides/run-node'> Which node type suits me best?</a>
+        <a className="text-[#FFFFFF80] hover:text-primary underline underline-offset-1 text-sm" target="_blank" href='https://docs.aro.network/user-guides/run-node'> Which node type suits me best?</a>
       </div>
 
     </Fragment>
