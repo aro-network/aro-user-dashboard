@@ -605,9 +605,9 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
       isDisable: true,
       add: data.jadePoint.orderPod,
       foreach: true,
-      action: 'Coming Soon...',
+      action: 'Order ARO Pod',
       finish: data.aroNode.pod,
-      onAction: () => () => { }
+      onAction: () => { window.open('https://shop.aro.network/') }
     },
     {
       icon: "aro-link.png",

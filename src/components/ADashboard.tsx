@@ -117,9 +117,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
     const modeFromURL = searchParams.get("mode");
     const tabFromURL = searchParams.get("tab");
 
-    // ?mode=testnet&tab=campaigns&exclusive
-
-
     if (modeFromURL && tabFromURL) {
       const mode = Modes.find((m) => m.name === modeFromURL);
       if (mode) {

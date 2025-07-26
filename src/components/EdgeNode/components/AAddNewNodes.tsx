@@ -676,7 +676,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                 <div className="text-sm">Rewards: {rightTabList?.Rewards}</div>
                 <div className="text-sm">User-friendly: {rightTabList && rightTabList!["User-friendly"]}</div>
                 <div className=" mt-3 flex gap-5 text-xs ">
-                  <button disabled={rightTabList?.isDisable} onClick={() => window.open(rightTabList?.url)} className={`text-[#568AFF] underline underline-offset-1 text-nowrap ${rightTabList?.isDisable ? 'cursor-not-allowed' : 'cursor-default'}`}>{rightTabList?.goToText}</button>
+                  <button disabled={rightTabList?.isDisable} onClick={() => window.open(rightTabList?.url)} className={`text-[#568AFF] underline underline-offset-1 text-nowrap ${rightTabList?.isDisable ? 'cursor-not-allowed' : 'cursor-pointer'}`}>{rightTabList?.goToText}</button>
                   <button onClick={() => onOpen(rightTabList?.docs)} className="text-[#568AFF] underline underline-offset-1 text-nowrap">User Guide</button>
                 </div>
               </div>
