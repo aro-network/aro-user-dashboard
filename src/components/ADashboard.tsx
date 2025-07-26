@@ -44,11 +44,11 @@ const Modes: Dashboard.ModesType[] = [
         content: <ANodes />,
         tab: 'nodes'
       },
-      {
-        name: "Leaderboard",
-        content: <ALeaderboard />,
-        tab: 'leaderboard'
-      },
+      // {
+      //   name: "Leaderboard",
+      //   content: <ALeaderboard />,
+      //   tab: 'leaderboard'
+      // },
 
       // {
       //   name: "Mining Stats",
