@@ -274,7 +274,6 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
   const params = new URLSearchParams(searchParams.toString());
   const exclusive = params.has('exclusive')
   const highlighted = (data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg)
-  const isDisble = exclusive && !highlighted && !data.offlineRewardClaimed
 
   const [showPerks, setShowPerks] = useState(false)
   const [code, setCode] = useState('')
@@ -287,6 +286,8 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
     setCode('')
     refetch()
   }
+
+
 
 
 
@@ -340,7 +341,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       className="justify-between h-full smd:h-auto xsm:w-full smd:w-full xsm:h-auto xsm:justify-center smd:justify-center xsm:flex-row xsm:gap-10 smd:flex-1 smd:gap-5 smd:flex-col"
       tit={
         exclusive &&
-        <Btn isDisabled={isDisble}
+        <Btn isDisabled={!highlighted || data.offlineRewardClaimed}
           className="self-end w-[106px] smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
           onPress={() => !data.offlineRewardClaimed ? setShowPerks(!showPerks) : undefined}>{!data.offlineRewardClaimed ? 'Perks' : 'Perked'}</Btn>
       }
