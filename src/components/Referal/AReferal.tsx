@@ -332,7 +332,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       subClassName="text-sm text-white/80 items-baseline "
       titClassName=""
       sub={<div className="text-[#FFFFFFCC]">
-        Redeem Jade with your Gift Code
+        Redeem Jade with your Gift Code.
       </div>} />
 
     <DupleInfo
