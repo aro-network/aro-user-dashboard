@@ -31,7 +31,7 @@ import { TbClipboardText } from "react-icons/tb";
 import { HelpTip } from "../tips";
 import ArrowIcon from "./Components/ArrowIcon";
 import useMobileDetect from "@/hooks/useMobileDetect";
-import { InputSplitCode } from "../inputs";
+import { InputRedeemCode, InputSplitCode } from "../inputs";
 
 
 const DEF_ANIMITEM = false
@@ -332,9 +332,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       subClassName="text-sm text-white/80 items-baseline "
       titClassName=""
       sub={<div className="text-[#FFFFFFCC]">
-
-        Redeem Jade with your Gift Code<br />
-        or ARO Pod order.
+        Redeem Jade with your Gift Code
       </div>} />
 
     <DupleInfo
@@ -382,67 +380,31 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
 
     }
     <ForceModal isOpen={showRedeem} className=" !max-w-[540px] !w-full smd:!mx-5">
-      <div className="flex justify-between w-full flex-col gap-5">
-        <div className="flex justify-between w-full">
-          <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">{chooseType?.title || 'Redeem'}</p>
-          <button hidden={!!chooseType} onClick={() => {
-            toggleShowRedeem(false);
-            setRedeemCode('')
-            setChooseType(undefined)
-          }}>
-            <img src="./close.png" />
-          </button>
-        </div>
-        {chooseType ?
-          <div className="flex flex-col gap-5">
-            <div className="text-[#FFFFFF80] text-sm">
-              {chooseType?.text}
-            </div>
-            <Input value={redeemCode} maxLength={12}
-              onChange={(e) => setRedeemCode(e.target.value.replace(/[\u4e00-\u9fa5]/g, ''))} className="mt-[.3125rem]" classNames={{ 'inputWrapper': '!rounded-lg h-12 popTabBg' }} />
-            <Btn isLoading={isPendingRedeem} isDisabled={redeemCode.length < 6} onPress={() => doRedeem()} className="w-full">Confirm</Btn>
-
-
-            <Btn color='default' className="w-full  bg-default border  !border-white text-white hover:bg-l1" onPress={() => {
-              toggleShowRedeem(false);
-              setRedeemCode('')
-              setChooseType(undefined)
-            }} >
-              Cancel
-            </Btn>
-
-          </div>
-          : <div className="flex gap-2.5  ">
-            {redeemList.map((item, i) => {
-              return <div key={item.title} onClick={() => setChooseType(item)} className="popTab popTabBg rounded-lg hover:!border-[#FFFFFF26] border border-[#444444]  w-[245px] flex justify-center h-[149px] items-center ">
-                <div className="flex justify-center flex-col items-center">
-                  <Image src={item.icon} width={item.width} height={item.height} alt={item.title} />
-                  <div className={`px-4 text-center smd:text-sm ${i === 0 ? 'mt-6' : 'mt-4'}`}>
-                    {item.title}
-                  </div>
-                </div>
-              </div>
-            })}
-          </div>
-        }
-
+      <div className="flex justify-between w-full">
+        <p className="self-stretch flex-grow-0 flex-shrink-0 font-semibold  text-base  text-white">Redeem Gift Code</p>
+        <button onClick={() => {
+          toggleShowRedeem(false);
+          setRedeemCode('')
+        }}>
+          <img src="./close.png" />
+        </button>
       </div>
-      {/* <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">Enter your Gift Code below and click 'Confirm' to claim your bonus!<br />
+      <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">Enter your Gift Code below and click 'Confirm' to claim your bonus!<br />
         Note: You can redeem up to 3,000 Jades in Previewnet."</p>
-*/}
-      {/* <InputRedeemCode setValue={setRedeemCode} value={redeemCode} /> */}
-      {/* <div className="flex w-full gap-[.625rem] smd:gap-5 ">
-        <Btn disabled={!chooseType}  className="w-full smd:h-12" onPress={() => doRedeem()} isLoading={isPendingRedeem}>
+
+      <InputRedeemCode setValue={setRedeemCode} value={redeemCode} />
+      <div className="flex w-full gap-[.625rem] smd:gap-5 ">
+        <Btn isDisabled={redeemCode.length !== 6} className="w-full smd:h-12" onPress={() => doRedeem()} isLoading={isPendingRedeem}>
           Confirm
-        </Btn> */}
-      {/* <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
+        </Btn>
+        {/* <Btn color='default' className="w-full  bg-default border smd:h-12 !border-white text-white hover:bg-l1" onPress={() => {
           toggleShowRedeem(false);
           setRedeemCode('')
 
         }}>
           Cancel
         </Btn> */}
-      {/* </div> */}
+      </div>
     </ForceModal>
   </ItemCard>
 }
