@@ -288,9 +288,6 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
   }
 
 
-
-
-
   return <ItemCard disableAnim className="py-[60px] xs:py-[80px] flex items-center smd:gap-[1.875rem] w-full justify-around gap-4 flex-wrap smd:flex-col smd:p-5 smd:items-start bg-fuchsia-600">
     <div className="flex gap-[3.125rem] smd:gap-10 h-full smd:h-auto">
       <SVGS.SvgJadeRewards className="text-[97px]" />
