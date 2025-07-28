@@ -10,11 +10,16 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
   const chooseType = params.get("nodeType") || '';
 
   return <div>
-    <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))]   w-full gap-5 mt-5 `, className)}>
+    <div className={cn(`grid grid-cols-[repeat(auto-fill,minmax(21.875rem,1fr))] smd:grid-cols-[repeat(auto-fill,minmax(100%,1fr))]  w-full gap-5 mt-5 `, className)}>
       {!isLoading && Array.isArray(data) && data.map((node, index) => {
         return <div
           key={`nodes_${index}`}
-          onClick={() => onOpenModal(node)}
+          onClick={(e) => {
+            e.stopPropagation()
+            e.isPropagationStopped()
+            onOpenModal(node)
+
+          }}
           className="bg-[#6D6D6D66] commonTab cursor-pointer hover:bg-[#6D6D6DCC] rounded-xl flex items-center gap-[1.0625rem] px-4 py-5">
           <div className="flex justify-center h-[130px] w-[130px] rounded-lg bg-[#FFFFFF26] items-center">
             {node.icon}

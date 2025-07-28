@@ -92,9 +92,9 @@ const ANodes = () => {
                 +{formatNumber(Number(item.todayRewards) || 0)}
               </label>
               <label className="">Preview Jades</label>
-              <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
-
-
+              <div onClick={(e) => { e.stopPropagation() }}>
+                <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
+              </div>
             </div>
           ),
           status: item.online,
