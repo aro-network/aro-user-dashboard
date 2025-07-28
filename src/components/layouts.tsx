@@ -10,7 +10,7 @@ export function PageUnlogin(p: PropsWithChildren & { childrenClassName?: string,
             <img src="https://aro.network/aro-logo.svg" alt="Logo" className="w-[284px] h-9" />
             <div className="flex gap-6 smd:hidden flex-col justify-center items-center px-5 ">
                 <div className="text-[2.75rem] font-bold leading-[120%] text-center xs:text-[2.125rem]">ARO Previewnet Is LIVE!</div>
-                <div className={`text-[42px]  xs:text-2xl smd:text-sm  leading-normal text-center text-xl text-[#00FF0D]`}>
+                <div className={` smd:text-sm text-base  leading-normal text-center  text-[#00FF0D]`}>
                     <div className="text-left leading-[190%]">
                         1. Run a Node & Join the Reward Rush<br />
                         2. Refer Others for Reward Boost<br />

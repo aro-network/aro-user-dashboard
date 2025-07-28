@@ -118,7 +118,7 @@ export default function Page() {
             <img src="https://aro.network/aro-logo.svg" alt="Logo" className=" h-[22px]" />
             <div className="flex gap-6  flex-col justify-center items-center px-5 mt-10">
               <div className="text-[26px] font-bold text-center ">ARO Previewnet Is LIVE!</div>
-              <div className={`text-[42px]  xs:text-[1.75rem] smd:text-lg  leading-normal text-center text-xl text-[#00FF0D]`}>
+              <div className={`smd:text-sm text-base leading-normal text-center  text-[#00FF0D]`}>
                 <div className="text-left leading-[190%]">
                   1. Run a Node & Join the Reward Rush<br />
                   2. Refer Others for Reward Boost<br />
