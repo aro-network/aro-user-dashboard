@@ -454,7 +454,7 @@ export const addNewNodeList = [
     Rewards: "⭐️⭐️⭐️",
     "User-friendly": "⭐️⭐️⭐️",
     docs: "https://docs.aro.network/user-guides/device-setup",
-    url: "https://shop.aro.network/",
+    url: "https://shop.aro.network/?coupon=gmvn25",
     goToText: "Order ARO Pod",
     isComming: false,
     isDisable: false,

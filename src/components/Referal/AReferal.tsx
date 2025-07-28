@@ -576,7 +576,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
       foreach: true,
       action: 'Order ARO Pod',
       finish: data.aroNode.pod,
-      onAction: () => { window.open('https://shop.aro.network/') }
+      onAction: () => { window.open('https://shop.aro.network/?coupon=gmvn25') }
     },
     {
       icon: "aro-link.png",
