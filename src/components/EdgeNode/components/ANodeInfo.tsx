@@ -547,7 +547,6 @@ const ANodeInfo: FC<{
                             setNodeName(
                               e.target.value
                                 .replace(/[\u4e00-\u9fa5]/g, "")
-                                .trim()
                             )
                             setIsEditingName(true);
                           }
@@ -582,7 +581,6 @@ const ANodeInfo: FC<{
                               setNodeName(
                                 e.target.value
                                   .replace(/[\u4e00-\u9fa5]/g, "")
-                                  .trim()
                               )
                               setIsEditingName(true);
                             }

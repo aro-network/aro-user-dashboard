@@ -26,7 +26,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
           </div>
           <div className="flex flex-col justify-between pb-[.3125rem] w-[60%] h-full ">
             <div className="flex flex-col">
-              <div className="flex items-center  gap-[10px] ">
+              <div className="flex items-center  gap-[10px] justify-between smd:justify-start">
                 <HelpTip content={node.deviceName}>
                   <label className="text-[#FFFFFF] text-lg truncate max-w-[7rem] smd:max-w-[6rem] ">
                     {node.deviceName}

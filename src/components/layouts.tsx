@@ -14,7 +14,7 @@ export function PageUnlogin(p: PropsWithChildren & { childrenClassName?: string,
                     <div className="text-left leading-[190%]">
                         - Join the $ARO Reward Rush<br />
                         - Run and test ARO Nodes<br />
-                        - $30k Top Referrer Bonus<br />
+                        - $30k USDT Top Referrer Bonus<br />
                     </div>
                 </div>
             </div>
