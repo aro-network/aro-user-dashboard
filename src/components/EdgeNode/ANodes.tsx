@@ -14,6 +14,7 @@ import { useAuthContext } from "@/app/context/AuthContext";
 import { debounce } from "lodash";
 import { AllText } from "@/lib/allText";
 import { ForceModal } from "../dialogs";
+import { HelpTip } from "../tips";
 
 export const typeObj: { [key: 'box' | 'x86' | string]: string } = {
   box: 'ARO Pod',
@@ -86,11 +87,13 @@ const ANodes = () => {
           ),
           nodeUUID: item.nodeUUID,
           experience: (
-            <div className="flex items-baseline">
-              <label className="text-[#00E42A] text-2xl smd:text-[19px] font-semibold smd:font-extrabold leading-6">
+            <div className="flex items-center gap-2">
+              <label className="text-[#FFFFFF80] text-2xl smd:text-[19px] font-semibold smd:font-extrabold leading-6">
                 +{formatNumber(Number(item.todayRewards) || 0)}
               </label>
-              <label className="ml-[.375rem]">Preview Jades</label>
+              <label className="">Preview Jades</label>
+              <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
+
 
             </div>
           ),
