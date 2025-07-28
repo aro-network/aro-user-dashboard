@@ -174,7 +174,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
         </button>
 
         <div className="flex  gap-5 smd:gap-[.625rem]  smd:w-full smd:justify-center h-7">
-          <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  smd:w-[9.375rem] h-7 `} alt="Logo" />
+          <img src="https://aro.network/aro-logo.svg" className={` w-[12.8125rem]  smd:w-[7.5rem] h-7 `} alt="Logo" />
           {/* <div onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}> */}
           <div className={cn(`bg-[#FFFFFF33] items-center  rounded-md  px-2 h-7 py-2 flex  gap-2 `, {
           })}>

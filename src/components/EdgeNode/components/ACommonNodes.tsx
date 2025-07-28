@@ -28,7 +28,7 @@ const ACommonNodes: FC<EdgeNodeMode.CommonProps> = ({ data, onOpenModal, classNa
             <div className="flex flex-col">
               <div className="flex items-center  gap-[10px] ">
                 <HelpTip content={node.deviceName}>
-                  <label className="text-[#FFFFFF] text-lg truncate max-w-[8rem] smd:max-w-[6rem] ">
+                  <label className="text-[#FFFFFF] text-lg truncate max-w-[7rem] smd:max-w-[6rem] ">
                     {node.deviceName}
                   </label>
                 </HelpTip>

@@ -87,13 +87,15 @@ const ANodes = () => {
           ),
           nodeUUID: item.nodeUUID,
           experience: (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center smd:items-start gap-2 smd:flex-col flex-wrap ">
               <label className="text-[#FFFFFF80] text-2xl smd:text-[19px] font-semibold smd:font-extrabold leading-6">
                 +{formatNumber(Number(item.todayRewards) || 0)}
               </label>
-              <label className="">Preview Jades</label>
-              <div onClick={(e) => { e.stopPropagation() }}>
-                <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
+              <div className="smd:w-full flex items-center gap-2">
+                <label className="">Preview Jades</label>
+                <div onClick={(e) => { e.stopPropagation() }}>
+                  <HelpTip className=" w-[12.5rem]" content={AllText.stats.rewardsAllNodesTips} />
+                </div>
               </div>
             </div>
           ),
