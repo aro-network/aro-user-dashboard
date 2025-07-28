@@ -86,12 +86,13 @@ const ANodes = () => {
           ),
           nodeUUID: item.nodeUUID,
           experience: (
-            <>
+            <div className="flex items-baseline">
               <label className="text-[#00E42A] text-2xl smd:text-[19px] font-semibold smd:font-extrabold leading-6">
                 +{formatNumber(Number(item.todayRewards) || 0)}
               </label>
-              {/* <label className="ml-[.375rem]"></label> */}
-            </>
+              <label className="ml-[.375rem]">Preview Jades</label>
+
+            </div>
           ),
           status: item.online,
           nodeId: item.nodeId,
@@ -342,7 +343,7 @@ const ANodes = () => {
                         <div className="text-sm">Rewards: {item.Rewards}</div>
                         <div className="text-sm">User-friendly: {item["User-friendly"]}</div>
                         <div className=" mt-3 flex gap-5 text-xs">
-                          <button disabled={item.isComming || item.isDisable} onClick={() => window.open(item.url)} className={`text-[#568AFF] underline underline-offset-1 ${item.isComming || item.isDisable ? 'cursor-not-allowed' : 'cursor-default'}`}>{item.goToText}</button>
+                          <button disabled={item.isComming || item.isDisable} onClick={() => window.open(item.url)} className={`text-[#568AFF] underline underline-offset-1 ${item.isComming || item.isDisable ? 'cursor-not-allowed' : 'cursor-pointer'}`}>{item.goToText}</button>
 
                           <button onClick={() => onOpen(item.docs)} className="text-[#568AFF] underline underline-offset-1">User Guide</button>
                         </div>

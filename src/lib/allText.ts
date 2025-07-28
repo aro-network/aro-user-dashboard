@@ -5,7 +5,7 @@ export const AllText = {
     Funds: "Funds",
     Referral: "Referral",
     "ARO ID": "ARO ID",
-    tips: "Welcome to ARO Previewnet. Register an account, complete tasks for Jade rewards, and try running ARO nodes. No mining rewards yet—real competition starts in ARO Testnet!",
+    tips: "ARO Previewnet is your gateway to explore the ARO Network, where you can run and test nodes, join our community, and prepare for the upcoming Testnet and Mainnet phases.",
   },
 
   signIn: {
