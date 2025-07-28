@@ -12,9 +12,9 @@ export function PageUnlogin(p: PropsWithChildren & { childrenClassName?: string,
                 <div className="text-[2.75rem] font-bold leading-[120%] text-center xs:text-[2.125rem]">ARO Previewnet Is LIVE!</div>
                 <div className={`text-[42px]  xs:text-[1.75rem] smd:text-lg  leading-normal text-center text-xl text-[#00FF0D]`}>
                     <div className="text-left leading-[190%]">
-                        - Join the $ARO Reward Rush<br />
-                        - Run and test ARO Nodes<br />
-                        - $30k USDT Top Referrer Bonus<br />
+                        1. Run an ARO Node & Join the Reward Rush<br />
+                        2. Refer Others to Boost Your Earnings<br />
+                        3. $30K USDT Bonus for the Top Referrer<br />
                     </div>
                 </div>
             </div>
