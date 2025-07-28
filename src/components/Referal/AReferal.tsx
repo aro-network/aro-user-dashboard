@@ -279,8 +279,13 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
   const [code, setCode] = useState('')
 
 
-  const onInputCode = async () => {
 
+  const onInputCode = async () => {
+    const validValues = ['1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888', '9999'];
+    if (!validValues.includes(code)) {
+      toast.error('Invalid Code')
+      return
+    }
     await backendApi.claimOfflineReward(code)
     setShowPerks(false);
     setCode('')
@@ -336,9 +341,15 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       className="justify-between h-full smd:h-auto xsm:w-full smd:w-full xsm:h-auto xsm:justify-center smd:justify-center xsm:flex-row xsm:gap-10 smd:flex-1 smd:gap-5 smd:flex-col"
       tit={
         exclusive &&
-        <Btn isDisabled={!highlighted || data.offlineRewardClaimed}
-          className="self-end w-[106px] smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
-          onPress={() => !data.offlineRewardClaimed ? setShowPerks(!showPerks) : undefined}>{!data.offlineRewardClaimed ? 'Perks' : 'Perked'}</Btn>
+        <div className="flex items-center gap-2">
+          <Btn
+            isDisabled={!highlighted || data.offlineRewardClaimed}
+            className="self-end w-[85px] smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
+            onPress={() => !data.offlineRewardClaimed ? setShowPerks(!showPerks) : undefined}>
+            {!data.offlineRewardClaimed ? 'Perks' : 'Perked'}
+          </Btn>
+          <HelpTip className="max-w-[300px]" content='Perks are event-exclusive. Keep an eye on our event schedule!' />
+        </div>
       }
       subClassName="text-sm text-white/80 items-baseline smd:w-full"
       titClassName="smd:w-full"
@@ -756,8 +767,6 @@ Share your idle internet and earn rewards effortlessly.
       <span className={'text-[#FFFFFFB2]'}>{name}</span>
     </div>)
 
-
-  console.log('21321312312', (data.referralTier1.jadeRewards ?? 0) + (data.referralTier1.lockedJadeRewards ?? 0), (data.referralTier1.jadeRewards ?? 0), (data.referralTier1.lockedJadeRewards ?? 0))
   return <ItemCard className="flex flex-col gap-5 order-1 smd:h-auto !h-full">
     <div className="flex justify-between w-full cursor-pointer  items-center" onClick={() => {
       setIsOpen(!isOpen)
