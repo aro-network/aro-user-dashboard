@@ -120,9 +120,9 @@ export default function Page() {
               <div className="text-[26px] font-bold text-center ">ARO Previewnet Is LIVE!</div>
               <div className={`text-[42px]  xs:text-[1.75rem] smd:text-lg  leading-normal text-center text-xl text-[#00FF0D]`}>
                 <div className="text-left leading-[190%]">
-                  1. Run an ARO Node & Join the $ARO Reward Rush<br />
-                  2. Refer Others to Boost Your Earnings<br />
-                  3. $30K USDT Bonus for the Top Referrer<br />
+                  1. Run a Node & Join the Reward Rush<br />
+                  2. Refer Others for Reward Boost<br />
+                  3. $30K USDT Bonus for Top Referrers<br />
                 </div>
               </div>
             </div>
