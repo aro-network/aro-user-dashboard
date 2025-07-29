@@ -26,16 +26,10 @@ export default function Page() {
   const sq = useMemo(() => new URLSearchParams(params.toString()), [params]);
   const r = useRouter();
   const [verifyToken, setVerifyToken] = useState('')
-
-
   const exclusive = sq.has("exclusive") || ""
-
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
     mutationFn: async (e: FormEvent) => {
-
-      console.log('verifyTokenverifyTokenverifyTokenverifyToken', verifyToken);
-
       e.preventDefault();
       await ac.login({ email, password, verifyToken });
     },
