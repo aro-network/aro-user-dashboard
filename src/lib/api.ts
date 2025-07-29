@@ -169,7 +169,11 @@ const backendApi = {
     return true;
   },
 
-  resetPassword: async (data: { email: string; password: string }) => {
+  resetPassword: async (data: {
+    email: string;
+    password: string;
+    verifyCode: string;
+  }) => {
     await Api.post<RES<undefined>>("/user/password/reset", data);
     return true;
   },
