@@ -291,10 +291,8 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
   const params = new URLSearchParams(searchParams.toString());
   const exclusive = params.has('exclusive')
   const highlighted = (data?.bind.x && data?.bind.followX && data?.bind.tg && data?.bind.joinTg)
-
   const [showPerks, setShowPerks] = useState(false)
   const [code, setCode] = useState('')
-
 
 
   const onInputCode = async () => {
