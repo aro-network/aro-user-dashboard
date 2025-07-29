@@ -250,6 +250,23 @@ function MyJadeRewards({ data, refetch }: { data: UserCampaignsRewards, refetch:
     // onSettled: () => toggleShowRedeem(false)
   })
 
+  const ac = useAuthContext();
+  const user = ac.queryUserInfo?.data;
+
+  const copy = useCopy();
+  const onPostX = () => {
+    const refferralLink = `${origin}/signup?referral=${user?.inviteCode}`;
+
+    postX({
+      text: `Don’t Just Pay for the Internet. Get Paid for It!
+
+Join the revolution with @AroNetwork.
+Share your idle internet and earn rewards effortlessly.
+
+👉 Start here: ${refferralLink}
+#AROtoEarn` })
+  };
+
   const redeemList = [
     {
       type: 'gift',
@@ -293,8 +310,8 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
   }
 
 
-  return <ItemCard disableAnim className="py-[60px] xs:py-[80px] flex items-center smd:gap-[1.875rem] w-full justify-around gap-4 flex-wrap smd:flex-col smd:p-5 smd:items-start bg-fuchsia-600">
-    <div className="flex gap-[3.125rem] smd:gap-10 h-full smd:h-auto">
+  return <ItemCard className="p-[60px]  smd:px-5 smd:py-10 xsm:py-10 gap-10 h-full flex flex-wrap justify-between ">
+    <div className="flex gap-[3.125rem]  xsm:gap-10 smd:gap-10 h-[115px] smd:h-auto ">
       <SVGS.SvgJadeRewards className="text-[97px]" />
       <DupleInfo
         className="h-full justify-between"
@@ -312,9 +329,8 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
           <div className="text-sm font-normal pl-2.5">Jades</div>
         </>} />
     </div>
-    <DupleSplit className="h-20 smd:h-[1px] smd:w-full" />
     <DupleInfo
-      className="justify-between h-full smd:h-auto smd:gap-5"
+      className="justify-between  h-[115px] smd:w-full xsm:gap-10 smd:h-auto smd:gap-5"
       tit={<Title text="Jade in Lock" tip={
         <div>
           Specific tasks (running ARO Nodes or redeeming Gift Codes)<br /> grant “Jade in Lock”, holding higher rewards for Testnet. <br />Unlock them by mining in Testnet!
@@ -328,35 +344,65 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
         <div className="text-sm font-normal pl-2.5">Jades</div>
       </>} />
     <DupleSplit className="hidden smd:block smd:h-[1px] smd:w-full" />
-    <DupleInfo
+    {/* <DupleInfo
       className="justify-between h-full smd:h-auto smd:gap-5"
       tit={<Title text="Redeem More Jade" />}
       subClassName="text-sm text-white/80 items-baseline "
       titClassName=""
       sub={<div className="text-[#FFFFFFCC]">
         Redeem Jade with your Gift Code.
-      </div>} />
+      </div>} /> */}
     <DupleInfo
-      className="justify-between h-full smd:h-auto xsm:w-full smd:w-full xsm:h-auto xsm:justify-center smd:justify-center xsm:flex-row xsm:gap-10 smd:flex-1 smd:gap-5 smd:flex-col"
-      tit={
-        exclusive &&
-        <div className="flex items-center gap-2">
-          <Btn
-            isDisabled={!highlighted || data.offlineRewardClaimed}
-            className="self-end w-[85px] smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
-            onPress={() => !data.offlineRewardClaimed ? setShowPerks(!showPerks) : undefined}>
-            {!data.offlineRewardClaimed ? 'Perks' : 'Perked'}
-          </Btn>
-          <HelpTip className="max-w-[300px]" content='Perks are event-exclusive. Keep an eye on our event schedule!' />
-        </div>
-      }
+      className="justify-between h-[115px] xsm:gap-10 smd:h-auto smd:w-full smd:gap-5"
+      tit={<Title text="Redeem More Jade" />}
       subClassName="text-sm text-white/80 items-baseline smd:w-full"
       titClassName="smd:w-full"
       sub={
-        <div className="w-full">
-          <Btn className={`self-end  w-[106px] text-xs smd:h-12 font-medium  smd:w-full smd:text-base`} onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
+        <div className="flex gap-5">
+          <div className="w-full">
+            <Btn className={`self-end  w-[106px] text-xs smd:h-12 font-medium  smd:w-full smd:text-base`} onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
+          </div>
+          {exclusive &&
+            <div className="flex items-center gap-2">
+              <Btn
+                isDisabled={!highlighted || data.offlineRewardClaimed}
+                className="self-end w-[85px] smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
+                onPress={() => !data.offlineRewardClaimed ? setShowPerks(!showPerks) : undefined}>
+                {!data.offlineRewardClaimed ? 'Perks' : 'Perked'}
+              </Btn>
+              <HelpTip className="max-w-[300px]" content='Perks are event-exclusive. Keep an eye on our event schedule!' />
+            </div>}
+        </div>
+
+      } />
+    {/* <DupleSplit className="h-full smd:h-[1px] smd:w-full xsm:hidden" /> */}
+
+
+    <DupleInfo
+      className="justify-between h-[115px] xsm:gap-10 smd:h-auto smd:gap-5 smd:w-full"
+      tit={<Title text="My Referral Code" />}
+      subClassName="text-sm text-white/80 items-baseline "
+      titClassName=""
+      sub={
+        <div>
+          <div className="flex items-center gap-4 h-full">
+            <div className="uppercase text-4xl smd:text-[2rem] leading-8 font-bold">{user?.inviteCode}</div>
+            <IconBtn className="bg-[#00E42A] hover:bg-[#5CF077]" tip="Copy Referral Link" onPress={() => copy(`${origin}/signup?referral=${user?.inviteCode}`)}>
+              <FaLink />
+            </IconBtn>
+            <IconBtn className="bg-[#00E42A] hover:bg-[#5CF077]" tip="Tweet Your Referral" onPress={onPostX}>
+              <FaXTwitter />
+            </IconBtn>
+          </div>
         </div>
       } />
+
+    {/* <div className="flex flex-col gap-10 justify-between h-full  smd:hidden">
+                  <div className="text-xl  smd:text-base leading-10 ">
+                    My Referral Code
+                  </div>
+                
+                </div> */}
 
     {
       <ForceModal isOpen={showPerks} className=" w-[440px]  smd:!mx-5">
