@@ -15,6 +15,7 @@ import { AutoFlip } from "@/components/auto-flip";
 import { PageUnlogin } from "@/components/layouts";
 import { loginTitleClassName } from "@/components/classes";
 import { MLink } from "@/components/links";
+import { TurnstileWidget } from "@/components/ACommonTurnstile";
 
 export default function Page() {
   const sp = useSearchParams();
@@ -35,13 +36,15 @@ export default function Page() {
       if (!password || !confirmPassword) throw new Error("Please enter email or password");
       if (password !== confirmPassword) throw new Error("Please confirm password");
       if (!verifyCode) throw new Error("Please enter verify code");
-      await backendApi.resetPassword({ email, password, verifyCode: verifyCode.trim() });
+      await backendApi.resetPassword({ email, password: verifyCode.trim() });
       toast.success("Reset Password Success!");
       ac.logout();
       await sleep(2000);
       r.push("/signin");
     },
   });
+  const [verifyToken, setVerifyToken] = useState('')
+
 
   const {
     mutate: onSend,
@@ -50,18 +53,21 @@ export default function Page() {
   } = useMutation({
     mutationFn: async () => {
       if (!email) throw new Error("Please enter email");
-      await backendApi.sendResetPassword(email);
+      await backendApi.sendResetPassword(email, verifyToken);
       actionSendCount.reset(60);
     },
   });
+
+  console.log('verifyTokenverifyTokenverifyToken', verifyToken);
+
 
   const disableReset =
     isPending ||
     validateVerifyCode(verifyCode) !== true ||
     validateEmail(email) !== true ||
     validatePassword(password) !== true ||
-    validateConfirmPassword(confirmPassword, password) !== true;
-  const disableSend = isPendingSend || sendCount > 0 || validateEmail(email) !== true;
+    validateConfirmPassword(confirmPassword, password) !== true
+  const disableSend = isPendingSend || sendCount > 0 || validateEmail(email) !== true || !verifyToken;
   return (
     <PageUnlogin headerClassNmae="smd:!flex-[2]" childrenClassName="smd:!flex-[8]" type='reset'>
       <AutoFlip className="mx-auto p-5 md:min-h-full flex flex-col gap-5 items-center w-full max-w-[25rem]">
@@ -71,6 +77,9 @@ export default function Page() {
           <InputEmail value={email} setEmail={setEmail} />
           <InputPassword label="New Password" setPassword={setPassword} />
           <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
+          <TurnstileWidget
+            onVerify={(token) => setVerifyToken(token)}
+          />
           <div className="flex gap-5 items-center w-full">
             <div className="flex-1">
               <InputVerifyCode setVerifyCode={setVerifyCode} />
@@ -79,6 +88,7 @@ export default function Page() {
               {isPendingSend ? "" : isIdleSend ? "Send" : sendCount > 0 ? `${sendCount}s` : "Resend"}
             </Btn>
           </div>
+
           <Btn type="submit" isDisabled={disableReset} isLoading={isPending}>
             Reset Password
           </Btn>

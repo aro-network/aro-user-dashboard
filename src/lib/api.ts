@@ -84,7 +84,11 @@ Api.interceptors.response.use(
 );
 
 const backendApi = {
-  loginApi: async (data: { email: string; password: string }) => {
+  loginApi: async (data: {
+    email: string;
+    password: string;
+    verifyToken: string;
+  }) => {
     const cryptoNewPwd = createHash("sha256")
       .update(data.password)
       .digest("hex");
@@ -92,6 +96,7 @@ const backendApi = {
     const response = await Api.post<RES<LoginResult>>("/user/signIn", {
       email: data.email,
       password: cryptoNewPwd,
+      verifyToken: data.verifyToken,
     });
     return response.data.data;
   },
@@ -129,6 +134,7 @@ const backendApi = {
     email: string;
     password: string;
     referralCode?: string;
+    verifyToken?: string;
   }) => {
     const response = await Api.post<RES<SingUpResult>>("/user/signUp", {
       ...data,
@@ -155,16 +161,15 @@ const backendApi = {
     p.total = p.referral + p.network;
     return response.data.data;
   },
-  sendResetPassword: async (email: string) => {
-    await Api.post<RES<undefined>>("/user/password/reset/send", { email });
+  sendResetPassword: async (email: string, verifyToken: string) => {
+    await Api.post<RES<undefined>>("/user/password/reset/send", {
+      email,
+      verifyToken,
+    });
     return true;
   },
 
-  resetPassword: async (data: {
-    email: string;
-    password: string;
-    verifyCode: string;
-  }) => {
+  resetPassword: async (data: { email: string; password: string }) => {
     await Api.post<RES<undefined>>("/user/password/reset", data);
     return true;
   },

@@ -94,9 +94,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     wrapSetUser();
   };
 
-  const login = async (credentials: { email: string; password: string }) => {
+  const login = async (credentials: { email: string; password: string, verifyToken: string }) => {
+    console.log('credentialscredentialscredentialscredentials', credentials);
+
     try {
-      if (!credentials.email || !credentials.password) return;
+      if (!credentials.email || !credentials.password || !credentials.verifyToken) return;
       const user = await backendApi.loginApi(credentials);
       wrapSetUser(user);
 

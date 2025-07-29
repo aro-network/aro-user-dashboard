@@ -19,6 +19,9 @@ import { useAuthContext } from "../context/AuthContext";
 import { ForceModal } from "@/components/dialogs";
 import { envText } from "@/lib/utils";
 import useMobileDetect from "@/hooks/useMobileDetect";
+import Turnstile from 'react-turnstile'
+import { TurnstileWidget } from "@/components/ACommonTurnstile";
+
 export default function Page() {
   const sq = useSearchParams();
 
@@ -43,10 +46,10 @@ export default function Page() {
   const { mutate: handlerSubmit, isPending } = useMutation({
     mutationFn: async () => {
       try {
-        if (!email || !password || !confirmPassword) throw new Error("Please enter email or password");
+        if (!email || !password || !confirmPassword || !verifyToken) throw new Error("Please enter email or password");
         if (password !== confirmPassword) throw new Error("Please confirm password");
         if (!checkedTermPrivacy) throw new Error("Plase checked Term of Service and Privacy Policy");
-        refRegisterUser.current = await backendApi.registerApi({ email, password, referralCode: referalCode ? referalCode.trim() : undefined });
+        refRegisterUser.current = await backendApi.registerApi({ email, verifyToken, password, referralCode: referalCode ? referalCode.trim() : undefined });
         actionResendScends.reset(60);
         setShowToVerify(true);
         const exclusive = sq.has("exclusive") || ""
@@ -74,7 +77,7 @@ export default function Page() {
           ac.setUser(res);
         } else {
           // try sign
-          const res = await backendApi.loginApi({ email, password });
+          const res = await backendApi.loginApi({ email, password, verifyToken });
           if (res.token) {
             ac.setUser(res);
           } else {
@@ -96,16 +99,19 @@ export default function Page() {
   });
 
   const disableVerifyEmail = isPendingVerify || validateVerifyCode(verifyCode) !== true;
+  const [verifyToken, setVerifyToken] = useState('')
+
 
   const disableSignUp =
     !checkedTermPrivacy ||
     validateEmail(email) !== true ||
     validatePassword(password) !== true ||
-    validateConfirmPassword(confirmPassword, password) !== true;
+    validateConfirmPassword(confirmPassword, password) !== true || !verifyToken
   const disableResendEmail = reSendSecends > 0 || isPendingResendVerify;
 
 
   const [isShow, setIsShow] = useState(false)
+
 
 
 
@@ -161,6 +167,9 @@ export default function Page() {
                 <InputEmail setEmail={setEmail} />
                 <InputPassword setPassword={setPassword} />
                 <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
+                <TurnstileWidget
+                  onVerify={(token) => setVerifyToken(token)}
+                />
                 <div className="flex items-center flex-wrap smd:text-sm text-xs text-white/60">
                   <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs smd:text-sm text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>
                     I agree to the ARO{"\u00A0"}

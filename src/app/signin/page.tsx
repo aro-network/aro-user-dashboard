@@ -14,13 +14,8 @@ import { AuthContext } from "../context/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import useRedirect from "@/hooks/useRedirect";
 import { envText } from "@/lib/utils";
-import { ENV } from "@/lib/env";
-import { HelpTip } from "@/components/tips";
-import { CiCircleQuestion } from "react-icons/ci";
-import useMobileDetect from "@/hooks/useMobileDetect";
-import { SVGS } from "@/svg";
-import { AllText } from "@/lib/allText";
-import { Devnet } from "@/components/ADashboard";
+import Turnstile from 'react-turnstile'
+import { TurnstileWidget } from "@/components/ACommonTurnstile";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -30,6 +25,7 @@ export default function Page() {
   const referral = params.get("referral");
   const sq = useMemo(() => new URLSearchParams(params.toString()), [params]);
   const r = useRouter();
+  const [verifyToken, setVerifyToken] = useState('')
 
 
   const exclusive = sq.has("exclusive") || ""
@@ -37,18 +33,20 @@ export default function Page() {
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
     mutationFn: async (e: FormEvent) => {
+
+      console.log('verifyTokenverifyTokenverifyTokenverifyToken', verifyToken);
+
       e.preventDefault();
-      await ac.login({ email, password });
+      await ac.login({ email, password, verifyToken });
     },
   });
   useRedirect()
 
 
-
   const href = referral ? `/signup?referral=${referral}` : exclusive ? `/signup?${params.toString()}` : '/signup'
 
 
-  const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password;
+  const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password || !verifyToken;
   return (
     <PageUnlogin headerClassNmae=" smd:!flex-[3]" type="sign">
       <AutoFlip className="mx-auto px-5 md:min-h-full flex sd flex-col gap-4 md:items-center w-full max-w-[25rem]">
@@ -60,6 +58,9 @@ export default function Page() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
           <InputEmail setEmail={setEmail} />
           <InputPassword setPassword={setPassword} validate={() => null} />
+          <TurnstileWidget
+            onVerify={(token) => setVerifyToken(token)}
+          />
           <Btn className="smd:!h-12" type="submit" isDisabled={disableSignIn} isLoading={isPendingSignIn} >
             Sign In
           </Btn>
