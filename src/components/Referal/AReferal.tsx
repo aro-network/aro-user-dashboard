@@ -761,7 +761,6 @@ Start now 👉 ${refferralLink}
     try {
       await backendApi.userBindAdress(address);
       refetch();
-      close();
     } catch (e) {
       console.error("bind error", e);
     }
@@ -805,7 +804,7 @@ Start now 👉 ${refferralLink}
         first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet },
 
       }} />
-      <SocialTaskItem data={{
+      {/* <SocialTaskItem data={{
         highlighted: highlighted,
         isHidden: true,
         icon: FaWallet,
@@ -814,7 +813,7 @@ Start now 👉 ${refferralLink}
         title: `Bind Ethereum address`,
         first: { tit: <div className="text-nowrap ">Bind your Ethereum wallet<br /> and verify your address.</div>, action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: onBindWallet, addJade: data.jadePoint.bindEth },
 
-      }} />
+      }} /> */}
     </div>}
   </ItemCard>
 }
