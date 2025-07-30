@@ -76,10 +76,10 @@ export const scrollToTop = () => {
 };
 
 export const config = getDefaultConfig({
-  appName: "ARO",
-  projectId: "7dbfe391a389f1dd5555a5d31c90f523",
+  appName: "ARO Network",
+  projectId: "b56e18d47c72ab683b10814fe9495694",
   chains: [mainnet, polygon, optimism, arbitrum, base],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  ssr: true,
 });
 
 export const formatStr = (address?: string, start = 0, end = 10) => {
@@ -515,17 +515,15 @@ export const installStep = [
     icon: "./extension.svg",
     title: AllText.AAddNewNodes.lite.step1["Install from Chrome Web Store"],
     Recommended: AllText.AAddNewNodes.lite.step1.Recommended,
-    version: "ARO Lite ver. 0.0.1",
+    version: "0.0.3",
+    tip: "(Outdated version!)",
     downloadUrl:
       "https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar",
   },
   {
     icon: "./instsllExtension.svg",
-    title:
-      AllText.AAddNewNodes.lite.step1[
-        "Manually install extension in Developer Mode"
-      ],
-    version: "ARO Lite ver. 0.0.1",
+    title: "Recommended: Manually install the latest version.",
+    version: "0.0.4",
     downloadUrl: "",
   },
 ];

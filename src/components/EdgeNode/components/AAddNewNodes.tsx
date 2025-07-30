@@ -546,14 +546,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                     <div className="flex gap-5 items-center">
                       <img src={item.icon} className="w-[50px] h-[50px]" />
                       <div className='text-sm flex gap-[5px] flex-col smd:w-full '>
-                        <div className="font-semibold text-left">
+                        <div className={cn("font-semibold text-left", { 'text-status-0': index === 1 })}>
                           {item.title}
                         </div>
-                        <div className="text-primary text-left">
+                        {/* <div className="text-primary text-left">
                           {item.Recommended}
-                        </div>
+                        </div> */}
                         <div className="text-left text-xs text-[#FFFFFF99]">
-                          ARO Lite ver. {extensionInfo?.version || '0.0.1'}
+                          ARO Lite ver. {item.version} <span className="text-status-1">{item.tip}</span>
                         </div>
                       </div>
                     </div>

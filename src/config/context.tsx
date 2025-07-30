@@ -12,10 +12,10 @@ import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
 const queryClient = new QueryClient()
 
 const metadata = {
-  name: 'ARO',
-  description: 'AppKit Example',
-  url: 'https://reown.com/appkit',
-  icons: ['https://assets.reown.com/reown-profile-pic.png']
+  name: 'ARO Network',
+  description: 'ARO Network',
+  url: 'https://aro.network/',
+  icons: ['https://aro.network/favicon.ico']
 }
 
 createAppKit({
@@ -31,6 +31,9 @@ createAppKit({
 
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
   const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config)
+
+  console.log('进入了');
+
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
