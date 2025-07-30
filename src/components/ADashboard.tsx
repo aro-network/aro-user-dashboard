@@ -160,9 +160,6 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
   const { isOpen: isVisable, onOpen, onOpenChange, onClose } = useDisclosure();
 
 
-
-
-
   return (
     <div className="  overflow-hidden m-auto flex justify-center flex-col xs:w-full ">
       <div className={cn(` flex h-[3.75rem] bg-[#373737]   smd:fixed  top-0 flex-row w-full justify-between items-center py-5   px-[50px] smd:px-5 `, {
@@ -353,6 +350,7 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
           onConfirm={() => {
             ac.setLink('')
             ac.logout()
+            ud.disconnect()
           }
           }
 
