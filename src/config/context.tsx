@@ -32,8 +32,6 @@ createAppKit({
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
   const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config)
 
-  console.log('进入了');
-
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
