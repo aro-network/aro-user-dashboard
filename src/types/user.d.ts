@@ -172,6 +172,7 @@ export interface UserCampaignsRewards {
     joinTg: boolean;
     discord: boolean;
     joinDiscord: boolean;
+    bindEth: boolean;
   };
   aroNode: {
     pod: boolean;
@@ -189,6 +190,7 @@ export interface UserCampaignsRewards {
     liteNode: number;
     orderPod: number;
     orderLink: number;
+    bindEth: number;
   };
   referralTier1: {
     count: number;

@@ -13,7 +13,7 @@ import { telegramAuth } from "@use-telegram-auth/hook";
 import Aos from 'aos';
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useState } from "react";
+import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useRef, useState } from "react";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import { FaLink, FaXTwitter } from "react-icons/fa6";
 import { FiCheck, FiArrowUpRight } from "react-icons/fi";
@@ -32,6 +32,8 @@ import { HelpTip } from "../tips";
 import ArrowIcon from "./Components/ArrowIcon";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { InputRedeemCode, InputSplitCode } from "../inputs";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+
 
 
 const DEF_ANIMITEM = false
@@ -59,7 +61,7 @@ function FinishBadge({ className }: { className?: string }) {
   </div>
 }
 
-type StepData = { finished: boolean, tit: string, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void, userName?: string, connectd?: string }
+type StepData = { finished: boolean, tit: string | ReactNode, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void, userName?: string, connectd?: string }
 function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData, title?: string, jade?: number, isHidden?: boolean, highlighted?: boolean }, className?: string, }) {
   const Micon = data.icon
   const finished = data.first.finished && (!data.secend || data.secend.finished)
@@ -84,10 +86,10 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
             <Micon className={`text-[90px] ${data.highlighted ? 'text-[#96EA63] ' : 'text-white'} smd:text-[60px]  `} />
           </div>
           <div className="flex flex-col w-full">
-            <div className="flex  py-4  justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col smd:gap-5 ">
+            <div className="flex  py-4  justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col gap-5  ">
               <div className="flex items-center gap-2.5">
                 {!data.isHidden && <div className=" rounded-full border w-[18px] h-[18px] flex items-center justify-center font-AlbertSans">1</div>}
-                <div className="text-sm leading-tight text-left ">{data.first.tit}</div>
+                <div className="text-sm leading-tight text-left text-wrap ">{data.first.tit}</div>
               </div>
               {/* data.first.finished */}
               <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base  ", { ' !border-none !text-[#00E42A] !opacity-100': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
@@ -747,6 +749,39 @@ Start now 👉 ${refferralLink}
     setIsOpen(highlighted);
   }, [highlighted]);
 
+  const { open, close } = useAppKit()
+  const { address, isConnected, } = useAppKitAccount()
+
+
+  const lastBoundAddress = useRef<string | undefined>(undefined);
+
+  const bind = async () => {
+    try {
+      await backendApi.userBindAdress(address);
+      lastBoundAddress.current = address;
+    } catch (err) {
+      console.error('bind error', err);
+    }
+  };
+
+  useEffect(() => {
+    if (isConnected && address && lastBoundAddress.current !== address) {
+      bind();
+    }
+  }, [isConnected, address]);
+
+  const onBindWallet = () => {
+    if (!isConnected) {
+      open();
+    }
+  };
+
+
+
+
+
+
+
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
     <div className="flex justify-between w-full cursor-pointer items-center" onClick={() => setIsOpen(!isOpen)}>
@@ -774,6 +809,16 @@ Start now 👉 ${refferralLink}
         jade: data.jadePoint.sendTweet,
         title: ` Post on Twitter/X`,
         first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet },
+
+      }} />
+      <SocialTaskItem data={{
+        highlighted: highlighted,
+        isHidden: true,
+        icon: TbClipboardText,
+        jade: data.jadePoint.sendTweet,
+        // Bind Ethereum address  +100 Jade
+        title: `Bind Ethereum address`,
+        first: { tit: 'Bind your Ethereum wallet and verify your address.', action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: onBindWallet, addJade: data.jadePoint.bindEth },
 
       }} />
     </div>}

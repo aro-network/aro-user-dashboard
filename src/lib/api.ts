@@ -536,6 +536,12 @@ const backendApi = {
     );
     return res.data.data;
   },
+
+  // /api/user/eth/{ethAddress}/bind
+  userBindAdress: async (ethAddress?: string) => {
+    const response = await Api.post<RES<string>>(`user/eth/${ethAddress}/bind`);
+    return response.data.data;
+  },
 };
 
 export default backendApi;
