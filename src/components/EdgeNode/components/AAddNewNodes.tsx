@@ -88,9 +88,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
   const r = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
-
   const searchType = params.get('chooseType') || ''
-
 
 
   const onStepNext = (over?: boolean) => {
