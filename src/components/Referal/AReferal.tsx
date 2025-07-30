@@ -27,6 +27,7 @@ import { IconCard } from "../cards";
 import { ForceModal } from "../dialogs";
 import { DupleInfo, DupleSplit } from "../EdgeNode/AOverview";
 import { TbClipboardText } from "react-icons/tb";
+import { useDisconnect } from "wagmi";
 
 import { HelpTip } from "../tips";
 import ArrowIcon from "./Components/ArrowIcon";
@@ -749,34 +750,30 @@ Start now 👉 ${refferralLink}
     setIsOpen(highlighted);
   }, [highlighted]);
 
-  const { open, close } = useAppKit()
+  const { open, close, } = useAppKit()
+
   const { address, isConnected, } = useAppKitAccount()
 
 
-  const lastBoundAddress = useRef<string | undefined>(undefined);
-
   const bind = async () => {
-    await backendApi.userBindAdress(address);
-    lastBoundAddress.current = address;
-    refetch()
+    if (!address || !isConnected) return;
 
-
-  };
-
-  useEffect(() => {
-    if (isConnected && address && lastBoundAddress.current !== address) {
-      bind();
+    try {
+      await backendApi.userBindAdress(address);
+      refetch();
+      close();
+    } catch (e) {
+      console.error("bind error", e);
     }
-  }, [isConnected, address]);
-
-  const onBindWallet = () => {
-    open();
   };
 
+  const onBindWallet = async () => {
+    await open();
 
-
-
-
+    if (isConnected && address) {
+      await bind();
+    }
+  };
 
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
