@@ -77,7 +77,7 @@ export const scrollToTop = () => {
 
 export const config = getDefaultConfig({
   appName: "ARO Network",
-  projectId: "b56e18d47c72ab683b10814fe9495694",
+  projectId: "872efcb96d4b880f62f4f474a3a2aca7",
   chains: [mainnet, polygon, optimism, arbitrum, base],
   ssr: true,
 });
