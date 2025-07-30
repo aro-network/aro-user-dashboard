@@ -770,9 +770,7 @@ Start now 👉 ${refferralLink}
   }, [isConnected, address]);
 
   const onBindWallet = () => {
-    if (!isConnected) {
-      open();
-    }
+    open();
   };
 
 
