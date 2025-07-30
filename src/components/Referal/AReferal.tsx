@@ -14,7 +14,7 @@ import Aos from 'aos';
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FC, Fragment, PropsWithChildren, ReactNode, useEffect, useRef, useState } from "react";
-import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
+import { FaDiscord, FaTelegramPlane, FaWallet } from "react-icons/fa";
 import { FaLink, FaXTwitter } from "react-icons/fa6";
 import { FiCheck, FiArrowUpRight } from "react-icons/fi";
 import { IoAlertCircle } from "react-icons/io5";
@@ -82,14 +82,14 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
       </div>
       <div className="flex flex-col">
         <div className="flex gap-9 smd:gap-2.5 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
-          <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[120px] ">
-            <Micon className={`text-[90px] ${data.highlighted ? 'text-[#96EA63] ' : 'text-white'} smd:text-[60px]  `} />
+          <div className="rounded-xl shrink-0 relative 0 bg-no-repeat bg-cover  flex justify-center items-center overflow-hidden w-[80px] ">
+            <Micon className={`text-[80px] ${data.highlighted ? 'text-[#96EA63] ' : 'text-white'} smd:text-[60px]  `} />
           </div>
           <div className="flex flex-col w-full">
             <div className="flex  py-4  justify-between shrink-0 w-full smd:h-auto items-center smd:flex-col gap-5  ">
               <div className="flex items-center gap-2.5">
                 {!data.isHidden && <div className=" rounded-full border w-[18px] h-[18px] flex items-center justify-center font-AlbertSans">1</div>}
-                <div className="text-sm leading-tight text-left text-wrap ">{data.first.tit}</div>
+                <div className="text-sm  text-left text-wrap ">{data.first.tit}</div>
               </div>
               {/* data.first.finished */}
               <Btn className={cn("w-[120px] smd:w-full mt-auto text-xs font-medium h-[30px] smd:h-12 smd:text-base  ", { ' !border-none !text-[#00E42A] !opacity-100': data.first.finished })} isDisabled={data.first.finished} onPress={data.first.finished ? undefined : data.first.onAction} isLoading={data.first.actionLoading}>
@@ -811,11 +811,11 @@ Start now 👉 ${refferralLink}
       <SocialTaskItem data={{
         highlighted: highlighted,
         isHidden: true,
-        icon: TbClipboardText,
+        icon: FaWallet,
         jade: data.jadePoint.sendTweet,
         // Bind Ethereum address  +100 Jade
         title: `Bind Ethereum address`,
-        first: { tit: 'Bind your Ethereum wallet and verify your address.', action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: onBindWallet, addJade: data.jadePoint.bindEth },
+        first: { tit: <div className="text-nowrap ">Bind your Ethereum wallet<br /> and verify your address.</div>, action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: onBindWallet, addJade: data.jadePoint.bindEth },
 
       }} />
     </div>}
