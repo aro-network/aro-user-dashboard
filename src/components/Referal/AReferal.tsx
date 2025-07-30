@@ -756,12 +756,11 @@ Start now 👉 ${refferralLink}
   const lastBoundAddress = useRef<string | undefined>(undefined);
 
   const bind = async () => {
-    try {
-      await backendApi.userBindAdress(address);
-      lastBoundAddress.current = address;
-    } catch (err) {
-      console.error('bind error', err);
-    }
+    await backendApi.userBindAdress(address);
+    lastBoundAddress.current = address;
+    refetch()
+
+
   };
 
   useEffect(() => {
