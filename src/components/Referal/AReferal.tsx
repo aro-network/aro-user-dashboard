@@ -19,7 +19,7 @@ import { FaLink, FaXTwitter } from "react-icons/fa6";
 import { FiCheck, FiArrowUpRight } from "react-icons/fi";
 import { IoAlertCircle } from "react-icons/io5";
 import { IconType } from "react-icons/lib";
-import { useToggle } from "react-use";
+import { useCounter, useInterval, useToggle } from "react-use";
 import { toast } from "react-toastify";
 import { currentENVName } from "../ADashboard";
 import { Btn, IconBtn } from "../btns";
@@ -33,6 +33,7 @@ import ArrowIcon from "./Components/ArrowIcon";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import { InputRedeemCode, InputSplitCode } from "../inputs";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { IoMdRefreshCircle } from 'react-icons/io'
 
 
 
@@ -62,7 +63,7 @@ function FinishBadge({ className }: { className?: string }) {
 }
 
 type StepData = { finished: boolean, tit: string | ReactNode, action: string, addJade?: number, actionLoading?: boolean, onAction: () => void, userName?: string, connectd?: string }
-function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, first: StepData, secend?: StepData, title?: string, jade?: number, isHidden?: boolean, highlighted?: boolean }, className?: string, }) {
+function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, isRefersh?: ReactNode, first: StepData, secend?: StepData, title?: string, jade?: number, isHidden?: boolean, highlighted?: boolean }, className?: string, }) {
   const Micon = data.icon
   const finished = data.first.finished && (!data.secend || data.secend.finished)
 
@@ -79,6 +80,8 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, firs
           +{data.jade}
         </div>
         <div className="text-sm font-normal  smd:text-base"> Jade</div>
+        {data.first.finished ? data.isRefersh : null}
+
       </div>
       <div className="flex flex-col">
         <div className="flex gap-9 smd:gap-2.5 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
@@ -545,15 +548,20 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
   });
 
   const [isOpen, setIsOpen] = useState(highlighted);
+  const [sendCount, actionSendCount] = useCounter(0, 60, 0);
+  useInterval(() => {
+    actionSendCount.dec(1);
+  }, 1000);
 
   useEffect(() => {
     setIsOpen(highlighted);
   }, [highlighted]);
 
+  const onRefershJoinStatus = async () => {
+    const status = await backendApi.refershStatus();
+    actionSendCount.reset(60);
 
-
-
-
+  }
 
 
   return <div className="h-full">
@@ -582,6 +590,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
           highlighted: highlighted,
           icon: FaTelegramPlane,
           jade: data.jadePoint.joinTG,
+          isRefersh: <button className="ml-auto" onClick={() => onRefershJoinStatus()}>{sendCount > 0 ? sendCount : <IoMdRefreshCircle className="text-10 text-[#FFFFFF80]" />}</button>,
           title: `Join Telegram`,
           first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnectTelegram.isPending, onAction: () => mutConnectTelegram.mutate(), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
           secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
@@ -769,9 +778,11 @@ Start now 👉 ${refferralLink}
   const { signMessageAsync } = useSignMessage();
   const [isSigning, setIsSigning] = useState(false);
   const onBindWallet = async () => {
-    await open();
+    console.log('come in')
 
     try {
+      await open();
+
       setIsSigning(true);
       const message = `Welcome%20to%20ARO%20Network%21%20%0A%0ABy%20signing%20this%20message%2C%20you%20confirm%20that%20you%20are%20the%20owner%20of%20this%20wallet%20address%20and%20authorize%20its%20binding%20to%20your%20ARO%20Network%20account.%0A%0AThis%20signature%20is%20for%20authentication%20purposes%20only.%20It%20will%20not%20trigger%20any%20blockchain%20transaction.%0A%0AARO%20Dashboard%3A%20dashboard.aro.network%20%20%0AWallet%20address%3A%20${address}%0A%0AOnly%20sign%20this%20message%20if%20you%20trust%20the%20application.`
       const signature = await signMessageAsync({ message: decodeURIComponent(message) });
