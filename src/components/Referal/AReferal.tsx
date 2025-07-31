@@ -80,8 +80,8 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, isRe
           +{data.jade}
         </div>
         <div className="text-sm font-normal  smd:text-base"> Jade</div>
-        {/* {data.isRefersh && data.first.finished && !data.secend?.finished ? : null} */}
-        {data.isRefersh}
+        {data.isRefersh && data.first.finished && !data.secend?.finished ? data.isRefersh : null}
+
       </div>
       <div className="flex flex-col">
         <div className="flex gap-9 smd:gap-2.5 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
