@@ -351,6 +351,8 @@ const ADashboard: FC<Dashboard.MenusProps> = () => {
             ac.setLink('')
             ac.logout()
             ud.disconnect()
+            localStorage.removeItem('SEND_TIMER_start');
+
           }
           }
 

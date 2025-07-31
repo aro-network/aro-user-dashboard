@@ -362,14 +362,14 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
       sub={
         <div className="flex gap-5">
           <div className="w-full">
-            <Btn className={`self-end  w-[106px] text-xs smd:h-12 font-medium  smd:w-full smd:text-base`} onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
+            <Btn className={`self-end  w-[106px] text-xs smd:h-12 font-medium  smd:text-base`} onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
           </div>
           {
             // exclusive &&
             <div className="flex items-center gap-2">
               <Btn
                 isDisabled={!highlighted || data.offlineRewardClaimed}
-                className="self-end w-[106px]  smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
+                className="self-end w-[106px]  smd:h-12 text-xs font-medium   smd:text-base"
                 onPress={() => !data.offlineRewardClaimed ? setShowPerks(!showPerks) : undefined}>
                 {!data.offlineRewardClaimed ? 'Perks' : 'Perked'}
               </Btn>
@@ -548,9 +548,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   const [isOpen, setIsOpen] = useState(highlighted);
   const [sendCount, actionSendCount] = usePersistentCounter('SEND_TIMER', 0, 60);
-  useInterval(() => {
-    actionSendCount.dec(1);
-  }, 1000);
+
 
   useEffect(() => {
     setIsOpen(highlighted);
