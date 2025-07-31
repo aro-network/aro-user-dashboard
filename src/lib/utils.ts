@@ -143,10 +143,8 @@ export const formatNumber = (num: number) => {
     const scaled = num / Math.pow(1000, index);
     return scaled.toFixed(2) + units[index];
   }
-  if (num < 1) {
-    return num.toFixed(2);
-  }
-  return Math.round(num).toString();
+
+  return num.toFixed(2);
 };
 
 // function formatLargeNumber(num) {

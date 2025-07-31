@@ -538,8 +538,11 @@ const backendApi = {
   },
 
   // /api/user/eth/{ethAddress}/bind
-  userBindAdress: async (ethAddress?: string) => {
-    const response = await Api.post<RES<string>>(`user/eth/${ethAddress}/bind`);
+  userBindAdress: async (ethAddress?: string, signature?: string) => {
+    const response = await Api.post<RES<string>>(
+      `user/eth/${ethAddress}/bind`,
+      { signature }
+    );
     return response.data.data;
   },
 };

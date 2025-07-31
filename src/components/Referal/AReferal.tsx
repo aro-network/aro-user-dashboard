@@ -27,8 +27,7 @@ import { IconCard } from "../cards";
 import { ForceModal } from "../dialogs";
 import { DupleInfo, DupleSplit } from "../EdgeNode/AOverview";
 import { TbClipboardText } from "react-icons/tb";
-import { useDisconnect } from "wagmi";
-
+import { useDisconnect, useSignMessage } from "wagmi";
 import { HelpTip } from "../tips";
 import ArrowIcon from "./Components/ArrowIcon";
 import useMobileDetect from "@/hooks/useMobileDetect";
@@ -363,7 +362,8 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
           <div className="w-full">
             <Btn className={`self-end  w-[106px] text-xs smd:h-12 font-medium  smd:w-full smd:text-base`} onPress={() => toggleShowRedeem(true)}>Redeem</Btn>
           </div>
-          {exclusive &&
+          {
+            // exclusive &&
             <div className="flex items-center gap-2">
               <Btn
                 isDisabled={!highlighted || data.offlineRewardClaimed}
@@ -444,8 +444,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
         </button>
       </div>
       <p className="self-stretch flex-grow-0 flex-shrink-0  text-sm text-white/50">Enter your Gift Code below and click 'Confirm' to claim your bonus!<br />
-        Note: You can redeem up to 3,000 Jades in Previewnet."</p>
-
+        Note: You can redeem up to 3,000 Jades in Previewnet.</p>
       <InputRedeemCode setValue={setRedeemCode} value={redeemCode} />
       <div className="flex w-full gap-[.625rem] smd:gap-5 ">
         <Btn isDisabled={redeemCode.length !== 6} className="w-full smd:h-12" onPress={() => doRedeem()} isLoading={isPendingRedeem}>
@@ -757,29 +756,36 @@ Start now 👉 ${refferralLink}
 
 
 
-  const bind = async () => {
+  const bind = async (signature: string) => {
 
     try {
-      await backendApi.userBindAdress(address);
+      await backendApi.userBindAdress(address, signature);
       refetch();
     } catch (e) {
       console.error("bind error", e);
     }
   };
 
-  const [isBindingRequested, setIsBindingRequested] = useState(false);
+  const { signMessageAsync } = useSignMessage();
+  const [isSigning, setIsSigning] = useState(false);
   const onBindWallet = async () => {
-    // setIsBindingRequested(true);
     await open();
+
+    try {
+      setIsSigning(true);
+      const message = `Welcome%20to%20ARO%20Network%21%20%0A%0ABy%20signing%20this%20message%2C%20you%20confirm%20that%20you%20are%20the%20owner%20of%20this%20wallet%20address%20and%20authorize%20its%20binding%20to%20your%20ARO%20Network%20account.%0A%0AThis%20signature%20is%20for%20authentication%20purposes%20only.%20It%20will%20not%20trigger%20any%20blockchain%20transaction.%0A%0AARO%20Dashboard%3A%20dashboard.aro.network%20%20%0AWallet%20address%3A%20${address}%0A%0AOnly%20sign%20this%20message%20if%20you%20trust%20the%20application.`
+      const signature = await signMessageAsync({ message: decodeURIComponent(message) });
+
+      await bind(signature);
+    } catch (err) {
+      console.error("sign error", err);
+    } finally {
+      setIsSigning(false);
+    }
 
   };
 
 
-  useEffect(() => {
-    if (!data.bind.bindEth && isConnected && address) {
-      bind();
-    }
-  }, [isBindingRequested, isConnected, address]);
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 

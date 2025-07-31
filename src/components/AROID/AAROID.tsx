@@ -45,9 +45,6 @@ const AAROID = () => {
     }
   }
 
-  console.log('adasdasda', user);
-
-
 
   return <div className="w-full justify-center flex mt-5 ">
 
@@ -97,7 +94,7 @@ const AAROID = () => {
             </div>
 
             <div className="font-normal text-xs smd:text-sm mt-2  text-[#FFFFFF99]">
-              -
+              {formatStr(user?.ethAddress, 6)}
             </div>
           </div>
           <div className="flex justify-between smd:justify-center smd:w-full gap-[.625rem]  items-center">
