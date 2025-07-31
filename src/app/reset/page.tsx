@@ -43,6 +43,10 @@ export default function Page() {
       await sleep(2000);
       r.push("/signin");
     },
+    onError: (error: any) => {
+      recaptchaRef.current?.reset()
+
+    },
   });
   const [verifyToken, setVerifyToken] = useState<string | undefined>('')
   const recaptchaRef = useRef<TurnstileWidgetRef>(null)

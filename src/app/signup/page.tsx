@@ -58,10 +58,12 @@ export default function Page() {
           params.set('exclusive', '')
         }
       } catch (e) {
+        recaptchaRef.current?.reset()
         setReferalCode('')
       }
     },
     onError: (error: any) => {
+
       recaptchaRef.current?.reset()
     },
 
