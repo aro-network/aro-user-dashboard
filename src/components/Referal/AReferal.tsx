@@ -769,7 +769,7 @@ Start now 👉 ${refferralLink}
 
   const [isBindingRequested, setIsBindingRequested] = useState(false);
   const onBindWallet = async () => {
-    setIsBindingRequested(true);
+    // setIsBindingRequested(true);
     await open();
 
   };
