@@ -769,14 +769,9 @@ Start now 👉 ${refferralLink}
 
   const [isBindingRequested, setIsBindingRequested] = useState(false);
   const onBindWallet = async () => {
-    console.log("[bind]");
     setIsBindingRequested(true);
     await open();
-    console.log("[bind] open()");
 
-    setTimeout(() => {
-      console.log("[bind] status", { isConnected, address });
-    }, 2000);
   };
 
 
@@ -822,7 +817,7 @@ Start now 👉 ${refferralLink}
         icon: FaWallet,
         jade: data.jadePoint.bindEth,
         title: `Bind Ethereum address`,
-        first: { tit: <div className="text-nowrap ">Bind your Ethereum wallet<br /> and verify your address.</div>, action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: onBindWallet, addJade: data.jadePoint.bindEth },
+        first: { tit: <div className="text-nowrap ">Bind your Ethereum wallet<br /> and verify your address.</div>, action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: () => onBindWallet(), addJade: data.jadePoint.bindEth },
 
       }} />
     </div>}
