@@ -7,7 +7,7 @@ import { sleep } from "@/lib/utils";
 import { validateConfirmPassword, validateEmail, validatePassword, validateVerifyCode } from "@/lib/validates";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useCounter, useInterval } from "react-use";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../context/AuthContext";
@@ -15,7 +15,7 @@ import { AutoFlip } from "@/components/auto-flip";
 import { PageUnlogin } from "@/components/layouts";
 import { loginTitleClassName } from "@/components/classes";
 import { MLink } from "@/components/links";
-import { TurnstileWidget } from "@/components/ACommonTurnstile";
+import { TurnstileWidget, TurnstileWidgetRef } from "@/components/ACommonTurnstile";
 
 export default function Page() {
   const sp = useSearchParams();
@@ -45,6 +45,7 @@ export default function Page() {
     },
   });
   const [verifyToken, setVerifyToken] = useState<string | undefined>('')
+  const recaptchaRef = useRef<TurnstileWidgetRef>(null)
 
 
   const {
@@ -58,9 +59,12 @@ export default function Page() {
       actionSendCount.reset(60);
     },
     onError: (error: any) => {
-      setVerifyToken(undefined)
+      recaptchaRef.current?.reset()
+
     },
   });
+
+
 
 
   const disableReset =
@@ -81,6 +85,8 @@ export default function Page() {
           <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
           <TurnstileWidget
             onVerify={setVerifyToken}
+            ref={recaptchaRef}
+            enableAutoCheck={true}
           />
           <div className="flex gap-5 items-center w-full">
             <div className="flex-1">

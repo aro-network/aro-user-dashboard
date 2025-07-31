@@ -20,7 +20,7 @@ import { ForceModal } from "@/components/dialogs";
 import { envText } from "@/lib/utils";
 import useMobileDetect from "@/hooks/useMobileDetect";
 import Turnstile from 'react-turnstile'
-import { TurnstileWidget } from "@/components/ACommonTurnstile";
+import { TurnstileWidget, TurnstileWidgetRef } from "@/components/ACommonTurnstile";
 
 export default function Page() {
   const sq = useSearchParams();
@@ -38,6 +38,7 @@ export default function Page() {
   const [showInputReferral, toggleShowInputReferral] = useToggle(false);
   const isMobile = useMobileDetect()
   const params = useMemo(() => new URLSearchParams(sq.toString()), [sq]);
+  const recaptchaRef = useRef<TurnstileWidgetRef>(null)
 
 
   const [verifyCode, setVerifyCode] = useState("");
@@ -61,7 +62,7 @@ export default function Page() {
       }
     },
     onError: (error: any) => {
-      setVerifyToken(undefined)
+      recaptchaRef.current?.reset()
     },
 
   });
@@ -173,6 +174,8 @@ export default function Page() {
                 <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
                 <TurnstileWidget
                   onVerify={setVerifyToken}
+                  ref={recaptchaRef}
+                  enableAutoCheck={true}
                 />
                 <div className="flex items-center flex-wrap smd:text-sm text-xs text-white/60">
                   <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs smd:text-sm text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>

@@ -15,7 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useRedirect from "@/hooks/useRedirect";
 import { envText } from "@/lib/utils";
 import Turnstile from 'react-turnstile'
-import { TurnstileWidget } from "@/components/ACommonTurnstile";
+import { TurnstileWidget, TurnstileWidgetRef } from "@/components/ACommonTurnstile";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -27,6 +27,7 @@ export default function Page() {
   const r = useRouter();
   const [verifyToken, setVerifyToken] = useState<string | undefined>(undefined)
   const exclusive = sq.has("exclusive") || ""
+  const recaptchaRef = useRef<TurnstileWidgetRef>(null)
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
     mutationFn: async (e: FormEvent) => {
@@ -34,15 +35,17 @@ export default function Page() {
       await ac.login({ email, password, verifyToken });
     },
     onError: (error: any) => {
-
       console.log('errorerror', error);
-      setVerifyToken(undefined)
+      recaptchaRef.current?.reset()
     },
   });
   useRedirect()
 
 
   const href = referral ? `/signup?referral=${referral}` : exclusive ? `/signup?${params.toString()}` : '/signup'
+
+
+
 
 
   const disableSignIn = isPendingSignIn || validateEmail(email) !== true || !password || !verifyToken;
@@ -59,6 +62,8 @@ export default function Page() {
           <InputPassword setPassword={setPassword} validate={() => null} />
           <TurnstileWidget
             onVerify={setVerifyToken}
+            ref={recaptchaRef}
+            enableAutoCheck={true}
           />
           <Btn className="smd:!h-12" type="submit" isDisabled={disableSignIn} isLoading={isPendingSignIn} >
             Sign In

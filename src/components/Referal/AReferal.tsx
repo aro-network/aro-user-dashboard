@@ -80,7 +80,8 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, isRe
           +{data.jade}
         </div>
         <div className="text-sm font-normal  smd:text-base"> Jade</div>
-        {data.isRefersh && data.first.finished && !data.secend?.finished ? data.isRefersh : null}
+        {/* {data.isRefersh && data.first.finished && !data.secend?.finished ? : null} */}
+        {data.isRefersh}
       </div>
       <div className="flex flex-col">
         <div className="flex gap-9 smd:gap-2.5 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
@@ -590,7 +591,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
           highlighted: highlighted,
           icon: FaTelegramPlane,
           jade: data.jadePoint.joinTG,
-          isRefersh: <button className="ml-auto" disabled={sendCount > 0} onClick={() => onRefershJoinStatus()}>{sendCount > 0 ? sendCount : <IoMdRefreshCircle className="text-10 text-[#FFFFFF80]" />}</button>,
+          isRefersh: <button className="ml-auto " disabled={sendCount > 0} onClick={() => onRefershJoinStatus()}>{sendCount > 0 ? sendCount : <IoMdRefreshCircle className="text-xl text-[#FFFFFF80]" />}</button>,
           title: `Join Telegram`,
           first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnectTelegram.isPending, onAction: () => mutConnectTelegram.mutate(), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
           secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
@@ -778,7 +779,6 @@ Start now 👉 ${refferralLink}
   const { signMessageAsync } = useSignMessage();
   const [isSigning, setIsSigning] = useState(false);
   const onBindWallet = async () => {
-    console.log('come in')
 
     try {
       await open();
