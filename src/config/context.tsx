@@ -8,6 +8,7 @@ import { createAppKit } from '@reown/appkit/react'
 import { mainnet, arbitrum, avalanche, base, optimism, polygon } from '@reown/appkit/networks'
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 
 const queryClient = new QueryClient()
 
@@ -21,7 +22,7 @@ const metadata = {
 export const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [mainnet, arbitrum, avalanche, base, optimism, polygon],
+  networks: [mainnet, arbitrum],
   defaultNetwork: mainnet,
   metadata: metadata,
   features: {
@@ -32,11 +33,15 @@ export const modal = createAppKit({
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
   const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config)
 
+  console.log('12312', wagmiAdapter.wagmiConfig)
+
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
       <QueryClientProvider client={queryClient}>
-        {children}
+        <RainbowKitProvider>
+          {children}
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   )
