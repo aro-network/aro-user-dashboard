@@ -34,6 +34,7 @@ import useMobileDetect from "@/hooks/useMobileDetect";
 import { InputRedeemCode, InputSplitCode } from "../inputs";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { IoMdRefreshCircle } from 'react-icons/io'
+import { usePersistentCounter } from "@/hooks/usePersistentCounter";
 
 
 
@@ -67,7 +68,6 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, isRe
   const Micon = data.icon
   const finished = data.first.finished && (!data.secend || data.secend.finished)
 
-
   return (
     <div className={cn(" flex  flex-col task-tab w-full gap-5", className)}>
       {finished && <FinishBadge className="[--finish-badge-size:26px] smd:[--finish-badge-size:32px]" />}
@@ -80,9 +80,7 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, isRe
           +{data.jade}
         </div>
         <div className="text-sm font-normal  smd:text-base"> Jade</div>
-        {data.first.finished && !data.first.finished ? data.isRefersh : null}
-
-
+        {data.isRefersh && data.first.finished && !data.secend?.finished ? data.isRefersh : null}
       </div>
       <div className="flex flex-col">
         <div className="flex gap-9 smd:gap-2.5 xs:gap-5 items-center smd:flex-col  h-[100px] smd:h-full">
@@ -371,7 +369,7 @@ Note: You can redeem up to 3,000 Jades in Previewnet."`,
             <div className="flex items-center gap-2">
               <Btn
                 isDisabled={!highlighted || data.offlineRewardClaimed}
-                className="self-end w-[85px] smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
+                className="self-end w-[106px]  smd:h-12 text-xs font-medium  smd:w-full smd:text-base"
                 onPress={() => !data.offlineRewardClaimed ? setShowPerks(!showPerks) : undefined}>
                 {!data.offlineRewardClaimed ? 'Perks' : 'Perked'}
               </Btn>
@@ -549,7 +547,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
   });
 
   const [isOpen, setIsOpen] = useState(highlighted);
-  const [sendCount, actionSendCount] = useCounter(0, 60, 0);
+  const [sendCount, actionSendCount] = usePersistentCounter('SEND_TIMER', 0, 60);
   useInterval(() => {
     actionSendCount.dec(1);
   }, 1000);

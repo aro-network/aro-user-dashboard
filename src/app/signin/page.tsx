@@ -34,6 +34,8 @@ export default function Page() {
       await ac.login({ email, password, verifyToken });
     },
     onError: (error: any) => {
+
+      console.log('errorerror', error);
       setVerifyToken(undefined)
     },
   });
