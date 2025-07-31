@@ -776,9 +776,8 @@ Start now 👉 ${refferralLink}
 
 
   useEffect(() => {
-    if (isBindingRequested && isConnected && address) {
+    if (!data.bind.bindEth && isConnected && address) {
       bind();
-      setIsBindingRequested(false);
     }
   }, [isBindingRequested, isConnected, address]);
 
