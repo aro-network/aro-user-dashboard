@@ -18,7 +18,7 @@ const metadata = {
   icons: ['https://aro.network/favicon.ico']
 }
 
-createAppKit({
+export const modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [mainnet, arbitrum, avalanche, base, optimism, polygon],
@@ -35,7 +35,9 @@ function ContextProvider({ children, cookies }: { children: ReactNode; cookies: 
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
     </WagmiProvider>
   )
 }
