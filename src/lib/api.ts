@@ -545,6 +545,13 @@ const backendApi = {
     );
     return response.data.data;
   },
+
+  refershStatus: async () => {
+    const response = await Api.post<RES<string>>(
+      `user/telegram/status/refresh`
+    );
+    return response.data.data;
+  },
 };
 
 export default backendApi;
