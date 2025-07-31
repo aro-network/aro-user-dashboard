@@ -87,7 +87,7 @@ const backendApi = {
   loginApi: async (data: {
     email: string;
     password: string;
-    verifyToken: string;
+    verifyToken?: string;
   }) => {
     const cryptoNewPwd = createHash("sha256")
       .update(data.password)
@@ -161,7 +161,7 @@ const backendApi = {
     p.total = p.referral + p.network;
     return response.data.data;
   },
-  sendResetPassword: async (email: string, verifyToken: string) => {
+  sendResetPassword: async (email: string, verifyToken?: string) => {
     await Api.post<RES<undefined>>("/user/password/reset/send", {
       email,
       verifyToken,

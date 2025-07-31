@@ -25,7 +25,7 @@ export default function Page() {
   const referral = params.get("referral");
   const sq = useMemo(() => new URLSearchParams(params.toString()), [params]);
   const r = useRouter();
-  const [verifyToken, setVerifyToken] = useState('')
+  const [verifyToken, setVerifyToken] = useState<string | undefined>(undefined)
   const exclusive = sq.has("exclusive") || ""
 
   const { mutate: handleSubmit, isPending: isPendingSignIn } = useMutation({
@@ -53,7 +53,7 @@ export default function Page() {
           <InputEmail setEmail={setEmail} />
           <InputPassword setPassword={setPassword} validate={() => null} />
           <TurnstileWidget
-            onVerify={(token) => setVerifyToken(token)}
+            onVerify={setVerifyToken}
           />
           <Btn className="smd:!h-12" type="submit" isDisabled={disableSignIn} isLoading={isPendingSignIn} >
             Sign In

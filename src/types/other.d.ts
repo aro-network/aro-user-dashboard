@@ -105,7 +105,7 @@ declare namespace OtherTypes {
     login: (credentials: {
       email: string;
       password: string;
-      verifyToken: string;
+      verifyToken?: string;
     }) => Promise<void>;
     logout: () => void;
     setLink: (link?: string) => void;

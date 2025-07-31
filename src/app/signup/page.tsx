@@ -99,7 +99,7 @@ export default function Page() {
   });
 
   const disableVerifyEmail = isPendingVerify || validateVerifyCode(verifyCode) !== true;
-  const [verifyToken, setVerifyToken] = useState('')
+  const [verifyToken, setVerifyToken] = useState<string | undefined>('')
 
 
   const disableSignUp =
@@ -168,7 +168,7 @@ export default function Page() {
                 <InputPassword setPassword={setPassword} />
                 <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
                 <TurnstileWidget
-                  onVerify={(token) => setVerifyToken(token)}
+                  onVerify={setVerifyToken}
                 />
                 <div className="flex items-center flex-wrap smd:text-sm text-xs text-white/60">
                   <Checkbox className=" " classNames={{ wrapper: 'flip_item', label: "text-xs smd:text-sm text-white/60", icon: "w-2.5 h-2.5" }} checked={checkedTermPrivacy} onValueChange={setCheckedTermPrivacy}>

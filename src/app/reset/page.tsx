@@ -44,7 +44,7 @@ export default function Page() {
       r.push("/signin");
     },
   });
-  const [verifyToken, setVerifyToken] = useState('')
+  const [verifyToken, setVerifyToken] = useState<string | undefined>('')
 
 
   const {
@@ -79,7 +79,7 @@ export default function Page() {
           <InputPassword label="New Password" setPassword={setPassword} />
           <InputPassword label="Confirm Password" setPassword={setConfirmPassword} validate={(value) => validateConfirmPassword(value, password)} />
           <TurnstileWidget
-            onVerify={(token) => setVerifyToken(token)}
+            onVerify={setVerifyToken}
           />
           <div className="flex gap-5 items-center w-full">
             <div className="flex-1">
