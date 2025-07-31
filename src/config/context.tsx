@@ -14,7 +14,7 @@ const queryClient = new QueryClient()
 const metadata = {
   name: 'ARO Network',
   description: 'ARO Network',
-  url: 'https://aro.network/',
+  url: 'https://staging-dashboard.aro.network',
   icons: ['https://aro.network/favicon.ico']
 }
 
