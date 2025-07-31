@@ -69,8 +69,6 @@ export default function Page() {
   });
 
 
-
-
   const disableReset =
     isPending ||
     validateVerifyCode(verifyCode) !== true ||
