@@ -80,7 +80,8 @@ function SocialTaskItem({ data, className }: { data: { icon: IconType | FC, isRe
           +{data.jade}
         </div>
         <div className="text-sm font-normal  smd:text-base"> Jade</div>
-        {data.first.finished ? data.isRefersh : null}
+        {data.first.finished && !data.first.finished ? data.isRefersh : null}
+
 
       </div>
       <div className="flex flex-col">
@@ -559,9 +560,12 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   const onRefershJoinStatus = async () => {
     const status = await backendApi.refershStatus();
+    refetch()
     actionSendCount.reset(60);
 
   }
+
+
 
 
   return <div className="h-full">
@@ -590,7 +594,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
           highlighted: highlighted,
           icon: FaTelegramPlane,
           jade: data.jadePoint.joinTG,
-          isRefersh: <button className="ml-auto" onClick={() => onRefershJoinStatus()}>{sendCount > 0 ? sendCount : <IoMdRefreshCircle className="text-10 text-[#FFFFFF80]" />}</button>,
+          isRefersh: <button className="ml-auto" disabled={sendCount > 0} onClick={() => onRefershJoinStatus()}>{sendCount > 0 ? sendCount : <IoMdRefreshCircle className="text-10 text-[#FFFFFF80]" />}</button>,
           title: `Join Telegram`,
           first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnectTelegram.isPending, onAction: () => mutConnectTelegram.mutate(), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
           secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
@@ -631,7 +635,7 @@ function GetNodes({ data, highlighted }: { data: UserCampaignsRewards, highlight
       foreach: true,
       action: 'Order ARO Pod',
       finish: data.aroNode.pod,
-      onAction: () => { window.open('https://shop.aro.network/?coupon=gmvn25') }
+      onAction: () => { window.open('https://shop.aro.network') }
     },
     {
       icon: "aro-link.png",
@@ -827,7 +831,7 @@ Start now 👉 ${refferralLink}
         first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet },
 
       }} />
-      <SocialTaskItem data={{
+      {/* <SocialTaskItem data={{
         highlighted: highlighted,
         isHidden: true,
         icon: FaWallet,
@@ -835,7 +839,7 @@ Start now 👉 ${refferralLink}
         title: `Bind Ethereum address`,
         first: { tit: <div className="text-nowrap ">Bind your Ethereum wallet<br /> and verify your address.</div>, action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: () => onBindWallet(), addJade: data.jadePoint.bindEth },
 
-      }} />
+      }} /> */}
     </div>}
   </ItemCard>
 }
