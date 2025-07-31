@@ -57,9 +57,10 @@ export default function Page() {
       await backendApi.sendResetPassword(email, verifyToken);
       actionSendCount.reset(60);
     },
+    onError: (error: any) => {
+      setVerifyToken(undefined)
+    },
   });
-
-  console.log('verifyTokenverifyTokenverifyToken', verifyToken);
 
 
   const disableReset =

@@ -33,6 +33,9 @@ export default function Page() {
       e.preventDefault();
       await ac.login({ email, password, verifyToken });
     },
+    onError: (error: any) => {
+      setVerifyToken(undefined)
+    },
   });
   useRedirect()
 

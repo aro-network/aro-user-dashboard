@@ -60,6 +60,10 @@ export default function Page() {
         setReferalCode('')
       }
     },
+    onError: (error: any) => {
+      setVerifyToken(undefined)
+    },
+
   });
 
   const onSkip = () => {
