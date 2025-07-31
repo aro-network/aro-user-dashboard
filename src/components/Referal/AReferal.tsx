@@ -816,8 +816,7 @@ Start now 👉 ${refferralLink}
         highlighted: highlighted,
         isHidden: true,
         icon: FaWallet,
-        jade: data.jadePoint.sendTweet,
-        // Bind Ethereum address  +100 Jade
+        jade: data.jadePoint.bindEth,
         title: `Bind Ethereum address`,
         first: { tit: <div className="text-nowrap ">Bind your Ethereum wallet<br /> and verify your address.</div>, action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: onBindWallet, addJade: data.jadePoint.bindEth },
 
