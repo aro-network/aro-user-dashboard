@@ -215,8 +215,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     }
   }
 
-
-
   const homeBoxStep = [
     {
       content:
@@ -333,7 +331,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
         </div >,
     }
   ]
-
 
 
   const x86Step = [

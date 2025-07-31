@@ -164,6 +164,7 @@ export interface UserCampaignsRewards {
   lockedJadeRewards: string;
   referredRewards: string;
   offlineRewardClaimed: boolean;
+  ethAddress?: string;
   bind: {
     x: boolean;
     followX: boolean;

@@ -95,7 +95,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const login = async (credentials: { email: string; password: string, verifyToken: string }) => {
-    console.log('credentialscredentialscredentialscredentials', credentials);
 
     try {
       if (!credentials.email || !credentials.password || !credentials.verifyToken) return;

@@ -753,10 +753,11 @@ Start now 👉 ${refferralLink}
   const { open, close, } = useAppKit()
 
   const { address, isConnected, } = useAppKitAccount()
+  const ud = useDisconnect();
+
 
 
   const bind = async () => {
-    if (!address || !isConnected) return;
 
     try {
       await backendApi.userBindAdress(address);
@@ -766,13 +767,20 @@ Start now 👉 ${refferralLink}
     }
   };
 
-  const onBindWallet = async () => {
-    await open();
+  const [shouldBind, setShouldBind] = useState(false);
 
-    if (isConnected && address) {
-      await bind();
+  useEffect(() => {
+    if (shouldBind && isConnected && address) {
+      bind();
+      setShouldBind(false);
     }
+  }, [isConnected, address, shouldBind]);
+
+  const onBindWallet = async () => {
+    setShouldBind(true);
+    await open();
   };
+
 
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
@@ -804,7 +812,7 @@ Start now 👉 ${refferralLink}
         first: { tit: 'Share on X', action: 'Post', connectd: 'Completed', finished: data.bind.postX, onAction: onPostX, addJade: data.jadePoint.sendTweet },
 
       }} />
-      {/* <SocialTaskItem data={{
+      <SocialTaskItem data={{
         highlighted: highlighted,
         isHidden: true,
         icon: FaWallet,
@@ -813,7 +821,7 @@ Start now 👉 ${refferralLink}
         title: `Bind Ethereum address`,
         first: { tit: <div className="text-nowrap ">Bind your Ethereum wallet<br /> and verify your address.</div>, action: 'Bind', connectd: 'Completed', finished: data.bind.bindEth, onAction: onBindWallet, addJade: data.jadePoint.bindEth },
 
-      }} /> */}
+      }} />
     </div>}
   </ItemCard>
 }
