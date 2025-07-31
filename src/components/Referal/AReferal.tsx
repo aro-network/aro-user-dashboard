@@ -767,21 +767,25 @@ Start now 👉 ${refferralLink}
     }
   };
 
-  const [shouldBind, setShouldBind] = useState(false);
-
-  useEffect(() => {
-    if (shouldBind && isConnected && address) {
-      bind();
-      setShouldBind(false);
-    }
-  }, [isConnected, address, shouldBind]);
-
+  const [isBindingRequested, setIsBindingRequested] = useState(false);
   const onBindWallet = async () => {
-    setShouldBind(true);
+    console.log("[bind]");
+    setIsBindingRequested(true);
     await open();
+    console.log("[bind] open()");
+
+    setTimeout(() => {
+      console.log("[bind] status", { isConnected, address });
+    }, 2000);
   };
 
 
+  useEffect(() => {
+    if (isBindingRequested && isConnected && address) {
+      bind();
+      setIsBindingRequested(false);
+    }
+  }, [isBindingRequested, isConnected, address]);
 
   return <ItemCard disableAnim className={cn("flex flex-col ",)} active={highlighted}>
 
