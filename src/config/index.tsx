@@ -1,9 +1,9 @@
 
 // config/index.tsx
 
-// import { cookieStorage, createStorage, http } from 'wagmi/core'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { mainnet, arbitrum } from '@reown/appkit/networks'
+import { cookieStorage, createStorage } from 'wagmi'
 
 // Get projectId from https://cloud.reown.com
 export const projectId = '872efcb96d4b880f62f4f474a3a2aca7'
@@ -18,9 +18,9 @@ export const networks = [mainnet, arbitrum]
 //Set up the Wagmi Adapter (Config)
 export const wagmiAdapter = new WagmiAdapter({
 
-  // storage: createStorage({
-  //   storage: cookieStorage
-  // }),
+  storage: createStorage({
+    storage: cookieStorage
+  }),
   ssr: true,
   projectId,
   networks

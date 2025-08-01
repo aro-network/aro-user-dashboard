@@ -1,5 +1,4 @@
 import { CalendarDate, getLocalTimeZone, today } from "@internationalized/date";
-import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { AxiosError } from "axios";
 import dayjs from "dayjs";
 import plugDur from "dayjs/plugin/duration";
@@ -74,13 +73,6 @@ export const scrollToTop = () => {
   const data = document.getElementsByClassName("nodes");
   data[0].scrollTop = 0;
 };
-
-export const config = getDefaultConfig({
-  appName: "ARO Network",
-  projectId: "872efcb96d4b880f62f4f474a3a2aca7",
-  chains: [mainnet, polygon, optimism, arbitrum, base],
-  ssr: true,
-});
 
 export const formatStr = (address?: string, start = 0, end = 10) => {
   if (!address) {

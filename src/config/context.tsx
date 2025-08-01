@@ -9,7 +9,6 @@ import { mainnet, arbitrum, avalanche, base, optimism, polygon } from '@reown/ap
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
-
 const queryClient = new QueryClient()
 
 const metadata = {
@@ -29,6 +28,8 @@ export const modal = createAppKit({
     analytics: true,
   }
 })
+
+
 
 function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
   const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config)
