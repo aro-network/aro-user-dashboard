@@ -732,9 +732,16 @@ function SocialActivites({ data, refetch, highlighted }: { data: UserCampaignsRe
   const ac = useAuthContext()
 
   const onJoinDiscord = () => {
+    const popup = window.open("", "_blank", "width=600,height=800");
+    if (!popup) {
+      toast.error("This action requires pop-ups to be allowed. Please check your browser settings.");
+      return;
+    }
+
     const code = 'Rc4BMUjbNB'
     const url = `https://discord.com/invite/${code}`
-    window.open(encodeURI(url))
+    popup.location.href = encodeURI(url)
+
     refetch()
   }
 
