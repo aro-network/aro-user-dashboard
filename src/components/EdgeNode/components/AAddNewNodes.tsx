@@ -525,105 +525,6 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
 
 
 
-  // const liteStep = [
-  //   {
-  //     content:
-  //       <div className="flex w-full flex-col items-center justify-center py-5 px-3">
-  //         <div className="w-[37.5rem] smd:w-full">
-  //           <div className="flex w-full font-normal text-xl smd:text-base leading-5 mb-[30px] justify-center font-Alexandria smd:justify-start">
-  //             {AllText.AAddNewNodes.lite.step1.title}
-  //           </div>
-
-  //           {installStep.map((item, index) => (
-  //             <Fragment key={`step_${item.title}`}>
-  //               <div className=" bg-[#FFFFFF14] text-sm text-center rounded-lg py-[15px] px-5 ">
-  //                 <div className="flex justify-between items-center smd:flex-col">
-  //                   <div className="flex gap-5 items-center">
-  //                     <img src={item.icon} className="w-[50px] h-[50px]" />
-  //                     <div className='text-sm flex gap-[5px] flex-col smd:w-full '>
-  //                       <div className={cn("font-semibold text-left", { 'text-status-0': index === 1 })}>
-  //                         {item.title}
-  //                       </div>
-  //                       {/* <div className="text-primary text-left">
-  //                         {item.Recommended}
-  //                       </div> */}
-  //                       <div className="text-left text-xs text-[#FFFFFF99]">
-  //                         ARO Lite ver. {item.version} <span className="text-status-1">{item.tip}</span>
-  //                       </div>
-  //                     </div>
-  //                   </div>
-
-  //                   <div className="smd:w-full smd:mt-5">
-  //                     <Btn onPress={() => window.open(index ? extensionInfo?.downloadUrl : item.downloadUrl)} className={`h-[30px] smd:w-full `}>DownLoad</Btn>
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //               {index === 0 && (
-  //                 <div className=" py-[10px] text-center font-semibold text-sm text-[#FFFFFFCC]">or</div>
-  //               )}
-  //             </Fragment>
-  //           ))}
-
-
-  //           <div className="flex justify-center mt-[10px]">
-  //             <button onClick={() => window.open('https://docs.aro.network/user-guides/aro-lite/')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
-  //           </div>
-
-  //           <div className="flex justify-center flex-col items-center mt-10 ">
-  //             <div className="flex w-full font-normal text-xl smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
-  //               {AllText.AAddNewNodes.lite.step2.title}
-  //             </div>
-  //             <div className=" mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
-  //               {AllText.AAddNewNodes.lite.step2.subTitle}
-  //             </div>
-
-  //             <Input
-  //               maxLength={30}
-  //               className=" mt-5 "
-  //               classNames={{ 'inputWrapper': '!rounded-lg h-12' }}
-  //               value={serialNum?.num}
-  //               onChange={(e) => {
-  //                 const onlyLetters = e.target.value.replace(/[^a-zA-Z0-9]/g, '').trim();
-  //                 setSerialNum({ num: onlyLetters, type: 'box' });
-  //               }}
-  //             />
-
-  //             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem] w-full">
-  //               <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onPress={onBindSn} className="w-full rounded-lg  min-h-12" >
-  //                 Continue
-  //               </Btn>
-  //             </div>
-
-  //           </div>
-  //         </div>
-  //       </div>,
-  //   },
-  //   {
-  //     content:
-  //       <div className="flex w-full flex-col items-center smd:mt-0">
-  //         <div className="w-[37.5rem] smd:w-full">
-  //           <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
-  //             {AllText.AAddNewNodes.lite.step3["Congratulations!"]}
-  //           </div>
-  //           <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
-  //             {AllText.AAddNewNodes.lite.step3["Your ARO Lite has been added to your Dashboard successfully."]}
-  //           </div>
-
-  //           <div className="flex  items-center mt-[.75rem] smd:flex-col  gap-[.625rem] justify-between w-full">
-  //             <Btn onPress={onAddAnother} className="w-full rounded-lg  min-h-12" >
-  //               {AllText.AAddNewNodes.lite.step3["Add Another Node"]}
-  //             </Btn>
-  //             <Btn onPress={onGoToDetail} className="w-full rounded-lg  min-h-12" >
-  //               {AllText.AAddNewNodes.lite.step3["Go to Node Details Page"]}
-
-  //             </Btn>
-  //           </div>
-  //         </div>
-  //       </div>,
-  //   },
-
-  // ]
-
   const liteStep = [
     {
       content:
@@ -640,14 +541,14 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                     <div className="flex gap-5 items-center">
                       <img src={item.icon} className="w-[50px] h-[50px]" />
                       <div className='text-sm flex gap-[5px] flex-col smd:w-full '>
-                        <div className="font-semibold text-left">
+                        <div className={cn("font-semibold text-left", { 'text-status-0': index === 1 })}>
                           {item.title}
                         </div>
-                        <div className="text-primary text-left">
+                        {/* <div className="text-primary text-left">
                           {item.Recommended}
-                        </div>
+                        </div> */}
                         <div className="text-left text-xs text-[#FFFFFF99]">
-                          ARO Lite ver. {extensionInfo?.version || '0.0.1'}
+                          ARO Lite ver. {item.version} <span className="text-status-1">{item.tip}</span>
                         </div>
                       </div>
                     </div>
@@ -662,6 +563,7 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
                 )}
               </Fragment>
             ))}
+
 
             <div className="flex justify-center mt-[10px]">
               <button onClick={() => window.open('https://docs.aro.network/user-guides/aro-lite/')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
@@ -721,6 +623,104 @@ const AAddNewNodes: FC<{ onBack: () => void, onClose: () => void, onSelectedType
     },
 
   ]
+
+  // const liteStep = [
+  //   {
+  //     content:
+  //       <div className="flex w-full flex-col items-center justify-center py-5 px-3">
+  //         <div className="w-[37.5rem] smd:w-full">
+  //           <div className="flex w-full font-normal text-xl smd:text-base leading-5 mb-[30px] justify-center font-Alexandria smd:justify-start">
+  //             {AllText.AAddNewNodes.lite.step1.title}
+  //           </div>
+
+  //           {installStep.map((item, index) => (
+  //             <Fragment key={`step_${item.title}`}>
+  //               <div className=" bg-[#FFFFFF14] text-sm text-center rounded-lg py-[15px] px-5 ">
+  //                 <div className="flex justify-between items-center smd:flex-col">
+  //                   <div className="flex gap-5 items-center">
+  //                     <img src={item.icon} className="w-[50px] h-[50px]" />
+  //                     <div className='text-sm flex gap-[5px] flex-col smd:w-full '>
+  //                       <div className="font-semibold text-left">
+  //                         {item.title}
+  //                       </div>
+  //                       <div className="text-primary text-left">
+  //                         {item.Recommended}
+  //                       </div>
+  //                       <div className="text-left text-xs text-[#FFFFFF99]">
+  //                         ARO Lite ver. {extensionInfo?.version || '0.0.1'}
+  //                       </div>
+  //                     </div>
+  //                   </div>
+
+  //                   <div className="smd:w-full smd:mt-5">
+  //                     <Btn onPress={() => window.open(index ? extensionInfo?.downloadUrl : item.downloadUrl)} className={`h-[30px] smd:w-full `}>DownLoad</Btn>
+  //                   </div>
+  //                 </div>
+  //               </div>
+  //               {index === 0 && (
+  //                 <div className=" py-[10px] text-center font-semibold text-sm text-[#FFFFFFCC]">or</div>
+  //               )}
+  //             </Fragment>
+  //           ))}
+
+  //           <div className="flex justify-center mt-[10px]">
+  //             <button onClick={() => window.open('https://docs.aro.network/user-guides/aro-lite/')} className="underline underline-offset-1 text-[#999999] hover:text-[#00E42A] text-xs smd:pt-4">See Guidance</button>
+  //           </div>
+
+  //           <div className="flex justify-center flex-col items-center mt-10 ">
+  //             <div className="flex w-full font-normal text-xl smd:text-base leading-5 justify-center font-Alexandria smd:justify-start">
+  //               {AllText.AAddNewNodes.lite.step2.title}
+  //             </div>
+  //             <div className=" mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
+  //               {AllText.AAddNewNodes.lite.step2.subTitle}
+  //             </div>
+
+  //             <Input
+  //               maxLength={30}
+  //               className=" mt-5 "
+  //               classNames={{ 'inputWrapper': '!rounded-lg h-12' }}
+  //               value={serialNum?.num}
+  //               onChange={(e) => {
+  //                 const onlyLetters = e.target.value.replace(/[^a-zA-Z0-9]/g, '').trim();
+  //                 setSerialNum({ num: onlyLetters, type: 'box' });
+  //               }}
+  //             />
+
+  //             <div className="flex justify-center items-center mt-5 flex-col  gap-[.625rem] w-full">
+  //               <Btn isDisabled={!serialNum?.num} isLoading={allStatus.isFetching} onPress={onBindSn} className="w-full rounded-lg  min-h-12" >
+  //                 Continue
+  //               </Btn>
+  //             </div>
+
+  //           </div>
+  //         </div>
+  //       </div>,
+  //   },
+  //   {
+  //     content:
+  //       <div className="flex w-full flex-col items-center smd:mt-0">
+  //         <div className="w-[37.5rem] smd:w-full">
+  //           <div className="flex w-full justify-center font-normal text-lg leading-5 font-Alexandria">
+  //             {AllText.AAddNewNodes.lite.step3["Congratulations!"]}
+  //           </div>
+  //           <div className="mt-5 flex w-full justify-center text-center font-normal text-sm leading-5 text-[#FFFFFF80]">
+  //             {AllText.AAddNewNodes.lite.step3["Your ARO Lite has been added to your Dashboard successfully."]}
+  //           </div>
+
+  //           <div className="flex  items-center mt-[.75rem] smd:flex-col  gap-[.625rem] justify-between w-full">
+  //             <Btn onPress={onAddAnother} className="w-full rounded-lg  min-h-12" >
+  //               {AllText.AAddNewNodes.lite.step3["Add Another Node"]}
+  //             </Btn>
+  //             <Btn onPress={onGoToDetail} className="w-full rounded-lg  min-h-12" >
+  //               {AllText.AAddNewNodes.lite.step3["Go to Node Details Page"]}
+
+  //             </Btn>
+  //           </div>
+  //         </div>
+  //       </div>,
+  //   },
+
+  // ]
 
   const type = chooseedType?.value;
 
