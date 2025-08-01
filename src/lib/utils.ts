@@ -510,20 +510,39 @@ export const addNewNodeList = [
   },
 ];
 
+// export const installStep = [
+//   {
+//     icon: "./extension.svg",
+//     title: AllText.AAddNewNodes.lite.step1["Install from Chrome Web Store"],
+//     Recommended: AllText.AAddNewNodes.lite.step1.Recommended,
+//     version: "0.0.3",
+//     tip: "(Outdated version!)",
+//     downloadUrl:
+//       "https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar",
+//   },
+//   {
+//     icon: "./instsllExtension.svg",
+//     title: "Recommended: Manually install the latest version.",
+//     version: "0.0.4",
+//     downloadUrl: "",
+//   },
+// ];
 export const installStep = [
   {
     icon: "./extension.svg",
     title: AllText.AAddNewNodes.lite.step1["Install from Chrome Web Store"],
     Recommended: AllText.AAddNewNodes.lite.step1.Recommended,
-    version: "0.0.3",
-    tip: "(Outdated version!)",
+    version: "ARO Lite ver. 0.0.1",
     downloadUrl:
       "https://chromewebstore.google.com/detail/aro-lite/dehgjeidddkjakjgnmpccdkkjdchiifh?hl=en-US&utm_source=ext_sidebar",
   },
   {
     icon: "./instsllExtension.svg",
-    title: "Recommended: Manually install the latest version.",
-    version: "0.0.4",
+    title:
+      AllText.AAddNewNodes.lite.step1[
+        "Manually install extension in Developer Mode"
+      ],
+    version: "ARO Lite ver. 0.0.1",
     downloadUrl: "",
   },
 ];
