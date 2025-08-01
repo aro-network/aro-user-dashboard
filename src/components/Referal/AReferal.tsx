@@ -752,7 +752,6 @@ function SocialActivites({ data, refetch, highlighted }: { data: UserCampaignsRe
   const onPostX = () => {
     const refferralLink = `${origin}/signup?referral=${envText('inviteCode')}`;
 
-
     postX({
       text: `
 🚀 Join the @AroNetwork Previewnet Referral Sprint!
