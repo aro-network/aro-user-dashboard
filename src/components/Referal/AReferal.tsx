@@ -528,24 +528,45 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
 
   const mutConnectX = useMutation({
     mutationFn: async () => {
+      const popup = window.open("", "_blank", "width=600,height=800");
+
+      if (!popup) {
+        toast.error("This action requires pop-ups to be allowed. Please check your browser settings.");
+        return;
+      }
       const token = await backendApi.getAccessToken();
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/x`);
       const url = `https://x.com/i/oauth2/authorize?response_type=code&client_id=${envText('xCode')}&redirect_uri=${redirectUrl}&scope=users.read%20tweet.read&code_challenge=challenge&code_challenge_method=plain&state=${token}`;
       ac.queryUserInfo?.refetch();
       refetch()
-      window.open(url, "_blank");
+      popup.location.href = url;
+
     }
   });
 
+
   const mutConnectTelegram = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (result: any) => {
       const token = await backendApi.getAccessToken();
-      const result = await telegramAuth(envText('tgCode'), { windowFeatures: { popup: true, width: 600, height: 800 } });
-      await Api.get(`${BASE_API}/user/auth/handler/telegram`, { params: { ...result, state: token }, });
+      await Api.get(`${BASE_API}/user/auth/handler/telegram`, {
+        params: { ...result, state: token },
+      });
       ac.queryUserInfo?.refetch();
-      refetch()
-    }
+      refetch();
+    },
   });
+
+  const handleConnectTelegram = async () => {
+    try {
+      const result = await telegramAuth(envText("tgCode"), {
+        windowFeatures: { popup: true, width: 600, height: 800 },
+      });
+
+      mutConnectTelegram.mutate(result);
+    } catch (e) {
+      console.error("Telegram login error", e);
+    }
+  };
 
   const [isOpen, setIsOpen] = useState(highlighted);
   const [sendCount, actionSendCount] = usePersistentCounter('SEND_TIMER', 0, 60);
@@ -593,7 +614,7 @@ function SocialsTasks({ data, refetch, highlighted }: { data: UserCampaignsRewar
           jade: data.jadePoint.joinTG,
           isRefersh: <button className="ml-auto " disabled={sendCount > 0} onClick={() => onRefershJoinStatus()}>{sendCount > 0 ? sendCount : <IoMdRefreshCircle className="text-xl text-[#FFFFFF80]" />}</button>,
           title: `Join Telegram`,
-          first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnectTelegram.isPending, onAction: () => mutConnectTelegram.mutate(), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
+          first: { tit: 'Connect Telegram ', action: 'Connect', connectd: 'Connected', finished: data.bind.tg, actionLoading: mutConnectTelegram.isPending, onAction: () => handleConnectTelegram(), userName: user?.social.tg?.username ? '@' + user.social.tg?.username : undefined },
           secend: { tit: 'Join Telegram', action: 'Join', connectd: 'Completed', finished: data.bind.joinTg, onAction: onJoinTg, }
         }} />
       </div>}
