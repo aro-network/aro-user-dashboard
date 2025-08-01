@@ -768,6 +768,12 @@ Start now 👉 ${refferralLink}
 
   const mutConnect = useMutation({
     mutationFn: async (type: 'x' | "telegram" | 'discord') => {
+      const popup = window.open("", "_blank", "width=600,height=800");
+
+      if (!popup) {
+        toast.error("This action requires pop-ups to be allowed. Please check your browser settings.");
+        return;
+      }
       const token = await backendApi.getAccessToken();
       const redirectUrl = encodeURIComponent(`${BASE_API}/user/auth/handler/${type}`);
 
@@ -776,7 +782,7 @@ Start now 👉 ${refferralLink}
         url = `https://discord.com/oauth2/authorize?client_id=1303958338488238090&response_type=code&redirect_uri=${redirectUrl}&scope=identify+email&state=${token}`;
         ac.queryUserInfo?.refetch();
       }
-      window.open(url, "_blank");
+      popup.location.href = url
     }
   })
 
